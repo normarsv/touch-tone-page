@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { systemLog } from "../scripts/General";
 import { baseLanguage } from "../scripts/MainInfoData";
 import { Button } from "antd";
+import BaseLayout from "../layouts/BaseLayout";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -21,11 +22,13 @@ export default class extends Component {
   }
   render() {
     return (
-      <div>
-        <label>test</label>
-        <h1>Title test</h1>
-        <Button>test button</Button>
-      </div>
+      <BaseLayout>
+        <div style={{ height: "100rem", backgroundColor: "#FCFCFC" }}>
+          <label>test</label>
+          <h1>Title test</h1>
+          <Button>test button</Button>
+        </div>
+      </BaseLayout>
     );
   }
 }
