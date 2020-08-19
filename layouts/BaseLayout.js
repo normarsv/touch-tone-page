@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   UserOutlined,
@@ -17,23 +17,24 @@ const { Header, Content, Sider } = Layout;
 
 const BaseLayout = (props) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
+  const bodyRef = useRef(null);
 
   return (
     <Layout>
       <Header className="menu-header-layout">
-        <HeaderMenu />
+        <HeaderMenu mainBodyRef={bodyRef} />
       </Header>
-      <Layout className="sider-main-layout">
+      <Layout className="sider-main-layout s">
         <Sider
           collapsible
           collapsed={openSideMenu}
           onCollapse={() => setOpenSideMenu(!openSideMenu)}
-          className="sider-style"
+          className="sider-style show-only-desktop"
           width="250px"
         >
           <SiderOptions openSideMenu={openSideMenu} />
         </Sider>
-        <Layout className="content-main-layout">
+        <Layout className="content-main-layout" ref={bodyRef}>
           <Content>{props.children}</Content>
         </Layout>
       </Layout>
