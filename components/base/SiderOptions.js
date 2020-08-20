@@ -21,14 +21,7 @@ import { faList } from "@fortawesome/free-solid-svg-icons";
 
 const SiderOptions = ({ openSideMenu }) => {
   return (
-    <div
-      style={{
-        position: "sticky",
-        top: 64,
-        backgroundColor: "#ededed",
-        width: "100%",
-      }}
-    >
+    <div className="sider-style">
       <div>
         <UserInfo openSideMenu={openSideMenu} />
       </div>

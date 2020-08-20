@@ -8,24 +8,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useCycle, motion } from "framer-motion";
 import { MenuToggle } from "./MenuToggle";
+import SiderOptions from "./SiderOptions";
 
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 20px 20px)`,
+const menuDiv = {
+  open: {
+    zIndex: 10,
+    opacity: 1,
+    x: "0",
     transition: {
-      type: "spring",
-      stiffness: 2000,
-      restDelta: 2,
+      type: "tween",
+      duration: 0.3,
     },
-  }),
+  },
   closed: {
-    clipPath: "circle(30px at 40px 40px)",
     zIndex: 0,
+    opacity: 0,
+    x: "100%",
     transition: {
-      delay: 0.5,
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
+      type: "tween",
+      duration: 0.3,
     },
   },
 };
@@ -95,6 +96,15 @@ const HeaderMenu = ({ mainBodyRef }) => {
           </motion.nav>
         </div>
       </Col>
+
+      <motion.div
+        initial={false}
+        variants={menuDiv}
+        animate={isOpen ? "open" : "closed"}
+        className="mobile-hamburger-menu"
+      >
+        <SiderOptions />
+      </motion.div>
     </div>
   );
 };
