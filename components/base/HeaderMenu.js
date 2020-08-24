@@ -87,6 +87,7 @@ const HeaderMenu = ({ mainBodyRef }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          className="show-tablet-hide-desktop"
         >
           <motion.nav initial={false} animate={isOpen ? "open" : "closed"}>
             <MenuToggle

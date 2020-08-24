@@ -24,7 +24,7 @@ const BaseLayout = (props) => {
       <Header className="menu-header-layout">
         <HeaderMenu mainBodyRef={bodyRef} />
       </Header>
-      <Layout className="sider-main-layout s">
+      <Layout className="sider-main-layout">
         <Sider
           collapsible
           collapsed={openSideMenu}

@@ -43,6 +43,7 @@ const MainScreen = ({ columns, data }) => {
           //   ...rowSelection,
           // }}
           bordered
+          scroll={{ x: 700 }}
           columns={columns}
           dataSource={data}
         />

@@ -17,6 +17,8 @@ export default class extends Component {
         title: "Name",
         dataIndex: "name",
         render: (text) => <a>{text}</a>,
+        fixed: "left",
+        width: 160,
       },
       {
         title: "Billing ID in Rev.io",
