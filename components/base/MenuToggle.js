@@ -16,7 +16,7 @@ export const MenuToggle = ({ toggle }) => (
     style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     onClick={toggle}
   >
-    <svg width="30" height="30" viewBox="0 0 23 23">
+    <svg style={{ color: "red" }} width="30" height="30" viewBox="0 0 23 23">
       <Path
         variants={{
           closed: { d: "M 2 2.5 L 20 2.5" },

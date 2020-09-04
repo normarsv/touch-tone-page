@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, useContext } from "react";
 import { Menu, Col, Dropdown, Button, Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,6 +9,7 @@ import {
 import { useCycle, motion } from "framer-motion";
 import { MenuToggle } from "./MenuToggle";
 import SiderOptions from "./SiderOptions";
+import { UserContext } from "../authentication/UserContext";
 
 const menuDiv = {
   open: {
@@ -44,7 +45,7 @@ const HeaderMenu = ({ mainBodyRef }) => {
   );
 
   const [isOpen, setOpenMenu] = useCycle(false, true);
-  const containerRef = useRef(mainBodyRef);
+  const { userInfo } = useContext(UserContext);
 
   return (
     <div className="menu-main-div">
@@ -66,20 +67,35 @@ const HeaderMenu = ({ mainBodyRef }) => {
           type="flex"
           align="middle"
           justify="space-between"
-          className="show-only-desktop"
+          className="show-only-desktop "
         >
-          <Button type="primary">
-            <FontAwesomeIcon icon={faPhone} style={{ marginRight: "0.5rem" }} />{" "}
-            Use Phone
-          </Button>
-          <Dropdown overlay={menu} trigger={["hover"]}>
-            <div className="menu-top-right-options">
-              <FontAwesomeIcon icon={faUser} />
-              <label>Log off</label>
-              <FontAwesomeIcon icon={faChevronDown} />
-            </div>
-          </Dropdown>
+          {userInfo.name ? (
+            <Button type="primary">
+              <FontAwesomeIcon
+                icon={faPhone}
+                style={{ marginRight: "0.5rem" }}
+              />{" "}
+              Use Phone
+            </Button>
+          ) : (
+            <label>
+              Need help? <a>Call 800 900 5464</a>
+            </label>
+          )}
+
+          {userInfo.name ? (
+            <Dropdown overlay={menu} trigger={["hover"]}>
+              <div className="menu-top-right-options logged-in">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="menu-user-status logged-in"
+                />
+                <FontAwesomeIcon icon={faChevronDown} />
+              </div>
+            </Dropdown>
+          ) : null}
         </Row>
+
         <div
           style={{
             height: "100%",

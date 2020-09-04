@@ -1,10 +1,11 @@
 import moment from "moment/min/moment-with-locales.js";
-import React, { Component } from "react";
+import { Component } from "react";
+import { MainScreen } from "../components/main-screen/MainScreen";
+import { BaseLayout } from "../layouts/BaseLayout";
 import { systemLog } from "../scripts/General";
 import { baseLanguage } from "../scripts/MainInfoData";
-import { Button, Table } from "antd";
-import BaseLayout from "../layouts/BaseLayout";
-import MainScreen from "../components/main-screen/MainScreen";
+import UserProvider from "../components/authentication/UserContext";
+import { LoginForm } from "../components/authentication/LoginForm";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -18,7 +19,6 @@ export default class extends Component {
         dataIndex: "name",
         render: (text) => <a>{text}</a>,
         fixed: "left",
-        width: 160,
       },
       {
         title: "Billing ID in Rev.io",
@@ -76,6 +76,7 @@ export default class extends Component {
       currentLanguage,
       columns,
       data,
+      userInfo: user,
     };
   }
   constructor(props) {
@@ -87,7 +88,11 @@ export default class extends Component {
   render() {
     return (
       <BaseLayout>
-        <MainScreen data={this.props.data} columns={this.props.columns} />
+        {this.props.userInfo.name ? (
+          <MainScreen data={this.props.data} columns={this.props.columns} />
+        ) : (
+          <LoginForm />
+        )}
       </BaseLayout>
     );
   }

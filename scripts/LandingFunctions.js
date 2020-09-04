@@ -1,5 +1,3 @@
-import { getCurrentLanguage } from './MainInfoData'
-
 export const ImagesRes = [
   {
     dataName: "desktop",
@@ -13,52 +11,52 @@ export const ImagesRes = [
     dataName: "mobile",
     dataTitle: "Móvil",
   },
-]
+];
 
 export const GetPage = (pages, pageName) => {
   const currentPage = pages.find((x) => {
-    return x.name === pageName
-  })
-  return currentPage
-}
+    return x.name === pageName;
+  });
+  return currentPage;
+};
 
 export const GetSection = (sections, sectionName) => {
   const currentSection = sections.find((x) => {
-    return x.name === sectionName
-  })
-  return currentSection
-}
+    return x.name === sectionName;
+  });
+  return currentSection;
+};
 
 export const GetContent = (sectionPages, sectionName, contentName) => {
   const section = sectionPages.find((x) => {
-    return x.name === sectionName
-  })
+    return x.name === sectionName;
+  });
 
   const content = section.contentSections.find((x) => {
-    return x.name.includes(contentName) && x.isBase !== true
-  })
+    return x.name.includes(contentName) && x.isBase !== true;
+  });
 
-  return content
-}
+  return content;
+};
 
 export const GetStringFromContent = (content, textName, language) => {
-  let textContent = ""
+  let textContent = "";
   if (content !== undefined && content.dataContentStrings !== undefined) {
     const text = content.dataContentStrings.find((x) => {
-      return x.name === textName
-    })
+      return x.name === textName;
+    });
 
-    let currentLanguage = getCurrentLanguage(language)
+    let currentLanguage = getCurrentLanguage(language);
 
     if (text !== undefined) {
-      textContent = text["content" + currentLanguage]
+      textContent = text["content" + currentLanguage];
       if (textContent === undefined || textContent === "") {
-        textContent = ""
+        textContent = "";
       }
     }
   }
-  return textContent
-}
+  return textContent;
+};
 
 export const GetStringFromSection = (
   sectionPages,
@@ -67,47 +65,47 @@ export const GetStringFromSection = (
   textName,
   language
 ) => {
-  const content = GetContent(sectionPages, sectionName, contentName)
+  const content = GetContent(sectionPages, sectionName, contentName);
 
-  let textContent = ""
+  let textContent = "";
   if (content !== undefined && content.dataContentStrings !== undefined) {
     const text = content.dataContentStrings.find((x) => {
-      return x.name === textName
-    })
+      return x.name === textName;
+    });
 
-    let currentLanguage = getCurrentLanguage(language)
+    let currentLanguage = getCurrentLanguage(language);
 
     if (text !== undefined) {
-      textContent = text["content" + currentLanguage]
+      textContent = text["content" + currentLanguage];
       if (textContent === undefined || textContent === "") {
-        textContent = ""
+        textContent = "";
       }
     }
   }
-  return textContent
-}
+  return textContent;
+};
 
 export const GetFileFromContent = (content, fileName, language) => {
   let fileContent = {
     desktop: "",
     tablet: "",
     mobile: "",
-  }
+  };
   if (content !== undefined && content.dataContentFiles !== undefined) {
     const file = content.dataContentFiles.find((x) => {
-      return x.name === fileName
-    })
+      return x.name === fileName;
+    });
 
-    let currentLanguage = getCurrentLanguage(language)
+    let currentLanguage = getCurrentLanguage(language);
 
     if (file !== undefined) {
-      fileContent = file["file" + currentLanguage]
+      fileContent = file["file" + currentLanguage];
       if (fileContent === undefined || fileContent === "") {
         fileContent = {
           desktop: "",
           tablet: "",
           mobile: "",
-        }
+        };
       } else {
         fileContent = {
           desktop:
@@ -125,12 +123,12 @@ export const GetFileFromContent = (content, fileName, language) => {
             fileContent.file.tablet.originalFile ||
             fileContent.file.desktop.originalFile ||
             "",
-        }
+        };
       }
     }
   }
-  return fileContent
-}
+  return fileContent;
+};
 
 export const GetFileFromSection = (
   sectionPages,
@@ -139,28 +137,28 @@ export const GetFileFromSection = (
   fileName,
   language
 ) => {
-  const content = GetContent(sectionPages, sectionName, contentName)
+  const content = GetContent(sectionPages, sectionName, contentName);
 
   let fileContent = {
     desktop: "",
     tablet: "",
     mobile: "",
-  }
+  };
   if (content !== undefined && content.dataContentFiles !== undefined) {
     const file = content.dataContentFiles.find((x) => {
-      return x.name === fileName
-    })
+      return x.name === fileName;
+    });
 
-    let currentLanguage = getCurrentLanguage(language)
+    let currentLanguage = getCurrentLanguage(language);
 
     if (file !== undefined) {
-      fileContent = file["file" + currentLanguage]
+      fileContent = file["file" + currentLanguage];
       if (fileContent === undefined || fileContent === "") {
         fileContent = {
           desktop: "",
           tablet: "",
           mobile: "",
-        }
+        };
       } else {
         fileContent = {
           desktop:
@@ -178,12 +176,12 @@ export const GetFileFromSection = (
             fileContent.file.tablet.originalFile ||
             fileContent.file.desktop.originalFile ||
             "",
-        }
+        };
       }
     }
   }
-  return fileContent
-}
+  return fileContent;
+};
 
 export const GetBaseArrayFromSection = (
   sectionPages,
@@ -192,40 +190,40 @@ export const GetBaseArrayFromSection = (
   dataOfBase,
   currentLanguage
 ) => {
-  const section = GetSection(sectionPages, sectionName)
+  const section = GetSection(sectionPages, sectionName);
 
   const baseArray = section.contentSections.filter((x) => {
-    return x.name.includes(baseName) && x.isBase !== true
-  })
+    return x.name.includes(baseName) && x.isBase !== true;
+  });
 
   baseArray.sort(function (a, b) {
-    return parseInt(a.order) - parseInt(b.order)
-  })
+    return parseInt(a.order) - parseInt(b.order);
+  });
 
-  const arrayReturn = []
+  const arrayReturn = [];
   for (const currentContent of baseArray) {
     const objectToAdd = {
       id: currentContent.id,
-    }
+    };
     for (const currentData of dataOfBase) {
       if (currentData.type === "string") {
         const stringData = GetStringFromContent(
           currentContent,
           currentData.dataName,
           currentLanguage
-        )
-        objectToAdd[currentData.dataName] = stringData
+        );
+        objectToAdd[currentData.dataName] = stringData;
       } else if (currentData.type === "file") {
         const stringData = GetFileFromContent(
           currentContent,
           currentData.dataName,
           currentLanguage
-        )
-        objectToAdd[currentData.dataName] = stringData
+        );
+        objectToAdd[currentData.dataName] = stringData;
       }
     }
-    arrayReturn.push(objectToAdd)
+    arrayReturn.push(objectToAdd);
   }
 
-  return arrayReturn
-}
+  return arrayReturn;
+};

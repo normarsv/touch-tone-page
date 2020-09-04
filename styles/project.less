@@ -1,9 +1,6 @@
 @page-close-size: 87%; //size of page close
 @page-open-size: 95%; //size of page open
 
-@menu-open-size: 13%; //size of page open
-@menu-close-size: 5%; //size of page open
-
 @page-menu-anim-timer-close: width 0.4s; //anim on side menu close
 @page-menu-anim-timer-open: width 0.3s; //anim on side menu open
 
@@ -33,13 +30,29 @@
   display: flex;
   height: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 
 .menu-top-right-options {
   width: 6rem;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  &.logged-in {
+    justify-content: flex-end;
+  }
+}
+.menu-user-status {
+  font-size: 1rem;
+  &.logged-in {
+    color: @logged-in-color;
+    margin-right: 1rem;
+  }
+  &.logged-out {
+    color: @logged-out-color;
+    margin-right: 1rem;
+  }
 }
 
 .menu-header-layout {
@@ -54,6 +67,7 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
+  background-color: @side-menu-color;
 }
 
 .sider-style {
@@ -81,7 +95,7 @@
   margin: 64px 0 0 0;
   overflow: initial;
   padding: 2rem;
-  background-color: #fcfcfc;
+  background-color: @main-background-color;
   @media (max-width: @screen-sm-max) {
     padding: 1rem;
   }
@@ -106,10 +120,33 @@
   }
 }
 
-//-------------------------
+//-----------------
 
 .row-header {
   background: @primary-color !important;
   color: #ffffff;
   font-weight: bold;
+}
+
+//----------Login styles---------//
+
+.login-main-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: @main-background-color;
+  height: 100%;
+  min-height: 80vh;
+}
+
+.login-form-div {
+  width: 45rem;
+  height: 30rem;
+  border-radius: 4;
+  stroke-width: 1;
+  box-shadow: 0px 0px 21px -16px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
