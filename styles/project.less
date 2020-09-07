@@ -11,6 +11,10 @@
 @page-sub-menu-anim-timer-close: height 0.4s; //anim on sub-menu close
 @page-sub-menu-anim-timer-open: height 0.3s; //anim on sub-menu close
 
+.title-style {
+  color: @primary-color;
+}
+
 //----------Menu styles---------//
 
 .page-side-menu-logo-container {
@@ -149,4 +153,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.login-form-content-div {
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  @media (max-width: @screen-md-max) {
+    width: 72%;
+  }
 }

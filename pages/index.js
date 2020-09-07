@@ -1,11 +1,9 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { MainScreen } from "../components/main-screen/MainScreen";
+import { LoginForm } from "../components/authentication/LoginForm";
 import { BaseLayout } from "../layouts/BaseLayout";
 import { systemLog } from "../scripts/General";
 import { baseLanguage } from "../scripts/MainInfoData";
-import UserProvider from "../components/authentication/UserContext";
-import { LoginForm } from "../components/authentication/LoginForm";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -76,23 +74,22 @@ export default class extends Component {
       currentLanguage,
       columns,
       data,
-      userInfo: user,
+      user,
     };
   }
   constructor(props) {
     super(props);
+    this.userinfo = "";
   }
   componentDidMount() {
     systemLog.log(this.props);
   }
   render() {
+    const { user } = this.props;
+    console.log(user);
     return (
       <BaseLayout>
-        {this.props.userInfo.name ? (
-          <MainScreen data={this.props.data} columns={this.props.columns} />
-        ) : (
-          <LoginForm />
-        )}
+        <LoginForm />
       </BaseLayout>
     );
   }

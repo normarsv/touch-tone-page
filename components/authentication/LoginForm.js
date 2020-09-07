@@ -1,33 +1,103 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Form from "antd/lib/form/Form";
-import { Input, Row, Space, Checkbox, Button } from "antd";
+import { useRef, useState, useEffect } from "react";
+// import PropTypes from "prop-types";
+import { Input, Row, Space, Checkbox, Button, Form } from "antd";
+import { Router } from "express";
+// import { useRouter } from "next/router";
+// import API from "../../API/API";
 
 export const LoginForm = ({}) => {
+  const form = useRef(null);
+  const router = useRouter();
+  const { loading, setLoading } = useState(false);
+  const { onLogin, setLogin } = useState(true);
+
+  // useEffect(() => {
+  //   const onCheck = async () => {
+  //     try {
+  //       const values = await form.current.validateFields();
+  //       onFinish(values);
+  //     } catch (errorInfo) {}
+  //   };
+  //   const onFinish = async (values) => {
+  //     if (onLogin === true) {
+  //       console.log("test");
+  //       // onFinishLogin(values);
+  //     } else {
+  //       // onFinishResetPassword(values)
+  //     }
+  //   };
+  // }, []);
+
+  // const onFinishLogin = async (values) => {
+  //   let api = new API();
+  // };
+
+  const onFinish = (values) => {
+    console.log("Success:", values);
+    // router.push("/main");
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div className="login-main-div">
       <div className="login-form-div">
-        <div
-          style={{ width: "65%", display: "flex", justifyContent: "center" }}
-        >
+        <div className="login-form-content-div">
           <Space size="middle" direction="vertical" style={{ width: "100%" }}>
             <div>
-              <h2 style={{ color: "#e4002b" }}>Log In</h2>
+              <h2 className="title-style">Log In</h2>
             </div>
-            <Form>
+            <Form
+              ref={form}
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+            >
               <Space
                 size="middle"
                 direction="vertical"
                 style={{ width: "100%" }}
               >
                 <label> Your Credential</label>
-                <Input />
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      type: "email",
+                      message: "Ingresa un Correo Valido",
+                    },
+                    {
+                      required: true,
+                      message: "Ingresa tu Correo Valido",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
                 <label> Password </label>
-                <Input.Password />
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Ingresa la contraseña",
+                    },
+                  ]}
+                  style={{
+                    width: "100%",
+                    marginBottom: 0,
+                  }}
+                >
+                  <Input.Password />
+                </Form.Item>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Checkbox>Remember me</Checkbox>
+                  <Form.Item name="remember" valuePropName="checked">
+                    <Checkbox>Remember me</Checkbox>
+                  </Form.Item>
                   <a>Forgot password?</a>
                 </div>
                 <div
@@ -37,9 +107,16 @@ export const LoginForm = ({}) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <Button style={{ width: "15rem" }} type="primary">
-                    Log in
-                  </Button>
+                  <Form.Item>
+                    <Button
+                      // onClick={onCheck}
+                      htmlType="submit"
+                      style={{ width: "15rem" }}
+                      type="primary"
+                    >
+                      Log in
+                    </Button>
+                  </Form.Item>
                 </div>
               </Space>
             </Form>
@@ -50,6 +127,4 @@ export const LoginForm = ({}) => {
   );
 };
 
-LoginForm.propTypes = {
-  someData: PropTypes.string,
-};
+LoginForm.propTypes = {};
