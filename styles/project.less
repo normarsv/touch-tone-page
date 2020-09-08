@@ -15,6 +15,16 @@
   color: @primary-color;
 }
 
+.ant-form-item {
+  // margin: 0 !important;
+}
+
+.spaced-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 //----------Menu styles---------//
 
 .page-side-menu-logo-container {
@@ -161,5 +171,14 @@
   justify-content: center;
   @media (max-width: @screen-md-max) {
     width: 72%;
+  }
+}
+
+.login-form-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  @media (max-width: @screen-md-max) {
+    justify-content: center;
   }
 }

@@ -10,6 +10,7 @@ import { useCycle, motion } from "framer-motion";
 import { MenuToggle } from "./MenuToggle";
 import SiderOptions from "./SiderOptions";
 import { UserContext } from "../authentication/UserContext";
+import { useRouter } from "next/dist/client/router";
 
 const menuDiv = {
   open: {
@@ -33,19 +34,17 @@ const menuDiv = {
 };
 
 const HeaderMenu = ({ mainBodyRef }) => {
+  const [isOpen, setOpenMenu] = useCycle(false, true);
+  const { userInfo } = useContext(UserContext);
+  const router = useRouter();
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <a>1st menu item</a>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <a>2nd menu item</a>
+        <a onClick={() => router.push("/")}>Log out</a>
       </Menu.Item>
     </Menu>
   );
-
-  const [isOpen, setOpenMenu] = useCycle(false, true);
-  const { userInfo } = useContext(UserContext);
 
   return (
     <div className="menu-main-div">

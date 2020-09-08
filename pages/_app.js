@@ -10,7 +10,7 @@ import { UserContext } from "../components/authentication/UserContext";
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
-    let user = { name: undefined };
+    let user = { name: "Daniel Zamarripa", role: "super-admin" };
 
     const cookies = nookies.get(ctx);
     const userCookie = cookies[nameSession + "_data"];

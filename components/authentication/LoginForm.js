@@ -1,15 +1,17 @@
 import { useRef, useState, useEffect } from "react";
 // import PropTypes from "prop-types";
 import { Input, Row, Space, Checkbox, Button, Form } from "antd";
-import { Router } from "express";
+import { useRouter } from "next/dist/client/router";
+import { motion } from "framer-motion";
 // import { useRouter } from "next/router";
 // import API from "../../API/API";
 
-export const LoginForm = ({}) => {
+export const LoginForm = ({ showForgotPassword }) => {
   const form = useRef(null);
   const router = useRouter();
   const { loading, setLoading } = useState(false);
   const { onLogin, setLogin } = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
 
   // useEffect(() => {
   //   const onCheck = async () => {
@@ -34,11 +36,17 @@ export const LoginForm = ({}) => {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    // router.push("/main");
+    router.push("/main");
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+  const hoverAnimation = {
+    scale: 1.01,
+    cursor: "pointer",
+    color: "red",
+    transition: { duration: 0.5 },
   };
 
   return (
@@ -50,75 +58,66 @@ export const LoginForm = ({}) => {
               <h2 className="title-style">Log In</h2>
             </div>
             <Form
+              name="basic"
               ref={form}
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              <Space
-                size="middle"
-                direction="vertical"
-                style={{ width: "100%" }}
+              <label> Your Credential</label>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    type: "email",
+                    message: "Ingresa un Correo Valido",
+                  },
+                  {
+                    required: true,
+                    message: "Ingresa tu Correo Valido",
+                  },
+                ]}
               >
-                <label> Your Credential</label>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      type: "email",
-                      message: "Ingresa un Correo Valido",
-                    },
-                    {
-                      required: true,
-                      message: "Ingresa tu Correo Valido",
-                    },
-                  ]}
-                >
-                  <Input />
+                <Input />
+              </Form.Item>
+              <label> Password </label>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Ingresa la contraseña",
+                  },
+                ]}
+                style={{
+                  width: "100%",
+                }}
+              >
+                <Input.Password />
+              </Form.Item>
+              <div className="spaced-between">
+                <Form.Item name="remember" valuePropName="checked">
+                  <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-                <label> Password </label>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Ingresa la contraseña",
-                    },
-                  ]}
-                  style={{
-                    width: "100%",
-                    marginBottom: 0,
-                  }}
+                <motion.div
+                  whileHover={hoverAnimation}
+                  onClick={() => showForgotPassword()}
                 >
-                  <Input.Password />
+                  Forgot password?
+                </motion.div>
+              </div>
+              <div className="login-form-button">
+                <Form.Item>
+                  <Button
+                    // onClick={onCheck}
+                    htmlType="submit"
+                    style={{ width: "15rem" }}
+                    type="primary"
+                  >
+                    Log in
+                  </Button>
                 </Form.Item>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Form.Item name="remember" valuePropName="checked">
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-                  <a>Forgot password?</a>
-                </div>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Form.Item>
-                    <Button
-                      // onClick={onCheck}
-                      htmlType="submit"
-                      style={{ width: "15rem" }}
-                      type="primary"
-                    >
-                      Log in
-                    </Button>
-                  </Form.Item>
-                </div>
-              </Space>
+              </div>
             </Form>
           </Space>
         </div>
