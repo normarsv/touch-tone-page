@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   UserOutlined,
@@ -11,13 +11,18 @@ import {
 } from "@ant-design/icons";
 import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
+import { UserContext } from "../components/authentication/UserContext";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-const BaseLayout = (props) => {
+export const BaseLayout = ({ children }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const bodyRef = useRef(null);
+
+  const { userInfo } = useContext(UserContext);
+
+  console.log(userInfo);
 
   return (
     <Layout>
@@ -25,17 +30,20 @@ const BaseLayout = (props) => {
         <HeaderMenu mainBodyRef={bodyRef} />
       </Header>
       <Layout className="sider-main-layout">
-        <Sider
-          collapsible
-          collapsed={openSideMenu}
-          onCollapse={() => setOpenSideMenu(!openSideMenu)}
-          className="sider-style show-only-desktop"
-          width="250px"
-        >
-          <SiderOptions openSideMenu={openSideMenu} />
-        </Sider>
+        {userInfo.name && (
+          <Sider
+            collapsible
+            collapsed={openSideMenu}
+            onCollapse={() => setOpenSideMenu(!openSideMenu)}
+            className="sider-style show-only-desktop"
+            width="250px"
+          >
+            <SiderOptions openSideMenu={openSideMenu} />
+          </Sider>
+        )}
+
         <Layout className="content-main-layout" ref={bodyRef}>
-          <Content>{props.children}</Content>
+          <Content>{children}</Content>
         </Layout>
       </Layout>
     </Layout>
@@ -45,5 +53,3 @@ const BaseLayout = (props) => {
 BaseLayout.propTypes = {
   // someData: PropTypes.string,
 };
-
-export default BaseLayout;

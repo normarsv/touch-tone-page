@@ -1,10 +1,9 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { LoginForm } from "../components/authentication/LoginForm";
-import { ForgotPassword } from "../components/authentication/ForgotPassword";
-import { BaseLayout } from "../layouts/BaseLayout";
-import { systemLog } from "../scripts/General";
-import { baseLanguage } from "../scripts/MainInfoData";
+import { BaseLayout } from "../../layouts/BaseLayout";
+import { systemLog } from "../../scripts/General";
+import { baseLanguage } from "../../scripts/MainInfoData";
+import { MainScreen } from "../../components/main-screen/MainScreen";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -81,7 +80,6 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.userinfo = "";
-    this.state = { showForgotPassword: false };
   }
   componentDidMount() {
     systemLog.log(this.props);
@@ -91,23 +89,7 @@ export default class extends Component {
     console.log(user);
     return (
       <BaseLayout>
-        {this.state.showForgotPassword ? (
-          <ForgotPassword
-            showForgotPassword={() =>
-              this.setState({
-                showForgotPassword: !this.state.showForgotPassword,
-              })
-            }
-          />
-        ) : (
-          <LoginForm
-            showForgotPassword={() =>
-              this.setState({
-                showForgotPassword: !this.state.showForgotPassword,
-              })
-            }
-          />
-        )}
+        <MainScreen data={this.props.data} columns={this.props.columns} />
       </BaseLayout>
     );
   }

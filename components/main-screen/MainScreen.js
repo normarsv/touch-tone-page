@@ -1,4 +1,3 @@
-import React from "react";
 import { Table, Row, Space, Checkbox, Button, Select } from "antd";
 import { Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +5,7 @@ import { faEraser, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 const { Search } = Input;
 
-const MainScreen = ({ columns, data }) => {
+export const MainScreen = ({ columns, data }) => {
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -55,5 +54,3 @@ const MainScreen = ({ columns, data }) => {
 MainScreen.propTypes = {
   //   someData: PropTypes.string,
 };
-
-export default MainScreen;
