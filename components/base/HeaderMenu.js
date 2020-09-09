@@ -68,7 +68,8 @@ const HeaderMenu = ({ mainBodyRef }) => {
           justify="space-between"
           className="show-only-desktop "
         >
-          {userInfo.name ? (
+          {userInfo.role === "Organization Admin" ||
+          userInfo.role === "End User" ? (
             <Button type="primary">
               <FontAwesomeIcon
                 icon={faPhone}
@@ -76,10 +77,12 @@ const HeaderMenu = ({ mainBodyRef }) => {
               />{" "}
               Use Phone
             </Button>
-          ) : (
+          ) : userInfo.name === undefined ? (
             <label>
               Need help? <a>Call 800 900 5464</a>
             </label>
+          ) : (
+            <div />
           )}
 
           {userInfo.name ? (

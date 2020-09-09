@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Space } from "antd";
 import { motion } from "framer-motion";
+import { UserContext } from "../authentication/UserContext";
 
 const UserInfo = ({ openSideMenu }) => {
   const showItems = {
@@ -28,33 +29,30 @@ const UserInfo = ({ openSideMenu }) => {
     },
   };
 
+  const { userInfo } = useContext(UserContext);
+
+  const normalName = userInfo.name;
+  const separador = " ";
+  const reducedName = normalName.split(separador);
+  let splittedName = [];
+
+  for (let x = 0; x < reducedName.length; x++) {
+    const subCadena = reducedName[x].substring(0, 1);
+    splittedName.push(subCadena);
+  }
   return (
     <div>
-      <Space
-        size="small"
-        style={{ display: "flex", justifyContent: "center", padding: "2rem 0" }}
-      >
-        <div
-          style={{
-            height: "2rem",
-            width: "2rem",
-            backgroundColor: "#e4002b",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            color: "#ffffff",
-          }}
-        >
-          EC
+      <Space size="small" className="user-menu-info-main-div">
+        <div className="user-menu-name-identifier">
+          {splittedName[0] + splittedName[1]}
         </div>
 
         <motion.div
           animate={openSideMenu ? "closed" : "open"}
           variants={showItems}
         >
-          <h4>James Tylor</h4>
-          <h5 style={{ color: "#e4002b" }}>Account administrator</h5>
+          <h4>{userInfo.name}</h4>
+          <h5 className="title-style">{userInfo.role}</h5>
         </motion.div>
         {/* {!openSideMenu && <div></div>} */}
       </Space>

@@ -22,8 +22,6 @@ export const BaseLayout = ({ children }) => {
 
   const { userInfo } = useContext(UserContext);
 
-  console.log(userInfo);
-
   return (
     <Layout>
       <Header className="menu-header-layout">
