@@ -16,7 +16,7 @@ export default class extends Component {
     const data = [
       {
         key: "1",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Walmart",
         billing: 32,
         orgDist: 8,
         didsCount: 8,
@@ -24,7 +24,7 @@ export default class extends Component {
       },
       {
         key: "2",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Costco",
         billing: 42,
         orgDist: 8,
         didsCount: 8,
@@ -32,7 +32,7 @@ export default class extends Component {
       },
       {
         key: "3",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Test 3",
         billing: 32,
         orgDist: 0,
         didsCount: 8,
@@ -40,7 +40,7 @@ export default class extends Component {
       },
       {
         key: "4",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Test 4",
         billing: 99,
         orgDist: 0,
         didsCount: 8,
@@ -64,13 +64,10 @@ export default class extends Component {
   }
   render() {
     const { user } = this.props;
-    console.log(user);
+    // console.log(user);
     return (
       <BaseLayout>
-        <ListAllOrganizations
-          data={this.props.data}
-          // columns={this.props.columns}
-        />
+        <ListAllOrganizations data={this.props.data} />
       </BaseLayout>
     );
   }

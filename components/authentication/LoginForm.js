@@ -35,12 +35,12 @@ export const LoginForm = ({ showForgotPassword }) => {
   // };
 
   const onFinish = (values) => {
-    console.log("Success:", values);
-    router.push("/main");
+    // console.log("Success:", values);
+    router.push("/list-organizations");
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const hoverAnimation = {
     scale: 1.01,

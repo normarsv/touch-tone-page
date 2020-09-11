@@ -1,9 +1,9 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { systemLog } from "../../../scripts/General";
-import { baseLanguage } from "../../../scripts/MainInfoData";
-import OrganizationServices from "../../../components/edit-screens/OrganizationServices";
-import { BaseLayout } from "../../../layouts/BaseLayout";
+import { systemLog } from "../../../../scripts/General";
+import { baseLanguage } from "../../../../scripts/MainInfoData";
+import OrganizationDetails from "../../../../components/edit-screens/OrganizationServices";
+import { BaseLayout } from "../../../../layouts/BaseLayout";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -12,8 +12,8 @@ export default class extends Component {
     moment.locale(currentLanguage);
 
     const servicesContent = {
-      editable: true,
-      title: "Edit Organization",
+      editable: false,
+      title: "Organization Details",
     };
 
     let editServiceContent = new Array(24).fill({
@@ -21,7 +21,6 @@ export default class extends Component {
       title: "Access to the User list view",
       status: true,
     });
-
     return {
       currentLanguage,
       user,
@@ -40,7 +39,7 @@ export default class extends Component {
     const { user } = this.props;
     return (
       <BaseLayout>
-        <OrganizationServices
+        <OrganizationDetails
           servicesContent={this.props.servicesContent}
           editServiceContent={this.props.editServiceContent}
         />

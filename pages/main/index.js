@@ -86,7 +86,7 @@ export default class extends Component {
   }
   render() {
     const { user } = this.props;
-    console.log(user);
+    // console.log(user);
     return (
       <BaseLayout>
         <MainScreen data={this.props.data} columns={this.props.columns} />
