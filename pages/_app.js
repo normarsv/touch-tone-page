@@ -1,21 +1,22 @@
-import "../styles/app.less";
+import '../styles/app.less';
 
-import App from "next/app";
-import nookies from "nookies";
+import App from 'next/app';
+import nookies from 'nookies';
 
-import API from "../API/API";
-import { nameSession } from "../scripts/MainInfoData";
-import { UserContext } from "../components/authentication/UserContext";
+import { UserContext } from '../components/authentication/UserContext';
+import { nameSession } from '../scripts/MainInfoData';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
-    let user = { name: "Daniel Zamarripa", role: "super-admin" };
+    let user = {}; //{ name: "Daniel Zamarripa", role: "super-admin" };
 
     const cookies = nookies.get(ctx);
     const userCookie = cookies[nameSession + "_data"];
     if (userCookie !== undefined) {
-      // const userParse = JSON.parse(userCookie)
+      const userParse = JSON.parse(userCookie);
+      user = userParse;
+      user.role = user.groups[0];
     }
 
     if (Component.getInitialProps) {
