@@ -1,13 +1,26 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import { LoginForm } from "../components/authentication/LoginForm";
-import { ForgotPassword } from "../components/authentication/ForgotPassword";
-import { BaseLayout } from "../layouts/BaseLayout";
-import { systemLog } from "../scripts/General";
-import { baseLanguage } from "../scripts/MainInfoData";
+import moment from 'moment/min/moment-with-locales.js';
+import Router from 'next/router';
+import { Component } from 'react';
+
+import { ForgotPassword } from '../components/authentication/ForgotPassword';
+import { LoginForm } from '../components/authentication/LoginForm';
+import { BaseLayout } from '../layouts/BaseLayout';
+import { systemLog } from '../scripts/General';
+import { baseLanguage } from '../scripts/MainInfoData';
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
+  static async getInitialProps({ res, query, user }) {
+    if (user.access !== undefined) {
+      if (res) {
+        res.writeHead(303, {
+          Location: "/main",
+        });
+        res.end();
+      } else {
+        Router.push("/main");
+      }
+      return {};
+    }
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
