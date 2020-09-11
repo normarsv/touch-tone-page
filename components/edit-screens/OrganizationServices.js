@@ -96,7 +96,10 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
 
         <Space direction="vertical">
           <h4>List of enabled Services</h4>
-          <EditServices serviceContent={editServiceContent} />
+          <EditServices
+            editable={editable}
+            serviceContent={editServiceContent}
+          />
         </Space>
         <Row type="flex" justify="end">
           <Button
