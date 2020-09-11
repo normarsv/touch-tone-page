@@ -1,15 +1,19 @@
-import { useRef, useState, useEffect } from "react";
+import { Button, Checkbox, Form, Input, message, Space } from 'antd';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import { useEffect, useRef, useState } from 'react';
+
+import API from '../../API/API';
+import { saveAppUser } from '../../scripts/General';
+
 // import PropTypes from "prop-types";
-import { Input, Row, Space, Checkbox, Button, Form } from "antd";
-import { useRouter } from "next/dist/client/router";
-import { motion } from "framer-motion";
 // import { useRouter } from "next/router";
 // import API from "../../API/API";
 
 export const LoginForm = ({ showForgotPassword }) => {
   const form = useRef(null);
   const router = useRouter();
-  const { loading, setLoading } = useState(false);
+  const [loading, setLoading] = useState(false);
   const { onLogin, setLogin } = useState(true);
   const [showLogin, setShowLogin] = useState(true);
 
@@ -35,7 +39,22 @@ export const LoginForm = ({ showForgotPassword }) => {
   // };
 
   const onFinish = (values) => {
-    // console.log("Success:", values);
+  const onFinish = async (values) => {
+    setLoading(true);
+    console.log("Success:", values);
+    const api = new API();
+    const resLogin = await api.POST("/token/", {
+      username: values.email,
+      password: values.password,
+    });
+    console.log(resLogin);
+    if (resLogin.statusCode === 401) {
+      message.error(resLogin.detail);
+      setLoading(false);
+      return;
+    }
+    const resString = JSON.stringify(resLogin);
+    saveAppUser(resString);
     router.push("/list-organizations");
   };
 
@@ -68,17 +87,17 @@ export const LoginForm = ({ showForgotPassword }) => {
               <Form.Item
                 name="email"
                 rules={[
-                  {
+                  /*{
                     type: "email",
                     message: "Ingresa un Correo Valido",
-                  },
+                  },*/
                   {
                     required: true,
                     message: "Ingresa tu Correo Valido",
                   },
                 ]}
               >
-                <Input />
+                <Input disabled={loading} />
               </Form.Item>
               <label> Password </label>
               <Form.Item
@@ -93,15 +112,19 @@ export const LoginForm = ({ showForgotPassword }) => {
                   width: "100%",
                 }}
               >
-                <Input.Password />
+                <Input.Password disabled={loading} />
               </Form.Item>
               <div className="spaced-between">
                 <Form.Item name="remember" valuePropName="checked">
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox disabled={loading}>Remember me</Checkbox>
                 </Form.Item>
                 <motion.div
                   whileHover={hoverAnimation}
-                  onClick={() => showForgotPassword()}
+                  onClick={() => {
+                    if (loading === false) {
+                      showForgotPassword();
+                    }
+                  }}
                 >
                   Forgot password?
                 </motion.div>
@@ -113,6 +136,7 @@ export const LoginForm = ({ showForgotPassword }) => {
                     htmlType="submit"
                     style={{ width: "15rem" }}
                     type="primary"
+                    loading={loading}
                   >
                     Log in
                   </Button>

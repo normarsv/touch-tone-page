@@ -1,16 +1,14 @@
-import { useRef, useContext } from "react";
-import { Menu, Col, Dropdown, Button, Row } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faChevronDown,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
-import { useCycle, motion } from "framer-motion";
-import { MenuToggle } from "./MenuToggle";
-import SiderOptions from "./SiderOptions";
-import { UserContext } from "../authentication/UserContext";
-import { useRouter } from "next/dist/client/router";
+import { faChevronDown, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Col, Dropdown, Menu, Row } from 'antd';
+import { motion, useCycle } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import { useContext, useRef } from 'react';
+
+import { removeAppUser } from '../../scripts/General';
+import { UserContext } from '../authentication/UserContext';
+import { MenuToggle } from './MenuToggle';
+import SiderOptions from './SiderOptions';
 
 const menuDiv = {
   open: {
@@ -41,7 +39,14 @@ const HeaderMenu = ({ mainBodyRef }) => {
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <a onClick={() => router.push("/")}>Log out</a>
+        <a
+          onClick={() => {
+            removeAppUser();
+            router.push("/");
+          }}
+        >
+          Log out
+        </a>
       </Menu.Item>
     </Menu>
   );
