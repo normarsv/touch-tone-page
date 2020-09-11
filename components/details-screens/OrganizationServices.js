@@ -30,6 +30,10 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
     }, 2000);
   };
 
+  const pushRoute = () => {
+    router.push("/list-organizations/details/organizationName/history-log");
+  };
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -104,7 +108,7 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
         </Space>
         <Row type="flex" justify="end">
           <Button
-            onClick={openMessage}
+            onClick={() => (!editable ? pushRoute() : openMessage())}
             className="primary-button-style"
             type="primary"
           >

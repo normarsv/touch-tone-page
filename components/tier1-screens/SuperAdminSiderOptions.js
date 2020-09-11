@@ -1,27 +1,13 @@
-import React from "react";
-import { Divider, Menu, Space } from "antd";
-import SubMenu from "antd/lib/menu/SubMenu";
 import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  TeamOutlined,
-  FileOutlined,
   AppstoreFilled,
-  OrderedListOutlined,
-  PlusCircleFilled,
-  SearchOutlined,
-  IdcardFilled,
   UnorderedListOutlined,
-  ProfileFilled,
+  UserOutlined,
+  IdcardOutlined,
 } from "@ant-design/icons";
-import UserInfo from "../user/UserInfo";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
-import { faSquarespace } from "@fortawesome/free-brands-svg-icons";
+import { Menu, Space } from "antd";
 import { useRouter } from "next/dist/client/router";
+import React from "react";
+import UserInfo from "../user/UserInfo";
 
 const SuperAdminSiderOptions = ({ openSideMenu }) => {
   const router = useRouter();
@@ -86,7 +72,7 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         {divider("0.1 0")}
         <Menu.Item
           // onClick={() => router.push("/list-organizations")}
-          icon={<UnorderedListOutlined />}
+          icon={<IdcardOutlined />}
           key="2"
         >
           List all Roles
@@ -95,7 +81,7 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
 
         <Menu.Item
           onClick={() => router.push("/list-users")}
-          icon={<UnorderedListOutlined />}
+          icon={<UserOutlined />}
           key="3"
         >
           List all Users

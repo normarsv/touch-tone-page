@@ -1,14 +1,18 @@
-import { faChevronDown, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Dropdown, Menu, Row } from 'antd';
-import { motion, useCycle } from 'framer-motion';
-import { useRouter } from 'next/dist/client/router';
-import { useContext, useRef } from 'react';
+import {
+  faChevronDown,
+  faPhone,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Dropdown, Menu, Row } from "antd";
+import { motion, useCycle } from "framer-motion";
+import { useRouter } from "next/dist/client/router";
+import { useContext, useRef } from "react";
 
-import { removeAppUser } from '../../scripts/General';
-import { UserContext } from '../authentication/UserContext';
-import { MenuToggle } from './MenuToggle';
-import SiderOptions from './SiderOptions';
+import { removeAppUser } from "../../scripts/General";
+import { UserContext } from "../authentication/UserContext";
+import { MenuToggle } from "./MenuToggle";
+import SiderOptions from "./SiderOptions";
 
 const menuDiv = {
   open: {
@@ -42,7 +46,7 @@ const HeaderMenu = ({ mainBodyRef }) => {
         <a
           onClick={() => {
             removeAppUser();
-            router.push("/");
+            router.replace("/");
           }}
         >
           Log out
@@ -62,9 +66,17 @@ const HeaderMenu = ({ mainBodyRef }) => {
         sm={6}
         xs={6}
       >
-        <div className="page-side-menu-logo-container">
-          <img className="page-side-menu-logo" src={"/logo.jpg"} />
-        </div>
+        <a
+          onClick={() => {
+            userInfo.name
+              ? router.replace("/list-organizations")
+              : router.replace("/");
+          }}
+        >
+          <div className="page-side-menu-logo-container">
+            <img className="page-side-menu-logo" src={"/logo.jpg"} />
+          </div>
+        </a>
       </Col>
       <Col xxl={4} xl={5} lg={8} md={2} sm={2} xs={2}>
         <Row

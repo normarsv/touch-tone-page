@@ -23,6 +23,8 @@ export const BaseLayout = ({ children }) => {
 
   const { userInfo } = useContext(UserContext);
 
+  console.log(userInfo);
+
   return (
     <Layout>
       <Header className="menu-header-layout">
@@ -37,7 +39,7 @@ export const BaseLayout = ({ children }) => {
             className="sider-style show-only-desktop"
             width="250px"
           >
-            {userInfo.role == "Super Admin" ? (
+            {userInfo.groups[0] == "SuperAdmin" ? (
               <SuperAdminSiderOptions openSideMenu={openSideMenu} />
             ) : (
               <SiderOptions openSideMenu={openSideMenu} />

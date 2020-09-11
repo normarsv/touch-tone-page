@@ -130,11 +130,7 @@ const ListAllUsers = ({ data }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate-button-style"
-                  onClick={() =>
-                    router.push(
-                      "/list-organizations/details/organizationName/list-dids"
-                    )
-                  }
+                  onClick={() => router.push("/list-users/bulk-import")}
                 >
                   <Space>
                     Bulk Import
@@ -144,12 +140,7 @@ const ListAllUsers = ({ data }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate-button-style"
-                  onClick={() =>
-                    router.push({
-                      pathname: "/list-users",
-                      query: { idOrg: "organizationName" },
-                    })
-                  }
+                  onClick={() => router.push("/list-users/bulk-import")}
                 >
                   <Space>
                     New User

@@ -45,9 +45,7 @@ const OrganizationServices = ({
           {!editable && (
             <Button
               type="primary"
-              onClick={() =>
-                router.push("/list-organizations/edit/organizationName")
-              }
+              onClick={() => router.push("/list-users/edit/organizationName")}
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>

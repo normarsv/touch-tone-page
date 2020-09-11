@@ -1,10 +1,10 @@
-import { Button, Checkbox, Form, Input, message, Space } from 'antd';
-import { motion } from 'framer-motion';
-import { useRouter } from 'next/dist/client/router';
-import { useEffect, useRef, useState } from 'react';
+import { Button, Checkbox, Form, Input, message, Space } from "antd";
+import { motion } from "framer-motion";
+import { useRouter } from "next/dist/client/router";
+import { useEffect, useRef, useState } from "react";
 
-import API from '../../API/API';
-import { saveAppUser } from '../../scripts/General';
+import API from "../../API/API";
+import { saveAppUser } from "../../scripts/General";
 
 // import PropTypes from "prop-types";
 // import { useRouter } from "next/router";
@@ -17,28 +17,6 @@ export const LoginForm = ({ showForgotPassword }) => {
   const { onLogin, setLogin } = useState(true);
   const [showLogin, setShowLogin] = useState(true);
 
-  // useEffect(() => {
-  //   const onCheck = async () => {
-  //     try {
-  //       const values = await form.current.validateFields();
-  //       onFinish(values);
-  //     } catch (errorInfo) {}
-  //   };
-  //   const onFinish = async (values) => {
-  //     if (onLogin === true) {
-  //       console.log("test");
-  //       // onFinishLogin(values);
-  //     } else {
-  //       // onFinishResetPassword(values)
-  //     }
-  //   };
-  // }, []);
-
-  // const onFinishLogin = async (values) => {
-  //   let api = new API();
-  // };
-
-  const onFinish = (values) => {
   const onFinish = async (values) => {
     setLoading(true);
     console.log("Success:", values);
@@ -83,17 +61,13 @@ export const LoginForm = ({ showForgotPassword }) => {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              <label> Your Credential</label>
+              <label> Username</label>
               <Form.Item
                 name="email"
                 rules={[
-                  /*{
-                    type: "email",
-                    message: "Ingresa un Correo Valido",
-                  },*/
                   {
                     required: true,
-                    message: "Ingresa tu Correo Valido",
+                    message: "The username field is required",
                   },
                 ]}
               >
@@ -105,7 +79,7 @@ export const LoginForm = ({ showForgotPassword }) => {
                 rules={[
                   {
                     required: true,
-                    message: "Ingresa la contraseña",
+                    message: "The password field is required",
                   },
                 ]}
                 style={{
@@ -149,5 +123,4 @@ export const LoginForm = ({ showForgotPassword }) => {
     </div>
   );
 };
-
-LoginForm.propTypes = {};
+// LoginForm.propTypes = {};
