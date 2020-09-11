@@ -13,11 +13,11 @@ export default class extends Component {
     if (user.access !== undefined) {
       if (res) {
         res.writeHead(303, {
-          Location: "/main",
+          Location: "/list-organizations",
         });
         res.end();
       } else {
-        Router.push("/main");
+        Router.push("/list-organizations");
       }
       return {};
     }
