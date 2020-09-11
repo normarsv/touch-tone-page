@@ -2,7 +2,7 @@ import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
 import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
-import OrganizationServices from "../../../components/edit-screens/OrganizationServices";
+import OrganizationServices from "../../../components/details-screens/OrganizationServices";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 
 export default class extends Component {

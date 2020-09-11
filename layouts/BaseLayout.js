@@ -12,6 +12,7 @@ import {
 import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
 import { UserContext } from "../components/authentication/UserContext";
+import SuperAdminSiderOptions from "../components/tier1-screens/SuperAdminSiderOptions";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -36,7 +37,11 @@ export const BaseLayout = ({ children }) => {
             className="sider-style show-only-desktop"
             width="250px"
           >
-            <SiderOptions openSideMenu={openSideMenu} />
+            {userInfo.role == "Super Admin" ? (
+              <SuperAdminSiderOptions openSideMenu={openSideMenu} />
+            ) : (
+              <SiderOptions openSideMenu={openSideMenu} />
+            )}
           </Sider>
         )}
 
