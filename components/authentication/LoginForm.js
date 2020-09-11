@@ -38,6 +38,7 @@ export const LoginForm = ({ showForgotPassword }) => {
   //   let api = new API();
   // };
 
+  const onFinish = (values) => {
   const onFinish = async (values) => {
     setLoading(true);
     console.log("Success:", values);
@@ -54,11 +55,11 @@ export const LoginForm = ({ showForgotPassword }) => {
     }
     const resString = JSON.stringify(resLogin);
     saveAppUser(resString);
-    router.push("/main");
+    router.push("/list-organizations");
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const hoverAnimation = {
     scale: 1.01,

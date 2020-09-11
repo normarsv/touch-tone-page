@@ -101,7 +101,7 @@ export default class extends Component {
   }
   render() {
     const { user } = this.props;
-    console.log(user);
+    // console.log(user);
     return (
       <BaseLayout>
         {this.state.showForgotPassword ? (

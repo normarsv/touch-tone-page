@@ -4,6 +4,8 @@ import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
 import { MainScreen } from "../../components/main-screen/MainScreen";
+import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
+import { Space } from "antd";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -11,68 +13,44 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    const columns = [
-      {
-        title: "Name",
-        dataIndex: "name",
-        render: (text) => <a>{text}</a>,
-        fixed: "left",
-      },
-      {
-        title: "Billing ID in Rev.io",
-        dataIndex: "billing",
-      },
-      {
-        title: "Organization Admin",
-        dataIndex: "adminOrg",
-      },
-      {
-        title: "Organization Distributors",
-        dataIndex: "orgDist",
-      },
-      {
-        title: "Count of enabled Services",
-        dataIndex: "services",
-      },
-    ];
     const data = [
       {
         key: "1",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Walmart",
         billing: 32,
-        adminOrg: 8,
         orgDist: 8,
-        services: 8,
+        didsCount: 8,
+        users: 8,
       },
       {
         key: "2",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Costco",
         billing: 42,
-        adminOrg: 8,
         orgDist: 8,
-        services: 8,
+        didsCount: 8,
+        users: 8,
       },
       {
         key: "3",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Test 3",
         billing: 32,
-        adminOrg: 0,
-        orgDist: 8,
-        services: 8,
+        orgDist: 0,
+        didsCount: 8,
+        users: 8,
       },
       {
         key: "4",
-        name: "100000020170 - DIAL CONECCTION LLC",
+        name: "Test 4",
         billing: 99,
-        adminOrg: 0,
-        orgDist: 8,
-        services: 8,
+        orgDist: 0,
+        didsCount: 8,
+        users: 34,
       },
     ];
 
     return {
       currentLanguage,
-      columns,
+      // columns,
       data,
       user,
     };
@@ -89,7 +67,7 @@ export default class extends Component {
     // console.log(user);
     return (
       <BaseLayout>
-        <MainScreen data={this.props.data} columns={this.props.columns} />
+        <ListAllOrganizations data={this.props.data} />
       </BaseLayout>
     );
   }

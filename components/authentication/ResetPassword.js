@@ -34,12 +34,12 @@ export const ResetPassword = ({ showForgotPassword }) => {
   // };
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     router.push("/main");
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   return (

@@ -24,7 +24,6 @@ export const ForgotPassword = ({ showForgotPassword }) => {
   //   };
   //   const onFinish = async (values) => {
   //     if (onLogin === true) {
-  //       console.log("test");
   //       // onFinishLogin(values);
   //     } else {
   //       // onFinishResetPassword(values)
@@ -37,14 +36,13 @@ export const ForgotPassword = ({ showForgotPassword }) => {
   // };
 
   const onFinish = (values) => {
-    console.log("Success:", values);
     // router.push("/main");
     message.warning("Check your email for a link to restore your password");
     showForgotPassword();
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const hoverAnimation = {
