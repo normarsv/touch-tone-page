@@ -1,3 +1,6 @@
+@table-header-bg: @text-color;
+@table-header-color: @white;
+
 // ---------- edit styles ----------
 
 .edit-services-div {
@@ -34,5 +37,13 @@
   }
   &:hover {
     background-color: @primary-hover-color;
+  }
+  &.cancel-button-style {
+    border-color: @primary-color;
+    color: @primary-color;
+    &:hover {
+      background-color: @primary-hover-color;
+      color: @header-color;
+    }
   }
 }

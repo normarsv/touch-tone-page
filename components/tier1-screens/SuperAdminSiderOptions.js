@@ -62,6 +62,12 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
           alignItems: "center",
         }}
       >
+        {!openSideMenu && (
+          <div style={{ width: "82%" }}>
+            <h4>Organizations</h4>
+          </div>
+        )}
+
         <Menu.Item
           onClick={() => router.push("/list-organizations")}
           icon={<UnorderedListOutlined />}

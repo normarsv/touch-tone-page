@@ -140,7 +140,7 @@ const ListAllUsers = ({ data }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate-button-style"
-                  onClick={() => router.push("/list-users/bulk-import")}
+                  onClick={() => router.push("/list-users/new-user")}
                 >
                   <Space>
                     New User
