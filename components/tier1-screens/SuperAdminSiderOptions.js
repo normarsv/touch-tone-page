@@ -4,26 +4,25 @@ import {
   UserOutlined,
   IdcardOutlined,
 } from "@ant-design/icons";
-import { Menu, Space } from "antd";
+import { Divider, Menu, Space } from "antd";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserInfo from "../user/UserInfo";
 
 const SuperAdminSiderOptions = ({ openSideMenu }) => {
+  const [menuItem, setSelectedMenuItem] = useState("organizations");
+
   const router = useRouter();
 
-  const divider = (margin) => {
-    return (
-      <div
-        id="divider"
-        style={{
-          width: "85%",
-          borderBottom: "1px solid #dadada",
-          margin: margin,
-        }}
-      />
-    );
-  };
+  console.log(router.route.includes("organizations"));
+
+  useEffect(() => {
+    if (router.route.includes("organizations")) {
+      setSelectedMenuItem("organizations");
+    } else if (router.route.includes("users")) {
+      setSelectedMenuItem("users");
+    }
+  }, []);
 
   return (
     <div className="sider-style">
@@ -54,6 +53,7 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
       )}
       <Menu
         mode="inline"
+        selectedKeys={[menuItem]}
         style={{
           backgroundColor: "#ededed",
           display: "flex",
@@ -71,11 +71,11 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         <Menu.Item
           onClick={() => router.push("/list-organizations")}
           icon={<UnorderedListOutlined />}
-          key="1"
+          key="organizations"
         >
           List all Organizations
         </Menu.Item>
-        {divider("0.1 0")}
+        <Divider style={{ margin: "0.1rem 0" }} />
         <Menu.Item
           // onClick={() => router.push("/list-organizations")}
           icon={<IdcardOutlined />}
@@ -83,16 +83,16 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         >
           List all Roles
         </Menu.Item>
-        {divider("0.1 0")}
+        <Divider style={{ margin: "0.1rem 0" }} />
 
         <Menu.Item
           onClick={() => router.push("/list-users")}
           icon={<UserOutlined />}
-          key="3"
+          key="users"
         >
           List all Users
         </Menu.Item>
-        {divider("0.1 0")}
+        <Divider style={{ margin: "0.1rem 0" }} />
       </Menu>
     </div>
   );
