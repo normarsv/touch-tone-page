@@ -51,7 +51,7 @@ const ListAllUsers = ({ data }) => {
     {
       title: "Actions",
       dataIndex: "actions",
-      render: (linkDetails, edit) => (
+      render: (linkDetails) => (
         <Space className="flex-center">
           <motion.div
             onClick={() => router.push("/list-users/details/organizationName")}

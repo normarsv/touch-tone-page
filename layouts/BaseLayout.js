@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Space } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -26,7 +26,7 @@ export const BaseLayout = ({ children }) => {
   return (
     <Layout>
       <Header className="menu-header-layout">
-        <HeaderMenu mainBodyRef={bodyRef} />
+        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef} />
       </Header>
       <Layout className="sider-main-layout">
         {userInfo.name && (

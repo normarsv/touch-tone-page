@@ -15,10 +15,6 @@
   color: @primary-color;
 }
 
-.ant-form-item {
-  // margin: 0 !important;
-}
-
 .spaced-between {
   display: flex;
   justify-content: space-between;
@@ -28,115 +24,6 @@
 .flex-end {
   display: flex;
   align-items: flex-end;
-}
-
-//----------Menu styles---------//
-
-.page-side-menu-logo-container {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.page-side-menu-logo {
-  object-fit: contain;
-  object-position: center;
-  height: 62%;
-}
-
-.menu-main-div {
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.menu-top-right-options {
-  width: 6rem;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &.logged-in {
-    justify-content: flex-end;
-  }
-}
-.menu-user-status {
-  font-size: 1rem;
-  &.logged-in {
-    color: @logged-in-color;
-    margin-right: 1rem;
-  }
-  &.logged-out {
-    color: @logged-out-color;
-    margin-right: 1rem;
-  }
-}
-
-.menu-header-layout {
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0px 6px 15px 1px rgba(0, 0, 0, 0.04);
-}
-
-.sider-main-layout {
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-  background-color: @side-menu-color;
-}
-
-.sider-style {
-  position: sticky;
-  top: 64px;
-  width: 100%;
-  height: 100%;
-  background-color: @side-menu-color;
-  overflow: auto;
-
-  @media (max-width: @screen-md-max + 1) {
-    top: 0px;
-  }
-}
-
-.ant-layout-header {
-  padding: 0 2%;
-
-  @media (max-width: @screen-md-max + 1) {
-    padding: 0 4%;
-  }
-}
-
-.content-main-layout {
-  margin: 64px 0 0 0;
-  overflow: initial;
-  padding: 2rem;
-  background-color: @main-background-color;
-  @media (max-width: @screen-sm-max) {
-    padding: 1rem;
-  }
-}
-
-.ant-layout-sider-trigger {
-  background: @primary-color;
-}
-
-.mobile-hamburger-menu {
-  position: absolute;
-  top: 64px;
-  width: 40%;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 10;
-  display: flex;
-  right: 0;
-
-  @media (max-width: @screen-sm-max) {
-    width: 70vw;
-  }
 }
 
 //-----------------
