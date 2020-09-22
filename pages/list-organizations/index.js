@@ -68,6 +68,7 @@ export default class extends Component {
     return (
       <BaseLayout>
         <ListAllOrganizations data={this.props.data} />
+        <div style={{ height: "40rem" }} />
       </BaseLayout>
     );
   }

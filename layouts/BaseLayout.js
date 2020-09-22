@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { Layout, Menu, Breadcrumb, Space } from "antd";
+import { Layout, Menu, Breadcrumb, Space, Affix } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -37,11 +37,13 @@ export const BaseLayout = ({ children }) => {
             className="sider-style show-only-desktop"
             width="250px"
           >
-            {userInfo.groups[0] == "SuperAdmin" ? (
-              <SuperAdminSiderOptions openSideMenu={openSideMenu} />
-            ) : (
-              <SiderOptions openSideMenu={openSideMenu} />
-            )}
+            <Affix offsetTop={0}>
+              {userInfo.groups[0] == "SuperAdmin" ? (
+                <SuperAdminSiderOptions openSideMenu={openSideMenu} />
+              ) : (
+                <SiderOptions openSideMenu={openSideMenu} />
+              )}
+            </Affix>
           </Sider>
         )}
 

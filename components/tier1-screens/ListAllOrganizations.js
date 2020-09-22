@@ -35,6 +35,7 @@ const ListAllOrganizations = ({ data }) => {
       dataIndex: "name",
       render: (text) => <a>{text}</a>,
       fixed: "left",
+      width: "8rem",
     },
     {
       title: "Billing ID in Rev.io",
