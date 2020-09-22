@@ -52,6 +52,7 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         mode="inline"
         selectedKeys={menuItem}
         className="side-menu-options-parent-div"
+        id="Menu div"
       >
         {!openSideMenu && (
           <div className="side-menu-options-title">
@@ -103,6 +104,25 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         </SubMenu>
         <Divider style={{ margin: "0.1rem 0" }} />
       </Menu>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        {!openSideMenu && (
+          <>
+            <Space style={{ padding: "1rem 1.5rem" }} id="Need help?">
+              <h5 className="title-style"> Need help? </h5>
+              <a href="tel:">Call 800 900 5464</a>
+            </Space>
+            <Space className="side-menu-bottom-text " id="Need help?">
+              <p>TouchTone Communications Control Center</p>
+            </Space>
+          </>
+        )}
+      </div>
     </div>
   );
 };
