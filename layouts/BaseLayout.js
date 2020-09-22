@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Space, Affix } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -23,12 +23,10 @@ export const BaseLayout = ({ children }) => {
 
   const { userInfo } = useContext(UserContext);
 
-  console.log(userInfo);
-
   return (
     <Layout>
       <Header className="menu-header-layout">
-        <HeaderMenu mainBodyRef={bodyRef} />
+        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef} />
       </Header>
       <Layout className="sider-main-layout">
         {userInfo.name && (
@@ -39,11 +37,13 @@ export const BaseLayout = ({ children }) => {
             className="sider-style show-only-desktop"
             width="250px"
           >
-            {userInfo.groups[0] == "SuperAdmin" ? (
-              <SuperAdminSiderOptions openSideMenu={openSideMenu} />
-            ) : (
-              <SiderOptions openSideMenu={openSideMenu} />
-            )}
+            <Affix offsetTop={0}>
+              {userInfo.groups[0] == "SuperAdmin" ? (
+                <SuperAdminSiderOptions openSideMenu={openSideMenu} />
+              ) : (
+                <SiderOptions openSideMenu={openSideMenu} />
+              )}
+            </Affix>
           </Sider>
         )}
 

@@ -51,7 +51,7 @@ const ListAllUsers = ({ data }) => {
     {
       title: "Actions",
       dataIndex: "actions",
-      render: (linkDetails, edit) => (
+      render: (linkDetails) => (
         <Space className="flex-center">
           <motion.div
             onClick={() => router.push("/list-users/details/organizationName")}
@@ -140,7 +140,7 @@ const ListAllUsers = ({ data }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate-button-style"
-                  onClick={() => router.push("/list-users/bulk-import")}
+                  onClick={() => router.push("/list-users/new-user")}
                 >
                   <Space>
                     New User

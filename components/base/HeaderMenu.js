@@ -11,6 +11,7 @@ import { useContext, useRef } from "react";
 
 import { removeAppUser } from "../../scripts/General";
 import { UserContext } from "../authentication/UserContext";
+import SuperAdminSiderOptions from "../tier1-screens/SuperAdminSiderOptions";
 import { MenuToggle } from "./MenuToggle";
 import SiderOptions from "./SiderOptions";
 
@@ -35,7 +36,7 @@ const menuDiv = {
   },
 };
 
-const HeaderMenu = ({ mainBodyRef }) => {
+const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   const [isOpen, setOpenMenu] = useCycle(false, true);
   const { userInfo } = useContext(UserContext);
   const router = useRouter();
@@ -139,7 +140,11 @@ const HeaderMenu = ({ mainBodyRef }) => {
         animate={isOpen ? "open" : "closed"}
         className="mobile-hamburger-menu"
       >
-        <SiderOptions />
+        {userInfo.groups[0] == "SuperAdmin" ? (
+          <SuperAdminSiderOptions openSideMenu={openSideMenu} />
+        ) : (
+          <SiderOptions openSideMenu={openSideMenu} />
+        )}
       </motion.div>
     </div>
   );
