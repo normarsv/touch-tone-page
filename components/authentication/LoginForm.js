@@ -33,7 +33,18 @@ export const LoginForm = ({ showForgotPassword }) => {
     }
     const resString = JSON.stringify(resLogin);
     saveAppUser(resString);
-    router.push("/list-organizations");
+
+    switch (resLogin.groups[0]) {
+      case "SuperAdmin":
+        router.push("/list-organizations");
+        break;
+      case "OrganizationAdmin":
+        router.push("/admin-dashboard");
+        break;
+
+      default:
+        break;
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

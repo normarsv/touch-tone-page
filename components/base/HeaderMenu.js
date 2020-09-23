@@ -140,7 +140,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         animate={isOpen ? "open" : "closed"}
         className="mobile-hamburger-menu"
       >
-        {userInfo.groups[0] == "SuperAdmin" ? (
+        {userInfo.groups !== undefined && userInfo.groups[0] == "SuperAdmin" ? (
           <SuperAdminSiderOptions openSideMenu={openSideMenu} />
         ) : (
           <SiderOptions openSideMenu={openSideMenu} />
