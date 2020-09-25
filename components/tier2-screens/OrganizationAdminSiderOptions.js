@@ -86,7 +86,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         key: "rtcMeeting",
         title: "Web RTC Meeting",
         icon: <UsergroupAddOutlined />,
-        route: "web-rtc-meeting",
+        route: "meetings",
         subOptions: [],
       },
       {

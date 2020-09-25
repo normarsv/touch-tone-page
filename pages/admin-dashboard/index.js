@@ -6,6 +6,7 @@ import { baseLanguage } from "../../scripts/MainInfoData";
 import { MainScreen } from "../../components/main-screen/MainScreen";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { Space } from "antd";
+import AdminDashboard from "../../components/tier2-screens/AdminDashboard";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -13,46 +14,85 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    const data = [
+    const adminDashboardContent = [
       {
-        key: "1",
-        name: "Walmart",
-        billing: 32,
-        orgDist: 8,
-        didsCount: 8,
-        users: 8,
+        id: 1,
+        title: "Manage Users",
+        count: "9 Users",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View all Users",
+        route: "/manage-users",
       },
       {
-        key: "2",
-        name: "Costco",
-        billing: 42,
-        orgDist: 8,
-        didsCount: 8,
-        users: 8,
+        id: 2,
+        title: "Queues",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Queues",
+        route: "/queues",
       },
       {
-        key: "3",
-        name: "Test 3",
-        billing: 32,
-        orgDist: 0,
-        didsCount: 8,
-        users: 8,
+        id: 3,
+        title: "Auto attendant",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Auto attendant",
+        route: "/auto-attendant",
       },
       {
-        key: "4",
-        name: "Test 4",
-        billing: 99,
-        orgDist: 0,
-        didsCount: 8,
-        users: 34,
+        id: 4,
+        title: "Call Records",
+        count: "9 Users",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Call Records",
+        route: "/telephony-features/call-recordings",
+      },
+      {
+        id: 5,
+        title: "Call Reporting",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Calls Reporting",
+        route: "/telephony-features/call-reporting",
+      },
+      {
+        id: 6,
+        title: "Meeting",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Mettings",
+        route: "/web-rtc-meeting",
+      },
+      {
+        id: 7,
+        title: "Ring Groups",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View Ring Groups",
+        route: "/auto-attendant/ring-group",
+      },
+      {
+        id: 8,
+        title: "Audio Conference Room",
+        count: "",
+        desc:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        buttonTitle: "View More",
+        route: "/audio-conference",
       },
     ];
 
     return {
       currentLanguage,
-      // columns,
-      data,
       user,
+      adminDashboardContent,
     };
   }
   constructor(props) {
@@ -63,11 +103,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
-    // console.log(user);
+    const { adminDashboardContent } = this.props;
+
     return (
       <BaseLayout>
-        <div style={{ height: "120rem" }} />
+        <AdminDashboard adminDashboardContent={adminDashboardContent} />
       </BaseLayout>
     );
   }
