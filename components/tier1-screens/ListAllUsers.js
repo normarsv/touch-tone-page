@@ -37,7 +37,6 @@ const ListAllUsers = ({ data }) => {
     {
       title: "Name",
       dataIndex: "name",
-      render: (text) => <a>{text}</a>,
       fixed: "left",
     },
     {
@@ -54,14 +53,14 @@ const ListAllUsers = ({ data }) => {
       render: (linkDetails) => (
         <Space className="flex-center">
           <motion.div
-            onClick={() => router.push("/list-users/details/organizationName")}
+            onClick={() => router.push("/list-users/details/" + linkDetails)}
             whileHover={hoverAnimation}
           >
             Details
           </motion.div>
           |
           <motion.div
-            onClick={() => router.push("/list-users/edit/organizationName")}
+            onClick={() => router.push("/list-users/edit/" + linkDetails)}
             whileHover={hoverAnimation}
           >
             Edit

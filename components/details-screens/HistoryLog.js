@@ -28,19 +28,15 @@ const HistoryLog = ({ data }) => {
     {
       title: "Date",
       dataIndex: "date",
-      render: () => (
-        <Space>
-          <Space>
-            <FontAwesomeIcon className="title-style" icon={faCalendarAlt} />{" "}
-            {moment().format("L")}{" "}
-          </Space>
-          <Divider type="vertical" />
-          <Space>
-            <FontAwesomeIcon className="title-style" icon={faClock} />{" "}
-            {moment().format("LT")}{" "}
-          </Space>
-        </Space>
-      ),
+      render: (date) =>
+        date.map((item, index) => {
+          return (
+            <Space>
+              <FontAwesomeIcon className="title-style" icon={item.icon} />{" "}
+              {item.date}{" "}
+            </Space>
+          );
+        }),
       fixed: "left",
     },
     {

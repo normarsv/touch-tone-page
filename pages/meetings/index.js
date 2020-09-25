@@ -1,4 +1,4 @@
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
@@ -20,7 +20,7 @@ export default class extends Component {
         name: "Peter Lock",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["peter"],
       },
       {
@@ -28,7 +28,7 @@ export default class extends Component {
         name: "Anna Frías",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["anna"],
       },
       {
@@ -36,7 +36,7 @@ export default class extends Component {
         name: "Samuel Harlock",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["samuel"],
       },
       {
@@ -44,7 +44,7 @@ export default class extends Component {
         name: "Sebastian Bones",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["sebastian"],
       },
       {
@@ -52,7 +52,7 @@ export default class extends Component {
         name: "Orlando Tyler",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["orlando"],
       },
       {
@@ -60,7 +60,7 @@ export default class extends Component {
         name: "Brad Bloom",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["brad"],
       },
       {
@@ -68,15 +68,15 @@ export default class extends Component {
         name: "Linda King",
         date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["linda"],
       },
       {
         id: 8,
         name: "Thomas Hank",
-        date: <FontAwesomeIcon icon={faCalendar} /> + moment().format("L"),
+        date: moment().format("L"),
         startTime: moment().format("LT"),
-        endTime: moment().format("LT"),
+        endTime: [{ id: 1, endTime: moment().format("LT"), icon: faClock }],
         actions: ["thomas"],
       },
     ];

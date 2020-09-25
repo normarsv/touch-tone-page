@@ -1,17 +1,8 @@
-import { useState, useRef, useContext } from "react";
-import { Layout, Menu, Breadcrumb, Space, Affix } from "antd";
-import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  TeamOutlined,
-  FileOutlined,
-} from "@ant-design/icons";
+import { Affix, Layout, Menu } from "antd";
+import { useContext, useRef, useState } from "react";
+import { UserContext } from "../components/authentication/UserContext";
 import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
-import { UserContext } from "../components/authentication/UserContext";
 import SuperAdminSiderOptions from "../components/tier1-screens/SuperAdminSiderOptions";
 import OrganizationAdminSiderOptions from "../components/tier2-screens/OrganizationAdminSiderOptions";
 
@@ -36,7 +27,6 @@ export const BaseLayout = ({ children }) => {
 
       default:
         return <SiderOptions openSideMenu={openSideMenu} />;
-
         break;
     }
   }

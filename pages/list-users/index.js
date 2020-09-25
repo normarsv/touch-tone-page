@@ -7,12 +7,32 @@ import { MainScreen } from "../../components/main-screen/MainScreen";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { Space } from "antd";
 import ListAllUsers from "../../components/tier1-screens/ListAllUsers";
+import API from "../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resUserList = await api.GET("/portal-users/");
+
+    const finalUserList = [];
+    for (let i = 0; i < resUserList.response.length; i++) {
+      const currentUser = resUserList.response[i];
+
+      finalUserList.push({
+        name:
+          currentUser.auth_user.first_name +
+          " " +
+          currentUser.auth_user.last_name,
+        email: currentUser.auth_user.email,
+        status: currentUser.userstatusid.description,
+        actions: currentUser.auth_user.id,
+      });
+    }
 
     const data = [
       {
@@ -46,6 +66,8 @@ export default class extends Component {
       // columns,
       data,
       user,
+      resUserList,
+      finalUserList,
     };
   }
   constructor(props) {
@@ -54,13 +76,24 @@ export default class extends Component {
   }
   componentDidMount() {
     systemLog.log(this.props);
+    const finalUserList = [];
+    for (let i = 0; i < this.props.resUserList.length; i++) {
+      const currentUser = this.props.resUserList.response[i];
+
+      finalUserList.push({
+        name: currentUser.first_name + currentUser.last_name,
+      });
+    }
+    console.log(finalUserList);
   }
+
   render() {
-    const { user } = this.props;
-    // console.log(user);
+    const { user, resUserList, finalUserList } = this.props;
+    console.log(resUserList.response[0], "USER LIST");
+
     return (
       <BaseLayout>
-        <ListAllUsers data={this.props.data} />
+        <ListAllUsers data={finalUserList} />
       </BaseLayout>
     );
   }

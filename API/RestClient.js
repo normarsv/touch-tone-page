@@ -1,5 +1,5 @@
-import fetch from 'isomorphic-unfetch';
-import qs from 'qs';
+import fetch from "isomorphic-unfetch";
+import qs from "qs";
 
 export default class RestClient {
   constructor(
@@ -60,7 +60,7 @@ export default class RestClient {
     } else {
       return fetchPromise().then((response) => {
         return response.json().then((data) => {
-          return { ...data, statusCode: response.status };
+          return { response: data, statusCode: response.status };
         });
       });
     }

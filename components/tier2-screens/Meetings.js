@@ -1,12 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button, Row, Select, Space, Switch, Table } from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import Search from "antd/lib/input/Search";
+import {
+  faClock,
+  faPlusCircle,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Row, Select, Space, Table } from "antd";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
+import React from "react";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
@@ -38,12 +41,22 @@ const Meetings = ({ meetingsContent }) => {
     {
       title: "End Time",
       dataIndex: "endTime",
+      render: (endTime) =>
+        endTime.map((item, index) => {
+          console.log(item);
+          return (
+            <Space>
+              <FontAwesomeIcon className="title-style" item={faClock} />
+              {item.endTime}
+            </Space>
+          );
+        }),
     },
     {
       title: "Actions",
       dataIndex: "actions",
       render: (meetingId) => (
-        <Space>
+        <Space className="flex-center">
           <motion.div
             onClick={() => router.push("/meetings/view/" + meetingId)}
             whileHover={hoverAnimation}

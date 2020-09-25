@@ -1,3 +1,4 @@
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
 import HistoryLog from "../../../../../components/details-screens/HistoryLog";
@@ -16,6 +17,18 @@ export default class extends Component {
       user: "Gregory Sanders",
       previous: "Walmart",
       current: "Walmart México",
+      date: [
+        {
+          id: 1,
+          date: moment().format("L"),
+          icon: faCalendarAlt,
+        },
+        {
+          id: 2,
+          date: moment().format("LT"),
+          icon: faClock,
+        },
+      ],
     });
     return {
       currentLanguage,

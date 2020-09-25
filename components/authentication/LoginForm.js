@@ -27,14 +27,14 @@ export const LoginForm = ({ showForgotPassword }) => {
     });
     console.log(resLogin);
     if (resLogin.statusCode === 401) {
-      message.error(resLogin.detail);
+      message.error(resLogin.response.detail);
       setLoading(false);
       return;
     }
-    const resString = JSON.stringify(resLogin);
+    const resString = JSON.stringify(resLogin.response);
     saveAppUser(resString);
 
-    switch (resLogin.groups[0]) {
+    switch (resLogin.response.groups[0]) {
       case "SuperAdmin":
         router.push("/list-organizations");
         break;

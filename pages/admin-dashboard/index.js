@@ -67,7 +67,7 @@ export default class extends Component {
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Mettings",
-        route: "/web-rtc-meeting",
+        route: "/meetings",
       },
       {
         id: 7,
