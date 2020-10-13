@@ -1,10 +1,10 @@
-import '../styles/app.less';
+import "../styles/app.less";
 
-import App from 'next/app';
-import nookies from 'nookies';
+import App from "next/app";
+import nookies from "nookies";
 
-import { UserContext } from '../components/authentication/UserContext';
-import { nameSession } from '../scripts/MainInfoData';
+import { UserContext } from "../components/authentication/UserContext";
+import { nameSession } from "../scripts/MainInfoData";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -16,7 +16,7 @@ class MyApp extends App {
     if (userCookie !== undefined) {
       const userParse = JSON.parse(userCookie);
       user = userParse;
-      user.role = user.groups[0];
+      user.role = user.group;
     }
 
     if (Component.getInitialProps) {

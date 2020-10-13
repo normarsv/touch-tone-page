@@ -16,7 +16,7 @@ export const BaseLayout = ({ children }) => {
   const { userInfo } = useContext(UserContext);
 
   function menuToRender(userInfo) {
-    switch (userInfo.groups[0]) {
+    switch (userInfo.group) {
       case "SuperAdmin":
         return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
         break;

@@ -14,7 +14,7 @@ export const LoginForm = ({ showForgotPassword }) => {
   const form = useRef(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { onLogin, setLogin } = useState(true);
+  // const { onLogin, setLogin } = useState(true);
   const [showLogin, setShowLogin] = useState(true);
 
   const onFinish = async (values) => {
@@ -34,7 +34,7 @@ export const LoginForm = ({ showForgotPassword }) => {
     const resString = JSON.stringify(resLogin.response);
     saveAppUser(resString);
 
-    switch (resLogin.response.groups[0]) {
+    switch (resLogin.response.group) {
       case "SuperAdmin":
         router.push("/list-organizations");
         break;

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Dropdown, Menu, Row } from "antd";
 import { motion, useCycle } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { removeAppUser } from "../../scripts/General";
 import { UserContext } from "../authentication/UserContext";
@@ -39,7 +39,27 @@ const menuDiv = {
 const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   const [isOpen, setOpenMenu] = useCycle(false, true);
   const { userInfo } = useContext(UserContext);
+  const [routeToGo, setRouteToGo] = useState();
   const router = useRouter();
+
+  let finalRoute;
+
+  useEffect(() => {
+    console.log(routeToGo);
+    switch (userInfo.group) {
+      case "SuperAdmin":
+        setRouteToGo("list-organizations");
+        break;
+      case "OrganizationAdmin":
+        console.log(true);
+        setRouteToGo("admin-dashboard");
+        console.log(routeToGo);
+        break;
+
+      default:
+        break;
+    }
+  }, []);
 
   const menu = (
     <Menu>
@@ -69,9 +89,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
       >
         <a
           onClick={() => {
-            userInfo.name
-              ? router.replace("/list-organizations")
-              : router.replace("/");
+            router.replace("/" + routeToGo);
           }}
         >
           <div className="page-side-menu-logo-container">
@@ -140,7 +158,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         animate={isOpen ? "open" : "closed"}
         className="mobile-hamburger-menu"
       >
-        {userInfo.groups !== undefined && userInfo.groups[0] == "SuperAdmin" ? (
+        {userInfo.groups !== undefined && userInfo.group == "SuperAdmin" ? (
           <SuperAdminSiderOptions openSideMenu={openSideMenu} />
         ) : (
           <SiderOptions openSideMenu={openSideMenu} />
