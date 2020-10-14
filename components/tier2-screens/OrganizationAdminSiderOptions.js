@@ -109,7 +109,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             route: "contact-center",
           },
           { id: 3, key: "ringGroup", title: "Ring Group", route: "ring-group" },
-          { id: 4, key: "queue", title: "Queue", route: "queue" },
+          { id: 4, key: "queue", title: "Queue", route: "queues" },
         ],
       },
     ],
