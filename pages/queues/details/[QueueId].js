@@ -1,9 +1,8 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { systemLog } from "../../../../scripts/General";
-import { baseLanguage } from "../../../../scripts/MainInfoData";
-import UserDetails from "../../../../components/details-screens/UserDetails";
-import { BaseLayout } from "../../../../layouts/BaseLayout";
+import { systemLog } from "../../../scripts/General";
+import { baseLanguage } from "../../../scripts/MainInfoData";
+import { BaseLayout } from "../../../layouts/BaseLayout";
 import QueuesDetails from "../../../components/tier2-screens/queues/QueuesDetails";
 
 export default class extends Component {

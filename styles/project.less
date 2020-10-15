@@ -26,6 +26,14 @@
   align-items: flex-end;
 }
 
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  &.spaced {
+    justify-content: space-between;
+  }
+}
+
 //-----------------
 
 .row-header {
@@ -110,4 +118,19 @@
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+}
+
+//----------Queues detail styles---------//
+
+.upload-info-style {
+  span {
+    display: flex;
+    .ant-upload-list {
+      &.ant-upload-list-text {
+        margin-left: 1rem;
+        width: 20vw;
+        overflow: hidden;
+      }
+    }
+  }
 }

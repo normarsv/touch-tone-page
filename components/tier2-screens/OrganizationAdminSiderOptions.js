@@ -184,9 +184,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
                   return (
                     <Menu.Item
                       key={subItem.key}
-                      onClick={() =>
-                        router.push("/auto-attendant/" + subItem.route)
-                      }
+                      onClick={() => router.push(subItem.route)}
                     >
                       {subItem.title}
                     </Menu.Item>
@@ -208,6 +206,12 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
           }
         })}
         <Divider style={{ margin: "0.1rem 0" }} />
+        {!openSideMenu && (
+          <div className="side-menu-title-div secondary">
+            <h4>Telephony Features</h4>
+          </div>
+        )}
+
         {organizationAdminMenu.telephonyFeaturesOptions.map((item, index) => {
           return (
             <Menu.Item
