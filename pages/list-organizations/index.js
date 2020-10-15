@@ -6,12 +6,17 @@ import { baseLanguage } from "../../scripts/MainInfoData";
 import { MainScreen } from "../../components/main-screen/MainScreen";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { Space } from "antd";
+import API from "../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resOrganizations = await api.GET("/organizations/");
 
     const data = [
       {
@@ -53,6 +58,7 @@ export default class extends Component {
       // columns,
       data,
       user,
+      resOrganizations,
     };
   }
   constructor(props) {
@@ -68,7 +74,6 @@ export default class extends Component {
     return (
       <BaseLayout>
         <ListAllOrganizations data={this.props.data} />
-        <div style={{ height: "40rem" }} />
       </BaseLayout>
     );
   }

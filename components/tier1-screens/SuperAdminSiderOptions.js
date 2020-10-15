@@ -16,7 +16,7 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
 
   const router = useRouter();
 
-  console.log(router.route.includes("organizations"));
+  // console.log(router.route.includes("organizations"));
 
   useEffect(() => {
     if (router.route.includes("organizations")) {

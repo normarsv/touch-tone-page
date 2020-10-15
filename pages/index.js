@@ -10,14 +10,27 @@ import { baseLanguage } from "../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (user.access !== undefined) {
+    if (user.group !== undefined) {
       if (res) {
-        res.writeHead(303, {
-          Location: "/list-organizations",
-        });
+        switch (user.group) {
+          case "SuperAdmin":
+            res.writeHead(303, {
+              Location: "/list-organizations",
+            });
+            break;
+          case "OrganizationAdmin":
+            res.writeHead(303, {
+              Location: "/admin-dashboard",
+            });
+            break;
+
+          default:
+            break;
+        }
+
         res.end();
       } else {
-        Router.push("/list-organizations");
+        Router.push("/");
       }
       return {};
     }

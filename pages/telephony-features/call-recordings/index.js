@@ -1,13 +1,14 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
-import { MainScreen } from "../../components/main-screen/MainScreen";
-import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
+import { BaseLayout } from "../../../layouts/BaseLayout";
+import { systemLog } from "../../../scripts/General";
+import { baseLanguage } from "../../../scripts/MainInfoData";
+import { MainScreen } from "../../../components/main-screen/MainScreen";
+import ListAllOrganizations from "../../../components/tier1-screens/ListAllOrganizations";
 import { Space } from "antd";
-import ListAllUsers from "../../components/tier1-screens/ListAllUsers";
-import API from "../../API/API";
+import ListAllUsers from "../../../components/tier1-screens/ListAllUsers";
+import API from "../../../API/API";
+import CallRecordingsOA from "../../../components/tier2-screens/CallRecordingsOA";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -93,7 +94,7 @@ export default class extends Component {
 
     return (
       <BaseLayout>
-        <ListAllUsers data={finalUserList} />
+        <CallRecordingsOA />
       </BaseLayout>
     );
   }

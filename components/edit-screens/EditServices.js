@@ -9,7 +9,9 @@ const EditServices = ({ serviceContent, editable }) => {
         {serviceContent.map((item, index) => {
           return (
             <Col span={8} md={8} sm={24} xs={24} key={item.key}>
-              <Checkbox disabled={!editable}>{item.title}</Checkbox>
+              <Checkbox checked={item.status} disabled={!editable}>
+                {item.title}
+              </Checkbox>
             </Col>
           );
         })}

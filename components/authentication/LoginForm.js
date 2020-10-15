@@ -14,7 +14,7 @@ export const LoginForm = ({ showForgotPassword }) => {
   const form = useRef(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { onLogin, setLogin } = useState(true);
+  // const { onLogin, setLogin } = useState(true);
   const [showLogin, setShowLogin] = useState(true);
 
   const onFinish = async (values) => {
@@ -27,13 +27,24 @@ export const LoginForm = ({ showForgotPassword }) => {
     });
     console.log(resLogin);
     if (resLogin.statusCode === 401) {
-      message.error(resLogin.detail);
+      message.error(resLogin.response.detail);
       setLoading(false);
       return;
     }
-    const resString = JSON.stringify(resLogin);
+    const resString = JSON.stringify(resLogin.response);
     saveAppUser(resString);
-    router.push("/list-organizations");
+
+    switch (resLogin.response.group) {
+      case "SuperAdmin":
+        router.push("/list-organizations");
+        break;
+      case "OrganizationAdmin":
+        router.push("/admin-dashboard");
+        break;
+
+      default:
+        break;
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

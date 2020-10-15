@@ -1,89 +1,12 @@
-import { faEraser, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, Row, Select, Space, Switch, Table } from "antd";
-import Search from "antd/lib/input/Search";
-import { motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import { Checkbox, Row, Space } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import Search from "antd/lib/input/Search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
-const { Option } = Select;
-
-const ListAllUsers = ({ data }) => {
-  const router = useRouter();
-  const [selectedRow, setSelectedRow] = useState([]);
-
-  const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
-    setSelectedRow(selectedRowKeys);
-  };
-
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const hoverAnimation = {
-    scale: 1.02,
-    cursor: "pointer",
-    color: "red",
-    transition: { duration: 0.5 },
-  };
-
-  const onEditOrg = (orgName) => {
-    router.push("/list-users/edit/organizationName");
-  };
-
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      render: (linkDetails) => (
-        <Space className="flex-center">
-          <motion.div
-            onClick={() => router.push("/list-users/details/" + linkDetails)}
-            whileHover={hoverAnimation}
-          >
-            Details
-          </motion.div>
-          |
-          <motion.div
-            onClick={() => router.push("/list-users/edit/" + linkDetails)}
-            whileHover={hoverAnimation}
-          >
-            Edit
-          </motion.div>
-        </Space>
-      ),
-    },
-    {
-      title: "Active / Deactivate",
-      dataIndex: "status",
-      render: () => (
-        <div className="flex-center">
-          <Switch checkedChildren="ON" unCheckedChildren="OFF" />
-        </div>
-      ),
-    },
-  ];
-
-  const rowSelection = {
-    selectedRow,
-    onChange: onSelectChange,
-  };
-
+const CallRecordingsOA = ({}) => {
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -163,8 +86,8 @@ const ListAllUsers = ({ data }) => {
   );
 };
 
-ListAllUsers.propTypes = {
-  // someData: PropTypes.string,
+CallRecordingsOA.propTypes = {
+  someData: PropTypes.string,
 };
 
-export default ListAllUsers;
+export default CallRecordingsOA;

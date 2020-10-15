@@ -114,7 +114,7 @@
   height: 100%;
   background-color: @side-menu-color;
   overflow: auto;
-  min-height: 90vh;
+  min-height: 88vh;
 
   @media (max-width: @screen-md-max + 1) {
     top: 0px;
@@ -165,6 +165,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  &.secondary {
+    margin: 1rem 0;
+  }
 }
 
 .side-menu-options-parent-div {
@@ -180,4 +183,29 @@
 .side-menu-submenu-style {
   width: 100%;
   background-color: @side-menu-color;
+}
+
+.select-arrow-boxes {
+  min-width: 300px;
+
+  .ant-select-selector {
+    border-radius: 0 !important;
+  }
+
+  .ant-select-arrow {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    height: 100%;
+    display: flex;
+    margin-top: 0;
+    color: transparent;
+    align-items: center;
+    justify-content: center;
+    background-image: url("/btn_drop_down.svg");
+  }
+  .ant-picker-input > input {
+    font-size: 12px;
+  }
 }

@@ -27,6 +27,10 @@ const OrganizationServices = ({
     }, 2000);
   };
 
+  console.log(router.query.idOrg);
+
+  const currentUserId = router.query.idOrg;
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -45,7 +49,7 @@ const OrganizationServices = ({
           {!editable && (
             <Button
               type="primary"
-              onClick={() => router.push("/list-users/edit/organizationName")}
+              onClick={() => router.push("/list-users/edit/" + currentUserId)}
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>
