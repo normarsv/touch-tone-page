@@ -142,13 +142,13 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         icon: faMicrophone,
         route: "/telephony-features/call-recordings",
       },
-      {
-        id: 5,
-        key: "callReporting",
-        title: "Call Reporting",
-        icon: faFileAudio,
-        route: "/telephony-features/call-reporting",
-      },
+      // {
+      //   id: 5,
+      //   key: "callReporting",
+      //   title: "Call Reporting",
+      //   icon: faFileAudio,
+      //   route: "/telephony-features/call-reporting",
+      // },
     ],
   };
 

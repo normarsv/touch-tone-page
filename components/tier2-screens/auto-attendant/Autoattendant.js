@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Input, Row, Space, Switch, Table } from "antd";
+import { Button, Input, Row, Select, Space, Switch, Table } from "antd";
 import ContentInnerHeader from "../../misc/ContentInnerHeader";
 import { useRouter } from "next/dist/client/router";
 import { motion } from "framer-motion";
 import Search from "antd/lib/input/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
+const { Option } = Select;
 
 const AutoAttendant = ({ autoAttendantTableContent }) => {
   const router = useRouter();
@@ -63,7 +65,18 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
 
         <Search placeholder="Search..." enterButton style={{ width: 300 }} />
         <Row type="flex" justify="space-between">
-          <Space></Space>
+          <Space size="small">
+            <label>Show</label>
+            <Select
+              defaultValue="10"
+              style={{ width: 120 }}
+              // onChange={handleChange}
+            >
+              <Option value="10">10</Option>
+              <Option value="20">20</Option>
+            </Select>
+            <label>entries</label>
+          </Space>
           <Space size="small">
             <Button
               className="primary-button-style alternate-button-style"

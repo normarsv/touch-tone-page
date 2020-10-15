@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Input, message, Row, Space, Transfer, Upload } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Row,
+  Select,
+  Space,
+  Transfer,
+  Upload,
+} from "antd";
 import ContentInnerHeader from "../../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
@@ -105,19 +114,34 @@ const AutoAttendantDetails = ({}) => {
           <TextArea rows={4} style={{ width: "100%" }} />
         </Space>
 
-        <div style={{ marginTop: "2rem", width: "100%" }}>
-          <Transfer
-            dataSource={mockData}
-            showSearch
-            listStyle={{
-              width: "100%",
-              height: "30rem",
-            }}
-            operations={["to right", "to left"]}
-            targetKeys={targetKeys}
-            onChange={handleChange}
-            render={(item) => `${item.title}-${item.description}`}
-          />
+        <div
+          style={{
+            marginTop: "2rem",
+            width: "100%",
+            border: "1px solid #dadada",
+            padding: "2rem",
+          }}
+        >
+          <Space direction="vertical" size="large" style={{ width: "100%" }}>
+            <h4>Destination</h4>
+            <Select
+              placeholder="Select destination"
+              className="select-arrow-boxes"
+            ></Select>
+            <Transfer
+              dataSource={mockData}
+              showSearch
+              titles={[<h4></h4>, <h4>Destination Users</h4>]}
+              listStyle={{
+                width: "100%",
+                height: "30rem",
+              }}
+              operations={["To right", "To left"]}
+              targetKeys={targetKeys}
+              onChange={handleChange}
+              render={(item) => `${item.title}`}
+            />
+          </Space>
         </div>
 
         <Row type="flex" justify="end">
