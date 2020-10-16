@@ -2,6 +2,7 @@ import {
   AppstoreFilled,
   UnorderedListOutlined,
   UserOutlined,
+  OrderedListOutlined,
   IdcardOutlined,
   PlusCircleFilled,
   ReconciliationOutlined,
@@ -57,24 +58,18 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         route: "manage-users",
         subOptions: [],
       },
+      // {
+      //   id: 2,
+      //   key: "services",
+      //   title: "Services",
+      //   icon: <ProfileOutlined />,
+      //   route: "organization-details",
+      //   subOptions: [],
+      // },
+    ],
+    servicesOptions: [
       {
-        id: 2,
-        key: "orgDetails",
-        title: "Organization Details",
-        icon: <ReconciliationOutlined />,
-        route: "organization-details",
-        subOptions: [],
-      },
-      {
-        id: 3,
-        key: "services",
-        title: "Services",
-        icon: <ProfileOutlined />,
-        route: "organization-details",
-        subOptions: [],
-      },
-      {
-        id: 4,
+        id: 1,
         key: "audioConference",
         title: "Audio Conference Room",
         icon: <CustomerServiceFilled />,
@@ -82,7 +77,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         subOptions: [],
       },
       {
-        id: 5,
+        id: 2,
         key: "rtcMeeting",
         title: "Web RTC Meeting",
         icon: <UsergroupAddOutlined />,
@@ -90,7 +85,15 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         subOptions: [],
       },
       {
-        id: 6,
+        id: 3,
+        key: "queue",
+        title: "Queue",
+        icon: <OrderedListOutlined />,
+        route: "queues",
+        subOptions: [],
+      },
+      {
+        id: 4,
         key: "autoAttendant",
         title: "Auto - Attendant",
         icon: <UserOutlined />,
@@ -109,7 +112,6 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             route: "contact-center",
           },
           { id: 3, key: "ringGroup", title: "Ring Group", route: "ring-group" },
-          { id: 4, key: "queue", title: "Queue", route: "queues" },
         ],
       },
     ],
@@ -172,6 +174,25 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         id="Menu div"
       >
         {organizationAdminMenu.organizationAdminOptions.map((item, index) => {
+          return (
+            <Menu.Item
+              onClick={() => router.push("/" + item.route)}
+              icon={item.icon}
+              key={item.key}
+              style={{ margin: 0 }}
+            >
+              {item.title}
+            </Menu.Item>
+          );
+        })}
+        <Divider style={{ margin: "0.1rem 0" }} />
+        {!openSideMenu && (
+          <div className="side-menu-title-div secondary">
+            <h4>Services</h4>
+          </div>
+        )}
+
+        {organizationAdminMenu.servicesOptions.map((item, index) => {
           if (item.subOptions.length !== 0) {
             return (
               <SubMenu
@@ -184,7 +205,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
                   return (
                     <Menu.Item
                       key={subItem.key}
-                      onClick={() => router.push(subItem.route)}
+                      onClick={() => router.push("/" + subItem.route)}
                     >
                       {subItem.title}
                     </Menu.Item>
@@ -195,7 +216,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
           } else {
             return (
               <Menu.Item
-                onClick={() => router.push(item.route)}
+                onClick={() => router.push("/" + item.route)}
                 icon={item.icon}
                 key={item.key}
                 style={{ margin: 0 }}
@@ -205,6 +226,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             );
           }
         })}
+
         <Divider style={{ margin: "0.1rem 0" }} />
         {!openSideMenu && (
           <div className="side-menu-title-div secondary">

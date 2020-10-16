@@ -45,21 +45,21 @@ export default class extends Component {
       {
         id: 4,
         title: "Call Records",
-        count: "9 Users",
+        count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Call Records",
         route: "/telephony-features/call-recordings",
       },
-      {
-        id: 5,
-        title: "Call Reporting",
-        count: "",
-        desc:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View Calls Reporting",
-        route: "/telephony-features/call-reporting",
-      },
+      // {
+      //   id: 5,
+      //   title: "Call Reporting",
+      //   count: "",
+      //   desc:
+      //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+      //   buttonTitle: "View Calls Reporting",
+      //   route: "/telephony-features/call-reporting",
+      // },
       {
         id: 6,
         title: "Meeting",

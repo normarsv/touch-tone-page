@@ -1,17 +1,10 @@
-import {
-  faCalendar,
-  faCalendarAlt,
-  faClock,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import AudioConference from "../../components/tier2-screens/AudioConference";
-import ManageUsers from "../../components/tier2-screens/ManageUsers";
-import Meetings from "../../components/tier2-screens/Meetings";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
+import AudioConference from "../../components/tier2-screens/conference-room/AudioConference";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {

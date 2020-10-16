@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import {
   Button,
   Input,
-  message,
   Row,
   Select,
   Space,
+  Switch,
   Transfer,
   Upload,
 } from "antd";
@@ -14,9 +14,7 @@ import ContentInnerHeader from "../../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
-const { TextArea } = Input;
-
-const AutoAttendantDetails = ({}) => {
+const NewConferenceRoom = ({}) => {
   const props = {
     name: "file",
     action: "",
@@ -76,20 +74,35 @@ const AutoAttendantDetails = ({}) => {
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">Auto Attendant Details</h1>
+          <h1 className="title-style">New Conference Room</h1>
         </Row>
 
         <Space direction="horizontal" size="large" className="flex-wrap ">
           <Space direction="vertical">
-            <h4>Name</h4>
+            <h4>Description</h4>
             <Input style={{ minWidth: 300 }} />
           </Space>
           <Space direction="vertical">
-            <h4>DID</h4>
+            <h4>Access Code</h4>
             <Input style={{ minWidth: 300 }} />
           </Space>
           <Space direction="vertical">
-            <h4>Descriptions</h4>
+            <h4>Max. Participants</h4>
+            <Input style={{ minWidth: 300 }} />
+          </Space>
+          <Space direction="vertical">
+            <h4>Date Time</h4>
+            <Input style={{ minWidth: 300 }} />
+          </Space>
+        </Space>
+
+        <Space direction="horizontal" size="large" className="flex-wrap ">
+          <Space direction="vertical">
+            <h4>Duration</h4>
+            <Input style={{ minWidth: 300 }} />
+          </Space>
+          <Space direction="vertical">
+            <h4>On Hold Prompt</h4>
             <Space
               direction="horizontal"
               size="large"
@@ -107,11 +120,25 @@ const AutoAttendantDetails = ({}) => {
               </Upload>
             </Space>
           </Space>
+          <Space direction="vertical">
+            <h4>Moderator</h4>
+            <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+          </Space>
         </Space>
 
-        <Space direction="vertical" style={{ width: "100%" }}>
-          <h4>Description</h4>
-          <TextArea rows={4} style={{ width: "100%" }} />
+        <Space direction="horizontal" size="large" className="flex-wrap ">
+          <Space direction="vertical">
+            <h4>Password (Optional)</h4>
+            <Input style={{ minWidth: 300 }} />
+          </Space>
+          <Space direction="vertical">
+            <h4>Moderator Password</h4>
+            <Input style={{ minWidth: 300 }} />
+          </Space>
+          <Space direction="vertical">
+            <h4>Enable</h4>
+            <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+          </Space>
         </Space>
 
         <div className="transfer-main-div">
@@ -147,8 +174,8 @@ const AutoAttendantDetails = ({}) => {
   );
 };
 
-AutoAttendantDetails.propTypes = {
+NewConferenceRoom.propTypes = {
   someData: PropTypes.string,
 };
 
-export default AutoAttendantDetails;
+export default NewConferenceRoom;

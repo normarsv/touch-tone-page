@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, Row, Select, Space, Switch, Table } from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
@@ -11,6 +10,7 @@ import {
   faPlusCircle,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import ContentInnerHeader from "../../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
@@ -100,6 +100,7 @@ const AudioConference = ({ audioConferenceContent }) => {
             <Button
               type="primary"
               className="primary-button-style alternate-button-style"
+              onClick={() => router.push("/audio-conference/new-conference")}
             >
               <Space>
                 New Conference <FontAwesomeIcon icon={faPlusCircle} />
