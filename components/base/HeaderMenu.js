@@ -12,6 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { removeAppUser } from "../../scripts/General";
 import { UserContext } from "../authentication/UserContext";
 import SuperAdminSiderOptions from "../tier1-screens/SuperAdminSiderOptions";
+import OrganizationAdminSiderOptions from "../tier2-screens/OrganizationAdminSiderOptions";
 import { MenuToggle } from "./MenuToggle";
 import SiderOptions from "./SiderOptions";
 
@@ -43,6 +44,22 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   const router = useRouter();
 
   let finalRoute;
+
+  function menuToRender(userInfo) {
+    switch (userInfo.group) {
+      case "SuperAdmin":
+        return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
+        break;
+
+      case "OrganizationAdmin":
+        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
+        break;
+
+      default:
+        return <SiderOptions openSideMenu={openSideMenu} />;
+        break;
+    }
+  }
 
   useEffect(() => {
     console.log(routeToGo);
@@ -158,11 +175,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         animate={isOpen ? "open" : "closed"}
         className="mobile-hamburger-menu"
       >
-        {userInfo.groups !== undefined && userInfo.group == "SuperAdmin" ? (
-          <SuperAdminSiderOptions openSideMenu={openSideMenu} />
-        ) : (
-          <SiderOptions openSideMenu={openSideMenu} />
-        )}
+        {menuToRender(userInfo)}
       </motion.div>
     </div>
   );

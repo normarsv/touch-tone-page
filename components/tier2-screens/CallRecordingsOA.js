@@ -1,12 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, Row, Space } from "antd";
+import { Button, Checkbox, Row, Select, Space, Table } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import Search from "antd/lib/input/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEraser,
+  faPlay,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
-const CallRecordingsOA = ({}) => {
+const { Option } = Select;
+
+const CallRecordingsOA = ({ callRecordingsTableData }) => {
+  const [selectedRow, setSelectedRow] = useState([]);
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSelectChange = (selectedRowKeys) => {
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
+    setSelectedRow(selectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRow,
+    onChange: onSelectChange,
+  };
+
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "date",
+      render: (date) =>
+        date.map((item, index) => {
+          return (
+            <Space>
+              <FontAwesomeIcon className="title-style" icon={item.icon} />{" "}
+              {item.date}{" "}
+            </Space>
+          );
+        }),
+      fixed: "left",
+    },
+    {
+      title: "User Name",
+      dataIndex: "userName",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      title: "Total Talk time",
+      dataIndex: "totalTalkTime",
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      render: (linkDetails, edit) => (
+        <Row type="flex" justify="space-between" align="middle">
+          <Space>
+            <Button type="primary" style={{ borderRadius: "2rem" }}>
+              <FontAwesomeIcon icon={faPlay} />
+            </Button>
+          </Space>
+        </Row>
+      ),
+    },
+  ];
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -79,7 +142,7 @@ const CallRecordingsOA = ({}) => {
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
-          dataSource={data}
+          dataSource={callRecordingsTableData}
         />
       </Space>
     </div>

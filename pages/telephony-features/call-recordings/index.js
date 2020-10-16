@@ -3,12 +3,8 @@ import { Component } from "react";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
-import { MainScreen } from "../../../components/main-screen/MainScreen";
-import ListAllOrganizations from "../../../components/tier1-screens/ListAllOrganizations";
-import { Space } from "antd";
-import ListAllUsers from "../../../components/tier1-screens/ListAllUsers";
-import API from "../../../API/API";
 import CallRecordingsOA from "../../../components/tier2-screens/CallRecordingsOA";
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -16,59 +12,86 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    const api = new API();
-
-    const resUserList = await api.GET("/portal-users/");
-
-    const finalUserList = [];
-    for (let i = 0; i < resUserList.response.length; i++) {
-      const currentUser = resUserList.response[i];
-
-      finalUserList.push({
-        name:
-          currentUser.auth_user.first_name +
-          " " +
-          currentUser.auth_user.last_name,
-        email: currentUser.auth_user.email,
-        status: currentUser.userstatusid.description,
-        actions: currentUser.auth_user.id,
-      });
-    }
-
-    const data = [
+    const callRecordingsTableData = [
       {
         key: "1",
-        name: "Peter Lock",
-        email: "PeterLock@gmail.com",
-        status: 33278579099,
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+        userName: "Peter Lock",
+        email: "Inbound Call",
+        totalTalkTime: "00:02:10",
       },
       {
         key: "2",
-        name: "Anna Frias",
-        email: "AnnaFrias@gmail.com",
-        status: 33278579099,
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+        userName: "Anna Frias",
+        email: "Inbound Call",
+        totalTalkTime: "00:02:10",
       },
       {
         key: "3",
-        name: "Samuel Harlock",
-        email: "SamuelHarlock@gmail.com",
-        status: 33278579099,
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+        userName: "Samuel Harlock",
+        email: "Inbound Call",
+        totalTalkTime: "00:02:10",
       },
       {
         key: "4",
-        name: "Sebastian Bones",
-        email: "SebastianBones@gmail.com",
-        status: 33278579099,
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+        userName: "Sebastian Bones",
+        email: "Inbound Call",
+        totalTalkTime: "00:02:10",
       },
     ];
 
     return {
       currentLanguage,
       // columns,
-      data,
+      callRecordingsTableData,
       user,
-      resUserList,
-      finalUserList,
     };
   }
   constructor(props) {
@@ -77,24 +100,14 @@ export default class extends Component {
   }
   componentDidMount() {
     systemLog.log(this.props);
-    const finalUserList = [];
-    for (let i = 0; i < this.props.resUserList.length; i++) {
-      const currentUser = this.props.resUserList.response[i];
-
-      finalUserList.push({
-        name: currentUser.first_name + currentUser.last_name,
-      });
-    }
-    console.log(finalUserList);
   }
 
   render() {
-    const { user, resUserList, finalUserList } = this.props;
-    console.log(resUserList.response[0], "USER LIST");
+    const { callRecordingsTableData } = this.props;
 
     return (
       <BaseLayout>
-        <CallRecordingsOA />
+        <CallRecordingsOA callRecordingsTableData={callRecordingsTableData} />
       </BaseLayout>
     );
   }
