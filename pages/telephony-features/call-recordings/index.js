@@ -28,7 +28,7 @@ export default class extends Component {
           },
         ],
         userName: "Peter Lock",
-        email: "Inbound Call",
+        type: "Inbound Call",
         totalTalkTime: "00:02:10",
       },
       {
@@ -46,8 +46,8 @@ export default class extends Component {
           },
         ],
         userName: "Anna Frias",
-        email: "Inbound Call",
-        totalTalkTime: "00:02:10",
+        type: "Inbound Call",
+        totalTalkTime: "00:02:00",
       },
       {
         key: "3",
@@ -64,8 +64,8 @@ export default class extends Component {
           },
         ],
         userName: "Samuel Harlock",
-        email: "Inbound Call",
-        totalTalkTime: "00:02:10",
+        type: "Inbound Call",
+        totalTalkTime: "00:01:34",
       },
       {
         key: "4",
@@ -82,8 +82,8 @@ export default class extends Component {
           },
         ],
         userName: "Sebastian Bones",
-        email: "Inbound Call",
-        totalTalkTime: "00:02:10",
+        type: "Inbound Call",
+        totalTalkTime: "00:02:40",
       },
     ];
 
