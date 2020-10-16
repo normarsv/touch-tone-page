@@ -1,6 +1,5 @@
 //The IP of the page
-export const mainIp =
-  "https://ec2-35-155-63-178.us-west-2.compute.amazonaws.com"; //process.env.API_MAIN_IP; //REGRESENLO A .env NO LO DEJEN DIRECTO
+export const mainIp = "https://touch-tone.guaodev.com"; //process.env.API_MAIN_IP; //REGRESENLO A .env NO LO DEJEN DIRECTO
 export let imageMainIp = process.env.NODE_ENV === "development" ? mainIp : "";
 
 //Name of session save
