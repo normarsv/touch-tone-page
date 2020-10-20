@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Button,
@@ -16,10 +16,31 @@ import ContentInnerHeader from "../misc/ContentInnerHeader";
 import Search from "antd/lib/input/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../authentication/UserContext";
 
 const { RangePicker } = DatePicker;
 
 const MyFindMe = ({}) => {
+  const { userInfo } = useContext(UserContext);
+  const [mockData, setMockData] = useState();
+  const [targetKeys, setTargetKeys] = useState();
+  const [titleByRole, setTitleByRole] = useState();
+
+  function TitleByRole(userInfo) {
+    switch (userInfo.group) {
+      case "OrganizationAdmin":
+        setTitleByRole("Ring Groups");
+        break;
+
+      case "EndUser":
+        setTitleByRole("My Find Me");
+        break;
+
+      default:
+        break;
+    }
+  }
+
   const props = {
     name: "file",
     action: "",
@@ -28,7 +49,7 @@ const MyFindMe = ({}) => {
     },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        // console.log(info.file, info.fileList);
       }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -46,13 +67,6 @@ const MyFindMe = ({}) => {
     { id: 5, day: "Friday" },
   ];
 
-  const [mockData, setMockData] = useState();
-  const [targetKeys, setTargetKeys] = useState();
-
-  useEffect(() => {
-    getMock();
-  }, []);
-
   const getMock = () => {
     const targetKeys = [];
     const mockData = [
@@ -63,19 +77,15 @@ const MyFindMe = ({}) => {
       { key: 5, title: "External Number 2 ", description: "" },
       { key: 6, title: "External Number 3 ", description: "" },
     ];
-    // for (let i = 0; i < 1; i++) {
-    //   const data = {
-    //     key: i.toString(),
-    //     title: `content ${i + 1}`,
-    //   };
-    //   if (data.chosen) {
-    //     targetKeys.push(data.key);
-    //   }
-    //   mockData.push(data);
-    // }
+
     setMockData(mockData);
     setTargetKeys(targetKeys);
   };
+
+  useEffect(() => {
+    getMock();
+    TitleByRole(userInfo);
+  }, []);
 
   const handleChange = (targetKeys) => {
     setTargetKeys(targetKeys);
@@ -83,11 +93,11 @@ const MyFindMe = ({}) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size="large" direction="vertical">
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">My Find Me</h1>
+          <h1 className="title-style">{titleByRole}</h1>
         </Row>
 
         <Space direction="horizontal" size="middle">

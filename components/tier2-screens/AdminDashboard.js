@@ -10,7 +10,7 @@ const AdminDashboard = ({ adminDashboardContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size="large" direction="vertical">
         <ContentInnerHeader />
 
         <Row>
@@ -26,7 +26,9 @@ const AdminDashboard = ({ adminDashboardContent }) => {
                 xl={8}
                 lg={12}
                 md={12}
-                style={{ display: "flex", justifyContent: "center" }}
+                sm={24}
+                xs={24}
+                className="flex-center"
               >
                 <motion.div
                   whileHover={{ scale: 1.002 }}

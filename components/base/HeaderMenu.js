@@ -108,6 +108,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           onClick={() => {
             router.replace("/" + routeToGo);
           }}
+          id="menu-header-logo"
         >
           <div className="page-side-menu-logo-container">
             <img className="page-side-menu-logo" src={"/logo.jpg"} />
