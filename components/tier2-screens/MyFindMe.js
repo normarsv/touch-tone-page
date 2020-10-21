@@ -130,10 +130,7 @@ const MyFindMe = ({}) => {
           <Space direction="vertical">
             <h4>On Hold Prompt</h4>
             <Upload {...props}>
-              <Button
-                className="primary-button-style alternate-button-style"
-                type="primary"
-              >
+              <Button className="primary-button-style alternate" type="primary">
                 <Space>
                   <FontAwesomeIcon icon={faUpload} /> Upload
                 </Space>
@@ -143,10 +140,7 @@ const MyFindMe = ({}) => {
           <Space direction="vertical">
             <h4>Anounce Prompt</h4>
             <Upload style={{ display: "flex" }} {...props}>
-              <Button
-                className="primary-button-style alternate-button-style"
-                type="primary"
-              >
+              <Button className="primary-button-style alternate" type="primary">
                 <Space>
                   <FontAwesomeIcon icon={faUpload} /> Upload
                 </Space>

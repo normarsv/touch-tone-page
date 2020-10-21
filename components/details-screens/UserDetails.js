@@ -67,7 +67,7 @@ const OrganizationServices = ({
             <Space>
               <Button
                 type="primary"
-                className="primary-button-style alternate-button-style"
+                className="primary-button-style alternate"
                 onClick={() =>
                   router.push("/list-users/details/organizationName/list-dids")
                 }

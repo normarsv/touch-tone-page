@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Row, Space, Switch } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import DialAssignerComponent from "./DialAssignerComponent";
 
 const SpeedDials = ({}) => {
   return (
@@ -13,7 +14,7 @@ const SpeedDials = ({}) => {
           <h1 className="title-style">Speed Dials</h1>
         </Row>
 
-        <div />
+        <DialAssignerComponent />
 
         <Row type="flex" justify="end">
           <Button className="primary-button-style" type="primary">

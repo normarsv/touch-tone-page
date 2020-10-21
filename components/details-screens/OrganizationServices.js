@@ -68,7 +68,7 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
             <Space>
               <Button
                 type="primary"
-                className="primary-button-style alternate-button-style"
+                className="primary-button-style alternate"
                 onClick={() =>
                   router.push(
                     "/list-organizations/details/organizationName/list-dids"
@@ -82,7 +82,7 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
               </Button>
               <Button
                 type="primary"
-                className="primary-button-style alternate-button-style"
+                className="primary-button-style alternate"
                 onClick={() =>
                   router.push({
                     pathname: "/list-users",

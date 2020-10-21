@@ -1,5 +1,5 @@
 import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
+import { Component, useContext } from "react";
 import API from "../../API/API";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { BaseLayout } from "../../layouts/BaseLayout";
@@ -11,30 +11,6 @@ export default class extends Component {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
-
-    if (user.group !== undefined) {
-      if (res) {
-        switch (user.group) {
-          case "SuperAdmin":
-            res.writeHead(302, {
-              Location: "/list-organizations",
-            });
-            break;
-          case "OrganizationAdmin":
-            res.writeHead(302, {
-              Location: "/admin-dashboard",
-            });
-            break;
-
-          default:
-            break;
-        }
-
-        res.end();
-      } else {
-        Router.push("/");
-      }
-    }
 
     const api = new API();
 

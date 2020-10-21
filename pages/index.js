@@ -30,7 +30,7 @@ export default class extends Component {
 
         res.end();
       } else {
-        Router.push("/");
+        // Router.push("/");
       }
     }
     const currentLanguage =

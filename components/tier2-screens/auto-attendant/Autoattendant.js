@@ -78,10 +78,7 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
             <label>entries</label>
           </Space>
           <Space size="small">
-            <Button
-              className="primary-button-style alternate-button-style"
-              type="primary"
-            >
+            <Button className="primary-button-style alternate" type="primary">
               <Space>
                 New Auto Attendant <FontAwesomeIcon icon={faPlusCircle} />
               </Space>
