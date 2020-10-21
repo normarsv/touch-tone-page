@@ -95,10 +95,7 @@ const Meetings = ({ meetingsContent }) => {
 
         <Row type="flex" justify="end">
           <Row>
-            <Button
-              type="primary"
-              className="primary-button-style alternate-button-style"
-            >
+            <Button type="primary" className="primary-button-style alternate">
               <Space>
                 Create Meeting <FontAwesomeIcon icon={faPlusCircle} />
               </Space>

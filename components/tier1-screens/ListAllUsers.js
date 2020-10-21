@@ -128,7 +128,7 @@ const ListAllUsers = ({ data }) => {
               <Space>
                 <Button
                   type="primary"
-                  className="primary-button-style alternate-button-style"
+                  className="primary-button-style alternate"
                   onClick={() => router.push("/list-users/bulk-import")}
                 >
                   <Space>
@@ -138,7 +138,7 @@ const ListAllUsers = ({ data }) => {
                 </Button>
                 <Button
                   type="primary"
-                  className="primary-button-style alternate-button-style"
+                  className="primary-button-style alternate"
                   onClick={() => router.push("/list-users/new-user")}
                 >
                   <Space>

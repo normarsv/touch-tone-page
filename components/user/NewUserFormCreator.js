@@ -43,10 +43,7 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
       case "button":
         return (
           <>
-            <Button
-              className="primary-button-style alternate-button-style"
-              type="primary"
-            >
+            <Button className="primary-button-style alternate" type="primary">
               <Space>
                 <FontAwesomeIcon icon={icon} /> {title}
               </Space>

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Space, Row, Checkbox, Button, Table, Switch, Divider } from "antd";
-import Search from "antd/lib/input/Search";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEraser, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/dist/client/router";
+import { Checkbox, Row, Space, Switch, Table } from "antd";
+import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
-import { DateComponent } from "../base/DateComponent";
+import { useRouter } from "next/dist/client/router";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const ListAllOrganizations = ({ data }) => {

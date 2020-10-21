@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Button,
+  Collapse,
+  Dropdown,
   Input,
+  Menu,
   message,
   Row,
   Select,
@@ -13,8 +16,11 @@ import {
 import ContentInnerHeader from "../../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { TextArea } = Input;
+const { Option } = Select;
+const { Panel } = Collapse;
 
 const AutoAttendantDetails = ({}) => {
   const props = {
@@ -70,6 +76,23 @@ const AutoAttendantDetails = ({}) => {
     setTargetKeys(targetKeys);
   };
 
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="Group title">
+        <Menu.Item>1st menu item</Menu.Item>
+        <Menu.Item>2nd menu item</Menu.Item>
+      </Menu.ItemGroup>
+      <SubMenu title="sub menu">
+        <Menu.Item>3rd menu item</Menu.Item>
+        <Menu.Item>4th menu item</Menu.Item>
+      </SubMenu>
+      <SubMenu title="disabled sub menu" disabled>
+        <Menu.Item>5d menu item</Menu.Item>
+        <Menu.Item>6th menu item</Menu.Item>
+      </SubMenu>
+    </Menu>
+  );
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -98,7 +121,7 @@ const AutoAttendantDetails = ({}) => {
               <Upload {...props}>
                 <Button
                   type="primary"
-                  className="primary-button-style alternate-button-style"
+                  className="primary-button-style alternate"
                 >
                   <Space>
                     <FontAwesomeIcon icon={faUpload} /> Upload{" "}

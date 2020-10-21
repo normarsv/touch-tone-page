@@ -4,7 +4,7 @@ import { Space, Row } from "antd";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { DateComponent } from "../base/DateComponent";
+import { DateComponent } from "./DateComponent";
 import { useRouter } from "next/dist/client/router";
 
 const ContentInnerHeader = ({ setBackOption }) => {

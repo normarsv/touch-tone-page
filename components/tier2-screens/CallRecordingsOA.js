@@ -124,7 +124,7 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
             <Button
               type="primary"
               style={{ borderRadius: "2rem", width: "1rem" }}
-              className="flex-center primary-button-style alternate-button-style"
+              className="flex-center primary-button-style alternate"
             >
               <FontAwesomeIcon icon={faDownload} />
             </Button>
@@ -163,7 +163,7 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
           <Space size="small">
             <Button
               disabled={selectedRow.length === 0}
-              className="primary-button-style alternate-button-style"
+              className="primary-button-style alternate"
               type="primary"
             >
               Export

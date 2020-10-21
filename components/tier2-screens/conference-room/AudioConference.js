@@ -99,7 +99,7 @@ const AudioConference = ({ audioConferenceContent }) => {
           <Row>
             <Button
               type="primary"
-              className="primary-button-style alternate-button-style"
+              className="primary-button-style alternate"
               onClick={() => router.push("/audio-conference/new-conference")}
             >
               <Space>

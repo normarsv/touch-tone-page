@@ -111,7 +111,7 @@ const NewConferenceRoom = ({}) => {
               <Upload {...props}>
                 <Button
                   type="primary"
-                  className="primary-button-style alternate-button-style"
+                  className="primary-button-style alternate"
                 >
                   <Space>
                     <FontAwesomeIcon icon={faUpload} /> Upload{" "}

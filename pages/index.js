@@ -14,12 +14,12 @@ export default class extends Component {
       if (res) {
         switch (user.group) {
           case "SuperAdmin":
-            res.writeHead(303, {
+            res.writeHead(302, {
               Location: "/list-organizations",
             });
             break;
           case "OrganizationAdmin":
-            res.writeHead(303, {
+            res.writeHead(302, {
               Location: "/admin-dashboard",
             });
             break;
@@ -30,9 +30,8 @@ export default class extends Component {
 
         res.end();
       } else {
-        Router.push("/");
+        // Router.push("/");
       }
-      return {};
     }
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;

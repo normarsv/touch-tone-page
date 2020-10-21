@@ -81,10 +81,7 @@ const Queues = ({ queueTableContent }) => {
             />
           </Row>
           <Space size="small">
-            <Button
-              className="primary-button-style alternate-button-style"
-              type="primary"
-            >
+            <Button className="primary-button-style alternate" type="primary">
               <Space>
                 Create Queue <FontAwesomeIcon icon={faPlusCircle} />
               </Space>

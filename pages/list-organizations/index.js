@@ -1,15 +1,13 @@
 import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
+import { Component, useContext } from "react";
+import API from "../../API/API";
+import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
-import { MainScreen } from "../../components/main-screen/MainScreen";
-import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
-import { Space } from "antd";
-import API from "../../API/API";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
+  static async getInitialProps({ query, res, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);

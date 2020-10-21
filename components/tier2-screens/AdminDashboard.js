@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
 import { Button, Col, Row, Space } from "antd";
-import { useRouter } from "next/dist/client/router";
 import { motion } from "framer-motion";
+import { useRouter } from "next/dist/client/router";
+import PropTypes from "prop-types";
+import React from "react";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const AdminDashboard = ({ adminDashboardContent }) => {
   const router = useRouter();
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size="large" direction="vertical">
         <ContentInnerHeader />
 
         <Row>
@@ -26,7 +26,9 @@ const AdminDashboard = ({ adminDashboardContent }) => {
                 xl={8}
                 lg={12}
                 md={12}
-                style={{ display: "flex", justifyContent: "center" }}
+                sm={24}
+                xs={24}
+                className="flex-center"
               >
                 <motion.div
                   whileHover={{ scale: 1.002 }}

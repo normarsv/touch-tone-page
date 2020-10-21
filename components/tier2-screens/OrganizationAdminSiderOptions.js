@@ -111,7 +111,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             title: "Inbound Contact Center",
             route: "contact-center",
           },
-          { id: 3, key: "ringGroup", title: "Ring Group", route: "ring-group" },
+          // { id: 3, key: "ringGroup", title: "Ring Group", route: "ring-group" },
         ],
       },
     ],
@@ -125,10 +125,10 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
       },
       {
         id: 2,
-        key: "myFindme",
-        title: "My Find Me",
+        key: "ringGroups",
+        title: "Ring Groups",
         icon: faMapMarker,
-        route: "/telephony-features/my-findme",
+        route: "/telephony-features/ring-groups",
       },
       {
         id: 3,

@@ -56,7 +56,7 @@ const NewUser = ({ userServicesForm, editServiceContent }) => {
           <Space size="large">
             <Button
               onClick={() => pushRoute()}
-              className="primary-button-style cancel-button-style"
+              className="primary-button-style cancel"
             >
               Cancel User
             </Button>
