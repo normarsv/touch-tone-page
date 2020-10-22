@@ -14,7 +14,22 @@ export default class extends Component {
 
     const api = new API();
 
-    const resOrganizations = await api.GET("/organizations/");
+    const resOrganizations = await api.GET("/Tools/organizatiosT/");
+
+    let organizationsTableList = [];
+
+    for (let i = 0; i < resOrganizations.response.length; i++) {
+      const currentElement = resOrganizations.response[i];
+      organizationsTableList.push({
+        name: currentElement.name,
+        billingId: currentElement.billingId,
+        orgDist: "",
+        didsCount: "",
+        users: "",
+        actions: currentElement.id,
+        status: currentElement.status,
+      });
+    }
 
     const data = [
       {
@@ -57,6 +72,7 @@ export default class extends Component {
       data,
       user,
       resOrganizations,
+      organizationsTableList,
     };
   }
   constructor(props) {
@@ -67,11 +83,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
+    const { organizationsTableList } = this.props;
     // console.log(user);
     return (
       <BaseLayout>
-        <ListAllOrganizations data={this.props.data} />
+        <ListAllOrganizations organizationsTableList={organizationsTableList} />
       </BaseLayout>
     );
   }

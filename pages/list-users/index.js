@@ -1,13 +1,9 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import API from "../../API/API";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
-import { MainScreen } from "../../components/main-screen/MainScreen";
-import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
-import { Space } from "antd";
-import ListAllUsers from "../../components/tier1-screens/ListAllUsers";
-import API from "../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -17,21 +13,21 @@ export default class extends Component {
 
     const api = new API();
 
-    const resUserList = await api.GET("/portal-users/");
+    const resUserList = await api.GET("/Users/");
 
     const finalUserList = [];
     for (let i = 0; i < resUserList.response.length; i++) {
       const currentUser = resUserList.response[i];
 
-      finalUserList.push({
-        name:
-          currentUser.auth_user.first_name +
-          " " +
-          currentUser.auth_user.last_name,
-        email: currentUser.auth_user.email,
-        status: currentUser.userstatusid.description,
-        actions: currentUser.auth_user.id,
-      });
+      // finalUserList.push({
+      //   name:
+      //     currentUser.auth_user.first_name +
+      //     " " +
+      //     currentUser.auth_user.last_name,
+      //   email: currentUser.auth_user.email,
+      //   status: currentUser.userstatusid.description,
+      //   actions: currentUser.auth_user.id,
+      // });
     }
 
     const data = [
@@ -92,9 +88,7 @@ export default class extends Component {
     console.log(resUserList.response[0], "USER LIST");
 
     return (
-      <BaseLayout>
-        <ListAllUsers data={finalUserList} />
-      </BaseLayout>
+      <BaseLayout>{/* <ListAllUsers data={finalUserList} /> */}</BaseLayout>
     );
   }
 }

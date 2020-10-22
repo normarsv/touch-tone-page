@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
-const ListAllOrganizations = ({ data }) => {
+const ListAllOrganizations = ({ organizationsTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
 
@@ -38,7 +38,7 @@ const ListAllOrganizations = ({ data }) => {
     },
     {
       title: "Billing ID in Rev.io",
-      dataIndex: "billing",
+      dataIndex: "billingId",
     },
     {
       title: "Organization Distribuitor",
@@ -55,11 +55,11 @@ const ListAllOrganizations = ({ data }) => {
     {
       title: "Actions",
       dataIndex: "actions",
-      render: (linkDetails, edit) => (
+      render: (actions) => (
         <Space className="flex-center">
           <motion.div
             onClick={() =>
-              router.push("/list-organizations/details/organizationName")
+              router.push("/list-organizations/details/" + actions)
             }
             whileHover={hoverAnimation}
           >
@@ -67,9 +67,7 @@ const ListAllOrganizations = ({ data }) => {
           </motion.div>
           |
           <motion.div
-            onClick={() =>
-              router.push("/list-organizations/edit/organizationName")
-            }
+            onClick={() => router.push("/list-organizations/edit/" + actions)}
             whileHover={hoverAnimation}
           >
             Edit
@@ -80,9 +78,13 @@ const ListAllOrganizations = ({ data }) => {
     {
       title: "Active / Deactivate",
       dataIndex: "status",
-      render: () => (
+      render: (status) => (
         <div className="flex-center">
-          <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+          <Switch
+            checked={status}
+            checkedChildren="ON"
+            unCheckedChildren="OFF"
+          />
         </div>
       ),
     },
@@ -121,7 +123,7 @@ const ListAllOrganizations = ({ data }) => {
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
-          dataSource={data}
+          dataSource={organizationsTableList}
         />
       </Space>
     </div>

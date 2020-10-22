@@ -4,12 +4,21 @@ import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
 import OrganizationServices from "../../../components/details-screens/OrganizationServices";
 import { BaseLayout } from "../../../layouts/BaseLayout";
+import API from "../../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resOrganization = await api.GET(
+      "/Tools/organizatiosT/" + query.idOrg
+    );
+
+    const organizationInfo = resOrganization.response;
 
     const servicesContent = {
       editable: true,
@@ -27,6 +36,7 @@ export default class extends Component {
       user,
       editServiceContent,
       servicesContent,
+      organizationInfo,
     };
   }
   constructor(props) {
@@ -37,12 +47,17 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
+    const {
+      organizationInfo,
+      servicesContent,
+      editServiceContent,
+    } = this.props;
     return (
       <BaseLayout>
         <OrganizationServices
-          servicesContent={this.props.servicesContent}
-          editServiceContent={this.props.editServiceContent}
+          organizationInfo={organizationInfo}
+          servicesContent={servicesContent}
+          editServiceContent={editServiceContent}
         />
       </BaseLayout>
     );
