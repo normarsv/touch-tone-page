@@ -1,5 +1,6 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import API from "../../../API/API";
 import UserServices from "../../../components/edit-screens/UserServices";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
@@ -10,6 +11,12 @@ export default class extends Component {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resUser = await api.GET("/Users/" + query.idOrg);
+
+    const userInfo = resUser.response.authUser;
 
     const servicesContent = {
       editable: true,
@@ -27,6 +34,7 @@ export default class extends Component {
       user,
       editServiceContent,
       servicesContent,
+      userInfo,
     };
   }
   constructor(props) {
@@ -37,10 +45,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
+    const { userInfo } = this.props;
     return (
       <BaseLayout>
         <UserServices
+          userInfo={userInfo}
           servicesContent={this.props.servicesContent}
           editServiceContent={this.props.editServiceContent}
         />

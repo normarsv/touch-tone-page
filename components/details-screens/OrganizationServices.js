@@ -54,7 +54,7 @@ const OrganizationServices = ({
               disabled={!editable}
             />
           </Space>
-          {!editable && (
+          {/* {!editable && (
             <Button
               type="primary"
               onClick={() =>
@@ -63,7 +63,7 @@ const OrganizationServices = ({
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>
-          )}
+          )} */}
           <Space direction="vertical">
             <h4>Billing ID in Rev.io</h4>
             <Input
@@ -95,7 +95,7 @@ const OrganizationServices = ({
                 onClick={() =>
                   router.push({
                     pathname: "/list-users",
-                    query: { idOrg: "organizationName" },
+                    query: { orgId: organizationInfo.id },
                   })
                 }
               >

@@ -39,24 +39,29 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     {
       title: "Billing ID in Rev.io",
       dataIndex: "billingId",
+      width: "9rem",
     },
     {
       title: "Organization Distribuitor",
       dataIndex: "orgDist",
+      width: "10rem",
     },
     {
       title: "Count of DIDs",
       dataIndex: "didsCount",
+      width: "7rem",
     },
     {
       title: "Count of Users",
       dataIndex: "users",
+      width: "7rem",
     },
     {
       title: "Actions",
       dataIndex: "actions",
+      width: "7rem",
       render: (actions) => (
-        <Space className="flex-center">
+        <Space>
           <motion.div
             onClick={() =>
               router.push("/list-organizations/details/" + actions)
@@ -65,19 +70,13 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
           >
             Details
           </motion.div>
-          |
-          <motion.div
-            onClick={() => router.push("/list-organizations/edit/" + actions)}
-            whileHover={hoverAnimation}
-          >
-            Edit
-          </motion.div>
         </Space>
       ),
     },
     {
       title: "Active / Deactivate",
       dataIndex: "status",
+      width: "9rem",
       render: (status) => (
         <div className="flex-center">
           <Switch

@@ -3,7 +3,7 @@ import { Component, useContext } from "react";
 import API from "../../API/API";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
+import { removeAppUser, systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
@@ -21,11 +21,11 @@ export default class extends Component {
     for (let i = 0; i < resOrganizations.response.length; i++) {
       const currentElement = resOrganizations.response[i];
       organizationsTableList.push({
-        name: currentElement.name,
+        name: currentElement.organzationName,
         billingId: currentElement.billingId,
-        orgDist: "",
-        didsCount: "",
-        users: "",
+        orgDist: currentElement.distributor,
+        didsCount: currentElement.dids,
+        users: currentElement.users,
         actions: currentElement.id,
         status: currentElement.status,
       });

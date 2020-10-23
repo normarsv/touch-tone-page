@@ -8,11 +8,17 @@ import EditServices from "../edit-screens/EditServices";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const OrganizationServices = ({
+  userInfo,
   servicesContent,
   editServiceContent,
   telephonyFeatures,
 }) => {
   const router = useRouter();
+
+  const [fieldsValues, setFieldsValues] = useState({
+    name: userInfo.firstName + " " + userInfo.lastName,
+    email: userInfo.email,
+  });
 
   const [editable, setEditable] = useState(servicesContent.editable);
   const key = "updatable";
@@ -27,7 +33,7 @@ const OrganizationServices = ({
     }, 2000);
   };
 
-  console.log(router.query.idOrg);
+  console.log(userInfo);
 
   const currentUserId = router.query.idOrg;
 
@@ -44,23 +50,28 @@ const OrganizationServices = ({
         <Space direction="horizontal" size="middle" className="flex-end">
           <Space direction="vertical">
             <h4>Name</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.name}
+              disabled={!editable}
+            />
           </Space>
           {!editable && (
             <Button
               type="primary"
-              onClick={() => router.push("/list-users/edit/" + currentUserId)}
+              onClick={() => router.push("/list-users/edit/" + userInfo.id)}
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>
           )}
-          <Space direction="vertical">
-            <h4>Billing ID in Rev.io</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
-          </Space>
+
           <Space direction="vertical">
             <h4>Email</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.email}
+              disabled={!editable}
+            />
           </Space>
 
           {!editable && (
