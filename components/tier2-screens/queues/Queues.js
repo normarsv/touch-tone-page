@@ -69,7 +69,7 @@ const Queues = ({ queueTableContent }) => {
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">Manage Users</h1>
+          <h1 className="title-style">Queues</h1>
         </Row>
 
         <Row type="flex" justify="space-between">
@@ -80,9 +80,9 @@ const Queues = ({ queueTableContent }) => {
               style={{ width: 300 }}
             />
           </Row>
-          <Space size="small">
+          <Space size="small" className="spaced-between">
             <Button className="primary-button-style alternate" type="primary">
-              <Space>
+              <Space className="flex-center">
                 Create Queue <FontAwesomeIcon icon={faPlusCircle} />
               </Space>
             </Button>
