@@ -8,12 +8,17 @@ import Dragger from "antd/lib/upload/Dragger";
 import { InboxOutlined } from "@ant-design/icons";
 import Search from "antd/lib/input/Search";
 import API from "../../API/API";
+import { useRouter } from "next/dist/client/router";
+
+const key = "updatable";
 
 const BulkImport = ({}) => {
   const [resBulkList, setResBulkList] = useState();
   const [renderList, setRenderList] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [rawCsv, setRawCsv] = useState();
+
+  const router = useRouter();
 
   const columns = [
     {
@@ -98,6 +103,17 @@ const BulkImport = ({}) => {
     formDataUpload.append("file", rawCsv);
 
     const apiUploadFinalList = await api.doUploadUserBulkImport(formDataUpload);
+
+    message.loading({ content: "Loading...", key });
+    setTimeout(() => {
+      message.success({
+        content: "Csv uploaded correctly, Redirecting to User List...",
+        key,
+        duration: 2,
+      });
+      router.replace("/list-users");
+    }, 2000);
+
     console.log(apiUploadFinalList, "response");
   }
 

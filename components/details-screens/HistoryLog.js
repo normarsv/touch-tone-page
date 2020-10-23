@@ -1,17 +1,10 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Divider, Popconfirm, Row, Space, Table } from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import { useRouter } from "next/dist/client/router";
-import { motion } from "framer-motion";
-import { DateComponent } from "../base/DateComponent";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCalendarAlt,
-  faClock,
-  faExclamationCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import moment from "moment/min/moment-with-locales.js";
+import { Popconfirm, Row, Space, Table } from "antd";
+import { motion } from "framer-motion";
+import { useRouter } from "next/dist/client/router";
+import React, { useState } from "react";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const HistoryLog = ({ data }) => {
   const router = useRouter();

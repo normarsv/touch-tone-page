@@ -39,7 +39,7 @@ export default class API extends RestClient {
       body: formDataUpload,
       headers: {
         Authorization: "Bearer " + this.authToken,
-        ...this.extraHeader,
+        // ...this.extraHeader,
       },
     });
     const body = await res.json();
