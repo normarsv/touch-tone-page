@@ -4,12 +4,19 @@ import { systemLog } from "../../../../scripts/General";
 import { baseLanguage } from "../../../../scripts/MainInfoData";
 import UserDetails from "../../../../components/details-screens/UserDetails";
 import { BaseLayout } from "../../../../layouts/BaseLayout";
+import API from "../../../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resUser = await api.GET("/Users/" + query.idOrg);
+
+    const userInfo = resUser.response.authUser;
 
     const servicesContent = {
       editable: false,
@@ -34,6 +41,8 @@ export default class extends Component {
       editServiceContent,
       servicesContent,
       telephonyFeatures,
+      query,
+      userInfo,
     };
   }
   constructor(props) {
@@ -49,11 +58,13 @@ export default class extends Component {
       servicesContent,
       editServiceContent,
       telephonyFeatures,
+      userInfo,
     } = this.props;
 
     return (
       <BaseLayout>
         <UserDetails
+          userInfo={userInfo}
           servicesContent={servicesContent}
           editServiceContent={editServiceContent}
           telephonyFeatures={telephonyFeatures}

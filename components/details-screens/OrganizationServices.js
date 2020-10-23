@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Space, Row, Input, Button, message } from "antd";
+import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faEdit,
-  faList,
-} from "@fortawesome/free-solid-svg-icons";
+import { Button, Input, message, Row, Space } from "antd";
 import Search from "antd/lib/input/Search";
-import EditServices from "../edit-screens/EditServices";
-import { DateComponent } from "../base/DateComponent";
 import { useRouter } from "next/dist/client/router";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import EditServices from "../edit-screens/EditServices";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
-const OrganizationServices = ({ servicesContent, editServiceContent }) => {
+const OrganizationServices = ({
+  organizationInfo,
+  servicesContent,
+  editServiceContent,
+}) => {
   const router = useRouter();
-
   const [editable, setEditable] = useState(servicesContent.editable);
+  const [fieldsValues, setFieldsValues] = useState({
+    name: organizationInfo.name,
+    billingId: organizationInfo.billingId,
+  });
+
   const key = "updatable";
   const openMessage = () => {
     message.loading({ content: "Saving changes...", key });
@@ -47,21 +48,29 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
         <Space direction="horizontal" size="middle" className="flex-end">
           <Space direction="vertical">
             <h4>Name</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.name}
+              disabled={!editable}
+            />
           </Space>
-          {!editable && (
+          {/* {!editable && (
             <Button
               type="primary"
               onClick={() =>
-                router.push("/list-organizations/edit/organizationName")
+                router.push("/list-organizations/edit/" + organizationInfo.id)
               }
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>
-          )}
+          )} */}
           <Space direction="vertical">
             <h4>Billing ID in Rev.io</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.billingId}
+              disabled={!editable}
+            />
           </Space>
 
           {!editable && (
@@ -86,7 +95,7 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
                 onClick={() =>
                   router.push({
                     pathname: "/list-users",
-                    query: { idOrg: "organizationName" },
+                    query: { orgId: organizationInfo.id },
                   })
                 }
               >

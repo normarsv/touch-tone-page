@@ -9,7 +9,7 @@ import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
-const ListAllUsers = ({ data }) => {
+const ListAllUsers = ({ userTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
 
@@ -33,6 +33,10 @@ const ListAllUsers = ({ data }) => {
     router.push("/list-users/edit/organizationName");
   };
 
+  async function searchByOrg(input) {
+    const api = new API();
+  }
+
   const columns = [
     {
       title: "Name",
@@ -44,23 +48,23 @@ const ListAllUsers = ({ data }) => {
       dataIndex: "email",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "DID",
+      dataIndex: "did",
     },
     {
       title: "Actions",
       dataIndex: "actions",
-      render: (linkDetails) => (
+      render: (actions) => (
         <Space className="flex-center">
           <motion.div
-            onClick={() => router.push("/list-users/details/" + linkDetails)}
+            onClick={() => router.push("/list-users/details/" + actions)}
             whileHover={hoverAnimation}
           >
             Details
           </motion.div>
           |
           <motion.div
-            onClick={() => router.push("/list-users/edit/" + linkDetails)}
+            onClick={() => router.push("/list-users/edit/" + actions)}
             whileHover={hoverAnimation}
           >
             Edit
@@ -71,9 +75,13 @@ const ListAllUsers = ({ data }) => {
     {
       title: "Active / Deactivate",
       dataIndex: "status",
-      render: () => (
+      render: (status) => (
         <div className="flex-center">
-          <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+          <Switch
+            checked={status}
+            checkedChildren="ON"
+            unCheckedChildren="OFF"
+          />
         </div>
       ),
     },
@@ -96,6 +104,7 @@ const ListAllUsers = ({ data }) => {
         <Search
           placeholder="Search organization..."
           enterButton
+          onSearch={(input) => searchByOrg(input)}
           style={{ width: 300 }}
         />
 
@@ -105,7 +114,7 @@ const ListAllUsers = ({ data }) => {
               <Checkbox onChange={() => rowSelection}>Select all</Checkbox> |{" "}
               <FontAwesomeIcon icon={faEraser} />
             </Space>
-            <Space size="small">
+            <Space size="small" className="spaced">
               <label>Show</label>
               <Select
                 defaultValue="10"
@@ -156,7 +165,7 @@ const ListAllUsers = ({ data }) => {
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
-          dataSource={data}
+          dataSource={userTableList}
         />
       </Space>
     </div>

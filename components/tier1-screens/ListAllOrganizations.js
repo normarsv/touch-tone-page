@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
-const ListAllOrganizations = ({ data }) => {
+const ListAllOrganizations = ({ organizationsTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
 
@@ -38,41 +38,37 @@ const ListAllOrganizations = ({ data }) => {
     },
     {
       title: "Billing ID in Rev.io",
-      dataIndex: "billing",
+      dataIndex: "billingId",
+      width: "9rem",
     },
     {
       title: "Organization Distribuitor",
       dataIndex: "orgDist",
+      width: "10rem",
     },
     {
       title: "Count of DIDs",
       dataIndex: "didsCount",
+      width: "7rem",
     },
     {
       title: "Count of Users",
       dataIndex: "users",
+      width: "7rem",
     },
     {
       title: "Actions",
       dataIndex: "actions",
-      render: (linkDetails, edit) => (
-        <Space className="flex-center">
+      width: "7rem",
+      render: (actions) => (
+        <Space>
           <motion.div
             onClick={() =>
-              router.push("/list-organizations/details/organizationName")
+              router.push("/list-organizations/details/" + actions)
             }
             whileHover={hoverAnimation}
           >
             Details
-          </motion.div>
-          |
-          <motion.div
-            onClick={() =>
-              router.push("/list-organizations/edit/organizationName")
-            }
-            whileHover={hoverAnimation}
-          >
-            Edit
           </motion.div>
         </Space>
       ),
@@ -80,9 +76,14 @@ const ListAllOrganizations = ({ data }) => {
     {
       title: "Active / Deactivate",
       dataIndex: "status",
-      render: () => (
+      width: "9rem",
+      render: (status) => (
         <div className="flex-center">
-          <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+          <Switch
+            checked={status}
+            checkedChildren="ON"
+            unCheckedChildren="OFF"
+          />
         </div>
       ),
     },
@@ -121,7 +122,7 @@ const ListAllOrganizations = ({ data }) => {
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
-          dataSource={data}
+          dataSource={organizationsTableList}
         />
       </Space>
     </div>

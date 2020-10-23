@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Space, Row, Input, Button, message } from "antd";
+import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faEdit,
-  faList,
-} from "@fortawesome/free-solid-svg-icons";
+import { Button, Input, message, Row, Space } from "antd";
 import Search from "antd/lib/input/Search";
-import EditServices from "./EditServices";
-import { DateComponent } from "../base/DateComponent";
 import { useRouter } from "next/dist/client/router";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import EditServices from "./EditServices";
 
-const OrganizationServices = ({ servicesContent, editServiceContent }) => {
+const OrganizationServices = ({
+  userInfo,
+  servicesContent,
+  editServiceContent,
+}) => {
+  const [editable, setEditable] = useState(servicesContent.editable);
+  const [fieldsValues, setFieldsValues] = useState({
+    name: userInfo.firstName + " " + userInfo.lastName,
+    email: userInfo.email,
+  });
   const router = useRouter();
 
-  const [editable, setEditable] = useState(servicesContent.editable);
   const key = "updatable";
   const openMessage = () => {
     message.loading({ content: "Saving changes...", key });
@@ -43,7 +44,11 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
         <Space direction="horizontal" size="middle" className="flex-end">
           <Space direction="vertical">
             <h4>Name</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.name}
+              disabled={!editable}
+            />
           </Space>
           {!editable && (
             <Button
@@ -56,8 +61,12 @@ const OrganizationServices = ({ servicesContent, editServiceContent }) => {
             </Button>
           )}
           <Space direction="vertical">
-            <h4>Billing ID in Rev.io</h4>
-            <Input style={{ width: 300 }} disabled={!editable} />
+            <h4>Email</h4>
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.email}
+              disabled={!editable}
+            />
           </Space>
 
           {!editable && (
