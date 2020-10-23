@@ -104,7 +104,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
         </Row>
 
         <Row type="flex" justify="space-between">
-          <Space size="middle">
+          <Space size="middle" className="spaced-between">
             <Checkbox onChange={() => rowSelection}>Select all</Checkbox> |{" "}
             <FontAwesomeIcon icon={faEraser} />
           </Space>

@@ -109,7 +109,7 @@ const ListAllUsers = ({ userTableList }) => {
         />
 
         <Row type="flex" justify="space-between">
-          <Space size="large">
+          <Space size="large" className="spaced-between">
             <Space size="small">
               <Checkbox onChange={() => rowSelection}>Select all</Checkbox> |{" "}
               <FontAwesomeIcon icon={faEraser} />

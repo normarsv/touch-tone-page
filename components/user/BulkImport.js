@@ -1,29 +1,114 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { message, Row, Space } from "antd";
+import { Button, message, Row, Space, Table } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import Dragger from "antd/lib/upload/Dragger";
 import { InboxOutlined } from "@ant-design/icons";
 import Search from "antd/lib/input/Search";
+import API from "../../API/API";
 
 const BulkImport = ({}) => {
+  const [resBulkList, setResBulkList] = useState();
+  const [renderList, setRenderList] = useState(false);
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [rawCsv, setRawCsv] = useState();
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      fixed: "left",
+      width: "10%",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      width: "25%",
+    },
+    {
+      title: "Organization",
+      dataIndex: "org",
+      width: "25%",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      width: "10%",
+    },
+  ];
+
+  const api = new API("", {
+    "Content-Type": 'multipart/form-data;boundary="boundary"',
+    "Access-Control-Allow-Origin": "*",
+  });
+
   const props = {
     name: "file",
-    multiple: true,
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    onChange(info) {
+    multiple: false,
+    action: "",
+    async onChange(info) {
+      console.log(info);
+
       const { status } = info.file;
+      console.log(status);
+
       if (status !== "uploading") {
-        console.log(info.file, info.fileList);
+        var formDataUpload = new FormData();
+        formDataUpload.append("file", info.file.originFileObj);
+
+        const apiResBulkUpload = await api.doVerifyUserBulkImport(
+          formDataUpload
+        );
+
+        const finalUserList = [];
+        for (let i = 0; i < apiResBulkUpload.length; i++) {
+          const currentUser = apiResBulkUpload[i];
+
+          finalUserList.push({
+            name: currentUser.firstName + " " + currentUser.lastName,
+            email: currentUser.email,
+            org: currentUser.organizationName,
+            role: "End User",
+          });
+        }
+
+        setResBulkList(finalUserList);
+
+        console.log(apiResBulkUpload);
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
+        setRawCsv(info.file.originFileObj);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
+  };
+
+  function revertImport() {
+    setResBulkList(undefined);
+    setRenderList(false);
+  }
+
+  async function uploadCsv() {
+    // rawCsv;
+    var formDataUpload = new FormData();
+    formDataUpload.append("file", rawCsv);
+
+    const apiUploadFinalList = await api.doUploadUserBulkImport(formDataUpload);
+    console.log(apiUploadFinalList, "response");
+  }
+
+  const onSelectChange = (selectedRowKeys) => {
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
+    setSelectedRow(selectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRow,
+    onChange: onSelectChange,
   };
 
   return (
@@ -34,27 +119,90 @@ const BulkImport = ({}) => {
           <h1 className="title-style">Bulk Import</h1>
         </Row>
         <Row type="flex" justify="space-between">
-          <Search placeholder="Search..." enterButton style={{ width: 300 }} />
+          {renderList ? (
+            <Search
+              placeholder="Search..."
+              enterButton
+              style={{ width: 300 }}
+            />
+          ) : (
+            <div />
+          )}
           <h2 className="title-style">
             Help <FontAwesomeIcon icon={faQuestionCircle} />
           </h2>
         </Row>
-        <Row type="flex" justify="center">
-          <Dragger {...props}>
-            <Space size="middle" direction="vertical" style={{ width: "80%" }}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibit from
-                uploading company data or other band files
-              </p>
-            </Space>
-          </Dragger>
-        </Row>
+
+        {!renderList ? (
+          //Render file uploader
+          <>
+            <Row type="flex" justify="center">
+              <Dragger
+                style={{ width: "100%" }}
+                showUploadList={false}
+                {...props}
+              >
+                <Space
+                  size="middle"
+                  direction="vertical"
+                  style={{ width: "80%" }}
+                >
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibit from
+                    uploading company data or other band files
+                  </p>
+                </Space>
+              </Dragger>
+            </Row>
+            <Row type="flex" justify="center">
+              <Button
+                disabled={!resBulkList}
+                type="primary"
+                className="primary-button-style"
+                onClick={() => setRenderList(true)}
+              >
+                Continue{" "}
+              </Button>
+            </Row>{" "}
+          </>
+        ) : (
+          //Render bulk table
+          <>
+            {console.log(rawCsv, "rawcsv")}
+            <Row type="flex" justify="end">
+              <div>
+                <Space direction="horizontal">
+                  <Button
+                    className="primary-button-style cancel"
+                    onClick={() => revertImport()}
+                  >
+                    Revert
+                  </Button>
+                  <Button
+                    onClick={() => uploadCsv()}
+                    type="primary"
+                    className="primary-button-style"
+                  >
+                    Confirm
+                  </Button>
+                </Space>
+              </div>
+            </Row>
+            <Table
+              rowSelection={rowSelection}
+              bordered
+              scroll={{ x: 1000 }}
+              columns={columns}
+              dataSource={resBulkList}
+            />
+          </>
+        )}
       </Space>
     </div>
   );
