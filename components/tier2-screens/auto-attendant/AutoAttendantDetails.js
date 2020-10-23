@@ -17,6 +17,7 @@ import ContentInnerHeader from "../../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import SubMenu from "antd/lib/menu/SubMenu";
+import DialAssignerComponent from "../../telephony-features/DialAssignerComponent";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -139,24 +140,8 @@ const AutoAttendantDetails = ({}) => {
 
         <div className="transfer-main-div">
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <h4>Destination</h4>
-            <Select
-              placeholder="Select destination"
-              className="select-arrow-boxes"
-            ></Select>
-            <Transfer
-              dataSource={mockData}
-              showSearch
-              titles={[<h4></h4>, <h4>Destination Users</h4>]}
-              listStyle={{
-                width: "100%",
-                height: "30rem",
-              }}
-              operations={["To right", "To left"]}
-              targetKeys={targetKeys}
-              onChange={handleChange}
-              render={(item) => `${item.title}`}
-            />
+            <h3>Destination Select</h3>
+            <DialAssignerComponent />
           </Space>
         </div>
 

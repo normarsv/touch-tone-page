@@ -43,6 +43,25 @@
       color: @header-color;
     }
   }
+  &.alternate-disabled {
+    border-color: "blue";
+    background-color: @alternate-button-color;
+    color: @primary-color;
+    &:hover {
+      background-color: @alternate-hover-color;
+    }
+  }
+}
+.ant-btn[disabled] {
+  background-color: @disabled-alternate-color;
+  border: 0;
+  color: @disabled-text-color;
+  opacity: 0.8;
+  &:hover {
+    opacity: 0.8;
+    color: @disabled-text-color;
+    background-color: @disabled-alternate-color;
+  }
 }
 
 //----------Transfer style---------//

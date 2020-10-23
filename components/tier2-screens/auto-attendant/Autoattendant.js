@@ -65,7 +65,7 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
 
         <Search placeholder="Search..." enterButton style={{ width: 300 }} />
         <Row type="flex" justify="space-between">
-          <Space size="small">
+          <Space size="small" className="spaced-between">
             <label>Show</label>
             <Select
               defaultValue="10"
@@ -77,7 +77,7 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
             </Select>
             <label>entries</label>
           </Space>
-          <Space size="small">
+          <Space size="small" className="spaced-between">
             <Button className="primary-button-style alternate" type="primary">
               <Space>
                 New Auto Attendant <FontAwesomeIcon icon={faPlusCircle} />
