@@ -18,9 +18,16 @@ export default class extends Component {
               Location: "/list-organizations",
             });
             break;
+
           case "OrganizationAdmin":
             res.writeHead(302, {
               Location: "/admin-dashboard",
+            });
+            break;
+
+          case "EndUser":
+            res.writeHead(302, {
+              Location: "/user-dashboard",
             });
             break;
 

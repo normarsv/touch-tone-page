@@ -1,12 +1,27 @@
 import { Button, Col, Row, Space } from "antd";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
+import { UserContext } from "../authentication/UserContext";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
-const AdminDashboard = ({ adminDashboardContent }) => {
+const MainDashboard = ({ mainDashboardContent }) => {
   const router = useRouter();
+  const { userInfo } = useContext(UserContext);
+
+  let titleToDisplay;
+  switch (userInfo.group) {
+    case "OrganizationAdmin":
+      titleToDisplay = "Admin Dashboard";
+      break;
+    case "EndUser":
+      titleToDisplay = "User Dashboard";
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <div>
@@ -14,11 +29,11 @@ const AdminDashboard = ({ adminDashboardContent }) => {
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">Admin Dashboard</h1>
+          <h1 className="title-style">{titleToDisplay}</h1>
         </Row>
 
         <Row gutter={[10, 24]} type="flex">
-          {adminDashboardContent.map((item, index) => {
+          {mainDashboardContent.map((item, index) => {
             return (
               <Col
                 span={8}
@@ -58,8 +73,8 @@ const AdminDashboard = ({ adminDashboardContent }) => {
   );
 };
 
-AdminDashboard.propTypes = {
-  adminDashboardContent: PropTypes.array,
+MainDashboard.propTypes = {
+  mainDashboardContent: PropTypes.array,
 };
 
-export default AdminDashboard;
+export default MainDashboard;

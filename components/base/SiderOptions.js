@@ -1,23 +1,18 @@
-import React from "react";
-import { Menu } from "antd";
-import SubMenu from "antd/lib/menu/SubMenu";
 import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  TeamOutlined,
-  FileOutlined,
   AppstoreFilled,
+  DesktopOutlined,
+  FileOutlined,
+  IdcardFilled,
   OrderedListOutlined,
   PlusCircleFilled,
   SearchOutlined,
-  IdcardFilled,
+  TeamOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
+import { Menu } from "antd";
+import SubMenu from "antd/lib/menu/SubMenu";
+import React from "react";
 import UserInfo from "../user/UserInfo";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
 
 const SiderOptions = ({ openSideMenu }) => {
   return (

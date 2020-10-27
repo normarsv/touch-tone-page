@@ -5,6 +5,7 @@ import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
 import SuperAdminSiderOptions from "../components/tier1-screens/SuperAdminSiderOptions";
 import OrganizationAdminSiderOptions from "../components/tier2-screens/OrganizationAdminSiderOptions";
+import EndUserSiderOptions from "../components/tier3-screens/EndUserSiderOptions";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -23,6 +24,10 @@ export const BaseLayout = ({ children }) => {
 
       case "OrganizationAdmin":
         return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
+        break;
+
+      case "EndUser":
+        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
         break;
 
       default:

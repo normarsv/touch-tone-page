@@ -41,6 +41,9 @@ export const LoginForm = ({ showForgotPassword }) => {
       case "OrganizationAdmin":
         router.push("/admin-dashboard");
         break;
+      case "EndUser":
+        router.push("/user-dashboard");
+        break;
 
       default:
         break;

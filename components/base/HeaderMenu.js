@@ -13,6 +13,7 @@ import { removeAppUser } from "../../scripts/General";
 import { UserContext } from "../authentication/UserContext";
 import SuperAdminSiderOptions from "../tier1-screens/SuperAdminSiderOptions";
 import OrganizationAdminSiderOptions from "../tier2-screens/OrganizationAdminSiderOptions";
+import EndUserSiderOptions from "../tier3-screens/EndUserSiderOptions";
 import { MenuToggle } from "./MenuToggle";
 import SiderOptions from "./SiderOptions";
 
@@ -55,6 +56,10 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
         break;
 
+      case "EndUser":
+        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
+        break;
+
       default:
         return <SiderOptions openSideMenu={openSideMenu} />;
         break;
@@ -62,15 +67,17 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   }
 
   useEffect(() => {
-    console.log(routeToGo);
     switch (userInfo.group) {
       case "SuperAdmin":
         setRouteToGo("list-organizations");
         break;
+
       case "OrganizationAdmin":
-        console.log(true);
         setRouteToGo("admin-dashboard");
-        console.log(routeToGo);
+        break;
+
+      case "EndUser":
+        setRouteToGo("user-dashboard");
         break;
 
       default:

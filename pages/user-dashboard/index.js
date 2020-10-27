@@ -1,13 +1,9 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import MainDashboard from "../../components/base/MainDashboard";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
-import { MainScreen } from "../../components/main-screen/MainScreen";
-import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
-import { Space } from "antd";
-import AdminDashboard from "../../components/base/MainDashboard";
-import MainDashboard from "../../components/base/MainDashboard";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -15,33 +11,33 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    const adminDashboardContent = [
+    const endUserDashboardContent = [
       {
         id: 1,
-        title: "Manage Users",
-        count: "9 Users",
+        title: "Voice Mail",
+        count: "9 New Voice Mails",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View all Users",
-        route: "/manage-users",
+        route: "/voice-mail",
       },
       {
         id: 2,
-        title: "Queues",
+        title: "My Find Me",
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Queues",
-        route: "/queues",
+        route: "/telephony-features/my-find-me",
       },
       {
         id: 3,
-        title: "Auto attendant",
+        title: "Meeting",
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Auto attendant",
-        route: "/auto-attendant",
+        route: "/meetings",
       },
       {
         id: 4,
@@ -52,48 +48,30 @@ export default class extends Component {
         buttonTitle: "View Call Records",
         route: "/telephony-features/call-recordings",
       },
-      // {
-      //   id: 5,
-      //   title: "Call Reporting",
-      //   count: "",
-      //   desc:
-      //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-      //   buttonTitle: "View Calls Reporting",
-      //   route: "/telephony-features/call-reporting",
-      // },
       {
-        id: 6,
-        title: "Meeting",
+        id: 5,
+        title: "Conference Room",
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Mettings",
-        route: "/meetings",
+        route: "/conference-room",
       },
       {
-        id: 7,
-        title: "Ring Groups",
+        id: 6,
+        title: "Account Details",
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Ring Groups",
-        route: "/auto-attendant/ring-group",
-      },
-      {
-        id: 8,
-        title: "Audio Conference Room",
-        count: "",
-        desc:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View More",
-        route: "/audio-conference",
+        route: "/account-details",
       },
     ];
 
     return {
       currentLanguage,
       user,
-      adminDashboardContent,
+      endUserDashboardContent,
     };
   }
   constructor(props) {
@@ -104,11 +82,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { adminDashboardContent } = this.props;
+    const { endUserDashboardContent } = this.props;
 
     return (
       <BaseLayout>
-        <MainDashboard mainDashboardContent={adminDashboardContent} />
+        <MainDashboard mainDashboardContent={endUserDashboardContent} />
       </BaseLayout>
     );
   }
