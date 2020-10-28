@@ -1,4 +1,9 @@
-import { Affix, Layout, Menu } from "antd";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Affix, Button, Layout, Menu } from "antd";
 import { useContext, useRef, useState } from "react";
 import { UserContext } from "../components/authentication/UserContext";
 import HeaderMenu from "../components/base/HeaderMenu";
@@ -44,15 +49,24 @@ export const BaseLayout = ({ children }) => {
       <Layout className="sider-main-layout">
         {userInfo.name && (
           <Affix offsetTop={0}>
-            <Sider
-              collapsible
-              collapsed={openSideMenu}
-              onCollapse={() => setOpenSideMenu(!openSideMenu)}
-              className="sider-style show-only-desktop"
-              width="250px"
-            >
-              {menuToRender(userInfo)}
-            </Sider>
+            <div className="position-relative">
+              <Button
+                onClick={() => setOpenSideMenu(!openSideMenu)}
+                className="sider-collapse-button"
+                type="primary"
+                icon={openSideMenu ? <RightOutlined /> : <LeftOutlined />}
+              />
+              <Sider
+                collapsible
+                trigger={null}
+                collapsed={openSideMenu}
+                onCollapse={() => setOpenSideMenu(!openSideMenu)}
+                className="sider-style show-only-desktop"
+                width="250px"
+              >
+                {menuToRender(userInfo)}
+              </Sider>
+            </div>
           </Affix>
         )}
 
