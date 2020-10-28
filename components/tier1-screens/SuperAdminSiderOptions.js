@@ -36,15 +36,15 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
   }, []);
 
   return (
-    <div className="sider-style">
+    <div>
       <div>
         <UserInfo openSideMenu={openSideMenu} />
       </div>
       {!openSideMenu && (
         <div className="side-menu-title-div">
-          <Space className="flex-center">
-            <AppstoreFilled /> <h4>Super Admin Controls</h4>
-          </Space>
+          {/*<Space className="flex-center">*/}
+             <h4><AppstoreFilled /> Super Admin Controls</h4>
+          {/*</Space>*/}
           <Divider style={{ margin: "0.5rem 0" }} />
         </div>
       )}

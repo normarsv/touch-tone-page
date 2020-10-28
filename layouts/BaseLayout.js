@@ -2,41 +2,41 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Affix, Button, Layout, Menu } from "antd";
-import { useContext, useRef, useState } from "react";
-import { UserContext } from "../components/authentication/UserContext";
+import {LeftOutlined, RightOutlined} from "@ant-design/icons";
+import {Affix, Button, Layout, Menu} from "antd";
+import {useContext, useRef, useState} from "react";
+import {UserContext} from "../components/authentication/UserContext";
 import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
 import SuperAdminSiderOptions from "../components/tier1-screens/SuperAdminSiderOptions";
 import OrganizationAdminSiderOptions from "../components/tier2-screens/OrganizationAdminSiderOptions";
 import EndUserSiderOptions from "../components/tier3-screens/EndUserSiderOptions";
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const {SubMenu} = Menu;
+const {Header, Content, Sider} = Layout;
 
-export const BaseLayout = ({ children }) => {
+export const BaseLayout = ({children}) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const bodyRef = useRef(null);
 
-  const { userInfo } = useContext(UserContext);
+  const {userInfo} = useContext(UserContext);
 
   function menuToRender(userInfo) {
     switch (userInfo.group) {
       case "SuperAdmin":
-        return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
+        return <SuperAdminSiderOptions openSideMenu={openSideMenu}/>;
         break;
 
       case "OrganizationAdmin":
-        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
+        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu}/>;
         break;
 
       case "EndUser":
-        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
+        return <EndUserSiderOptions openSideMenu={openSideMenu}/>;
         break;
 
       default:
-        return <SiderOptions openSideMenu={openSideMenu} />;
+        return <SiderOptions openSideMenu={openSideMenu}/>;
         break;
     }
   }
@@ -44,36 +44,37 @@ export const BaseLayout = ({ children }) => {
   return (
     <Layout>
       <Header className="menu-header-layout">
-        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef} />
+        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef}/>
       </Header>
+
       <Layout className="sider-main-layout">
         {userInfo.name && (
-          <Affix offsetTop={0}>
-            <div className="position-relative">
-              <Button
-                onClick={() => setOpenSideMenu(!openSideMenu)}
-                className="sider-collapse-button"
-                type="primary"
-                icon={openSideMenu ? <RightOutlined /> : <LeftOutlined />}
-              />
-              <Sider
-                collapsible
-                trigger={null}
-                collapsed={openSideMenu}
-                onCollapse={() => setOpenSideMenu(!openSideMenu)}
-                className="sider-style show-only-desktop"
-                width="250px"
-              >
-                {menuToRender(userInfo)}
-              </Sider>
-            </div>
-          </Affix>
+          <div className="position-relative">
+            <Button
+              onClick={() => setOpenSideMenu(!openSideMenu)}
+              className="sider-collapse-button"
+              type="primary"
+              icon={openSideMenu ? <RightOutlined/> : <LeftOutlined/>}
+            />
+            <Sider
+              collapsible
+              trigger={null}
+              collapsed={openSideMenu}
+              onCollapse={() => setOpenSideMenu(!openSideMenu)}
+              className="sider-style show-only-desktop"
+              width="250px"
+            >
+              {menuToRender(userInfo)}
+            </Sider>
+          </div>
         )}
 
         <Layout className="content-main-layout" ref={bodyRef}>
           <Content>{children}</Content>
         </Layout>
+
       </Layout>
+
     </Layout>
   );
 };
