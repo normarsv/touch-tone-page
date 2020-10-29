@@ -25,19 +25,15 @@ export const BaseLayout = ({ children }) => {
     switch (userInfo.group) {
       case "SuperAdmin":
         return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
-        break;
 
       case "OrganizationAdmin":
         return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
-        break;
 
       case "EndUser":
         return <EndUserSiderOptions openSideMenu={openSideMenu} />;
-        break;
 
       default:
         return <SiderOptions openSideMenu={openSideMenu} />;
-        break;
     }
   }
 
