@@ -141,7 +141,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
         <UserInfo openSideMenu={openSideMenu} />
       </div>
       {!openSideMenu && (
-        <div className="side-menu-title-div">
+        <div className="side-menu-title-div left">
           <Space className="padding-title">
             <AppstoreFilled /> <h4>End User</h4>
           </Space>
@@ -178,7 +178,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
 
         <Divider style={{ margin: "0.1rem 0" }} />
         {!openSideMenu && (
-          <div className="side-menu-title-div secondary ">
+          <div className="side-menu-title-div leftsecondary ">
             <Space className="padding-title">
               <h4>Telephony Features</h4>
             </Space>

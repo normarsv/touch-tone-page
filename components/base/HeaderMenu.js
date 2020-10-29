@@ -127,7 +127,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           type="flex"
           align="middle"
           justify="space-between"
-          className="show-only-desktop "
+          className="account-avatar"
         >
           {userInfo.role === "Organization Admin" ||
           userInfo.role === "End User" ? (
@@ -166,7 +166,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          className="show-tablet-hide-desktop"
+          className="burger-icon"
         >
           <motion.nav initial={false} animate={isOpen ? "open" : "closed"}>
             <MenuToggle

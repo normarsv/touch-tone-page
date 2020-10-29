@@ -1,11 +1,35 @@
-//----------Menu styles---------//
+// SIDE-MENU STYLES
 
-.page-side-menu-logo-container {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.sider-style {
+  height: 92vh;
+  padding: 22px 0;
+  position: sticky;
+  margin-top: 64px;
+  top: @layout-header-height;
+
+  .ant-layout-sider-children {
+    .sider-collapse-button {
+      top: 48px;
+      right: -0.8rem;
+      position: absolute;
+    }
+
+    .user-menu-info-main-div {
+      margin-bottom: 50px;
+      align-items: normal;
+    }
+  }
+
+  .side-menu-options-parent-div {
+    background-color: @side-menu-color;
+  }
+
+  @media @small {
+    display: none;
+  }
 }
+
+// TOP NAVIGATION
 
 .page-side-menu-logo {
   object-fit: contain;
@@ -13,176 +37,193 @@
   height: 62%;
 }
 
-.menu-main-div {
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.menu-top-right-options {
-  width: 6rem;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &.logged-in {
-    justify-content: flex-end;
-  }
-}
-.menu-user-status {
-  font-size: 1rem;
-  &.logged-in {
-    color: @logged-in-color;
-    margin-right: 1rem;
-  }
-  &.logged-out {
-    color: @logged-out-color;
-    margin-right: 1rem;
-  }
-}
-
 .menu-header-layout {
-  position: fixed;
   z-index: 11;
   width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0px 6px 15px 1px rgba(0, 0, 0, 0.04);
-}
+  position: fixed;
+  background-color: white;
+  box-shadow: 0 6px 15px 1px rgba(0, 0, 0, 0.04);
 
-.sider-main-layout {
-  background-color: @side-menu-color;
-}
+  .menu-main-div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-.sider-style {
-  // position: sticky;
-  top: 64px;
-  width: 100%;
-  height: 100%;
-  background-color: @side-menu-color;
-  overflow: auto;
-  min-height: 88vh;
+    .page-side-menu-logo-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-  @media (max-width: @screen-md-max + 1) {
-    top: 0px;
+    .menu-top-right-options {
+      width: 6rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &.logged-in {
+        justify-content: flex-end;
+      }
+
+      .menu-user-status {
+        font-size: 1rem;
+
+        &.logged-in {
+          color: @logged-in-color;
+          margin-right: 1rem;
+        }
+
+        &.logged-out {
+          color: @logged-out-color;
+          margin-right: 1rem;
+        }
+      }
+    }
   }
 }
 
-.ant-layout-header {
-  padding: 0 2%;
-
-  @media (max-width: @screen-md-max + 1) {
-    padding: 0 4%;
-  }
-}
+// CONTAINER
 
 .content-main-layout {
-  margin: 64px 0 0 0;
-  overflow: initial;
   padding: 2rem;
+  overflow: initial;
+  margin-top: @layout-header-height;
   background-color: @main-background-color;
-  @media (max-width: @screen-sm-max) {
-    padding: 1rem;
+
+  .ant-layout-content {
+    height: 100%;
   }
 }
 
-.ant-layout-sider-trigger {
-  background: @primary-color;
+// MOBILE NAVIGATION
+
+.burger-icon {
+  display: none !important;
+
+  @media @small {
+    display: block !important;
+  }
 }
 
 .mobile-hamburger-menu {
-  position: absolute;
-  top: 64px;
-  width: 40%;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 10;
-  display: flex;
   right: 0;
-
-  @media (max-width: @screen-sm-max) {
-    width: 70vw;
-  }
-}
-
-//----------Side Menu styles---------//
-
-.side-menu-title-div {
+  z-index: 10;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  justify-content: center;
+  overflow-y: auto;
+  position: absolute;
   align-items: center;
   flex-direction: column;
-  width: 100%;
-  &.secondary {
-    margin: 1rem 0;
-  }
-  .padding-title {
-    padding: 0 1.5rem;
+  top: @layout-header-height;
+  background-color: @side-menu-color;
+
+  .side-menu-options-parent-div {
+    background-color: @side-menu-color;
   }
 }
 
-.side-menu-options-parent-div {
-  background-color: @side-menu-color;
-  .side-menu-title-div();
+// FOR GENERAL NAVIGATION
+
+.user-menu-name-identifier {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  color: @header-color;
+  justify-content: center;
+  background-color: @primary-color;
+}
+
+.info-wrapper {
+  margin-top: 16px;
+}
+
+.account-avatar {
+  @media @small {
+    display: none;
+  }
 }
 
 .side-menu-options-title {
-  width: 82%;
   margin: 0.5rem 0;
-}
 
-.side-menu-submenu-style {
-  width: 100%;
-  background-color: @side-menu-color;
-}
-
-.sider-collapse-button {
-  position: absolute;
-  top: 6rem;
-  right: -1.8rem;
-}
-
-.select-arrow-boxes {
-  min-width: 300px;
-
-  .ant-select-arrow {
-    border-radius: 0 6px 6px 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 2rem;
-    height: 100%;
-    display: flex;
-    margin-top: 0;
-    color: transparent;
-    align-items: center;
-    justify-content: center;
-    background-image: url("/btn_drop_down.svg");
-  }
-  .ant-picker-input > input {
-    font-size: 12px;
-  }
-  &.small {
-    min-width: 100px;
+  @media @small {
+    padding-top: 10px;
   }
 }
 
-//----------UserInfo styles---------//
+//---------- Things I don't Know WTF ---------//
 
-.user-menu-info-main-div {
-  display: flex;
-  justify-content: center;
-  padding: 2rem 0;
-  cursor: default;
-}
 
-.user-menu-name-identifier {
-  height: 2rem;
-  width: 2rem;
-  background-color: @primary-color;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: @header-color;
-}
+//.ant-layout-sider-trigger {
+//  background: @primary-color;
+//}
+
+//----------Side Menu styles---------//
+
+//.side-menu-title-div {
+//  //display: flex;
+//  //justify-content: center;
+//  //align-items: center;
+//  //flex-direction: column;
+//  //width: 100%;
+//
+//  &.secondary {
+//    margin: 1rem 0;
+//  }
+//
+//  .padding-title {
+//    padding: 0 1.5rem;
+//  }
+//}
+
+
+//.side-menu-submenu-style {
+//  width: 100%;
+//  background-color: @side-menu-color;
+//}
+
+
+//.select-arrow-boxes {
+//  min-width: 300px;
+//
+//  .ant-select-arrow {
+//    border-radius: 0 6px 6px 0;
+//    top: 0;
+//    right: 0;
+//    bottom: 0;
+//    width: 2rem;
+//    height: 100%;
+//    display: flex;
+//    margin-top: 0;
+//    color: transparent;
+//    align-items: center;
+//    justify-content: center;
+//    background-image: url("/btn_drop_down.svg");
+//  }
+//
+//  .ant-picker-input > input {
+//    font-size: 12px;
+//  }
+//
+//  &.small {
+//    min-width: 100px;
+//  }
+//}
+
+//.sider-main-layout {
+//  background-color: @side-menu-color;
+//}
+
+//.ant-layout-header {
+//  padding: 0 2%;
+//
+//  @media (max-width: @screen-md-max + 1) {
+//    padding: 0 4%;
+//  }
+//}

@@ -5,13 +5,13 @@ import {
   IdcardOutlined,
   PlusCircleFilled,
 } from "@ant-design/icons";
-import { Divider, Menu, Space } from "antd";
+import {Divider, Menu, Space} from "antd";
 import SubMenu from "antd/lib/menu/SubMenu";
-import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useState } from "react";
+import {useRouter} from "next/dist/client/router";
+import React, {useEffect, useState} from "react";
 import UserInfo from "../user/UserInfo";
 
-const SuperAdminSiderOptions = ({ openSideMenu }) => {
+const SuperAdminSiderOptions = ({openSideMenu}) => {
   const [menuItem, setSelectedMenuItem] = useState("organizations");
 
   const router = useRouter();
@@ -36,16 +36,14 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
   }, []);
 
   return (
-    <div className="sider-style">
+    <>
       <div>
-        <UserInfo openSideMenu={openSideMenu} />
+        <UserInfo openSideMenu={openSideMenu}/>
       </div>
       {!openSideMenu && (
-        <div className="side-menu-title-div">
-          <Space className="flex-center">
-            <AppstoreFilled /> <h4>Super Admin Controls</h4>
-          </Space>
-          <Divider style={{ margin: "0.5rem 0" }} />
+        <div className="side-menu-title-div left">
+          <h4><AppstoreFilled/> Super Admin Controls</h4>
+          <Divider style={{margin: "0.5rem 0"}}/>
         </div>
       )}
       <Menu
@@ -55,39 +53,39 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
         id="Menu div"
       >
         {!openSideMenu && (
-          <div className="side-menu-options-title">
+          <div className="side-menu-options-title left">
             <h4>Organizations</h4>
           </div>
         )}
 
         <Menu.Item
           onClick={() => router.push("/list-organizations")}
-          icon={<UnorderedListOutlined />}
+          icon={<UnorderedListOutlined/>}
           key="organizations"
         >
           List all Organizations
         </Menu.Item>
 
-        <Divider style={{ margin: "0.1rem 0" }} />
+        <Divider style={{margin: "0.1rem 0"}}/>
 
         {!openSideMenu && (
-          <div className="side-menu-options-title">
+          <div className="side-menu-options-title left">
             <h4>Users</h4>
           </div>
         )}
 
         <Menu.Item
           onClick={() => router.push("/list-users")}
-          icon={<UserOutlined />}
+          icon={<UserOutlined/>}
           key="users"
         >
           List all Users
         </Menu.Item>
         <SubMenu
           key="newUser"
-          icon={<PlusCircleFilled />}
+          icon={<PlusCircleFilled/>}
           title="New User"
-          className="side-menu-submenu-style"
+          // className="side-menu-submenu-style"
         >
           <Menu.Item
             key="newUser"
@@ -102,25 +100,21 @@ const SuperAdminSiderOptions = ({ openSideMenu }) => {
             Add by Bulk
           </Menu.Item>
         </SubMenu>
-        <Divider style={{ margin: "0.1rem 0" }} />
+        <Divider style={{margin: "0.1rem 0"}}/>
       </Menu>
 
       {!openSideMenu && (
         <>
-          <Space
-            style={{ padding: "1rem 1.5rem" }}
-            direction="vertical"
-            id="Need help?"
-          >
+          <Space direction="vertical" id="Need help?" className="info-wrapper left">
             <h5 className="title-style"> Need help? </h5>
-            <a href="tel:">Call 800 900 5464</a>
+            <a href="tel:">Call 800 900 5474</a>
           </Space>
           {/* <Space className="side-menu-bottom-text " id="Need help?">
               <p>TouchTone Communications Control Center</p>
             </Space> */}
         </>
       )}
-    </div>
+    </>
   );
 };
 
