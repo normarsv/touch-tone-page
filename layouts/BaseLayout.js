@@ -24,20 +24,16 @@ export const BaseLayout = ({children}) => {
   function menuToRender(userInfo) {
     switch (userInfo.group) {
       case "SuperAdmin":
-        return <SuperAdminSiderOptions openSideMenu={openSideMenu}/>;
-        break;
+        return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
 
       case "OrganizationAdmin":
-        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu}/>;
-        break;
+        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
 
       case "EndUser":
-        return <EndUserSiderOptions openSideMenu={openSideMenu}/>;
-        break;
+        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
 
       default:
-        return <SiderOptions openSideMenu={openSideMenu}/>;
-        break;
+        return <SiderOptions openSideMenu={openSideMenu} />;
     }
   }
 
