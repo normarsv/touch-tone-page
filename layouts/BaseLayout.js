@@ -24,16 +24,16 @@ export const BaseLayout = ({children}) => {
   function menuToRender(userInfo) {
     switch (userInfo.group) {
       case "SuperAdmin":
-        return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
+        return <SuperAdminSiderOptions openSideMenu={openSideMenu}/>;
 
       case "OrganizationAdmin":
-        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
+        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu}/>;
 
       case "EndUser":
-        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
+        return <EndUserSiderOptions openSideMenu={openSideMenu}/>;
 
       default:
-        return <SiderOptions openSideMenu={openSideMenu} />;
+        return <SiderOptions openSideMenu={openSideMenu}/>;
     }
   }
 
@@ -43,26 +43,25 @@ export const BaseLayout = ({children}) => {
         <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef}/>
       </Header>
 
-      <Layout className="sider-main-layout">
+      <Layout>
         {userInfo.name && (
-          <div className="position-relative">
-            <Button
-              onClick={() => setOpenSideMenu(!openSideMenu)}
-              className="sider-collapse-button"
-              type="primary"
-              icon={openSideMenu ? <RightOutlined/> : <LeftOutlined/>}
-            />
+          <>
             <Sider
               collapsible
               trigger={null}
               collapsed={openSideMenu}
               onCollapse={() => setOpenSideMenu(!openSideMenu)}
               className="sider-style show-only-desktop"
-              width="250px"
             >
               {menuToRender(userInfo)}
+              <Button
+                onClick={() => setOpenSideMenu(!openSideMenu)}
+                className="sider-collapse-button"
+                type="primary"
+                icon={openSideMenu ? <RightOutlined/> : <LeftOutlined/>}
+              />
             </Sider>
-          </div>
+          </>
         )}
 
         <Layout className="content-main-layout" ref={bodyRef}>
