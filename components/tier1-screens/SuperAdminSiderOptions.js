@@ -36,12 +36,12 @@ const SuperAdminSiderOptions = ({openSideMenu}) => {
   }, []);
 
   return (
-    <div>
+    <>
       <div>
         <UserInfo openSideMenu={openSideMenu}/>
       </div>
       {!openSideMenu && (
-        <div className="side-menu-title-div">
+        <div className="side-menu-title-div left">
           <h4><AppstoreFilled/> Super Admin Controls</h4>
           <Divider style={{margin: "0.5rem 0"}}/>
         </div>
@@ -53,7 +53,7 @@ const SuperAdminSiderOptions = ({openSideMenu}) => {
         id="Menu div"
       >
         {!openSideMenu && (
-          <div className="side-menu-options-title">
+          <div className="side-menu-options-title left">
             <h4>Organizations</h4>
           </div>
         )}
@@ -69,7 +69,7 @@ const SuperAdminSiderOptions = ({openSideMenu}) => {
         <Divider style={{margin: "0.1rem 0"}}/>
 
         {!openSideMenu && (
-          <div className="side-menu-options-title">
+          <div className="side-menu-options-title left">
             <h4>Users</h4>
           </div>
         )}
@@ -105,7 +105,7 @@ const SuperAdminSiderOptions = ({openSideMenu}) => {
 
       {!openSideMenu && (
         <>
-          <Space direction="vertical" id="Need help?" className="info-wrapper">
+          <Space direction="vertical" id="Need help?" className="info-wrapper left">
             <h5 className="title-style"> Need help? </h5>
             <a href="tel:">Call 800 900 5474</a>
           </Space>
@@ -114,7 +114,7 @@ const SuperAdminSiderOptions = ({openSideMenu}) => {
             </Space> */}
         </>
       )}
-    </div>
+    </>
   );
 };
 

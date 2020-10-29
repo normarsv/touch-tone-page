@@ -160,7 +160,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         <UserInfo openSideMenu={openSideMenu} />
       </div>
       {!openSideMenu && (
-        <div className="side-menu-title-div">
+        <div className="side-menu-title-div left">
           <Space className="flex-center">
             <AppstoreFilled /> <h4>Organization Admin</h4>
           </Space>
@@ -187,7 +187,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         })}
         <Divider style={{ margin: "0.1rem 0" }} />
         {!openSideMenu && (
-          <div className="side-menu-title-div secondary">
+          <div className="side-menu-title-div left secondary">
             <h4>Services</h4>
           </div>
         )}
@@ -229,7 +229,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
 
         <Divider style={{ margin: "0.1rem 0" }} />
         {!openSideMenu && (
-          <div className="side-menu-title-div secondary">
+          <div className="side-menu-title-div left secondary">
             <h4>Telephony Features</h4>
           </div>
         )}

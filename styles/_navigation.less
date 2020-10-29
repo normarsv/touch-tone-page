@@ -1,35 +1,49 @@
-//----------Menu styles---------//
+// SIDE-MENU STYLES
 
 .sider-style {
-  height: 100vh;
-  //overflow: auto;
-  padding: 22px 0 16px 16px;
+  height: 92vh;
+  padding: 22px 0;
+  position: sticky;
   top: @layout-header-height;
-  //background-color: @side-menu-color;
+
+  .ant-layout-sider-children {
+    .sider-collapse-button {
+      top: 48px;
+      right: -0.8rem;
+      position: absolute;
+    }
+
+    .user-menu-info-main-div {
+      margin-bottom: 50px;
+      align-items: normal;
+
+      .user-menu-name-identifier {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        border-radius: 50%;
+        align-items: center;
+        color: @header-color;
+        justify-content: center;
+        background-color: @primary-color;
+      }
+    }
+  }
+
+  .side-menu-options-parent-div {
+    background-color: @side-menu-color;
+
+    .side-menu-options-title {
+      margin: 0.5rem 0;
+    }
+  }
 
   @media (max-width: @screen-md-max + 1) {
     top: 0;
   }
 }
 
-
-// ANT MENU
-
-.ant-menu {
-
-  .ant-menu-item, .ant-menu-submenu-title {
-    padding: 0 !important;
-  }
-
-}
-
-
-.page-side-menu-logo-container {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
+// TOP NAVIGATION
 
 .page-side-menu-logo {
   object-fit: contain;
@@ -37,59 +51,55 @@
   height: 62%;
 }
 
-.menu-main-div {
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.menu-top-right-options {
-  width: 6rem;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &.logged-in {
-    justify-content: flex-end;
-  }
-}
-
-.menu-user-status {
-  font-size: 1rem;
-
-  &.logged-in {
-    color: @logged-in-color;
-    margin-right: 1rem;
-  }
-
-  &.logged-out {
-    color: @logged-out-color;
-    margin-right: 1rem;
-  }
-}
-
 .menu-header-layout {
-  position: fixed;
   z-index: 11;
   width: 100%;
-  background-color: #ffffff;
+  position: fixed;
+  background-color: white;
   box-shadow: 0 6px 15px 1px rgba(0, 0, 0, 0.04);
+
+  .menu-main-div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .page-side-menu-logo-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .menu-top-right-options {
+      width: 6rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &.logged-in {
+        justify-content: flex-end;
+      }
+
+      .menu-user-status {
+        font-size: 1rem;
+
+        &.logged-in {
+          color: @logged-in-color;
+          margin-right: 1rem;
+        }
+
+        &.logged-out {
+          color: @logged-out-color;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
 }
 
-.sider-main-layout {
-  background-color: @side-menu-color;
-}
-
-
-//.ant-layout-header {
-//  padding: 0 2%;
-//
-//  @media (max-width: @screen-md-max + 1) {
-//    padding: 0 4%;
-//  }
-//}
+// CONTAINER
 
 .content-main-layout {
   padding: 2rem;
@@ -102,122 +112,94 @@
   }
 }
 
-.ant-layout-sider-trigger {
-  background: @primary-color;
-}
+// MOBILE NAVIGATION
 
 .mobile-hamburger-menu {
-  position: absolute;
-  top: 64px;
-  width: 40%;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 10;
-  display: flex;
   right: 0;
+  width: 40%;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  overflow-y: auto;
+  position: absolute;
+  top: @layout-header-height;
 
   @media (max-width: @screen-sm-max) {
     width: 70vw;
   }
 }
 
+//---------- Things I don't Know WTF ---------//
+
+
+//.ant-layout-sider-trigger {
+//  background: @primary-color;
+//}
+
 //----------Side Menu styles---------//
 
-.side-menu-title-div {
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
-  //flex-direction: column;
-  //width: 100%;
+//.side-menu-title-div {
+//  //display: flex;
+//  //justify-content: center;
+//  //align-items: center;
+//  //flex-direction: column;
+//  //width: 100%;
+//
+//  &.secondary {
+//    margin: 1rem 0;
+//  }
+//
+//  .padding-title {
+//    padding: 0 1.5rem;
+//  }
+//}
 
-  &.secondary {
-    margin: 1rem 0;
-  }
-
-  .padding-title {
-    padding: 0 1.5rem;
-  }
-}
-
-.side-menu-options-parent-div {
-  padding: 0;
-  background-color: @side-menu-color;
-
-  //.side-menu-title-div();
-}
-
-.side-menu-options-title {
-  width: 82%;
-  margin: 0.5rem 0;
-}
 
 //.side-menu-submenu-style {
 //  width: 100%;
 //  background-color: @side-menu-color;
 //}
 
-.sider-collapse-button {
-  top: 25px;
-  right: -1.8rem;
-  position: absolute;
-}
 
-.select-arrow-boxes {
-  min-width: 300px;
+//.select-arrow-boxes {
+//  min-width: 300px;
+//
+//  .ant-select-arrow {
+//    border-radius: 0 6px 6px 0;
+//    top: 0;
+//    right: 0;
+//    bottom: 0;
+//    width: 2rem;
+//    height: 100%;
+//    display: flex;
+//    margin-top: 0;
+//    color: transparent;
+//    align-items: center;
+//    justify-content: center;
+//    background-image: url("/btn_drop_down.svg");
+//  }
+//
+//  .ant-picker-input > input {
+//    font-size: 12px;
+//  }
+//
+//  &.small {
+//    min-width: 100px;
+//  }
+//}
 
-  .ant-select-arrow {
-    border-radius: 0 6px 6px 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 2rem;
-    height: 100%;
-    display: flex;
-    margin-top: 0;
-    color: transparent;
-    align-items: center;
-    justify-content: center;
-    background-image: url("/btn_drop_down.svg");
-  }
+//.sider-main-layout {
+//  background-color: @side-menu-color;
+//}
 
-  .ant-picker-input > input {
-    font-size: 12px;
-  }
+//.ant-layout-header {
+//  padding: 0 2%;
+//
+//  @media (max-width: @screen-md-max + 1) {
+//    padding: 0 4%;
+//  }
+//}
 
-  &.small {
-    min-width: 100px;
-  }
-}
-
-//----------UserInfo styles---------//
-
-.user-menu-info-main-div {
-  margin-bottom: 50px;
-  align-items: normal;
-}
-
-.ant-layout-sider-children {
-  position: fixed;
-}
-
-.user-menu-name-identifier {
-  height: 2rem;
-  width: 2rem;
-  background-color: @primary-color;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: @header-color;
-}
-
-
-.ant-menu-inline-collapsed {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 
 .info-wrapper {
   margin-top: 16px;

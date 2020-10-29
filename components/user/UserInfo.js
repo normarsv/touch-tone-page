@@ -44,7 +44,7 @@ const UserInfo = ({ openSideMenu }) => {
 
     return (
       <div>
-        <Space size="small" className="user-menu-info-main-div">
+        <Space size="small" className="user-menu-info-main-div left">
           <div className="user-menu-name-identifier">
             {splittedName[0] + splittedName[1]}
           </div>
