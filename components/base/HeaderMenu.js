@@ -166,7 +166,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          className="show-tablet-hide-desktop"
+          className="burger-icon"
         >
           <motion.nav initial={false} animate={isOpen ? "open" : "closed"}>
             <MenuToggle

@@ -51,7 +51,7 @@ export const BaseLayout = ({children}) => {
               trigger={null}
               collapsed={openSideMenu}
               onCollapse={() => setOpenSideMenu(!openSideMenu)}
-              className="sider-style show-only-desktop"
+              className="sider-style"
               width="250px"
             >
               {menuToRender(userInfo)}
