@@ -127,7 +127,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           type="flex"
           align="middle"
           justify="space-between"
-          className="show-only-desktop "
+          className="account-avatar"
         >
           {userInfo.role === "Organization Admin" ||
           userInfo.role === "End User" ? (
