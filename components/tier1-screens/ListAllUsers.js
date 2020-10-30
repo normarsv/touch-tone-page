@@ -13,15 +13,16 @@ import {
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
-const ListAllUsers = ({ userTableList }) => {
+const ListAllUsers = ({ query, userTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [titleToDisplay, setTitleToDisplay] = useState();
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -107,13 +108,40 @@ const ListAllUsers = ({ userTableList }) => {
     },
   ];
 
+  // console.log(query);
+
+  function renderTitle() {
+    if (query !== undefined) {
+      switch (query.orgId) {
+        case "1":
+          setTitleToDisplay("Guao Studio");
+          break;
+        case "3":
+          setTitleToDisplay("Walmart");
+          break;
+        case "4":
+          setTitleToDisplay("Amazon");
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  useEffect(() => {
+    renderTitle();
+  }, []);
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">List All Users</h1>
+          <h1 className="title-style">
+            List All Users {titleToDisplay ? "of " + titleToDisplay : ""}
+          </h1>
         </Row>
 
         <Row type="flex" justify="space-between">

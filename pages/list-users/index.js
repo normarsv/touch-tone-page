@@ -30,7 +30,6 @@ export default class extends Component {
         actions: currentUser.id,
       });
     }
-
     if (query.orgId !== undefined) {
       resQueryUserList = await api.GET("/Users/orgId/" + query.orgId);
       for (let i = 0; i < resQueryUserList.response.length; i++) {
@@ -47,13 +46,15 @@ export default class extends Component {
       }
     }
 
+    const finalQuery = query;
+
     return {
       currentLanguage,
       user,
       resUserList,
       finalUserList,
-      query,
       resQueryUserList,
+      finalQuery,
     };
   }
   constructor(props) {
@@ -65,11 +66,15 @@ export default class extends Component {
   }
 
   render() {
-    const { finalUserList } = this.props;
+    const { finalUserList, finalQuery } = this.props;
 
     return (
       <BaseLayout>
-        <ListAllUsers userTableList={finalUserList} />
+        <ListAllUsers
+          query={finalQuery}
+          // orgToDisplay={orgToDisplay}
+          userTableList={finalUserList}
+        />
       </BaseLayout>
     );
   }
