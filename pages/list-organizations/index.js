@@ -1,16 +1,47 @@
 import moment from "moment/min/moment-with-locales.js";
-import { Component, useContext } from "react";
+import Router from "next/router";
+import { Component } from "react";
 import API from "../../API/API";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { BaseLayout } from "../../layouts/BaseLayout";
-import { removeAppUser, systemLog } from "../../scripts/General";
+import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
-  static async getInitialProps({ query, res, user }) {
+  static async getInitialProps({ res, query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    // if (res) {
+    //   switch (user.group) {
+    //     case "SuperAdmin":
+    //       res.writeHead(302, {
+    //         Location: "/list-organizations",
+    //       });
+    //       break;
+
+    //     case "OrganizationAdmin":
+    //       res.writeHead(302, {
+    //         Location: "/admin-dashboard",
+    //       });
+    //       break;
+
+    //     case "EndUser":
+    //       res.writeHead(302, {
+    //         Location: "/user-dashboard",
+    //       });
+    //       break;
+
+    //     default:
+    //       res.writeHead(302, {
+    //         Location: "/",
+    //       });
+    //       break;
+    //   }
+
+    //   res.end();
+    // }
 
     const api = new API();
 
@@ -21,55 +52,19 @@ export default class extends Component {
     for (let i = 0; i < resOrganizations.response.length; i++) {
       const currentElement = resOrganizations.response[i];
       organizationsTableList.push({
+        key: currentElement.id,
         name: currentElement.organzationName,
         billingId: currentElement.billingId,
         orgDist: currentElement.distributor,
         didsCount: currentElement.dids,
         users: currentElement.users,
-        actions: currentElement.id,
+        // actions: currentElement.id,
         status: currentElement.status,
       });
     }
 
-    const data = [
-      {
-        key: "1",
-        name: "Walmart",
-        billing: 32,
-        orgDist: 8,
-        didsCount: 8,
-        users: 8,
-      },
-      {
-        key: "2",
-        name: "Costco",
-        billing: 42,
-        orgDist: 8,
-        didsCount: 8,
-        users: 8,
-      },
-      {
-        key: "3",
-        name: "Test 3",
-        billing: 32,
-        orgDist: 0,
-        didsCount: 8,
-        users: 8,
-      },
-      {
-        key: "4",
-        name: "Test 4",
-        billing: 99,
-        orgDist: 0,
-        didsCount: 8,
-        users: 34,
-      },
-    ];
-
     return {
       currentLanguage,
-      // columns,
-      data,
       user,
       resOrganizations,
       organizationsTableList,

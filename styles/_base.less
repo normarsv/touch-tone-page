@@ -82,11 +82,16 @@ body {
   }
 }
 
-.flex-center {
+.flex {
   display: flex;
-  justify-content: center;
   align-self: center;
   align-items: center;
+  &.center {
+    justify-content: center;
+  }
+  &.space-between {
+    justify-content: space-between;
+  }
 }
 
 .position-relative {

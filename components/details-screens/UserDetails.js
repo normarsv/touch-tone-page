@@ -66,7 +66,7 @@ const OrganizationServices = ({
           )}
 
           <Space direction="vertical">
-            <h4>Email</h4>
+            <h4>DID</h4>
             <Input
               style={{ width: 300 }}
               value={fieldsValues.email}
@@ -74,22 +74,14 @@ const OrganizationServices = ({
             />
           </Space>
 
-          {!editable && (
-            <Space>
-              <Button
-                type="primary"
-                className="primary-button-style alternate"
-                onClick={() =>
-                  router.push("/list-users/details/organizationName/list-dids")
-                }
-              >
-                <Space>
-                  <FontAwesomeIcon icon={faList} />
-                  See List of DIDs
-                </Space>
-              </Button>
-            </Space>
-          )}
+          <Space direction="vertical">
+            <h4>Email</h4>
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.email}
+              disabled={!editable}
+            />
+          </Space>
         </Space>
 
         <Space direction="vertical" size="large">

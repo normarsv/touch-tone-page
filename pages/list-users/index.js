@@ -7,7 +7,7 @@ import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
+  static async getInitialProps({ res, query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
@@ -25,6 +25,7 @@ export default class extends Component {
       const currentUser = resUserList.response[i].authUser;
 
       finalUserList.push({
+        key: currentUser.id,
         name: currentUser.firstName + " " + currentUser.lastName,
         email: currentUser.email,
         did: currentUser.did,

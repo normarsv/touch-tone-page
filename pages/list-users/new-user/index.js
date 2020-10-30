@@ -7,7 +7,7 @@ import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
+  static async getInitialProps({ res, query, user }) {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
@@ -18,32 +18,61 @@ export default class extends Component {
       status: true,
     });
 
-    const userServicesForm = [
-      { id: 1, title: "First Name", type: "input" },
-      { id: 2, title: "Last Name", type: "input" },
-      { id: 3, title: "Organization", type: "select" },
-      { id: 4, title: "Extension Type", type: "select" },
-      { id: 5, title: "Extension", type: "input" },
-      { id: 6, title: "SIP User", type: "input" },
-      { id: 7, title: "Login Name", type: "input" },
-      {
-        id: 8,
-        title: "Password",
-        type: "input",
-        extraMsg: "At least 8 characters, one uppercase and one number",
-      },
-      { id: 9, title: "User Group", type: "select" },
-      { id: 10, title: "Role", type: "select" },
-      { id: 11, title: "Agent for an inbound Contact Center", type: "switch" },
-      { id: 12, title: "Download E911", type: "button", icon: faDownload },
-      { id: 13, title: "DID", type: "select" },
-    ];
+    const formsByUserSelected = {
+      newEndUser: [
+        { id: 1, title: "First Name", type: "input" },
+        { id: 2, title: "Last Name", type: "input" },
+        { id: 3, title: "Organization", type: "select" },
+        { id: 4, title: "Extension Type", type: "select" },
+        { id: 5, title: "Extension", type: "input" },
+        { id: 6, title: "SIP User", type: "input" },
+        { id: 7, title: "Login Name", type: "input" },
+        {
+          id: 8,
+          title: "Password",
+          type: "input",
+          extraMsg: "At least 8 characters, one uppercase and one number",
+        },
+        { id: 9, title: "User Group", type: "select" },
+        { id: 10, title: "Role", type: "select" },
+        {
+          id: 11,
+          title: "Agent for an inbound Contact Center",
+          type: "switch",
+        },
+        { id: 12, title: "DID", type: "select" },
+      ],
+      orgAdminEnterprise: [
+        { id: 1, title: "First Name", type: "input" },
+        { id: 2, title: "Last Name", type: "input" },
+        { id: 3, title: "Organization", type: "select" },
+        { id: 4, title: "Login Name", type: "input" },
+        {
+          id: 5,
+          title: "Password",
+          type: "input",
+          extraMsg: "At least 8 characters, one uppercase and one number",
+        },
+        { id: 6, title: "DID", type: "select" },
+      ],
+      businessDistributor: [
+        { id: 1, title: "First Name", type: "input" },
+        { id: 2, title: "Last Name", type: "input" },
+        { id: 4, title: "Login Name", type: "input" },
+        {
+          id: 5,
+          title: "Password",
+          type: "input",
+          extraMsg: "At least 8 characters, one uppercase and one number",
+        },
+      ],
+    };
 
     return {
       currentLanguage,
       user,
       editServiceContent,
-      userServicesForm,
+      formsByUserSelected,
     };
   }
 
@@ -52,12 +81,12 @@ export default class extends Component {
   }
 
   render() {
-    const { user, editServiceContent, userServicesForm } = this.props;
+    const { user, editServiceContent, formsByUserSelected } = this.props;
     // console.log(user);
     return (
       <BaseLayout>
         <NewUser
-          userServicesForm={userServicesForm}
+          formsByUserSelected={formsByUserSelected}
           editServiceContent={editServiceContent}
         />
       </BaseLayout>

@@ -46,7 +46,7 @@ const DialAssignerComponent = ({}) => {
         <Row type="flex" justify="end" style={{ width: "100%" }}>
           <Button
             type="primary"
-            className="primary-button-style alternate flex-center"
+            className="primary-button-style alternate flex center"
             onClick={() => newDialToAssign()}
           >
             <Space>

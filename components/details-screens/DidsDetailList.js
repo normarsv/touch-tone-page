@@ -18,8 +18,8 @@ const DidsDetailList = ({ data }) => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Organization Name",
+      dataIndex: "nameOrg",
       fixed: "left",
     },
     {
@@ -27,15 +27,8 @@ const DidsDetailList = ({ data }) => {
       dataIndex: "phoneNumber",
     },
     {
-      title: "Queue",
-      dataIndex: "queue",
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      render: (linkDetails, edit) => (
-        <motion.div whileHover={hoverAnimation}>Edit</motion.div>
-      ),
+      title: "Type",
+      dataIndex: "type",
     },
   ];
 

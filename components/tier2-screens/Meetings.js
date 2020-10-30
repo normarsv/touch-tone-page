@@ -56,7 +56,7 @@ const Meetings = ({ meetingsContent }) => {
       title: "Actions",
       dataIndex: "actions",
       render: (meetingId) => (
-        <Space className="flex-center">
+        <Space className="flex center">
           <motion.div
             onClick={() => router.push("/meetings/view/" + meetingId)}
             whileHover={hoverAnimation}
@@ -77,7 +77,7 @@ const Meetings = ({ meetingsContent }) => {
       title: "Delete",
       dataIndex: "delete",
       render: () => (
-        <div className="flex-center">
+        <div className="flex center">
           <FontAwesomeIcon icon={faTrash} className="title-style" />
         </div>
       ),

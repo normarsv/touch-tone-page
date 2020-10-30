@@ -14,7 +14,8 @@ export default class extends Component {
 
     const api = new API();
 
-    const resUser = await api.GET("/Users/orgId?orgId=" + query.idOrg);
+    // const resUser = await api.GET("/Users/orgId?orgId=" + query.idOrg);
+    const resUser = await api.GET("/Users/" + query.idOrg);
 
     const userInfo = resUser.response.authUser;
 

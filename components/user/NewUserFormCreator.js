@@ -15,7 +15,7 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
             {extraMsg && <label className="small-text">{extraMsg}</label>}
           </>
         );
-        break;
+
       case "select":
         return (
           <>
@@ -31,7 +31,7 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
             />
           </>
         );
-        break;
+
       case "switch":
         return (
           <>
@@ -39,7 +39,7 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
             <Switch checkedChildren="ON" unCheckedChildren="OFF" />
           </>
         );
-        break;
+
       case "button":
         return (
           <>
@@ -50,7 +50,6 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
             </Button>
           </>
         );
-        break;
 
       default:
         break;

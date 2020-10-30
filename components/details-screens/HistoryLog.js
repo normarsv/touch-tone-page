@@ -49,7 +49,7 @@ const HistoryLog = ({ data }) => {
       dataIndex: "actions",
       render: (linkDetails, edit) => (
         <Row type="flex" justify="space-between" align="middle">
-          <Space className="flex-center">
+          <Space className="flex center">
             <motion.div onClick={() => {}} whileHover={hoverAnimation}>
               <Popconfirm
                 title="Are you sure to revert this log?"

@@ -1,16 +1,27 @@
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import { faEraser, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Checkbox, Row, Space, Switch, Table } from "antd";
+import { Button, Checkbox, Row, Select, Space, Switch, Table } from "antd";
 import Search from "antd/lib/input/Search";
+import Modal from "antd/lib/modal/Modal";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import OrganizationDetailsModal from "./OrganizationDetailsModal";
+import ProvisioningOrganization from "./ProvisioningOrganization";
+
+const { Option } = Select;
 
 const ListAllOrganizations = ({ organizationsTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
+  const [visibleDetailsModal, setVisibleDetailsModal] = useState(false);
+  const [
+    visibleProvisioningOrganization,
+    setVisibleProvisioningOrganization,
+  ] = useState(false);
+  const [organizationDetailsInfo, setOrganizationDetailsInfo] = useState();
 
   const onSelectChange = (selectedRowKeys) => {
     // console.log("selectedRowKeys changed: ", selectedRowKeys);
@@ -28,11 +39,16 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     Router.push("/list-organizations/edit/organizationName");
   };
 
+  function handleVisible(info) {
+    setVisibleDetailsModal(!visibleDetailsModal);
+    setOrganizationDetailsInfo(info);
+    console.log(info);
+  }
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      render: (text) => <a>{text}</a>,
       fixed: "left",
       width: "8rem",
     },
@@ -60,25 +76,25 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
       title: "Actions",
       dataIndex: "actions",
       width: "7rem",
-      render: (actions) => (
-        <Space>
-          <motion.div
-            onClick={() =>
-              router.push("/list-organizations/details/" + actions)
-            }
-            whileHover={hoverAnimation}
-          >
-            Details
-          </motion.div>
-        </Space>
-      ),
+      render: (_, record) => {
+        return (
+          <Space>
+            <motion.div
+              onClick={() => handleVisible(record)}
+              whileHover={hoverAnimation}
+            >
+              Details
+            </motion.div>
+          </Space>
+        );
+      },
     },
     {
       title: "Active / Deactivate",
       dataIndex: "status",
       width: "9rem",
       render: (status) => (
-        <div className="flex-center">
+        <div className="flex center">
           <Switch
             checked={status}
             checkedChildren="ON"
@@ -94,6 +110,10 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     onChange: onSelectChange,
   };
 
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -104,16 +124,37 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
         </Row>
 
         <Row type="flex" justify="space-between">
-          <Space size="middle" className="spaced-between">
-            <Checkbox onChange={() => rowSelection}>Select all</Checkbox> |{" "}
-            <FontAwesomeIcon icon={faEraser} />
+          <Space size="small" className="spaced-between">
+            <label>Show</label>
+            <Select
+              defaultValue="10"
+              style={{ width: 120 }}
+              onChange={handleChange}
+            >
+              <Option value="10">10</Option>
+              <Option value="20">20</Option>
+            </Select>
+            <label>entries</label>
           </Space>
           <Row>
-            <Search
-              placeholder="Search..."
-              enterButton
-              style={{ width: 300 }}
-            />
+            <Space size="small">
+              <Button
+                onClick={() =>
+                  setVisibleProvisioningOrganization(
+                    !visibleProvisioningOrganization
+                  )
+                }
+                type="primary"
+                className="primary-button-style alternate"
+              >
+                Provision Organization
+              </Button>
+              <Search
+                placeholder="Search..."
+                enterButton
+                style={{ width: 300 }}
+              />
+            </Space>
           </Row>
         </Row>
 
@@ -123,7 +164,35 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={organizationsTableList}
+          footer={() =>
+            "Showing " +
+            organizationsTableList.length +
+            " of " +
+            organizationsTableList.length +
+            " entries"
+          }
         />
+
+        {/* Detalles de cada elemento de la tabla */}
+        {organizationDetailsInfo && (
+          <OrganizationDetailsModal
+            organizationDetailsInfo={organizationDetailsInfo}
+            visibleDetailsModal={visibleDetailsModal}
+            setVisibleDetailsModal={() =>
+              setVisibleDetailsModal(!visibleDetailsModal)
+            }
+          />
+        )}
+
+        {/* {organizationDetailsInfo && ( */}
+        <ProvisioningOrganization
+          // organizationDetailsInfo={organizationDetailsInfo}
+          visibleProvisioningOrganization={visibleProvisioningOrganization}
+          setVisibleProvisioningOrganization={() =>
+            setVisibleProvisioningOrganization(!visibleProvisioningOrganization)
+          }
+        />
+        {/* )} */}
       </Space>
     </div>
   );

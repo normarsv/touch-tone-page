@@ -95,7 +95,7 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
             <Button
               type="primary"
               style={{ borderRadius: "2rem", width: "1rem" }}
-              className="flex-center"
+              className="flex center"
             >
               <FontAwesomeIcon icon={faPlay} />
             </Button>
@@ -124,7 +124,7 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
             <Button
               type="primary"
               style={{ borderRadius: "2rem", width: "1rem" }}
-              className="flex-center primary-button-style alternate"
+              className="flex center primary-button-style alternate"
             >
               <FontAwesomeIcon icon={faDownload} />
             </Button>

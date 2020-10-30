@@ -52,7 +52,7 @@ const AudioConference = ({ audioConferenceContent }) => {
       title: "Actions",
       dataIndex: "actions",
       render: (conferenceId) => (
-        <Space className="flex-center">
+        <Space className="flex center">
           <motion.div
             onClick={() =>
               router.push("/audio-conference/details/" + conferenceId)
@@ -68,7 +68,7 @@ const AudioConference = ({ audioConferenceContent }) => {
       title: "Enable",
       dataIndex: "enable",
       render: (enable) => (
-        <div className="flex-center">
+        <div className="flex center">
           <Switch
             checked={enable}
             checkedChildren="ON"

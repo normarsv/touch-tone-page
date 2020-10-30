@@ -1,10 +1,10 @@
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import HistoryLog from "../../../../../components/details-screens/HistoryLog";
-import { BaseLayout } from "../../../../../layouts/BaseLayout";
-import { systemLog } from "../../../../../scripts/General";
-import { baseLanguage } from "../../../../../scripts/MainInfoData";
+import HistoryLog from "../../../../components/details-screens/HistoryLog";
+import { BaseLayout } from "../../../../layouts/BaseLayout";
+import { systemLog } from "../../../../scripts/General";
+import { baseLanguage } from "../../../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {

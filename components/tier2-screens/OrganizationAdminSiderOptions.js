@@ -161,7 +161,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
       </div>
       {!openSideMenu && (
         <div className="side-menu-title-div left">
-          <Space className="flex-center">
+          <Space className="flex center">
             <AppstoreFilled /> <h4>Organization Admin</h4>
           </Space>
           <Divider style={{ margin: "0.5rem 0" }} />

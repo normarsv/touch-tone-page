@@ -1,10 +1,11 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import API from "../../../../API/API";
-import OrganizationDetails from "../../../../components/details-screens/OrganizationServices";
-import { BaseLayout } from "../../../../layouts/BaseLayout";
-import { systemLog } from "../../../../scripts/General";
-import { baseLanguage } from "../../../../scripts/MainInfoData";
+import API from "../../../API/API";
+import OrganizationDetails from "../../../components/details-screens/OrganizationServices";
+import ProvisioningScreen from "../../../components/tier1-screens/ProvisioningScreen";
+import { BaseLayout } from "../../../layouts/BaseLayout";
+import { systemLog } from "../../../scripts/General";
+import { baseLanguage } from "../../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
@@ -55,11 +56,7 @@ export default class extends Component {
     } = this.props;
     return (
       <BaseLayout>
-        <OrganizationDetails
-          organizationInfo={organizationInfo}
-          servicesContent={servicesContent}
-          editServiceContent={editServiceContent}
-        />
+        <ProvisioningScreen />
       </BaseLayout>
     );
   }

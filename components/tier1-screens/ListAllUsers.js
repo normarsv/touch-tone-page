@@ -1,6 +1,15 @@
 import { faEraser, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, Row, Select, Space, Switch, Table } from "antd";
+import {
+  Button,
+  Checkbox,
+  Popconfirm,
+  Row,
+  Select,
+  Space,
+  Switch,
+  Table,
+} from "antd";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
@@ -12,10 +21,18 @@ const { Option } = Select;
 const ListAllUsers = ({ userTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
-    setSelectedRow(selectedRowKeys);
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        "selectedRows: ",
+        selectedRows
+      );
+      setSelectedRow(selectedRows);
+      setSelectedRowKeys(selectedRowKeys);
+    },
   };
 
   const handleChange = (value) => {
@@ -27,10 +44,6 @@ const ListAllUsers = ({ userTableList }) => {
     cursor: "pointer",
     color: "red",
     transition: { duration: 0.5 },
-  };
-
-  const onEditOrg = (orgName) => {
-    router.push("/list-users/edit/organizationName");
   };
 
   async function searchByOrg(input) {
@@ -55,7 +68,7 @@ const ListAllUsers = ({ userTableList }) => {
       title: "Actions",
       dataIndex: "actions",
       render: (actions) => (
-        <Space className="flex-center">
+        <Space className="flex center">
           <motion.div
             onClick={() => router.push("/list-users/details/" + actions)}
             whileHover={hoverAnimation}
@@ -76,21 +89,22 @@ const ListAllUsers = ({ userTableList }) => {
       title: "Active / Deactivate",
       dataIndex: "status",
       render: (status) => (
-        <div className="flex-center">
-          <Switch
-            checked={status}
-            checkedChildren="ON"
-            unCheckedChildren="OFF"
-          />
+        <div className="flex center">
+          <Popconfirm
+            title="Are you sure you want to change the status of this user?"
+            okText="Yes"
+            cancelText="No"
+          >
+            <Switch
+              checked={status}
+              checkedChildren="ON"
+              unCheckedChildren="OFF"
+            />
+          </Popconfirm>
         </div>
       ),
     },
   ];
-
-  const rowSelection = {
-    selectedRow,
-    onChange: onSelectChange,
-  };
 
   return (
     <div>
@@ -101,19 +115,8 @@ const ListAllUsers = ({ userTableList }) => {
           <h1 className="title-style">List All Users</h1>
         </Row>
 
-        <Search
-          placeholder="Search organization..."
-          enterButton
-          onSearch={(input) => searchByOrg(input)}
-          style={{ width: 300 }}
-        />
-
         <Row type="flex" justify="space-between">
           <Space size="large" className="spaced-between">
-            <Space size="small">
-              <Checkbox onChange={() => rowSelection}>Select all</Checkbox> |{" "}
-              <FontAwesomeIcon icon={faEraser} />
-            </Space>
             <Space size="small" className="spaced">
               <label>Show</label>
               <Select
@@ -127,13 +130,9 @@ const ListAllUsers = ({ userTableList }) => {
               <label>entries</label>
             </Space>
           </Space>
+
           <Row>
             <Space>
-              <Search
-                placeholder="Search users..."
-                enterButton
-                style={{ width: 300 }}
-              />
               <Space>
                 <Button
                   type="primary"
@@ -161,11 +160,18 @@ const ListAllUsers = ({ userTableList }) => {
         </Row>
 
         <Table
-          rowSelection={rowSelection}
+          rowSelection={{ ...rowSelection }}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={userTableList}
+          footer={() =>
+            "Showing " +
+            userTableList.length +
+            " of " +
+            userTableList.length +
+            " entries"
+          }
         />
       </Space>
     </div>
