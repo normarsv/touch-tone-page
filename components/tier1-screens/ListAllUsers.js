@@ -91,6 +91,7 @@ const ListAllUsers = ({ userTableList }) => {
       render: (status) => (
         <div className="flex center">
           <Popconfirm
+            placement="left"
             title="Are you sure you want to change the status of this user?"
             okText="Yes"
             cancelText="No"

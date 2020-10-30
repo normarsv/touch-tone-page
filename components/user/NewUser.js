@@ -7,7 +7,9 @@ import NewUserFormCreator from "./NewUserFormCreator";
 const { Option } = Select;
 
 const NewUser = ({ formsByUserSelected, editServiceContent }) => {
-  const [formToDisplay, setFormToDisplay] = useState();
+  const [formToDisplay, setFormToDisplay] = useState([]);
+
+  const [currentFormField, setCurrentFormField] = useState({});
 
   const router = useRouter();
 
@@ -39,6 +41,12 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
       : setFormToDisplay(formsByUserSelected.newEndUser);
   }
 
+  function onChangeFunction(value, index) {
+    setCurrentFormField(value[index]);
+  }
+
+  console.log(currentFormField);
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -66,10 +74,24 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
         <Row gutter={[0, 20]} type="flex">
           {formToDisplay &&
             formToDisplay.map((item, index) => {
-              console.log(item);
+              // console.log(item);
               return (
                 <Col span={6}>
                   <NewUserFormCreator
+                    onChange={(value) => {
+                      const formField = { ...currentFormField };
+                      formField[item.key] = value;
+                      console.log(formField);
+                      for (const itemCheck of formToDisplay) {
+                        if (itemCheck.value !== undefined) {
+                          itemCheck.onChangeValue("test");
+                        }
+                      }
+                      setCurrentFormField(formField);
+                    }}
+                    fieldValue={currentFormField[item.key]}
+                    selectSubOptionsKey={item.key}
+                    selectSubOptions={item.options}
                     title={item.title}
                     type={item.type}
                     extraMsg={item.extraMsg}

@@ -4,14 +4,29 @@ import { Button, Input, Select, Space, Switch } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
+const { Option } = Select;
+
+const NewUserFormCreator = ({
+  onChange,
+  fieldValue,
+  title,
+  type,
+  extraMsg,
+  icon,
+  selectSubOptions,
+  selectSubOptionsKey,
+}) => {
   const renderElement = (type, title, extraMsg, icon) => {
     switch (type) {
       case "input":
         return (
           <>
             <h4>{title}</h4>
-            <Input style={{ width: 300 }} />
+            <Input
+              onChange={(e) => onChange(e.target.value)}
+              value={fieldValue}
+              style={{ width: 300 }}
+            />
             {extraMsg && <label className="small-text">{extraMsg}</label>}
           </>
         );
@@ -22,13 +37,23 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
             <h4>{title}</h4>
             <Select
               placeholder="Select..."
+              value={fieldValue}
+              onChange={(value) => onChange(value)}
               style={{ width: 300 }}
               suffixIcon={() => (
                 <div style={{ width: "100%" }}>
                   <FontAwesomeIcon icon={faCaretDown} />
                 </div>
               )}
-            />
+            >
+              {selectSubOptions.map((item, index) => {
+                return (
+                  <Option value={item[selectSubOptionsKey]}>
+                    {item.prefixName}
+                  </Option>
+                );
+              })}
+            </Select>
           </>
         );
 
@@ -36,7 +61,12 @@ const NewUserFormCreator = ({ title, type, extraMsg, icon }) => {
         return (
           <>
             <h4>{title}</h4>
-            <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+            <Switch
+              // value={fieldValue[fieldIndex]}
+              onChange={onChange}
+              checkedChildren="ON"
+              unCheckedChildren="OFF"
+            />
           </>
         );
 

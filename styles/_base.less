@@ -90,7 +90,11 @@ body {
     justify-content: center;
   }
   &.space-between {
+    flex-wrap: wrap;
     justify-content: space-between;
+    @media @small {
+      flex-direction: column;
+    }
   }
 }
 

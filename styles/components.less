@@ -24,10 +24,22 @@
 .primary-button-style {
   height: 2rem;
   // width: 12rem;
+
+  &.modal-style {
+    width: 32%;
+  }
+
+  &.provisioning {
+    width: 130px;
+  }
+
   &.alternate {
     height: 2rem;
     border-color: @alternate-button-color;
     background-color: @alternate-button-color;
+    &.modal-style {
+      width: 32%;
+    }
     &:hover {
       background-color: @alternate-hover-color;
     }

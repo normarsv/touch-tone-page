@@ -1,6 +1,7 @@
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import API from "../../../API/API";
 import NewUser from "../../../components/user/NewUser";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
@@ -18,34 +19,87 @@ export default class extends Component {
       status: true,
     });
 
+    const api = new API();
+
+    const resOrganizations = await api.GET("/Organizations/");
+    let finalOrganizationList;
+
+    return {
+      currentLanguage,
+      user,
+      editServiceContent,
+      resOrganizations,
+    };
+  }
+
+  componentDidMount() {
+    systemLog.log(this.props);
+  }
+
+  render() {
+    const { user, editServiceContent, resOrganizations } = this.props;
+    // console.log(user);
+
     const formsByUserSelected = {
       newEndUser: [
-        { id: 1, title: "First Name", type: "input" },
-        { id: 2, title: "Last Name", type: "input" },
-        { id: 3, title: "Organization", type: "select" },
-        { id: 4, title: "Extension Type", type: "select" },
-        { id: 5, title: "Extension", type: "input" },
-        { id: 6, title: "SIP User", type: "input" },
-        { id: 7, title: "Login Name", type: "input" },
         {
-          id: 8,
+          id: 1,
+          title: "First Name",
+          type: "input",
+          key: "firstName",
+          onChangeValue: (currentForm) => {
+            console.log(currentForm);
+          },
+        },
+        { id: 2, title: "Last Name", type: "input", key: "lastName" },
+        {
+          id: 3,
+          title: "Organization",
+          type: "select",
+          options: resOrganizations.response,
+          key: "organizationId",
+        },
+        { id: 4, title: "Login Name", type: "input", key: "userName" },
+        {
+          id: 5,
           title: "Password",
           type: "input",
           extraMsg: "At least 8 characters, one uppercase and one number",
+          key: "password",
         },
-        { id: 9, title: "User Group", type: "select" },
-        { id: 10, title: "Role", type: "select" },
         {
-          id: 11,
+          id: 6,
+          title: "User Group",
+          type: "select",
+          options: [],
+          key: "userGroup",
+        },
+        {
+          id: 7,
           title: "Agent for an inbound Contact Center",
           type: "switch",
+          key: "isAgent",
         },
-        { id: 12, title: "DID", type: "select" },
+        {
+          id: 8,
+          title: "DID",
+          type: "select",
+          key: "didID",
+          options: [],
+          key: "did",
+        },
       ],
       orgAdminEnterprise: [
-        { id: 1, title: "First Name", type: "input" },
-        { id: 2, title: "Last Name", type: "input" },
-        { id: 3, title: "Organization", type: "select" },
+        { id: 1, title: "First Name", type: "input", key: "firstName" },
+        { id: 2, title: "Last Name", type: "input", key: "lastName" },
+        {
+          id: 3,
+          title: "Organization",
+          type: "select",
+          options: resOrganizations.response,
+          key: "organizationId",
+        },
+
         { id: 4, title: "Login Name", type: "input" },
         {
           id: 5,
@@ -53,7 +107,14 @@ export default class extends Component {
           type: "input",
           extraMsg: "At least 8 characters, one uppercase and one number",
         },
-        { id: 6, title: "DID", type: "select" },
+        {
+          id: 6,
+          title: "DID",
+          type: "select",
+          key: "didID",
+          options: [],
+          key: "did",
+        },
       ],
       businessDistributor: [
         { id: 1, title: "First Name", type: "input" },
@@ -68,21 +129,6 @@ export default class extends Component {
       ],
     };
 
-    return {
-      currentLanguage,
-      user,
-      editServiceContent,
-      formsByUserSelected,
-    };
-  }
-
-  componentDidMount() {
-    systemLog.log(this.props);
-  }
-
-  render() {
-    const { user, editServiceContent, formsByUserSelected } = this.props;
-    // console.log(user);
     return (
       <BaseLayout>
         <NewUser

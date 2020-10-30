@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "antd/lib/modal/Modal";
-import { Button, Space } from "antd";
+import { Button, Col, Input, Row, Space } from "antd";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
+import { faList, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { CloseOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 const OrganizationDetailsModal = ({
   organizationDetailsInfo,
@@ -12,6 +13,7 @@ const OrganizationDetailsModal = ({
   setVisibleDetailsModal,
 }) => {
   const router = useRouter();
+
   return (
     <Modal
       // title={organizationDetailsInfo.name + " Details"}
@@ -20,59 +22,62 @@ const OrganizationDetailsModal = ({
       onCancel={() => setVisibleDetailsModal()}
       footer={null}
     >
-      <Space direction="vertical">
-        <Space direction="horizontal" size="large">
-          <Space direction="vertical">
-            <h3 className="title-style">Name</h3>
-            <h4>{organizationDetailsInfo.name}</h4>
-          </Space>
-          <Space direction="vertical">
-            <h3 className="title-style">Billing ID in Rev.io</h3>
-            <h4>{organizationDetailsInfo.billingId}</h4>
-          </Space>
-        </Space>
+      <Space direction="vertical" className="organization-detail-modal">
+        <h2 className="title-style">Details</h2>
+        <Row type="flex" justify="center" gutter={[4, 0]} className="header">
+          <Col span={12}>
+            <h3>Name</h3>
+          </Col>
+          <Col span={12}>
+            <h3>Billing ID in Rev.io</h3>
+          </Col>
+        </Row>
+        <Row type="flex" justify="center" gutter={[4, 0]} className="content">
+          <Col span={12}>
+            <Input disabled value={organizationDetailsInfo.name}></Input>
+          </Col>
+          <Col span={12}>
+            <Input disabled value={organizationDetailsInfo.billingId}></Input>
+          </Col>
+        </Row>
 
         <div className="flex space-between">
           <Button
             type="primary"
-            className="primary-button-style alternate"
+            className="primary-button-style alternate modal-style"
             onClick={() =>
               router.push(
                 "/list-organizations/" +
-                  organizationDetailsInfo.id +
+                  organizationDetailsInfo.key +
                   "/list-dids"
               )
             }
           >
-            <Space>
-              <FontAwesomeIcon icon={faList} />
-              See List of DIDs
-            </Space>
+            See List of DIDs
           </Button>
 
           <Button
             type="primary"
-            className="primary-button-style alternate"
+            className="primary-button-style alternate modal-style"
             onClick={() =>
               router.push({
                 pathname: "/list-users",
-                query: { orgId: organizationDetailsInfo.id },
+                query: { orgId: organizationDetailsInfo.key },
               })
             }
           >
-            <Space>
-              <FontAwesomeIcon icon={faList} />
-              See List of all Users
-            </Space>
+            See List of all Users
           </Button>
 
           <Button
             type="primary"
-            className="primary-button-style"
+            className="primary-button-style modal-style"
             onClick={() =>
               router.push({
-                pathname: "/list-users",
-                query: { orgId: organizationDetailsInfo.id },
+                pathname:
+                  "/list-organizations/" +
+                  organizationDetailsInfo.key +
+                  "/history-log",
               })
             }
           >

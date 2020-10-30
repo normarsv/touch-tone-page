@@ -52,6 +52,7 @@ const HistoryLog = ({ data }) => {
           <Space className="flex center">
             <motion.div onClick={() => {}} whileHover={hoverAnimation}>
               <Popconfirm
+                placement="left"
                 title="Are you sure to revert this log?"
                 okText="Yes"
                 cancelText="No"

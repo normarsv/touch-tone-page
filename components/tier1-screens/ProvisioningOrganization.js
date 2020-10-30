@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "antd/lib/modal/Modal";
-import { Button, Input, Space } from "antd";
+import { Button, Col, Input, message, Row, Select, Space } from "antd";
 
 const ProvisioningOrganization = ({
   visibleProvisioningOrganization,
   setVisibleProvisioningOrganization,
 }) => {
+  const [loading, setLoading] = useState(false);
+
+  function handleClickProvision() {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      message.success("Success!");
+    }, 2000);
+  }
+
   return (
     <Modal
       // title={organizationDetailsInfo.name + " Details"}
@@ -15,27 +26,35 @@ const ProvisioningOrganization = ({
       onCancel={() => setVisibleProvisioningOrganization()}
       footer={null}
     >
-      <Space direction="vertical">
-        <Space direction="horizontal" size="large">
-          <Space direction="vertical">
-            <h3 className="title-style">Name</h3>
+      <Space direction="vertical" className="organization-detail-modal">
+        <h2 className="title-style">Provision Organization</h2>
+        <Row type="flex" justify="center" gutter={[4, 0]} className="header">
+          <Col span={12}>
+            <h3>Name</h3>
+          </Col>
+          <Col span={12}>
+            <h3>Billing ID in Rev.io</h3>
+          </Col>
+        </Row>
+        <Row type="flex" justify="center" gutter={[4, 0]} className="content">
+          <Col span={12}>
+            <Select className="select-arrow-boxes modals"></Select>
+          </Col>
+          <Col span={12}>
             <Input></Input>
-          </Space>
-          <Space direction="vertical">
-            <h3 className="title-style">Billing ID in Rev.io</h3>
-            <Input></Input>
-          </Space>
-        </Space>
+          </Col>
+        </Row>
 
-        <div className="flex space-between">
+        <Row type="flex" justify="end">
           <Button
             type="primary"
-            className="primary-button-style"
-            onClick={() => console.log("test")}
+            className="primary-button-style provisioning"
+            loading={loading}
+            onClick={() => handleClickProvision()}
           >
-            Guardar
+            {loading ? "Provisioning" : "Provision"}
           </Button>
-        </div>
+        </Row>
       </Space>
     </Modal>
   );

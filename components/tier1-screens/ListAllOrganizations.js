@@ -1,6 +1,15 @@
 import { faEraser, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, Row, Select, Space, Switch, Table } from "antd";
+import {
+  Button,
+  Checkbox,
+  Popconfirm,
+  Row,
+  Select,
+  Space,
+  Switch,
+  Table,
+} from "antd";
 import Search from "antd/lib/input/Search";
 import Modal from "antd/lib/modal/Modal";
 import { motion } from "framer-motion";
@@ -95,11 +104,18 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
       width: "9rem",
       render: (status) => (
         <div className="flex center">
-          <Switch
-            checked={status}
-            checkedChildren="ON"
-            unCheckedChildren="OFF"
-          />
+          <Popconfirm
+            placement="left"
+            title="Are you sure you want to change the status of this organization?"
+            okText="Yes"
+            cancelText="No"
+          >
+            <Switch
+              checked={status}
+              checkedChildren="ON"
+              unCheckedChildren="OFF"
+            />
+          </Popconfirm>
         </div>
       ),
     },
