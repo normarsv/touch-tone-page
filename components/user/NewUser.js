@@ -1,8 +1,9 @@
-import { Button, Col, Divider, message, Row, Select, Space } from "antd";
-import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useState } from "react";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import NewUserFormCreator from "./NewUserFormCreator";
+import { Button, Col, Divider, message, Row, Select, Space } from 'antd';
+import { useRouter } from 'next/dist/client/router';
+import React, { useEffect, useState } from 'react';
+
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import NewUserFormCreator from './NewUserFormCreator';
 
 const { Option } = Select;
 
@@ -34,6 +35,7 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
   ];
 
   function renderForm(value) {
+    setCurrentFormField({});
     value === "businessSupport" || value === "distributor"
       ? setFormToDisplay(formsByUserSelected.businessDistributor)
       : value === "organizationAdmin" || value === "enterprise"
@@ -44,8 +46,6 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
   function onChangeFunction(value, index) {
     setCurrentFormField(value[index]);
   }
-
-  console.log(currentFormField);
 
   return (
     <div>
@@ -74,17 +74,22 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
         <Row gutter={[0, 20]} type="flex">
           {formToDisplay &&
             formToDisplay.map((item, index) => {
-              // console.log(item);
               return (
                 <Col span={6}>
                   <NewUserFormCreator
-                    onChange={(value) => {
+                    onChange={async (value) => {
                       const formField = { ...currentFormField };
                       formField[item.key] = value;
-                      console.log(formField);
                       for (const itemCheck of formToDisplay) {
-                        if (itemCheck.value !== undefined) {
-                          itemCheck.onChangeValue("test");
+                        if (itemCheck.onChangeValue !== undefined) {
+                          const returnData = await itemCheck.onChangeValue({
+                            valueChange: item.key,
+                            currentForm: formToDisplay,
+                            currentFields: formField,
+                          });
+                          if (returnData !== null) {
+                            setFormToDisplay(returnData);
+                          }
                         }
                       }
                       setCurrentFormField(formField);

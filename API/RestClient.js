@@ -1,5 +1,5 @@
-import fetch from "isomorphic-unfetch";
-import qs from "qs";
+import fetch from 'isomorphic-unfetch';
+import qs from 'qs';
 
 export default class RestClient {
   constructor(

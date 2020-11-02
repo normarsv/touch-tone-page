@@ -1,11 +1,11 @@
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import API from "../../../API/API";
-import NewUser from "../../../components/user/NewUser";
-import { BaseLayout } from "../../../layouts/BaseLayout";
-import { systemLog } from "../../../scripts/General";
-import { baseLanguage } from "../../../scripts/MainInfoData";
+import moment from 'moment/min/moment-with-locales.js';
+import { Component } from 'react';
+
+import API from '../../../API/API';
+import NewUser from '../../../components/user/NewUser';
+import { BaseLayout } from '../../../layouts/BaseLayout';
+import { systemLog } from '../../../scripts/General';
+import { baseLanguage } from '../../../scripts/MainInfoData';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -20,9 +20,7 @@ export default class extends Component {
     });
 
     const api = new API();
-
     const resOrganizations = await api.GET("/Organizations/");
-    let finalOrganizationList;
 
     return {
       currentLanguage,
@@ -31,25 +29,16 @@ export default class extends Component {
       resOrganizations,
     };
   }
-
-  componentDidMount() {
-    systemLog.log(this.props);
-  }
-
-  render() {
-    const { user, editServiceContent, resOrganizations } = this.props;
-    // console.log(user);
-
-    const formsByUserSelected = {
+  constructor(props) {
+    super(props);
+    const { user, editServiceContent, resOrganizations } = props;
+    this.formsByUserSelected = {
       newEndUser: [
         {
           id: 1,
           title: "First Name",
           type: "input",
           key: "firstName",
-          onChangeValue: (currentForm) => {
-            console.log(currentForm);
-          },
         },
         { id: 2, title: "Last Name", type: "input", key: "lastName" },
         {
@@ -84,9 +73,27 @@ export default class extends Component {
           id: 8,
           title: "DID",
           type: "select",
-          key: "didID",
           options: [],
-          key: "did",
+          key: "number",
+          onChangeValue: async (props) => {
+            if (props.valueChange === "organizationId") {
+              const api = new API();
+              const resDIDOrganization = await api.GET(
+                "/Tools/organization-number/" +
+                  props.currentFields.organizationId
+              );
+              const indexChange = props.currentForm.findIndex((formInput) => {
+                return formInput.id === 8;
+              });
+              console.log(props);
+              console.log(resDIDOrganization);
+              const formReturn = [...props.currentForm];
+              formReturn[indexChange].options = resDIDOrganization.response;
+              return formReturn;
+            } else {
+              return null;
+            }
+          },
         },
       ],
       orgAdminEnterprise: [
@@ -128,11 +135,20 @@ export default class extends Component {
         },
       ],
     };
+  }
+
+  componentDidMount() {
+    systemLog.log(this.props);
+  }
+
+  render() {
+    const { user, editServiceContent, resOrganizations } = this.props;
+    // console.log(user);
 
     return (
       <BaseLayout>
         <NewUser
-          formsByUserSelected={formsByUserSelected}
+          formsByUserSelected={this.formsByUserSelected}
           editServiceContent={editServiceContent}
         />
       </BaseLayout>
