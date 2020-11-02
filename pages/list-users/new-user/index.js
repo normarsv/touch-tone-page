@@ -46,6 +46,7 @@ export default class extends Component {
           title: "Organization",
           type: "select",
           options: resOrganizations.response,
+          optionsKey: "organizationId",
           key: "organizationId",
         },
         { id: 4, title: "Login Name", type: "input", key: "userName" },
@@ -61,6 +62,7 @@ export default class extends Component {
           title: "User Group",
           type: "select",
           options: [],
+          optionsKey: "groupId",
           key: "userGroup",
         },
         {
@@ -74,6 +76,7 @@ export default class extends Component {
           title: "DID",
           type: "select",
           options: [],
+          optionsKey: "number",
           key: "number",
           onChangeValue: async (props) => {
             if (props.valueChange === "organizationId") {
@@ -89,9 +92,12 @@ export default class extends Component {
               console.log(resDIDOrganization);
               const formReturn = [...props.currentForm];
               formReturn[indexChange].options = resDIDOrganization.response;
-              return formReturn;
+              const returnFields = { ...props.currentFields };
+              delete returnFields.number;
+              console.log({ form: formReturn, fields: returnFields });
+              return { form: formReturn, fields: returnFields };
             } else {
-              return null;
+              return { form: null, fields: null };
             }
           },
         },
@@ -104,6 +110,7 @@ export default class extends Component {
           title: "Organization",
           type: "select",
           options: resOrganizations.response,
+          optionsKey: "organizationId",
           key: "organizationId",
         },
 
@@ -120,6 +127,7 @@ export default class extends Component {
           type: "select",
           key: "didID",
           options: [],
+          optionsKey: "number",
           key: "did",
         },
       ],

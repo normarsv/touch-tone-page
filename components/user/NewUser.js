@@ -78,7 +78,7 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
                 <Col span={6}>
                   <NewUserFormCreator
                     onChange={async (value) => {
-                      const formField = { ...currentFormField };
+                      let formField = { ...currentFormField };
                       formField[item.key] = value;
                       for (const itemCheck of formToDisplay) {
                         if (itemCheck.onChangeValue !== undefined) {
@@ -87,11 +87,15 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
                             currentForm: formToDisplay,
                             currentFields: formField,
                           });
-                          if (returnData !== null) {
-                            setFormToDisplay(returnData);
+                          if (returnData.form !== null) {
+                            setFormToDisplay(returnData.form);
+                          }
+                          if (returnData.fields !== null) {
+                            formField = returnData.fields;
                           }
                         }
                       }
+                      console.log(formField);
                       setCurrentFormField(formField);
                     }}
                     fieldValue={currentFormField[item.key]}

@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button, Input, Select, Space, Switch } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Input, Select, Space, Switch } from 'antd';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const { Option } = Select;
 
