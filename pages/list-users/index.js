@@ -17,7 +17,7 @@ export default class extends Component {
     const resUserList = await api.GET("/Users/");
     let resQueryUserList;
 
-    const finalUserList = [];
+    let finalUserList = [];
     for (let i = 0; i < resUserList.response.length; i++) {
       const currentUser = resUserList.response[i].authUser;
 
@@ -31,9 +31,11 @@ export default class extends Component {
       });
     }
     if (query.orgId !== undefined) {
+      finalUserList = [];
       resQueryUserList = await api.GET("/Users/orgId/" + query.orgId);
       for (let i = 0; i < resQueryUserList.response.length; i++) {
         const currentUser = resQueryUserList.response[i].authUser;
+        const currentOrg = resQueryUserList.response[i].organization;
 
         finalUserList.push({
           key: currentUser.id,
@@ -42,6 +44,7 @@ export default class extends Component {
           did: currentUser.did,
           status: currentUser.isActive,
           actions: currentUser.id,
+          organization: currentOrg.prefixName,
         });
       }
     }

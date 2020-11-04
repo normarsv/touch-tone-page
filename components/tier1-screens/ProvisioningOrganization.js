@@ -1,29 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "antd/lib/modal/Modal";
 import { Button, Col, Input, message, Row, Select, Space } from "antd";
+import API from "../../API/API";
+
+const { Option } = Select;
 
 const ProvisioningOrganization = ({
   visibleProvisioningOrganization,
   setVisibleProvisioningOrganization,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [provideOrganizations, setProvideOrganizations] = useState([]);
+  const [selectedOrganization, setSelectedOrganization] = useState({});
+  const [errorToDisplay, setErrorToDisplay] = useState("");
 
-  function handleClickProvision() {
+  const api = new API();
+
+  async function handleClickProvision() {
     setLoading(true);
 
+    const resProvisionOrganization = await api.POST(
+      "/Organizations/provide/" + selectedOrganization.orgId
+    );
+    console.log(selectedOrganization.orgId);
+    console.log(resProvisionOrganization);
     setTimeout(() => {
       setLoading(false);
-      message.success("Success!");
+
+      if (resProvisionOrganization.statusCode === 201) {
+        message.success("Succesfully Provisioned Organization");
+        setSelectedOrganization({});
+      } else {
+        message.error("Organization Already Provisioned");
+      }
     }, 2000);
   }
 
+  async function organizationsToProvision() {
+    const resOrganizationsProvide = await api.GET(
+      "/Organizations/organizatios-to-provide"
+    );
+    console.log(resOrganizationsProvide.response.length);
+
+    if (resOrganizationsProvide.response.length === 0) {
+      setErrorToDisplay("No Organizations to Provision");
+    }
+
+    setProvideOrganizations(resOrganizationsProvide.response);
+  }
+
+  function handleCancel() {
+    setSelectedOrganization({});
+    setProvideOrganizations([]);
+    setVisibleProvisioningOrganization();
+  }
+
+  function handleSelectedValue(value) {
+    const selectedOrganization = provideOrganizations.find(
+      (item) => item.name === value
+    );
+    console.log(selectedOrganization);
+    setSelectedOrganization({
+      orgId: selectedOrganization.id,
+      organization: selectedOrganization.name,
+      billingId: selectedOrganization.billingId,
+    });
+  }
+
+  useEffect(() => {
+    if (provideOrganizations.length === 0) {
+      organizationsToProvision();
+      setErrorToDisplay("");
+    }
+  }, [selectedOrganization]);
+
+  console.log(selectedOrganization);
+
   return (
     <Modal
-      // title={organizationDetailsInfo.name + " Details"}
       visible={visibleProvisioningOrganization}
       centered
-      onCancel={() => setVisibleProvisioningOrganization()}
+      onCancel={() => handleCancel()}
       footer={null}
     >
       <Space direction="vertical" className="organization-detail-modal">
@@ -38,17 +96,31 @@ const ProvisioningOrganization = ({
         </Row>
         <Row type="flex" justify="center" gutter={[4, 0]} className="content">
           <Col span={12}>
-            <Select className="select-arrow-boxes modals"></Select>
+            <Select
+              className="select-arrow-boxes modals"
+              placeholder="Select Organization..."
+              value={selectedOrganization.organization}
+              onChange={(value) => handleSelectedValue(value)}
+            >
+              {provideOrganizations.map((item, index) => (
+                <Option value={item.name}>{item.name}</Option>
+              ))}
+            </Select>
           </Col>
           <Col span={12}>
-            <Input></Input>
+            <Input disabled value={selectedOrganization.billingId}></Input>
           </Col>
         </Row>
+
+        {errorToDisplay && (
+          <label className="title-style">{errorToDisplay}</label>
+        )}
 
         <Row type="flex" justify="end">
           <Button
             type="primary"
             className="primary-button-style provisioning"
+            disabled={!selectedOrganization.organization}
             loading={loading}
             onClick={() => handleClickProvision()}
           >

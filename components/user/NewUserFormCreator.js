@@ -1,8 +1,8 @@
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Select, Space, Switch } from 'antd';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Input, Select, Space, Switch } from "antd";
+import PropTypes from "prop-types";
+import React from "react";
 
 const { Option } = Select;
 
@@ -62,8 +62,8 @@ const NewUserFormCreator = ({
           <>
             <h4>{title}</h4>
             <Switch
-              // value={fieldValue[fieldIndex]}
-              onChange={onChange}
+              value={fieldValue}
+              onChange={(value) => onChange(value)}
               checkedChildren="ON"
               unCheckedChildren="OFF"
             />

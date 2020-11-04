@@ -1,17 +1,5 @@
-import { faEraser, faList } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Checkbox,
-  Popconfirm,
-  Row,
-  Select,
-  Space,
-  Switch,
-  Table,
-} from "antd";
+import { Button, Row, Select, Space, Switch, Table } from "antd";
 import Search from "antd/lib/input/Search";
-import Modal from "antd/lib/modal/Modal";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
@@ -104,18 +92,11 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
       width: "9rem",
       render: (status) => (
         <div className="flex center">
-          <Popconfirm
-            placement="left"
-            title="Are you sure you want to change the status of this organization?"
-            okText="Yes"
-            cancelText="No"
-          >
-            <Switch
-              checked={status}
-              checkedChildren="ON"
-              unCheckedChildren="OFF"
-            />
-          </Popconfirm>
+          <Switch
+            checked={status}
+            checkedChildren="ON"
+            unCheckedChildren="OFF"
+          />
         </div>
       ),
     },
@@ -139,6 +120,8 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
           <h1 className="title-style">List All Organizations</h1>
         </Row>
 
+        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
+
         <Row type="flex" justify="space-between">
           <Space size="small" className="spaced-between">
             <label>Show</label>
@@ -153,24 +136,17 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
             <label>entries</label>
           </Space>
           <Row>
-            <Space size="small">
-              <Button
-                onClick={() =>
-                  setVisibleProvisioningOrganization(
-                    !visibleProvisioningOrganization
-                  )
-                }
-                type="primary"
-                className="primary-button-style alternate"
-              >
-                Provision Organization
-              </Button>
-              <Search
-                placeholder="Search..."
-                enterButton
-                style={{ width: 300 }}
-              />
-            </Space>
+            <Button
+              onClick={() =>
+                setVisibleProvisioningOrganization(
+                  !visibleProvisioningOrganization
+                )
+              }
+              type="primary"
+              className="primary-button-style alternate"
+            >
+              Provision Organization
+            </Button>
           </Row>
         </Row>
 
@@ -180,9 +156,9 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={organizationsTableList}
-          footer={() =>
+          footer={(currentData) =>
             "Showing " +
-            organizationsTableList.length +
+            currentData.length +
             " of " +
             organizationsTableList.length +
             " entries"

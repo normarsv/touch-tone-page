@@ -22,7 +22,7 @@ const ListAllUsers = ({ query, userTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [titleToDisplay, setTitleToDisplay] = useState();
+  const [titleToDisplay, setTitleToDisplay] = useState("");
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -89,13 +89,14 @@ const ListAllUsers = ({ query, userTableList }) => {
     {
       title: "Active / Deactivate",
       dataIndex: "status",
-      render: (status) => (
+      render: (status, record) => (
         <div className="flex center">
           <Popconfirm
             placement="left"
             title="Are you sure you want to change the status of this user?"
             okText="Yes"
             cancelText="No"
+            onConfirm={(e) => console.log(record)}
           >
             <Switch
               checked={status}
@@ -110,27 +111,15 @@ const ListAllUsers = ({ query, userTableList }) => {
 
   // console.log(query);
 
-  function renderTitle() {
-    if (query !== undefined) {
-      switch (query.orgId) {
-        case "1":
-          setTitleToDisplay("Guao Studio");
-          break;
-        case "3":
-          setTitleToDisplay("Walmart");
-          break;
-        case "4":
-          setTitleToDisplay("Amazon");
-          break;
-
-        default:
-          break;
-      }
-    }
-  }
-
   useEffect(() => {
-    renderTitle();
+    if (
+      userTableList.length > 0 &&
+      userTableList[0].organization !== undefined
+    ) {
+      setTitleToDisplay(userTableList[0].organization);
+    } else {
+      setTitleToDisplay("");
+    }
   }, []);
 
   return (
@@ -138,11 +127,10 @@ const ListAllUsers = ({ query, userTableList }) => {
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
         <ContentInnerHeader />
 
-        <Row>
-          <h1 className="title-style">
-            List All Users {titleToDisplay ? "of " + titleToDisplay : ""}
-          </h1>
-        </Row>
+        <h1 className="title-style">
+          List All Users {titleToDisplay ? "of " + titleToDisplay : ""}
+        </h1>
+        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
 
         <Row type="flex" justify="space-between">
           <Space size="large" className="spaced-between">
@@ -194,9 +182,9 @@ const ListAllUsers = ({ query, userTableList }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={userTableList}
-          footer={() =>
+          footer={(currentData) =>
             "Showing " +
-            userTableList.length +
+            currentData.length +
             " of " +
             userTableList.length +
             " entries"

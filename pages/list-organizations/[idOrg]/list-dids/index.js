@@ -1,5 +1,6 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import API from "../../../../API/API";
 import DidsDetailList from "../../../../components/details-screens/DidsDetailList";
 import { BaseLayout } from "../../../../layouts/BaseLayout";
 import { systemLog } from "../../../../scripts/General";
@@ -11,17 +12,28 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    let data = new Array(10).fill({
-      key: "1",
-      nameOrg: "Marketing",
-      phoneNumber: "236 876 998",
-      type: "Auto attendand",
-    });
+    const api = new API();
+
+    const resDidList = await api.GET(
+      "/Tools/organization-number/" + query.idOrg
+    );
+
+    const finalDidList = [];
+
+    for (const currentElement of resDidList.response) {
+      finalDidList.push({
+        key: currentElement.numberId,
+        nameOrg: currentElement.organizationName,
+        phoneNumber: currentElement.number,
+        type: "",
+      });
+    }
+
     return {
       currentLanguage,
       user,
-      data,
       query,
+      finalDidList,
     };
   }
   constructor(props) {
@@ -32,10 +44,10 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
+    const { finalDidList } = this.props;
     return (
       <BaseLayout>
-        <DidsDetailList data={this.props.data} />
+        <DidsDetailList didTableList={finalDidList} />
       </BaseLayout>
     );
   }

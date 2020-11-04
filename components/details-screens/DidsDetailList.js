@@ -5,7 +5,7 @@ import ContentInnerHeader from "../misc/ContentInnerHeader";
 import { useRouter } from "next/dist/client/router";
 import { motion } from "framer-motion";
 
-const DidsDetailList = ({ data }) => {
+const DidsDetailList = ({ didTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
 
@@ -48,11 +48,18 @@ const DidsDetailList = ({ data }) => {
         <ContentInnerHeader setBackOption />
         <h1 className="title-style">List of DIDs</h1>
         <Table
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
-          dataSource={data}
+          dataSource={didTableList}
+          footer={(currentData) =>
+            "Showing " +
+            currentData.length +
+            " of " +
+            didTableList.length +
+            " entries"
+          }
         />
       </Space>
     </div>
