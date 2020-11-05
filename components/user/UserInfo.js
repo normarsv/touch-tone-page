@@ -43,21 +43,18 @@ const UserInfo = ({ openSideMenu }) => {
     }
 
     return (
-      <div>
-        <Space size="small" className="user-menu-info-main-div left">
-          <div className="user-menu-name-identifier">
-            {splittedName[0] + splittedName[1]}
-          </div>
-
-          <motion.div
-            animate={openSideMenu ? "closed" : "open"}
-            variants={showItems}
-          >
-            <h4>{userInfo.name}</h4>
-            <h5 className="title-style">{userInfo.role}</h5>
-          </motion.div>
-        </Space>
-      </div>
+      <Space size="small" className="user-menu-info-main-div">
+        <div className="user-menu-name-identifier">
+          {splittedName[0] + splittedName[1]}
+        </div>
+        <motion.div
+          animate={openSideMenu ? "closed" : "open"}
+          variants={showItems}
+        >
+          <h4>{userInfo.name}</h4>
+          <h5 className="title-style">{userInfo.role}</h5>
+        </motion.div>
+      </Space>
     );
   } else {
     return <div />;

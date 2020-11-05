@@ -46,25 +46,25 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
 
   let finalRoute;
 
-  function menuToRender(userInfo) {
-    switch (userInfo.group) {
-      case "SuperAdmin":
-        return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
-        break;
+  // function menuToRender(userInfo) {
+  //   switch (userInfo.group) {
+  //     case "SuperAdmin":
+  //       return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
+  //       break;
 
-      case "OrganizationAdmin":
-        return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
-        break;
+  //     case "OrganizationAdmin":
+  //       return <OrganizationAdminSiderOptions openSideMenu={openSideMenu} />;
+  //       break;
 
-      case "EndUser":
-        return <EndUserSiderOptions openSideMenu={openSideMenu} />;
-        break;
+  //     case "EndUser":
+  //       return <EndUserSiderOptions openSideMenu={openSideMenu} />;
+  //       break;
 
-      default:
-        return <SiderOptions openSideMenu={openSideMenu} />;
-        break;
-    }
-  }
+  //     default:
+  //       return <SiderOptions openSideMenu={openSideMenu} />;
+  //       break;
+  //   }
+  // }
 
   useEffect(() => {
     switch (userInfo.group) {
@@ -79,7 +79,6 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
       case "EndUser":
         setRouteToGo("user-dashboard");
         break;
-
       default:
         break;
     }
@@ -101,15 +100,10 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   );
 
   return (
-    <div className="menu-main-div">
+    <Row className="menu-main-div">
       <Col
-        style={{ height: "100%" }}
-        xxl={3}
-        xl={4}
-        lg={5}
-        md={6}
-        sm={6}
-        xs={6}
+        flex="50%"
+        className="page-side-menu-logo-container"
       >
         <a
           onClick={() => {
@@ -117,21 +111,17 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           }}
           id="menu-header-logo"
         >
-          <div className="page-side-menu-logo-container">
-            <img className="page-side-menu-logo" src={"/logo.jpg"} />
-          </div>
+          <img className="page-side-menu-logo" src={"/logo.jpg"} />
         </a>
       </Col>
-      <Col xxl={4} xl={5} lg={8} md={2} sm={2} xs={2}>
+      <Col flex="50%">
         <Row
           type="flex"
           align="middle"
-          justify="space-between"
-          className="account-avatar"
+          justify="end"
         >
-          {userInfo.role === "Organization Admin" ||
-          userInfo.role === "End User" ? (
-            <Button type="primary">
+          {userInfo.role === "EndUser" ? (
+            <Button type="primary"  className="account-avatar">
               <FontAwesomeIcon
                 icon={faPhone}
                 style={{ marginRight: "0.5rem" }}
@@ -139,15 +129,14 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
               Use Phone
             </Button>
           ) : userInfo.name === undefined ? (
-            <label>
-              Need help? <a>Call 800 900 5464</a>
-            </label>
+            <Col className="header-menu-need-help">
+              <span>Need help? <a href="#">Call 800 900 5464</a></span>
+            </Col>
           ) : (
             <div />
           )}
-
           {userInfo.name ? (
-            <Dropdown overlay={menu} trigger={["hover"]}>
+            <Dropdown overlay={menu}  className="account-avatar">
               <div className="menu-top-right-options logged-in">
                 <FontAwesomeIcon
                   icon={faUser}
@@ -157,9 +146,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
               </div>
             </Dropdown>
           ) : null}
-        </Row>
-
-        <div
+          {userInfo.name ? (<div
           style={{
             height: "100%",
             display: "flex",
@@ -174,18 +161,20 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
               toggle={() => setOpenMenu()}
             />
           </motion.nav>
-        </div>
+        </div>):null}
+        </Row>
       </Col>
 
-      <motion.div
+      {userInfo.name && <motion.div
         initial={false}
         variants={menuDiv}
         animate={isOpen ? "open" : "closed"}
         className="mobile-hamburger-menu"
       >
-        {menuToRender(userInfo)}
-      </motion.div>
-    </div>
+        {/* {menuToRender(userInfo)} */}
+          <SiderOptions openSideMenu={openSideMenu} role={userInfo.group}/>
+      </motion.div>}
+    </Row>
   );
 };
 
