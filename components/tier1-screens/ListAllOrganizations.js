@@ -87,7 +87,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
       },
     },
     {
-      title: "Active / Deactivate",
+      title: "Organization Status",
       dataIndex: "status",
       width: "9rem",
       render: (status) => (

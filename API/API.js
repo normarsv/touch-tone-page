@@ -29,6 +29,7 @@ export default class API extends RestClient {
       },
     });
     const body = await res.json();
+    console.log(res);
     return body;
   }
 

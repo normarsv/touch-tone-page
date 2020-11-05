@@ -39,7 +39,6 @@ const OrganizationServices = ({
         <Row>
           <h1 className="title-style">{servicesContent.title}</h1>
         </Row>
-        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
 
         <Space direction="horizontal" size="middle" className="flex-end">
           <Space direction="vertical">

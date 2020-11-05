@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Checkbox,
+  message,
   Popconfirm,
   Row,
   Select,
@@ -14,11 +15,12 @@ import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
+import API from "../../API/API";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
-const ListAllUsers = ({ query, userTableList }) => {
+const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -40,6 +42,28 @@ const ListAllUsers = ({ query, userTableList }) => {
     console.log(`selected ${value}`);
   };
 
+  const api = new API(userInfo.token);
+
+  async function onChangeUserState(selectedUser) {
+    const resOnChangeUser = await api.PUT("/AuthUsers/" + selectedUser.key, {
+      username: selectedUser.userName,
+      isActive: !selectedUser.status,
+    });
+
+    if (resOnChangeUser.statusCode === 200) {
+      message
+        .loading("Changing Status...", 2)
+        .then(() => message.success("User Status Changed Succesfully!", 2));
+      setTimeout(() => {
+        reloadInfo();
+      }, 2000);
+    } else {
+      message
+        .loading("Changing Status...", 2)
+        .then(() => message.error("Unable to Change This User State", 2));
+    }
+  }
+
   const hoverAnimation = {
     scale: 1.02,
     cursor: "pointer",
@@ -56,18 +80,22 @@ const ListAllUsers = ({ query, userTableList }) => {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
+      width: "7rem",
     },
     {
       title: "Email",
       dataIndex: "email",
+      width: "15%",
     },
     {
       title: "DID",
       dataIndex: "did",
+      width: "15%",
     },
     {
       title: "Actions",
       dataIndex: "actions",
+      width: "10%",
       render: (actions) => (
         <Space className="flex center">
           <motion.div
@@ -87,8 +115,9 @@ const ListAllUsers = ({ query, userTableList }) => {
       ),
     },
     {
-      title: "Active / Deactivate",
+      title: "Activate / Deactivate",
       dataIndex: "status",
+      width: "10%",
       render: (status, record) => (
         <div className="flex center">
           <Popconfirm
@@ -96,7 +125,7 @@ const ListAllUsers = ({ query, userTableList }) => {
             title="Are you sure you want to change the status of this user?"
             okText="Yes"
             cancelText="No"
-            onConfirm={(e) => console.log(record)}
+            onConfirm={() => onChangeUserState(record)}
           >
             <Switch
               checked={status}
@@ -179,7 +208,7 @@ const ListAllUsers = ({ query, userTableList }) => {
         <Table
           rowSelection={{ ...rowSelection }}
           bordered
-          scroll={{ x: 1300 }}
+          scroll={{ x: 1000 }}
           columns={columns}
           dataSource={userTableList}
           footer={(currentData) =>

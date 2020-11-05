@@ -17,6 +17,7 @@ const BulkImport = ({}) => {
   const [renderList, setRenderList] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [rawCsv, setRawCsv] = useState();
+  const [fileInfo, setFileInfo] = useState({});
 
   const router = useRouter();
 
@@ -55,7 +56,6 @@ const BulkImport = ({}) => {
     action: "",
     async onChange(info) {
       console.log(info);
-
       const { status } = info.file;
       console.log(status);
 
@@ -66,6 +66,8 @@ const BulkImport = ({}) => {
         const apiResBulkUpload = await api.doVerifyUserBulkImport(
           formDataUpload
         );
+
+        console.log(apiResBulkUpload);
 
         const finalUserList = [];
         for (let i = 0; i < apiResBulkUpload.length; i++) {
@@ -153,6 +155,7 @@ const BulkImport = ({}) => {
           //Render file uploader
           <>
             <Row type="flex" justify="center">
+              {fileInfo && <h1>{fileInfo.name}</h1>}
               <Dragger
                 style={{ width: "100%" }}
                 showUploadList={false}
