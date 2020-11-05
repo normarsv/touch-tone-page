@@ -1,3 +1,25 @@
+import {
+  AppstoreFilled,
+  UnorderedListOutlined,
+  UserOutlined,
+  IdcardOutlined,
+  PlusCircleFilled,
+  OrderedListOutlined,
+  ReconciliationOutlined,
+  ProfileOutlined,
+  CustomerServiceFilled,
+  UsergroupAddOutlined,
+  PhoneFilled,
+  MailOutlined,
+  createFromIconfontCN
+} from "@ant-design/icons";
+const IconFont = createFromIconfontCN({
+  scriptUrl: [
+    '//at.alicdn.com/t/font_2181971_jx7g7qqv36.js', // icon-th, icon-users, icon-list-alt, icon-th-list, icon-FontAwesomeheadphones, icon-map, icon-mic, icon-tty
+  ],
+});
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 //The IP of the page
 export const mainIp = "https://touch-tone.guaodev.com"; //process.env.API_MAIN_IP; //REGRESENLO A .env NO LO DEJEN DIRECTO
 export let imageMainIp = process.env.NODE_ENV === "development" ? mainIp : "";
@@ -97,3 +119,208 @@ export const OGMetaTagBase = [
     data: "website",
   },
 ];
+
+export const siderLinks = (role) => {
+  switch (role) {
+    case "SuperAdmin":
+      return [
+        {
+          sectionTitle: "Organizations",
+          links: [
+            {
+              label: "List all Organizations",
+              url: "/list-organizations",
+              icon: <UnorderedListOutlined/>,
+              submenu: []
+            }
+          ]
+        },
+        {
+          sectionTitle: "Users",
+          links: [
+            {
+              label: "List all Users",
+              url: "/list-users",
+              icon: <UserOutlined/>,
+              submenu: []
+            },
+            {
+              label: "New User",
+              url: "#",
+              icon: <PlusCircleFilled/>,
+              submenu: [
+                {
+                  label: "Add User",
+                  url: "/list-users/new-user"
+                },
+                {
+                  label: "Add by Bulk",
+                  url: "/list-users/bulk-import"
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      break;
+    case "OrganizationAdmin":
+      return [
+        {
+          sectionTitle: "",
+          links: [
+            {
+              label: "Manage Users",
+              url: "/manage-users",
+              icon: <UnorderedListOutlined />,
+              submenu: []
+            }
+          ]
+        },
+        {
+          sectionTitle: "Services",
+          links: [
+            {
+              label: "Audio Conference Room",
+              url: "/audio-conference",
+              icon: <CustomerServiceFilled/>,
+              submenu: []
+            },
+            {
+              label: "Web RTC Meeting",
+              url: "/meetings",
+              icon: <UsergroupAddOutlined/>,
+              submenu: []
+            },
+            {
+              label: "Queue",
+              url: "/queues",
+              icon: <OrderedListOutlined/>,
+              submenu: []
+            },
+            {
+              label: "Auto - Attendant",
+              url: "#",
+              icon: <UserOutlined/>,
+              submenu: [
+                {
+                  label: "Auto - Attendant",
+                  url: "/auto-attendant"
+                },
+                {
+                  label: "Inbound Contact Center",
+                  url: "/contact-center"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          sectionTitle: "Telephony Features",
+          links: [
+            {
+              label: "Call Forwarding",
+              url: "/telephony-features/call-forwarding",
+              icon: <PhoneFilled />,
+              submenu: []
+            },
+            {
+              label: "Ring Groups",
+              url: "/telephony-features/ring-groups",
+              icon: <IconFont type="icon-map" />,
+              submenu: []
+            },
+            {
+              label: "Speed Dials",
+              url: "/telephony-features/speed-dials",
+              icon: <IconFont type="icon-tty" />,
+              submenu: []
+            },
+            {
+              label: "Call Recordings",
+              url: "/telephony-features/call-recordings",
+              icon: <IconFont type="icon-mic" />,
+              submenu: []
+            },
+          ]
+        }
+      ];
+      break;
+    case "EndUser":
+      return [
+        {
+          sectionTitle: "",
+          links: [
+            {
+              label: "Voice Mail",
+              url: "/voice-mail",
+              icon: <MailOutlined />,
+              submenu: []
+            },
+            {
+              label: "Meetings",
+              url: "/meetings",
+              icon: <IconFont type="icon-users" />,
+              submenu: []
+            },
+            {
+              label: "Call Records",
+              url: "/call-records",
+              icon: <IconFont type="icon-list-alt" />,
+              submenu: []
+            },
+            {
+              label: "Conference Room",
+              url: "/audio-conference",
+              icon: <IconFont type="icon-FontAwesomeheadphones" />,
+              submenu: []
+            },
+            {
+              label: "Termination Entries",
+              url: "/web-rtc-meeting",
+              icon: <IconFont type="icon-th" />,
+              submenu: []
+            },
+            {
+              label: "Queues",
+              url: "/queues",
+              icon: <IconFont type="icon-th-list" />,
+              submenu: []
+            },
+          ]
+        },
+        {
+          sectionTitle: "Telephony Features",
+          links: [
+            {
+              label: "Call Forwarding",
+              url: "/telephony-features/call-forwarding",
+              icon: <PhoneFilled />,
+              submenu: []
+            },
+            {
+              label: "Ring Groups",
+              url: "/telephony-features/ring-groups",
+              icon: <IconFont type="icon-map" />,
+              submenu: []
+            },
+            {
+              label: "Speed Dials",
+              url: "/telephony-features/speed-dials",
+              icon: <IconFont type="icon-tty" />,
+              submenu: []
+            },
+            {
+              label: "Call Recordings",
+              url: "/telephony-features/call-recordings",
+              icon: <IconFont type="icon-mic" />,
+              submenu: []
+            },
+          ]
+        }
+      ];
+      break;
+    default:
+      return [];
+      break;
+  }
+}

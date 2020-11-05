@@ -2,7 +2,7 @@
 
 .sider-style {
   height: 92vh;
-  padding: 22px 0;
+  padding: 0;
   position: sticky;
   margin-top: 64px;
   top: @layout-header-height;
@@ -15,13 +15,74 @@
     }
 
     .user-menu-info-main-div {
-      margin-bottom: 50px;
+      margin-bottom: 35px;
       align-items: normal;
+      padding: 22px 24px;
     }
   }
 
   .side-menu-options-parent-div {
     background-color: @side-menu-color;
+    // Added By Xin //
+    max-height: calc(~"100vh - 260px");
+    overflow: auto;
+    .ant-menu-item, .ant-menu-submenu-title{
+      width: auto;
+      &.logout-menu-item{
+        display: none;
+      }
+    }
+    .ant-menu-submenu > .ant-menu{
+      background-color: @side-menu-color;
+    }
+    /* width */
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #888; 
+      border-radius: 15px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    .ant-menu-item-divider{
+      background-color: rgba(0, 0, 0, 0.06);
+      margin: 0.5rem;
+      &.logout-menu-item{
+        display: none;
+      }
+    }
+    .ant-menu-item-group-title{
+      color: #000;
+      font-family: Base;
+      line-height: 1.19;
+      font-weight: 600;
+      &:empty {
+        display: none;
+     }
+    }
+    &.ant-menu-inline-collapsed{
+      .user-info-group-title{
+        .ant-menu-item-group-title{
+          text-align: center;
+        }
+      }
+      :not(.user-info-group-title){
+        .ant-menu-item-group-title{
+          display: none;
+        }
+      }
+    }
   }
 
   @media @small {
@@ -32,9 +93,9 @@
 // TOP NAVIGATION
 
 .page-side-menu-logo {
-  object-fit: contain;
-  object-position: center;
-  height: 62%;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 10px 0;
 }
 
 .menu-header-layout {
@@ -49,36 +110,52 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    // div{
+    //   height: 100%;
+    // }
+    .header-menu-need-help{
+      display: flex;
+      position: relative;
+      width: 100%;
+      span{
+        margin-left: 15px;
+        line-height: normal;
+        top: 50%; 
+        right: 0;
+        position: absolute;
+        transform: translateY(-50%)
+      }
+    }
     .page-side-menu-logo-container {
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+      a{
+        height: 100%;
+      }
     }
 
     .menu-top-right-options {
-      width: 6rem;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      &.logged-in {
-        justify-content: flex-end;
+      // width: 6rem;
+      // height: 100%;
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
+      margin: 0 15px;
+      &:hover{
+        cursor: pointer;
       }
+      // &.logged-in {
+      //   justify-content: flex-end;
+      // }
 
       .menu-user-status {
         font-size: 1rem;
-
         &.logged-in {
           color: @logged-in-color;
-          margin-right: 1rem;
+          margin-right: 0.5rem;
         }
-
         &.logged-out {
           color: @logged-out-color;
-          margin-right: 1rem;
+          margin-right: 0.5rem;
         }
       }
     }
@@ -121,8 +198,58 @@
   top: @layout-header-height;
   background-color: @side-menu-color;
 
+  .user-menu-info-main-div {
+    max-width: 210px;
+    margin-bottom: 20px;
+    align-items: center;
+    padding: 22px 24px;
+  }
   .side-menu-options-parent-div {
     background-color: @side-menu-color;
+    max-height: calc(~"100vh - 260px");
+    overflow: auto;
+    .ant-menu-item, .ant-menu-submenu-title{
+      width: auto
+    }
+    .ant-menu-submenu > .ant-menu{
+      background-color: @side-menu-color;
+    }
+    /* width */
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #888; 
+      border-radius: 15px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    .ant-menu-item-divider{
+      background-color: rgba(0, 0, 0, 0.06);
+      margin: 0.5rem
+    }
+    .ant-menu-item-group-title{
+      color: #000;
+      font-family: Base;
+      line-height: 1.19;
+      font-weight: 600;
+      &:empty {
+        display: none;
+      }
+    }
+    .logout-menu-item {
+      display: block;
+    }
   }
 }
 
@@ -141,6 +268,8 @@
 
 .info-wrapper {
   margin-top: 16px;
+  padding-left: 24px;
+  padding-bottom: 10px;
 }
 
 .account-avatar {
@@ -227,3 +356,5 @@
 //    padding: 0 4%;
 //  }
 //}
+
+
