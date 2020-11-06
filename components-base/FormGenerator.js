@@ -102,7 +102,7 @@ const FormGenerator = ({FormOptions}) => {
   //   ],
   // }
 
-  const renderInputType = (input) => {
+  const renderInputType = (input,values) => {
     switch (input.type){
       case "text": 
         return (
@@ -116,7 +116,7 @@ const FormGenerator = ({FormOptions}) => {
         break;
       case "select": 
         return (
-          <Select name={input.name} placeholder={input.placeholder}>
+          <Select name={input.name} placeholder={input.placeholder} onChange={input.customOnChange? (val)=>{input.customOnChange(val,FormOptions.formInputsRows)}: null}>
             {input.options.map((item, index) => {
               return (
                 <Select.Option key={index} value={item[input.optionValue]}>
@@ -138,7 +138,7 @@ const FormGenerator = ({FormOptions}) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      render={() => (
+      render={({values}) => (
         <Form 
           layout={FormOptions.generalOptions.type}
           className={"formik-form "+FormOptions.generalOptions.formClassName}
@@ -154,7 +154,7 @@ const FormGenerator = ({FormOptions}) => {
                         label={input.label}
                         tooltip={input.tooltip}
                       >
-                        {renderInputType(input)}
+                        {renderInputType(input,values)}
                       </FormItem>
                     </Col>
                   )

@@ -47,7 +47,7 @@ export default class extends Component {
           },
           cancel: {
             className: "primary-button-style cancel",
-            text: "Cancel",
+            text: "Cancel User",
             action: () => {
               // useRouter().back();
               console.log('cancel clicked')
@@ -138,7 +138,7 @@ export default class extends Component {
           },
           cancel: {
             className: "primary-button-style cancel",
-            text: "Create User",
+            text: "Cancel User",
             action: () => {
               // useRouter().back();
               console.log('cancel clicked')
@@ -203,7 +203,18 @@ export default class extends Component {
                 required: true,
                 options: resOrganizations.response,
                 optionValue: "organizationId",
-                optionLabel: "prefixName"
+                optionLabel: "prefixName",
+                customOnChange: async (value,formRows) => {
+                  const api = new API();
+                  console.log('this is custom value',value,formRows)
+                  let inputOptionsToChange = formRows[1].inputs.find((input)=>{
+                    return input.name === 'did'
+                  })
+                  console.log('this is input to change',inputOptionsToChange)
+                  let testOptions = await api.GET("/Organizations/");
+                  console.log('this response',testOptions.response)
+                  inputOptionsToChange.options = testOptions.response
+                }
               },
               {
                 name: "username",
@@ -213,7 +224,6 @@ export default class extends Component {
                 required: true
               },
             ]
-      
           },
           {
             inputs: [
@@ -231,21 +241,8 @@ export default class extends Component {
                 placeholder: "Select DID",
                 type: "select",
                 required: true,
-                options: [
-                  {
-                    number: 'did1',
-                    prefixName: 'DID OPT 1'
-                  },
-                  {
-                    number: 'did2',
-                    prefixName: 'DID OPT 2'
-                  },
-                  {
-                    number: 'did3',
-                    prefixName: 'DID OPT 3'
-                  }
-                ],
-                optionValue: "number",
+                options: [],
+                optionValue: "extensionsPrefixId",
                 optionLabel: "prefixName"
               },
             ]
@@ -266,7 +263,7 @@ export default class extends Component {
           },
           cancel: {
             className: "primary-button-style cancel",
-            text: "Create User",
+            text: "Cancel User",
             action: () => {
               // useRouter().back();
               console.log('cancel clicked')
