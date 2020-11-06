@@ -102,7 +102,7 @@ const FormGenerator = ({FormOptions}) => {
   //   ],
   // }
 
-  const renderInputType = (input,values) => {
+  const renderInputType = (input) => {
     switch (input.type){
       case "text": 
         return (
@@ -138,7 +138,7 @@ const FormGenerator = ({FormOptions}) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      render={({values}) => (
+      render={() => (
         <Form 
           layout={FormOptions.generalOptions.type}
           className={"formik-form "+FormOptions.generalOptions.formClassName}
@@ -154,7 +154,7 @@ const FormGenerator = ({FormOptions}) => {
                         label={input.label}
                         tooltip={input.tooltip}
                       >
-                        {renderInputType(input,values)}
+                        {renderInputType(input)}
                       </FormItem>
                     </Col>
                   )
