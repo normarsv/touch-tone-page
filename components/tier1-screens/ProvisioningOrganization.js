@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import Modal from "antd/lib/modal/Modal";
 import { Button, Col, Input, message, Row, Select, Space } from "antd";
+import Modal from "antd/lib/modal/Modal";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import API from "../../API/API";
 
 const { Option } = Select;
@@ -23,8 +23,7 @@ const ProvisioningOrganization = ({
     const resProvisionOrganization = await api.POST(
       "/Organizations/provide/" + selectedOrganization.orgId
     );
-    console.log(selectedOrganization.orgId);
-    console.log(resProvisionOrganization);
+
     setTimeout(() => {
       setLoading(false);
 
@@ -41,7 +40,6 @@ const ProvisioningOrganization = ({
     const resOrganizationsProvide = await api.GET(
       "/Organizations/organizatios-to-provide"
     );
-    console.log(resOrganizationsProvide.response.length);
 
     if (resOrganizationsProvide.response.length === 0) {
       setErrorToDisplay("No Organizations to Provision");
@@ -60,7 +58,6 @@ const ProvisioningOrganization = ({
     const selectedOrganization = provideOrganizations.find(
       (item) => item.name === value
     );
-    console.log(selectedOrganization);
     setSelectedOrganization({
       orgId: selectedOrganization.id,
       organization: selectedOrganization.name,
@@ -74,8 +71,6 @@ const ProvisioningOrganization = ({
       setErrorToDisplay("");
     }
   }, [selectedOrganization]);
-
-  console.log(selectedOrganization);
 
   return (
     <Modal

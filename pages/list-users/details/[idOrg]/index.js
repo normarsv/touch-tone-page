@@ -7,10 +7,27 @@ import { BaseLayout } from "../../../../layouts/BaseLayout";
 import API from "../../../../API/API";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+  static async getInitialProps({ res, query, user }) {
+    if (res) {
+      switch (user.group) {
+        case "OrganizationAdmin":
+          res.writeHead(302, {
+            Location: "/admin-dashboard",
+          });
+          res.end();
+
+          break;
+        case "EndUser":
+          res.writeHead(302, {
+            Location: "/user-dashboard",
+          });
+          res.end();
+
+          break;
+        default:
+          break;
+      }
+    }
 
     const api = new API();
 
@@ -36,7 +53,6 @@ export default class extends Component {
     });
 
     return {
-      currentLanguage,
       user,
       editServiceContent,
       servicesContent,

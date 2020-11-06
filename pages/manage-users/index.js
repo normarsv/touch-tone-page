@@ -7,10 +7,30 @@ import { systemLog } from "../../scripts/General";
 import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+  static async getInitialProps({ res, query, user }) {
+    // if (res) {
+    //   switch (user.group) {
+    //     case "SuperAdmin":
+    //       res.writeHead(302, {
+    //         Location: "/list-organizations",
+    //       });
+    //       break;
+
+    //     case "EndUser":
+    //       res.writeHead(302, {
+    //         Location: "/user-dashboard",
+    //       });
+    //       break;
+
+    //     default:
+    //       res.writeHead(302, {
+    //         Location: "/",
+    //       });
+    //       break;
+    //   }
+
+    //   res.end();
+    // }
 
     const api = new API();
 
@@ -98,7 +118,6 @@ export default class extends Component {
     ];
 
     return {
-      currentLanguage,
       user,
       manageUsersContent,
       resManageUsers,

@@ -25,21 +25,10 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [titleToDisplay, setTitleToDisplay] = useState("");
+  const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-      setSelectedRow(selectedRows);
-      setSelectedRowKeys(selectedRowKeys);
-    },
-  };
-
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
   };
 
   const api = new API(userInfo.token);
@@ -80,7 +69,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
-      width: "7rem",
+      width: "6rem",
     },
     {
       title: "Email",
@@ -138,8 +127,6 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     },
   ];
 
-  // console.log(query);
-
   useEffect(() => {
     if (
       userTableList.length > 0 &&
@@ -165,11 +152,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
           <Space size="large" className="spaced-between">
             <Space size="small" className="spaced">
               <label>Show</label>
-              <Select
-                defaultValue="10"
-                style={{ width: 120 }}
-                onChange={handleChange}
-              >
+              <Select defaultValue="10" onChange={onChangeTablePageSize}>
                 <Option value="10">10</Option>
                 <Option value="20">20</Option>
               </Select>
@@ -206,11 +189,11 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
         </Row>
 
         <Table
-          rowSelection={{ ...rowSelection }}
           bordered
           scroll={{ x: 1000 }}
           columns={columns}
           dataSource={userTableList}
+          pagination={tablePageSize}
           footer={(currentData) =>
             "Showing " +
             currentData.length +

@@ -203,6 +203,14 @@ const BulkImport = ({}) => {
               </Dragger>
             </Row>
             <Row type="flex" justify="center">
+              <h3>
+                Download Example CSV{" "}
+                <a href={"/Test-CSV.csv"} className="title-style">
+                  here
+                </a>
+              </h3>
+            </Row>
+            <Row type="flex" justify="center">
               <Button
                 disabled={!resBulkList}
                 type="primary"

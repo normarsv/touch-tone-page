@@ -9,39 +9,28 @@ import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+    if (res) {
+      switch (user.group) {
+        case "OrganizationAdmin":
+          res.writeHead(302, {
+            Location: "/admin-dashboard",
+          });
+          res.end();
 
-    // if (res) {
-    //   switch (user.group) {
-    //     case "SuperAdmin":
-    //       res.writeHead(302, {
-    //         Location: "/list-organizations",
-    //       });
-    //       break;
+          break;
 
-    //     case "OrganizationAdmin":
-    //       res.writeHead(302, {
-    //         Location: "/admin-dashboard",
-    //       });
-    //       break;
+        case "EndUser":
+          res.writeHead(302, {
+            Location: "/user-dashboard",
+          });
+          res.end();
 
-    //     case "EndUser":
-    //       res.writeHead(302, {
-    //         Location: "/user-dashboard",
-    //       });
-    //       break;
+          break;
 
-    //     default:
-    //       res.writeHead(302, {
-    //         Location: "/",
-    //       });
-    //       break;
-    //   }
-
-    //   res.end();
-    // }
+        default:
+          break;
+      }
+    }
 
     const api = new API();
 
@@ -64,7 +53,6 @@ export default class extends Component {
     }
 
     return {
-      currentLanguage,
       user,
       resOrganizations,
       organizationsTableList,

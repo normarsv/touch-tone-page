@@ -19,11 +19,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     setVisibleProvisioningOrganization,
   ] = useState(false);
   const [organizationDetailsInfo, setOrganizationDetailsInfo] = useState();
-
-  const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
-    setSelectedRow(selectedRowKeys);
-  };
+  const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
 
   const hoverAnimation = {
     scale: 1.02,
@@ -32,14 +28,9 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     transition: { duration: 0.5 },
   };
 
-  const onEditOrg = (orgName) => {
-    Router.push("/list-organizations/edit/organizationName");
-  };
-
   function handleVisible(info) {
     setVisibleDetailsModal(!visibleDetailsModal);
     setOrganizationDetailsInfo(info);
-    // console.log(info);
   }
 
   const columns = [
@@ -47,32 +38,32 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
-      width: "8rem",
+      width: "6rem",
     },
     {
       title: "Billing ID in Rev.io",
       dataIndex: "billingId",
-      width: "9rem",
+      width: "10%",
     },
     {
       title: "Organization Distribuitor",
       dataIndex: "orgDist",
-      width: "10rem",
+      width: "10%",
     },
     {
       title: "Count of DIDs",
       dataIndex: "didsCount",
-      width: "7rem",
+      width: "7%",
     },
     {
       title: "Count of Users",
       dataIndex: "users",
-      width: "7rem",
+      width: "7%",
     },
     {
       title: "Actions",
       dataIndex: "actions",
-      width: "7rem",
+      width: "7%",
       render: (_, record) => {
         return (
           <Space>
@@ -89,7 +80,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     {
       title: "Organization Status",
       dataIndex: "status",
-      width: "9rem",
+      width: "7%",
       render: (status) => (
         <div className="flex center">
           <Switch
@@ -102,13 +93,8 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     },
   ];
 
-  const rowSelection = {
-    selectedRow,
-    onChange: onSelectChange,
-  };
-
-  const handleChange = (value) => {
-    // console.log(`selected ${value}`);
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
   };
 
   return (
@@ -125,11 +111,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
         <Row type="flex" justify="space-between">
           <Space size="small" className="spaced-between">
             <label>Show</label>
-            <Select
-              defaultValue="10"
-              style={{ width: 120 }}
-              onChange={handleChange}
-            >
+            <Select defaultValue="10" onChange={onChangeTablePageSize}>
               <Option value="10">10</Option>
               <Option value="20">20</Option>
             </Select>
@@ -151,10 +133,10 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
         </Row>
 
         <Table
-          rowSelection={rowSelection}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
+          pagination={tablePageSize}
           dataSource={organizationsTableList}
           footer={(currentData) =>
             "Showing " +
@@ -176,15 +158,13 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
           />
         )}
 
-        {/* {organizationDetailsInfo && ( */}
+        {/* Modal de para provisionar organizaciones */}
         <ProvisioningOrganization
-          // organizationDetailsInfo={organizationDetailsInfo}
           visibleProvisioningOrganization={visibleProvisioningOrganization}
           setVisibleProvisioningOrganization={() =>
             setVisibleProvisioningOrganization(!visibleProvisioningOrganization)
           }
         />
-        {/* )} */}
       </Space>
     </div>
   );

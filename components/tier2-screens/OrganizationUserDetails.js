@@ -26,15 +26,27 @@ const OrganizationUserDetails = ({ telephonyFeatures, userInfo }) => {
         <Space direction="horizontal" size="middle" className="flex-end">
           <Space direction="vertical">
             <h4>Name</h4>
-            <Input style={{ width: 300 }} disabled={true} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.name}
+              disabled={true}
+            />
           </Space>
           <Space direction="vertical">
             <h4>DID</h4>
-            <Input style={{ width: 300 }} disabled={true} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.did}
+              disabled={true}
+            />
           </Space>
           <Space direction="vertical">
             <h4>Email</h4>
-            <Input style={{ width: 300 }} disabled={true} />
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.email}
+              disabled={true}
+            />
           </Space>
           <Space direction="vertical">
             <h4>Personal URL</h4>

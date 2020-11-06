@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Select, Space, Switch, Table } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
@@ -9,7 +9,12 @@ import { useRouter } from "next/dist/client/router";
 const { Option } = Select;
 
 const ManageUsers = ({ manageUsersContent }) => {
+  const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const router = useRouter();
+
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
+  };
 
   const hoverAnimation = {
     scale: 1.02,
@@ -23,7 +28,7 @@ const ManageUsers = ({ manageUsersContent }) => {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
-      width: "7rem",
+      width: "5%",
     },
     {
       title: "Email",
@@ -31,14 +36,14 @@ const ManageUsers = ({ manageUsersContent }) => {
       width: "15%",
     },
     {
-      title: "Dids",
+      title: "DID",
       dataIndex: "did",
       width: "15%",
     },
     {
       title: "Actions",
       dataIndex: "actions",
-      width: "10%",
+      width: "5%",
       render: (actions) => (
         <Space>
           <motion.div
@@ -53,7 +58,7 @@ const ManageUsers = ({ manageUsersContent }) => {
     {
       title: "User Status",
       dataIndex: "active",
-      width: "10%",
+      width: "5%",
       render: (active) => (
         <div>
           <Switch
@@ -87,11 +92,7 @@ const ManageUsers = ({ manageUsersContent }) => {
 
         <Space size="small">
           <label>Show</label>
-          <Select
-            defaultValue="10"
-            style={{ width: 120 }}
-            // onChange={handleChange}
-          >
+          <Select defaultValue="10" onChange={onChangeTablePageSize}>
             <Option value="10">10</Option>
             <Option value="20">20</Option>
           </Select>
@@ -104,6 +105,7 @@ const ManageUsers = ({ manageUsersContent }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={manageUsersContent}
+          pagination={tablePageSize}
           footer={(currentData) =>
             "Showing " +
             currentData.length +
