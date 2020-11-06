@@ -30,10 +30,69 @@ export default class extends Component {
         },
       ],
     });
+
+    const historyLogDataTable = [
+      {
+        key: 1,
+        user: "Gregory Sanders",
+        previous: "Walmart",
+        current: "Walmart México",
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+      },
+      {
+        key: 2,
+        user: "Gregory Sanders 2",
+        previous: "Walmart",
+        current: "Walmart México",
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+      },
+      {
+        key: 3,
+        user: "Guao",
+        previous: "Walmart",
+        current: "Walmart México",
+        date: [
+          {
+            id: 1,
+            date: moment().format("L"),
+            icon: faCalendarAlt,
+          },
+          {
+            id: 2,
+            date: moment().format("LT"),
+            icon: faClock,
+          },
+        ],
+      },
+    ];
+
     return {
       currentLanguage,
       user,
       data,
+      historyLogDataTable,
     };
   }
   constructor(props) {
@@ -44,10 +103,10 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { user } = this.props;
+    const { historyLogDataTable } = this.props;
     return (
       <BaseLayout>
-        <HistoryLog data={this.props.data} />
+        <HistoryLog historyLogDataTable={historyLogDataTable} />
       </BaseLayout>
     );
   }

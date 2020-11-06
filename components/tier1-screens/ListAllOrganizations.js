@@ -39,7 +39,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
   function handleVisible(info) {
     setVisibleDetailsModal(!visibleDetailsModal);
     setOrganizationDetailsInfo(info);
-    console.log(info);
+    // console.log(info);
   }
 
   const columns = [
@@ -108,7 +108,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
 
   return (

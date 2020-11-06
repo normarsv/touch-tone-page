@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, message, Row, Space, Table } from "antd";
+import { Button, message, Row, Space, Table, Tooltip } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import Dragger from "antd/lib/upload/Dragger";
-import { InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined, FileOutlined } from "@ant-design/icons";
 import Search from "antd/lib/input/Search";
 import API from "../../API/API";
 import { useRouter } from "next/dist/client/router";
@@ -67,6 +67,8 @@ const BulkImport = ({}) => {
           formDataUpload
         );
 
+        setFileInfo(info.file);
+
         console.log(apiResBulkUpload);
 
         const finalUserList = [];
@@ -97,6 +99,7 @@ const BulkImport = ({}) => {
   function revertImport() {
     setResBulkList(undefined);
     setRenderList(false);
+    setFileInfo({});
   }
 
   async function uploadCsv() {
@@ -129,6 +132,13 @@ const BulkImport = ({}) => {
     onChange: onSelectChange,
   };
 
+  const tooltipDraggerText = (
+    <p>Drag or Upload a correctly formated CSV file on the dragger field</p>
+  );
+  const renderedListTest = (
+    <p>Verify the content of the CSV displayed on the table</p>
+  );
+
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -146,16 +156,20 @@ const BulkImport = ({}) => {
           ) : (
             <div />
           )}
-          <h2 className="title-style">
-            Help <FontAwesomeIcon icon={faQuestionCircle} />
-          </h2>
+          <Tooltip
+            placement="left"
+            title={!renderList ? tooltipDraggerText : renderedListTest}
+          >
+            <h2 className="title-style">
+              Help <FontAwesomeIcon icon={faQuestionCircle} />
+            </h2>
+          </Tooltip>
         </Row>
 
         {!renderList ? (
           //Render file uploader
           <>
             <Row type="flex" justify="center">
-              {fileInfo && <h1>{fileInfo.name}</h1>}
               <Dragger
                 style={{ width: "100%" }}
                 showUploadList={false}
@@ -167,10 +181,19 @@ const BulkImport = ({}) => {
                   style={{ width: "80%" }}
                 >
                   <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
+                    {fileInfo.name ? (
+                      <Space className="flex center">
+                        <FileOutlined /> <h1>{fileInfo.name}</h1>
+                      </Space>
+                    ) : (
+                      <InboxOutlined />
+                    )}
                   </p>
                   <p className="ant-upload-text">
-                    Click or drag file to this area to upload
+                    Click or drag file to this area to{" "}
+                    {fileInfo.name
+                      ? "replace the actual file"
+                      : "upload a csv file"}
                   </p>
                   <p className="ant-upload-hint">
                     Support for a single or bulk upload. Strictly prohibit from
@@ -214,7 +237,7 @@ const BulkImport = ({}) => {
               </div>
             </Row>
             <Table
-              rowSelection={rowSelection}
+              // rowSelection={rowSelection}
               bordered
               scroll={{ x: 1000 }}
               columns={columns}

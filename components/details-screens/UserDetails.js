@@ -33,7 +33,7 @@ const OrganizationServices = ({
     }, 2000);
   };
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   const currentUserId = router.query.idOrg;
 

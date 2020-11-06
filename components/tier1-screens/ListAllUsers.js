@@ -182,10 +182,10 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
               <Space>
                 <Button
                   type="primary"
-                  className="primary-button-style alternate"
+                  className="primary-button-style alternate "
                   onClick={() => router.push("/list-users/bulk-import")}
                 >
-                  <Space>
+                  <Space className="flex center">
                     Bulk Import
                     <FontAwesomeIcon icon={faPlusCircle} />
                   </Space>
@@ -195,7 +195,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
                   className="primary-button-style alternate"
                   onClick={() => router.push("/list-users/new-user")}
                 >
-                  <Space>
+                  <Space className="flex center">
                     New User
                     <FontAwesomeIcon icon={faPlusCircle} />
                   </Space>

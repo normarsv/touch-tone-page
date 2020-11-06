@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Input, Row, Space } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import Search from "antd/lib/input/Search";
 import EditServices from "../edit-screens/EditServices";
 
-const OrganizationUserDetails = ({ telephonyFeatures }) => {
+const OrganizationUserDetails = ({ telephonyFeatures, userInfo }) => {
+  const [fieldsValues, setFieldsValues] = useState({
+    name: userInfo.firstName + " " + userInfo.lastName,
+    did: userInfo.did,
+    email: userInfo.email,
+  });
+
+  console.log(userInfo);
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>

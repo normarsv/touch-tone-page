@@ -1,25 +1,18 @@
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import {LeftOutlined, RightOutlined} from "@ant-design/icons";
-import {Affix, Button, Layout, Menu} from "antd";
-import {useContext, useRef, useState} from "react";
-import {UserContext} from "../components/authentication/UserContext";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Button, Layout, Menu } from "antd";
+import { useContext, useRef, useState } from "react";
+import { UserContext } from "../components/authentication/UserContext";
 import HeaderMenu from "../components/base/HeaderMenu";
 import SiderOptions from "../components/base/SiderOptions";
-import SuperAdminSiderOptions from "../components/tier1-screens/SuperAdminSiderOptions";
-import OrganizationAdminSiderOptions from "../components/tier2-screens/OrganizationAdminSiderOptions";
-import EndUserSiderOptions from "../components/tier3-screens/EndUserSiderOptions";
 
-const {SubMenu} = Menu;
-const {Header, Content, Sider} = Layout;
+const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
 
-export const BaseLayout = ({children}) => {
+export const BaseLayout = ({ children }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const bodyRef = useRef(null);
 
-  const {userInfo} = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
 
   // function menuToRender(userInfo) {
   //   switch (userInfo.group) {
@@ -40,7 +33,7 @@ export const BaseLayout = ({children}) => {
   return (
     <Layout>
       <Header className="menu-header-layout">
-        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef}/>
+        <HeaderMenu openSideMenu={openSideMenu} mainBodyRef={bodyRef} />
       </Header>
       <Layout>
         {userInfo.name && (
@@ -53,12 +46,12 @@ export const BaseLayout = ({children}) => {
             width="250px"
           >
             {/* {menuToRender(userInfo)} */}
-            <SiderOptions openSideMenu={openSideMenu} role={userInfo.group}/>
+            <SiderOptions openSideMenu={openSideMenu} role={userInfo.group} />
             <Button
               onClick={() => setOpenSideMenu(!openSideMenu)}
               className="sider-collapse-button"
               type="primary"
-              icon={openSideMenu ? <RightOutlined/> : <LeftOutlined/>}
+              icon={openSideMenu ? <RightOutlined /> : <LeftOutlined />}
             />
           </Sider>
         )}
@@ -66,9 +59,7 @@ export const BaseLayout = ({children}) => {
         <Layout className="content-main-layout" ref={bodyRef}>
           <Content>{children}</Content>
         </Layout>
-
       </Layout>
-
     </Layout>
   );
 };

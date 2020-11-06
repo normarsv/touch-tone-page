@@ -1,5 +1,6 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import API from "../../API/API";
 import ManageUsers from "../../components/tier2-screens/ManageUsers";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
@@ -10,6 +11,24 @@ export default class extends Component {
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
+
+    const api = new API();
+
+    const resManageUsers = await api.GET("/Users/orgId/" + user.organizationId);
+
+    const finalManageUsersList = [];
+
+    for (const currentUser of resManageUsers.response) {
+      finalManageUsersList.push({
+        key: currentUser.authUser.id,
+        name:
+          currentUser.authUser.firstName + " " + currentUser.authUser.lastName,
+        email: currentUser.authUser.email,
+        did: currentUser.authUser.did,
+        actions: currentUser.authUser.id,
+        active: currentUser.authUser.isActive,
+      });
+    }
 
     const manageUsersContent = [
       {
@@ -82,6 +101,8 @@ export default class extends Component {
       currentLanguage,
       user,
       manageUsersContent,
+      resManageUsers,
+      finalManageUsersList,
     };
   }
   constructor(props) {
@@ -92,11 +113,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { manageUsersContent } = this.props;
+    const { finalManageUsersList } = this.props;
 
     return (
       <BaseLayout>
-        <ManageUsers manageUsersContent={manageUsersContent} />
+        <ManageUsers manageUsersContent={finalManageUsersList} />
       </BaseLayout>
     );
   }

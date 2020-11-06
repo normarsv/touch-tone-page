@@ -26,13 +26,14 @@
     // Added By Xin //
     max-height: calc(~"100vh - 260px");
     overflow: auto;
-    .ant-menu-item, .ant-menu-submenu-title{
+    .ant-menu-item,
+    .ant-menu-submenu-title {
       width: auto;
-      &.logout-menu-item{
+      &.logout-menu-item {
         display: none;
       }
     }
-    .ant-menu-submenu > .ant-menu{
+    .ant-menu-submenu > .ant-menu {
       background-color: @side-menu-color;
     }
     /* width */
@@ -42,43 +43,43 @@
 
     /* Track */
     &::-webkit-scrollbar-track {
-      background: transparent; 
+      background: transparent;
     }
-    
+
     /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: #888; 
+      background: #888;
       border-radius: 15px;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: #555; 
+      background: #555;
     }
-    .ant-menu-item-divider{
+    .ant-menu-item-divider {
       background-color: rgba(0, 0, 0, 0.06);
       margin: 0.5rem;
-      &.logout-menu-item{
+      &.logout-menu-item {
         display: none;
       }
     }
-    .ant-menu-item-group-title{
+    .ant-menu-item-group-title {
       color: #000;
       font-family: Base;
       line-height: 1.19;
       font-weight: 600;
       &:empty {
         display: none;
-     }
+      }
     }
-    &.ant-menu-inline-collapsed{
-      .user-info-group-title{
-        .ant-menu-item-group-title{
+    &.ant-menu-inline-collapsed {
+      .user-info-group-title {
+        .ant-menu-item-group-title {
           text-align: center;
         }
       }
-      :not(.user-info-group-title){
-        .ant-menu-item-group-title{
+      :not(.user-info-group-title) {
+        .ant-menu-item-group-title {
           display: none;
         }
       }
@@ -113,22 +114,22 @@
     // div{
     //   height: 100%;
     // }
-    .header-menu-need-help{
+    .header-menu-need-help {
       display: flex;
       position: relative;
       width: 100%;
-      span{
+      span {
         margin-left: 15px;
         line-height: normal;
-        top: 50%; 
+        top: 50%;
         right: 0;
         position: absolute;
-        transform: translateY(-50%)
+        transform: translateY(-50%);
       }
     }
     .page-side-menu-logo-container {
       height: 100%;
-      a{
+      a {
         height: 100%;
       }
     }
@@ -140,7 +141,7 @@
       // align-items: center;
       // justify-content: space-between;
       margin: 0 15px;
-      &:hover{
+      &:hover {
         cursor: pointer;
       }
       // &.logged-in {
@@ -208,10 +209,11 @@
     background-color: @side-menu-color;
     max-height: calc(~"100vh - 260px");
     overflow: auto;
-    .ant-menu-item, .ant-menu-submenu-title{
-      width: auto
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      width: auto;
     }
-    .ant-menu-submenu > .ant-menu{
+    .ant-menu-submenu > .ant-menu {
       background-color: @side-menu-color;
     }
     /* width */
@@ -221,24 +223,24 @@
 
     /* Track */
     &::-webkit-scrollbar-track {
-      background: transparent; 
+      background: transparent;
     }
-    
+
     /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: #888; 
+      background: #888;
       border-radius: 15px;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: #555; 
+      background: #555;
     }
-    .ant-menu-item-divider{
+    .ant-menu-item-divider {
       background-color: rgba(0, 0, 0, 0.06);
-      margin: 0.5rem
+      margin: 0.5rem;
     }
-    .ant-menu-item-group-title{
+    .ant-menu-item-group-title {
       color: #000;
       font-family: Base;
       line-height: 1.19;
@@ -272,6 +274,19 @@
   padding-bottom: 10px;
 }
 
+.slogan {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  font-size: @font-size-small;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .inner-p {
+    width: 70%;
+  }
+}
+
 .account-avatar {
   @media @small {
     display: none;
@@ -285,35 +300,6 @@
     padding-top: 10px;
   }
 }
-
-//---------- Things I don't Know WTF ---------//
-
-//.ant-layout-sider-trigger {
-//  background: @primary-color;
-//}
-
-//----------Side Menu styles---------//
-
-//.side-menu-title-div {
-//  //display: flex;
-//  //justify-content: center;
-//  //align-items: center;
-//  //flex-direction: column;
-//  //width: 100%;
-//
-//  &.secondary {
-//    margin: 1rem 0;
-//  }
-//
-//  .padding-title {
-//    padding: 0 1.5rem;
-//  }
-//}
-
-//.side-menu-submenu-style {
-//  width: 100%;
-//  background-color: @side-menu-color;
-//}
 
 .select-arrow-boxes {
   min-width: 300px;
@@ -344,17 +330,3 @@
     min-width: 100px;
   }
 }
-
-//.sider-main-layout {
-//  background-color: @side-menu-color;
-//}
-
-//.ant-layout-header {
-//  padding: 0 2%;
-//
-//  @media (max-width: @screen-md-max + 1) {
-//    padding: 0 4%;
-//  }
-//}
-
-

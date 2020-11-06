@@ -23,19 +23,22 @@ const ManageUsers = ({ manageUsersContent }) => {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
-      width: "",
+      width: "7rem",
     },
     {
       title: "Email",
       dataIndex: "email",
+      width: "15%",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Dids",
+      dataIndex: "did",
+      width: "15%",
     },
     {
       title: "Actions",
       dataIndex: "actions",
+      width: "10%",
       render: (actions) => (
         <Space>
           <motion.div
@@ -48,8 +51,9 @@ const ManageUsers = ({ manageUsersContent }) => {
       ),
     },
     {
-      title: "Active / Deactivate",
+      title: "User Status",
       dataIndex: "active",
+      width: "10%",
       render: (active) => (
         <div>
           <Switch
@@ -100,9 +104,9 @@ const ManageUsers = ({ manageUsersContent }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={manageUsersContent}
-          footer={() =>
+          footer={(currentData) =>
             "Showing " +
-            manageUsersContent.length +
+            currentData.length +
             " of " +
             manageUsersContent.length +
             " entries"

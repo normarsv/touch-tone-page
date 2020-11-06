@@ -19,7 +19,7 @@ export const LoginForm = ({ showForgotPassword }) => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    console.log("Success:", values);
+    // console.log("Success:", values);
     const api = new API();
     const resLogin = await api.POST("/token/", {
       username: values.email,
