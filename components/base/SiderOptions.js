@@ -5,7 +5,7 @@ import SubMenu from "antd/lib/menu/SubMenu";
 import UserInfo from "../user/UserInfo";
 import { siderLinks } from "../../scripts/MainInfoData";
 import { removeAppUser } from "../../scripts/General";
-import { AppstoreFilled, LogoutOutlined } from "@ant-design/icons";
+import { AppstoreFilled, LogoutOutlined, PhoneOutlined } from "@ant-design/icons";
 
 const SiderOptions = ({ openSideMenu, role }) => {
   const router = useRouter();
@@ -55,57 +55,66 @@ const SiderOptions = ({ openSideMenu, role }) => {
         className="side-menu-options-parent-div"
         forceSubMenuRender={true}
       >
-        <Menu.ItemGroup
-          title={
-            <h4>
-              <AppstoreFilled /> {siderTitle}
-            </h4>
-          }
-        />
-        <Menu.Divider />
-        {linksArray.map((section, index) => {
-          return (
-            <Menu.ItemGroup key={index} title={section.sectionTitle}>
-              {section.links &&
-                section.links.map((menuItem, index) => {
-                  if (menuItem.submenu && menuItem.submenu.length > 0) {
-                    return (
-                      <SubMenu
-                        key={
-                          menuItem.submenu[0].url
-                            .split("/")[1]
-                            .replace(/[/-]+/g, "") + "submenu"
-                        }
-                        icon={menuItem.icon}
-                        title={menuItem.label}
-                      >
-                        {menuItem.submenu.map((submenuItem) => {
-                          return (
-                            <Menu.Item
-                              key={submenuItem.url.replace(/[/-]+/g, "")}
-                              onClick={() => router.push(submenuItem.url)}
-                            >
-                              {submenuItem.label}
-                            </Menu.Item>
-                          );
-                        })}
-                      </SubMenu>
-                    );
-                  }
+        <Menu.ItemGroup title={<h4><AppstoreFilled/> {siderTitle}</h4>}/>
+        <Menu.Divider/>
+        {linksArray.map((section,index) => {
+          // console.log('this is section',section)
+          return ( 
+            <Menu.ItemGroup
+              key={index}
+              title={section.sectionTitle}
+            >
+              {section.links && section.links.map((menuItem,index)=>{
+                if(menuItem.submenu && menuItem.submenu.length > 0){
+                  // Is submenu
+                  // console.log('this is submenu render key',menuItem.submenu[0].url.split('/')[1].replace(/[/-]+/g,'')+"submenu")
                   return (
-                    <Menu.Item
-                      onClick={() => router.push(menuItem.url)}
+                    <SubMenu
+                      key={menuItem.submenu[0].url.split('/')[1].replace(/[/-]+/g,'')+"submenu"}
                       icon={menuItem.icon}
-                      key={menuItem.url.replace(/[/-]+/g, "")}
+                      title={menuItem.label}
+                      // className="side-menu-submenu-style"
                     >
-                      {menuItem.label}
-                    </Menu.Item>
-                  );
-                })}
-              <Menu.Divider style={{ margin: "0.1rem 0" }} />
+                      {menuItem.submenu.map((submenuItem)=>{
+                        // console.log('this is render key',submenuItem.url.replace(/[/-]+/g,''))
+                        
+                        return (
+                          <Menu.Item
+                            key={submenuItem.url.replace(/[/-]+/g,'')}
+                            onClick={() => router.push(submenuItem.url)}
+                          >
+                            {submenuItem.label}
+                          </Menu.Item>
+                        )
+                      })}
+                    </SubMenu>
+                  )
+                }
+                // console.log('this is render key',menuItem.url.replace(/[/-]+/g,''))
+                return (
+                  <Menu.Item
+                    onClick={() => router.push(menuItem.url)}
+                    icon={menuItem.icon}
+                    key={menuItem.url.replace(/[/-]+/g,'')}
+                  >
+                    {menuItem.label}
+                  </Menu.Item>
+                )
+              })}
+              <Menu.Divider style={{margin: "0.1rem 0"}}/>
             </Menu.ItemGroup>
           );
         })}
+        {role === 'EndUser' && <Menu.Item
+          onClick={() => {console.log('use phone')}}
+          icon={<PhoneOutlined />}
+          key="use-phone"
+          className="logout-menu-item"
+        >
+          Use Phone
+        </Menu.Item>}
+        {role === 'EndUser' && <Menu.Divider className="logout-menu-item" style={{margin: "0.1rem 0"}}/>}
+
         <Menu.Item
           onClick={() => {
             removeAppUser();

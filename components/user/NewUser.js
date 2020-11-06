@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react';
 
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 import NewUserFormCreator from './NewUserFormCreator';
+import FormGenerator from '../../components-base/FormGenerator';
 
 const { Option } = Select;
 
 const NewUser = ({ formsByUserSelected, editServiceContent }) => {
-  const [formToDisplay, setFormToDisplay] = useState([]);
+  const [formToDisplay, setFormToDisplay] = useState({});
 
   const [currentFormField, setCurrentFormField] = useState({});
 
@@ -70,11 +71,13 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
         </Select>
 
         <Divider orientation="center" type="horizontal" />
+        
+        {formToDisplay.generalOptions && <FormGenerator FormOptions={formToDisplay}/>}
 
-        <Row gutter={[0, 20]} type="flex">
+        {/* <Row gutter={[0, 20]} type="flex">
           {formToDisplay &&
             formToDisplay.map((item, index) => {
-              return (
+              return ( 
                 <Col span={6}>
                   <NewUserFormCreator
                     onChange={async (value) => {
@@ -127,7 +130,7 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
               Creating User
             </Button>
           </Space>
-        </Row>
+        </Row> */}
       </Space>
     </div>
   );
