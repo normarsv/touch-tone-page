@@ -33,115 +33,316 @@ export default class extends Component {
     super(props);
     const { user, editServiceContent, resOrganizations } = props;
     this.formsByUserSelected = {
-      newEndUser: [
-        {
-          id: 1,
-          title: "First Name",
-          type: "input",
-          key: "firstName",
-        },
-        { id: 2, title: "Last Name", type: "input", key: "lastName" },
-        {
-          id: 3,
-          title: "Organization",
-          type: "select",
-          options: resOrganizations.response,
-          optionsKey: "organizationId",
-          key: "organizationId",
-        },
-        { id: 4, title: "Login Name", type: "input", key: "userName" },
-        {
-          id: 5,
-          title: "Password",
-          type: "input",
-          extraMsg: "At least 8 characters, one uppercase and one number",
-          key: "password",
-        },
-        {
-          id: 6,
-          title: "User Group",
-          type: "select",
-          options: [],
-          optionsKey: "groupId",
-          key: "userGroup",
-        },
-        {
-          id: 7,
-          title: "Agent for an inbound Contact Center",
-          type: "switch",
-          key: "isAgent",
-        },
-        {
-          id: 8,
-          title: "DID",
-          type: "select",
-          options: [],
-          optionsKey: "number",
-          key: "number",
-          onChangeValue: async (props) => {
-            if (props.valueChange === "organizationId") {
-              const api = new API();
-              const resDIDOrganization = await api.GET(
-                "/Tools/organization-number/" +
-                  props.currentFields.organizationId
-              );
-              const indexChange = props.currentForm.findIndex((formInput) => {
-                return formInput.id === 8;
-              });
-              console.log(props);
-              console.log(resDIDOrganization);
-              const formReturn = [...props.currentForm];
-              formReturn[indexChange].options = resDIDOrganization.response;
-              const returnFields = { ...props.currentFields };
-              delete returnFields.number;
-              console.log({ form: formReturn, fields: returnFields });
-              return { form: formReturn, fields: returnFields };
-            } else {
-              return { form: null, fields: null };
-            }
+      newEndUser: {
+        generalOptions: {
+          type: "vertical", //horizontal, vertical, inline
+          formClassName: "test-form",
+          submit: {
+            className: "primary-button-style",
+            text: "Create User",
           },
+          reset: {
+            className: "primary-button-style",
+            text: "Clear",
+          },
+          cancel: {
+            className: "primary-button-style cancel",
+            text: "Cancel",
+            action: () => {
+              // useRouter().back();
+              console.log('cancel clicked')
+            }
+          }
         },
-      ],
-      orgAdminEnterprise: [
-        { id: 1, title: "First Name", type: "input", key: "firstName" },
-        { id: 2, title: "Last Name", type: "input", key: "lastName" },
-        {
-          id: 3,
-          title: "Organization",
-          type: "select",
-          options: resOrganizations.response,
-          optionsKey: "organizationId",
-          key: "organizationId",
+        formInitialValues: {
+          firstName: "",
+          lastName: "",
+          username: "",
+          password: ""
         },
-
-        { id: 4, title: "Login Name", type: "input" },
-        {
-          id: 5,
-          title: "Password",
-          type: "input",
-          extraMsg: "At least 8 characters, one uppercase and one number",
+        formValidations: (values) => {
+          const errors = {};
+          if(!values.firstName){
+            errors.firstName = 'First name required'
+          }
+          if(!values.lastName){
+            errors.lastName = 'Last name required'
+          }
+          if(!values.username){
+            errors.username = 'Login name required'
+          }
+          if(!values.password){
+            errors.password = 'Password required'
+          }else if (
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(values.password)
+          ){
+            errors.password = 'At least 8 characters, one uppercase and one number'
+          }
+          return errors;
         },
-        {
-          id: 6,
-          title: "DID",
-          type: "select",
-          key: "didID",
-          options: [],
-          optionsKey: "number",
-          key: "did",
+        formSubmit: (values, { setSubmitting, setFieldError }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            console.log('form submitted values',values)
+            setSubmitting(false);
+          }, 400);
         },
-      ],
-      businessDistributor: [
-        { id: 1, title: "First Name", type: "input" },
-        { id: 2, title: "Last Name", type: "input" },
-        { id: 4, title: "Login Name", type: "input" },
-        {
-          id: 5,
-          title: "Password",
-          type: "input",
-          extraMsg: "At least 8 characters, one uppercase and one number",
+        formInputsRows: [
+          {
+            inputs: [
+              {
+                name: "firstName",
+                label: "First Name",
+                placeholder: "Put your first name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "lastName",
+                label: "Last Name",
+                placeholder: "Put your last name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "username",
+                label: "Login Name",
+                placeholder: "Put your login name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "password",
+                label: "Password",
+                placeholder: "Put your password",
+                type: "password",
+                tooltip: "At least 8 characters, one uppercase and one number",
+                required: true
+              }
+            ]
+      
+          }
+        ],
+      },
+      orgAdminEnterprise: {
+        generalOptions: {
+          type: "vertical", //horizontal, vertical, inline
+          formClassName: "test-form",
+          submit: {
+            className: "primary-button-style",
+            text: "Create User",
+          },
+          reset: {
+            className: "primary-button-style",
+            text: "Clear",
+          },
+          cancel: {
+            className: "primary-button-style cancel",
+            text: "Create User",
+            action: () => {
+              // useRouter().back();
+              console.log('cancel clicked')
+            }
+          }
         },
-      ],
+        formInitialValues: {
+          firstName: "",
+          lastName: "",
+          username: "",
+          password: ""
+        },
+        formValidations: (values) => {
+          const errors = {};
+          if(!values.firstName){
+            errors.firstName = 'First name required'
+          }
+          if(!values.lastName){
+            errors.lastName = 'Last name required'
+          }
+          if(!values.username){
+            errors.username = 'Login name required'
+          }
+          if(!values.password){
+            errors.password = 'Password required'
+          }else if (
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(values.password)
+          ){
+            errors.password = 'At least 8 characters, one uppercase and one number'
+          }
+          return errors;
+        },
+        formSubmit: (values, { setSubmitting, setFieldError }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            console.log('form submitted values',values)
+            setSubmitting(false);
+          }, 400);
+        },
+        formInputsRows: [
+          {
+            inputs: [
+              {
+                name: "firstName",
+                label: "First Name",
+                placeholder: "Put your first name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "lastName",
+                label: "Last Name",
+                placeholder: "Put your last name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "organizationId",
+                label: "Organization",
+                placeholder: "Select Organization",
+                type: "select",
+                required: true,
+                options: resOrganizations.response,
+                optionValue: "organizationId",
+                optionLabel: "prefixName"
+              },
+              {
+                name: "username",
+                label: "Login Name",
+                placeholder: "Put your login name",
+                type: "text",
+                required: true
+              },
+            ]
+      
+          },
+          {
+            inputs: [
+              {
+                name: "password",
+                label: "Password",
+                placeholder: "Put your password",
+                type: "password",
+                tooltip: "At least 8 characters, one uppercase and one number",
+                required: true
+              },
+              {
+                name: "did",
+                label: "DID",
+                placeholder: "Select DID",
+                type: "select",
+                required: true,
+                options: [
+                  {
+                    number: 'did1',
+                    prefixName: 'DID OPT 1'
+                  },
+                  {
+                    number: 'did2',
+                    prefixName: 'DID OPT 2'
+                  },
+                  {
+                    number: 'did3',
+                    prefixName: 'DID OPT 3'
+                  }
+                ],
+                optionValue: "number",
+                optionLabel: "prefixName"
+              },
+            ]
+          }
+        ],
+      },
+      businessDistributor: {
+        generalOptions: {
+          type: "vertical", //horizontal, vertical, inline
+          formClassName: "test-form",
+          submit: {
+            className: "primary-button-style",
+            text: "Create User",
+          },
+          reset: {
+            className: "primary-button-style",
+            text: "Clear",
+          },
+          cancel: {
+            className: "primary-button-style cancel",
+            text: "Create User",
+            action: () => {
+              // useRouter().back();
+              console.log('cancel clicked')
+            }
+          }
+        },
+        formInitialValues: {
+          firstName: "",
+          lastName: "",
+          username: "",
+          password: ""
+        },
+        formValidations: (values) => {
+          const errors = {};
+          if(!values.firstName){
+            errors.firstName = 'First name required'
+          }
+          if(!values.lastName){
+            errors.lastName = 'Last name required'
+          }
+          if(!values.username){
+            errors.username = 'Login name required'
+          }
+          if(!values.password){
+            errors.password = 'Password required'
+          }else if (
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(values.password)
+          ){
+            errors.password = 'At least 8 characters, one uppercase and one number'
+          }
+          return errors;
+        },
+        formSubmit: (values, { setSubmitting, setFieldError }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            console.log('form submitted values',values)
+            setSubmitting(false);
+          }, 400);
+        },
+        formInputsRows: [
+          {
+            inputs: [
+              {
+                name: "firstName",
+                label: "First Name",
+                placeholder: "Put your first name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "lastName",
+                label: "Last Name",
+                placeholder: "Put your last name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "username",
+                label: "Login Name",
+                placeholder: "Put your login name",
+                type: "text",
+                required: true
+              },
+              {
+                name: "password",
+                label: "Password",
+                placeholder: "Put your password",
+                type: "password",
+                tooltip: "At least 8 characters, one uppercase and one number",
+                required: true
+              }
+            ]
+      
+          }
+        ],
+      },
     };
   }
 
