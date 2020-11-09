@@ -1,7 +1,7 @@
 // SIDE-MENU STYLES
 
 .sider-style {
-  height: 92vh;
+  height: calc(~"100vh - 64px");
   padding: 0;
   position: sticky;
   margin-top: 64px;
@@ -24,7 +24,7 @@
   .side-menu-options-parent-div {
     background-color: @side-menu-color;
     // Added By Xin //
-    max-height: calc(~"100vh - 260px");
+    max-height: calc(~"100vh - 300px");
     overflow: auto;
     .ant-menu-item,
     .ant-menu-submenu-title {
@@ -282,8 +282,10 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 10px 0;
   .inner-p {
     width: 70%;
+    margin: 0;
   }
 }
 
@@ -302,7 +304,8 @@
 }
 
 .select-arrow-boxes {
-  min-width: 300px;
+  width: 300px;
+  max-width: 100%;
   &.modals {
     min-width: 100%;
   }

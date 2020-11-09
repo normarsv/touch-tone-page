@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Select, Checkbox, SubmitButton, ResetButton, FormItem } from 'formik-antd'
+import { Form, Input, Select, Checkbox, SubmitButton, ResetButton, FormItem, Switch} from 'formik-antd'
 import { Formik } from 'formik'
 import { Col, Row, Button } from "antd"
 
@@ -127,6 +127,11 @@ const FormGenerator = ({FormOptions}) => {
           </Select>
         )
         break;
+      case "switch": 
+        return (
+          <Switch name={input.name} checkedChildren={input.checkedChildren} unCheckedChildren={input.unCheckedChildren} defaultChecked={input.defaultChecked}/>
+        )
+        break;
       default: 
         break;
     }
@@ -153,6 +158,7 @@ const FormGenerator = ({FormOptions}) => {
                         name={input.name} 
                         label={input.label}
                         tooltip={input.tooltip}
+                        valuePropName={input.type === 'switch'? "checked": undefined}
                       >
                         {renderInputType(input)}
                       </FormItem>
