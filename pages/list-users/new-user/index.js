@@ -277,7 +277,7 @@ export default class extends Component {
                   const api = new API();
                   console.log('this is custom value',value,formRows)
                   let inputOptionsToChange = formRows[1].inputs.find((input)=>{
-                    return input.name === 'did'
+                    return input.name === 'number'
                   })
                   console.log('this is input to change',inputOptionsToChange)
                   let testOptions = await api.GET("/tools/organization-number/"+value);
