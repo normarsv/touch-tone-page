@@ -56,20 +56,23 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
         <Row>
           <h1 className="title-style">New User</h1>
         </Row>
-        <Select
-          onChange={(value) => renderForm(value)}
-          placeholder="Select Role..."
-          className="select-arrow-boxes"
-        >
-          {roleToSelect.map((item, index) => {
-            return (
-              <Option key={index} value={item.value}>
-                {item.name}
-              </Option>
-            );
-          })}
-        </Select>
-
+        <Row>
+          <Col flex="auto">
+            <Select
+              onChange={(value) => renderForm(value)}
+              placeholder="Select Role..."
+              className="select-arrow-boxes"
+            >
+              {roleToSelect.map((item, index) => {
+                return (
+                  <Option key={index} value={item.value}>
+                    {item.name}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Col>
+        </Row>
         <Divider orientation="center" type="horizontal" />
         
         {formToDisplay.generalOptions && <FormGenerator FormOptions={formToDisplay}/>}
