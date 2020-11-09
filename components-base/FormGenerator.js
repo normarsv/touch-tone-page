@@ -116,7 +116,7 @@ const FormGenerator = ({FormOptions}) => {
         break;
       case "select": 
         return (
-          <Select name={input.name} placeholder={input.placeholder}>
+          <Select name={input.name} placeholder={input.placeholder} onChange={input.customOnChange? (val)=>{input.customOnChange(val,FormOptions.formInputsRows)}: null}>
             {input.options.map((item, index) => {
               return (
                 <Select.Option key={index} value={item[input.optionValue]}>
