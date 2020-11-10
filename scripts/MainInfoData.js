@@ -11,11 +11,11 @@ import {
   UsergroupAddOutlined,
   PhoneFilled,
   MailOutlined,
-  createFromIconfontCN
+  createFromIconfontCN,
 } from "@ant-design/icons";
 const IconFont = createFromIconfontCN({
   scriptUrl: [
-    '//at.alicdn.com/t/font_2181971_jx7g7qqv36.js', // icon-th, icon-users, icon-list-alt, icon-th-list, icon-FontAwesomeheadphones, icon-map, icon-mic, icon-tty
+    "//at.alicdn.com/t/font_2181971_jx7g7qqv36.js", // icon-th, icon-users, icon-list-alt, icon-th-list, icon-FontAwesomeheadphones, icon-map, icon-mic, icon-tty
   ],
 });
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -130,10 +130,10 @@ export const siderLinks = (role) => {
             {
               label: "List all Organizations",
               url: "/list-organizations",
-              icon: <UnorderedListOutlined/>,
-              submenu: []
-            }
-          ]
+              icon: <UnorderedListOutlined />,
+              submenu: [],
+            },
+          ],
         },
         {
           sectionTitle: "Users",
@@ -141,28 +141,29 @@ export const siderLinks = (role) => {
             {
               label: "List all Users",
               url: "/list-users",
-              icon: <UserOutlined/>,
-              submenu: []
+              icon: <UserOutlined />,
+              submenu: [],
             },
             {
               label: "New User",
               url: "#",
-              icon: <PlusCircleFilled/>,
+              icon: <PlusCircleFilled />,
               submenu: [
                 {
                   label: "Add User",
-                  url: "/list-users/new-user"
+                  url: "/list-users/new-user",
                 },
                 {
                   label: "Add by Bulk",
-                  url: "/list-users/bulk-import"
-                }
-              ]
-            }
-          ]
-        }
+                  url: "/list-users/bulk-import",
+                },
+              ],
+            },
+          ],
+        },
       ];
       break;
+
     case "OrganizationAdmin":
       return [
         {
@@ -172,9 +173,9 @@ export const siderLinks = (role) => {
               label: "Manage Users",
               url: "/manage-users",
               icon: <UnorderedListOutlined />,
-              submenu: []
-            }
-          ]
+              submenu: [],
+            },
+          ],
         },
         {
           sectionTitle: "Services",
@@ -182,37 +183,37 @@ export const siderLinks = (role) => {
             {
               label: "Audio Conference Room",
               url: "/audio-conference",
-              icon: <CustomerServiceFilled/>,
-              submenu: []
+              icon: <CustomerServiceFilled />,
+              submenu: [],
             },
             {
               label: "Web RTC Meeting",
               url: "/meetings",
-              icon: <UsergroupAddOutlined/>,
-              submenu: []
+              icon: <UsergroupAddOutlined />,
+              submenu: [],
             },
-            {
-              label: "Queue",
-              url: "/queues",
-              icon: <OrderedListOutlined/>,
-              submenu: []
-            },
+            // {
+            //   label: "Queue",
+            //   url: "/queues",
+            //   icon: <OrderedListOutlined/>,
+            //   submenu: []
+            // },
             {
               label: "Auto - Attendant",
               url: "#",
-              icon: <UserOutlined/>,
+              icon: <UserOutlined />,
               submenu: [
                 {
                   label: "Auto - Attendant",
-                  url: "/auto-attendant"
+                  url: "/auto-attendant",
                 },
                 {
                   label: "Inbound Contact Center",
-                  url: "/contact-center"
-                }
-              ]
-            }
-          ]
+                  url: "/contact-center",
+                },
+              ],
+            },
+          ],
         },
         {
           sectionTitle: "Telephony Features",
@@ -221,30 +222,31 @@ export const siderLinks = (role) => {
               label: "Call Forwarding",
               url: "/telephony-features/call-forwarding",
               icon: <PhoneFilled />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Ring Groups",
               url: "/telephony-features/ring-groups",
               icon: <IconFont type="icon-map" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Speed Dials",
               url: "/telephony-features/speed-dials",
               icon: <IconFont type="icon-tty" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Call Recordings",
               url: "/telephony-features/call-recordings",
               icon: <IconFont type="icon-mic" />,
-              submenu: []
+              submenu: [],
             },
-          ]
-        }
+          ],
+        },
       ];
       break;
+
     case "EndUser":
       return [
         {
@@ -254,39 +256,39 @@ export const siderLinks = (role) => {
               label: "Voice Mail",
               url: "/voice-mail",
               icon: <MailOutlined />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Meetings",
               url: "/meetings",
               icon: <IconFont type="icon-users" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Call Records",
               url: "/call-records",
               icon: <IconFont type="icon-list-alt" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Conference Room",
               url: "/audio-conference",
               icon: <IconFont type="icon-FontAwesomeheadphones" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Termination Entries",
               url: "/web-rtc-meeting",
               icon: <IconFont type="icon-th" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Queues",
               url: "/queues",
               icon: <IconFont type="icon-th-list" />,
-              submenu: []
+              submenu: [],
             },
-          ]
+          ],
         },
         {
           sectionTitle: "Telephony Features",
@@ -295,32 +297,32 @@ export const siderLinks = (role) => {
               label: "Call Forwarding",
               url: "/telephony-features/call-forwarding",
               icon: <PhoneFilled />,
-              submenu: []
+              submenu: [],
             },
             {
-              label: "Ring Groups",
-              url: "/telephony-features/ring-groups",
+              label: "My Find Me",
+              url: "/telephony-features/my-findme",
               icon: <IconFont type="icon-map" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Speed Dials",
               url: "/telephony-features/speed-dials",
               icon: <IconFont type="icon-tty" />,
-              submenu: []
+              submenu: [],
             },
             {
               label: "Call Recordings",
               url: "/telephony-features/call-recordings",
               icon: <IconFont type="icon-mic" />,
-              submenu: []
+              submenu: [],
             },
-          ]
-        }
+          ],
+        },
       ];
       break;
     default:
       return [];
       break;
   }
-}
+};

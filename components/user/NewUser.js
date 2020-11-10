@@ -1,10 +1,10 @@
-import { Button, Col, Divider, message, Row, Select, Space } from 'antd';
-import { useRouter } from 'next/dist/client/router';
-import React, { useEffect, useState } from 'react';
+import { Button, Col, Divider, message, Row, Select, Space } from "antd";
+import { useRouter } from "next/dist/client/router";
+import React, { useEffect, useState } from "react";
 
-import ContentInnerHeader from '../misc/ContentInnerHeader';
-import NewUserFormCreator from './NewUserFormCreator';
-import FormGenerator from '../../components-base/FormGenerator';
+import ContentInnerHeader from "../misc/ContentInnerHeader";
+import NewUserFormCreator from "./NewUserFormCreator";
+import FormGenerator from "../../components-base/FormGenerator";
 
 const { Option } = Select;
 
@@ -21,10 +21,6 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
       .loading("Action in progress..", 2.5)
       .then(() => message.success("User Created Succesfully!"))
       .then(() => router.back());
-  };
-
-  const pushRoute = () => {
-    router.back();
   };
 
   const roleToSelect = [
@@ -74,8 +70,10 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
           </Col>
         </Row>
         <Divider orientation="center" type="horizontal" />
-        
-        {formToDisplay.generalOptions && <FormGenerator FormOptions={formToDisplay}/>}
+
+        {formToDisplay.generalOptions && (
+          <FormGenerator FormOptions={formToDisplay} />
+        )}
 
         {/* <Row gutter={[0, 20]} type="flex">
           {formToDisplay &&

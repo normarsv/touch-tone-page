@@ -1,15 +1,25 @@
-import React from 'react'
-import { Form, Input, Select, Checkbox, SubmitButton, ResetButton, FormItem, Switch} from 'formik-antd'
-import { Formik } from 'formik'
-import { Col, Row, Button } from "antd"
-
-
+import React from "react";
+import {
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  SubmitButton,
+  ResetButton,
+  FormItem,
+  Switch,
+  DatePicker,
+} from "formik-antd";
+import { Formik } from "formik";
+import { Col, Row, Button } from "antd";
 
 // optionals (for dummy data)
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from "next/dist/client/router";
 
-const FormGenerator = ({FormOptions}) => {
-  console.log('this is form options',FormOptions)
+// const { RangePicker } = DatePicker;
+
+const FormGenerator = ({ FormOptions }) => {
+  console.log("this is form options", FormOptions);
 
   // const DummyFormOptions = {
   //   generalOptions: {
@@ -103,20 +113,28 @@ const FormGenerator = ({FormOptions}) => {
   // }
 
   const renderInputType = (input) => {
-    switch (input.type){
-      case "text": 
-        return (
-          <Input name={input.name} placeholder={input.placeholder}/>
-        )
+    switch (input.type) {
+      case "text":
+        return <Input name={input.name} placeholder={input.placeholder} />;
         break;
-      case "password": 
+      case "password":
         return (
-          <Input.Password name={input.name} placeholder={input.placeholder}/>
-        )
+          <Input.Password name={input.name} placeholder={input.placeholder} />
+        );
         break;
-      case "select": 
+      case "select":
         return (
-          <Select name={input.name} placeholder={input.placeholder} onChange={input.customOnChange? (val)=>{input.customOnChange(val,FormOptions.formInputsRows)}: null}>
+          <Select
+            name={input.name}
+            placeholder={input.placeholder}
+            onChange={
+              input.customOnChange
+                ? (val) => {
+                    input.customOnChange(val, FormOptions.formInputsRows);
+                  }
+                : null
+            }
+          >
             {input.options.map((item, index) => {
               return (
                 <Select.Option key={index} value={item[input.optionValue]}>
@@ -125,60 +143,89 @@ const FormGenerator = ({FormOptions}) => {
               );
             })}
           </Select>
-        )
+        );
         break;
-      case "switch": 
+      case "switch":
         return (
-          <Switch name={input.name} checkedChildren={input.checkedChildren} unCheckedChildren={input.unCheckedChildren} defaultChecked={input.defaultChecked}/>
-        )
+          <Switch
+            name={input.name}
+            checkedChildren={input.checkedChildren}
+            unCheckedChildren={input.unCheckedChildren}
+            defaultChecked={input.defaultChecked}
+          />
+        );
         break;
-      default: 
+      case "datePicker":
+        return <DatePicker name={input.name} />;
+        break;
+      case "checkBox":
+        return (
+          <Checkbox name={input.name} defaultChecked={input.defaultChecked}>
+            {input.text}
+          </Checkbox>
+        );
+        break;
+      default:
         break;
     }
-  }
-
+  };
 
   return (
     <Formik
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
+      onChange={(value) => console.log(value)}
       render={() => (
-        <Form 
+        <Form
           layout={FormOptions.generalOptions.type}
-          className={"formik-form "+FormOptions.generalOptions.formClassName}
+          className={"formik-form " + FormOptions.generalOptions.formClassName}
         >
-          {FormOptions.formInputsRows.map((row,index)=>{
+          {FormOptions.formInputsRows.map((row, index) => {
             return (
-              <Row key={index}>
-                {row.inputs.map((input,idx)=>{
-                  return (
-                    <Col flex="auto" key={idx}>
-                      <FormItem 
-                        name={input.name} 
-                        label={input.label}
-                        tooltip={input.tooltip}
-                        valuePropName={input.type === 'switch'? "checked": undefined}
-                      >
-                        {renderInputType(input)}
-                      </FormItem>
-                    </Col>
-                  )
-                })}
-              </Row>
-            )
+              <>
+                <Row key={index}>
+                  {row.separatorTitle && <h2>{row.separatorTitle}</h2>}
+                  {row.inputs.map((input, idx) => {
+                    return (
+                      <Col flex="auto" key={idx}>
+                        <FormItem
+                          name={input.name}
+                          label={input.label}
+                          tooltip={input.tooltip}
+                          valuePropName={
+                            input.type === "switch" || input.type === "checkBox"
+                              ? "checked"
+                              : undefined
+                          }
+                        >
+                          {renderInputType(input)}
+                        </FormItem>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </>
+            );
           })}
           <div className="actions-section">
-            {FormOptions.generalOptions.cancel && 
+            {FormOptions.generalOptions.cancel && (
               <Button
                 className={FormOptions.generalOptions.cancel.className}
                 onClick={FormOptions.generalOptions.cancel.action}
               >
                 {FormOptions.generalOptions.cancel.text}
               </Button>
-            }
-            <SubmitButton className={FormOptions.generalOptions.submit.className} disabled={false}>{FormOptions.generalOptions.submit.text}</SubmitButton>
-            <ResetButton className={FormOptions.generalOptions.reset.className} >{FormOptions.generalOptions.reset.text}</ResetButton>
+            )}
+            <SubmitButton
+              className={FormOptions.generalOptions.submit.className}
+              disabled={false}
+            >
+              {FormOptions.generalOptions.submit.text}
+            </SubmitButton>
+            <ResetButton className={FormOptions.generalOptions.reset.className}>
+              {FormOptions.generalOptions.reset.text}
+            </ResetButton>
           </div>
         </Form>
       )}
