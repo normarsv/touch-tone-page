@@ -5,7 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 
-const DialAssignerComponent = ({}) => {
+const DialAssignerComponent = ({
+  destinationLimit,
+  destinationOptions,
+  typeOfDestinationsOptions,
+  queueNameOptions,
+  queueDetails,
+}) => {
   const [currentAssignedIndex, setcurrentAssignedIndex] = useState(0);
   const [assignToDial, setAssignToDial] = useState([
     {
@@ -47,6 +53,7 @@ const DialAssignerComponent = ({}) => {
           <Button
             type="primary"
             className="primary-button-style alternate flex center"
+            disabled={assignToDial.length < destinationLimit}
             onClick={() => newDialToAssign()}
           >
             <Space>

@@ -15,6 +15,7 @@ import { Col, Row, Button } from "antd";
 
 // optionals (for dummy data)
 import { useRouter } from "next/dist/client/router";
+import DialAssignerComponent from "../components/telephony-features/DialAssignerComponent";
 
 // const { RangePicker } = DatePicker;
 
@@ -165,6 +166,18 @@ const FormGenerator = ({ FormOptions }) => {
           </Checkbox>
         );
         break;
+      case "checkBoxGroup":
+        return (
+          <Checkbox.Group
+            name={input.name}
+            defaultChecked={input.defaultChecked}
+            options={input.options}
+          />
+        );
+        break;
+      // case "dialAssigner":
+      //   return <DialAssignerComponent />;
+      //   break;
       default:
         break;
     }
@@ -175,7 +188,6 @@ const FormGenerator = ({ FormOptions }) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      onChange={(value) => console.log(value)}
       render={() => (
         <Form
           layout={FormOptions.generalOptions.type}
@@ -185,7 +197,9 @@ const FormGenerator = ({ FormOptions }) => {
             return (
               <>
                 <Row key={index}>
-                  {row.separatorTitle && <h2>{row.separatorTitle}</h2>}
+                  {row.separatorTitle && (
+                    <h2 className="separator-title">{row.separatorTitle}</h2>
+                  )}
                   {row.inputs.map((input, idx) => {
                     return (
                       <Col flex="auto" key={idx}>
@@ -194,7 +208,9 @@ const FormGenerator = ({ FormOptions }) => {
                           label={input.label}
                           tooltip={input.tooltip}
                           valuePropName={
-                            input.type === "switch" || input.type === "checkBox"
+                            input.type === "switch" ||
+                            input.type === "checkBox" ||
+                            input.type === "checkBoxGroup"
                               ? "checked"
                               : undefined
                           }

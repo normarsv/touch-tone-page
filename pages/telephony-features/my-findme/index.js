@@ -48,26 +48,20 @@ export default class extends Component {
         enabled: false,
       },
       formValidations: (values) => {
+        console.log(values);
         const errors = {};
-        if (!values.firstName) {
+        if (!values.findeMeDescription) {
           errors.findeMeDescription = "Description required";
         }
-        if (!values.lastName) {
+        if (!values.findeMeScheduleDescription) {
           errors.findeMeScheduleDescription = "Schedule description required";
         }
-        // if (!values.startTime) {
-        //   errors.startTime = "Dates required";
-        // }
-        // if (!values.dayrange) {
-        //   errors.password = "Password required";
-        // } else if (
-        //   !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(
-        //     values.password
-        //   )
-        // ) {
-        //   errors.password =
-        //     "At least 8 characters, one uppercase and one number";
-        // }
+        if (!values.startTime) {
+          errors.startTime = "Start date required";
+        }
+        if (!values.endTime) {
+          errors.endTime = "End date required";
+        }
         return errors;
       },
       formSubmit: (values, { setSubmitting, setFieldError }) => {
@@ -104,14 +98,12 @@ export default class extends Component {
             {
               name: "startTime",
               label: "Start Date",
-              placeholder: "Put your password",
               type: "datePicker",
               required: true,
             },
             {
               name: "endTime",
               label: "End Date",
-              placeholder: "Put your password",
               type: "datePicker",
               required: true,
             },
@@ -121,59 +113,20 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: "dayrange1",
+              name: "dayrange",
               label: "",
               text: "Monday",
               placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange2",
-              label: "",
-              text: "Tuesday",
-              placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange3",
-              label: "",
-              text: "wednesday",
-              placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange4",
-              label: "",
-              text: "Thursday",
-              placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange5",
-              label: "",
-              text: "Friday",
-              placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange6",
-              label: "",
-              text: "Saturday",
-              placeholder: "",
-              type: "checkBox",
-              defaultChecked: false,
-            },
-            {
-              name: "dayrange7",
-              label: "",
-              text: "Sunday",
-              placeholder: "",
-              type: "checkBox",
+              type: "checkBoxGroup",
+              options: [
+                { label: "Monday", value: "monday" },
+                { label: "Tuesday", value: "tuesday" },
+                { label: "Wednesday", value: "wednesday" },
+                { label: "Thursday", value: "thursday" },
+                { label: "Friday", value: "friday" },
+                { label: "Saturday", value: "saturday" },
+                { label: "Sunday", value: "sunday" },
+              ],
               defaultChecked: false,
             },
           ],
@@ -189,6 +142,56 @@ export default class extends Component {
               checkedChildren: "Yes",
               unCheckedChildren: "No",
               defaultChecked: false,
+            },
+          ],
+        },
+        {
+          inputs: [
+            {
+              name: "findMeScheduleItemId",
+              label: "Destination",
+              placeholder: "Select Destination",
+              type: "select",
+              required: true,
+              options: [
+                { destinationNumber: "1", destinationId: 0 },
+                { destinationNumber: "2", destinationId: 1 },
+                { destinationNumber: "3", destinationId: 2 },
+                { destinationNumber: "4", destinationId: 3 },
+                { destinationNumber: "5", destinationId: 4 },
+              ],
+              optionValue: "destinationId",
+              optionLabel: "destinationNumber",
+            },
+            {
+              name: "destinationType",
+              label: "Type of Destination",
+              placeholder: "Select Type",
+              type: "select",
+              required: true,
+              options: [
+                { destinationType: "Ring Group", destinationId: 0 },
+                { destinationType: "User", destinationId: 1 },
+                { destinationType: "Queue", destinationId: 2 },
+                { destinationType: "External Number", destinationId: 3 },
+              ],
+              optionValue: "destinationId",
+              optionLabel: "destinationType",
+            },
+            {
+              name: "queueName",
+              label: "Queue Name",
+              placeholder: "Select Type",
+              type: "select",
+              required: true,
+              options: [
+                { queueName: "Ring Group", queueId: 0 },
+                { queueName: "User", queueId: 1 },
+                { queueName: "Queue", queueId: 2 },
+                { queueName: "External Number", queueId: 3 },
+              ],
+              optionValue: "queueId",
+              optionLabel: "queueName",
             },
           ],
         },
