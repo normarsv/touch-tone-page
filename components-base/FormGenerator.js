@@ -128,6 +128,7 @@ const FormGenerator = ({ FormOptions }) => {
           <Select
             name={input.name}
             placeholder={input.placeholder}
+            className="select-arrow-boxes"
             onChange={
               input.customOnChange
                 ? (val) => {
@@ -175,9 +176,9 @@ const FormGenerator = ({ FormOptions }) => {
           />
         );
         break;
-      // case "dialAssigner":
-      //   return <DialAssignerComponent />;
-      //   break;
+      case "dialAssigner":
+        return <DialAssignerComponent />;
+        break;
       default:
         break;
     }

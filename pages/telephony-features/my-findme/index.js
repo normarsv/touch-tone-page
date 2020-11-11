@@ -38,13 +38,7 @@ export default class extends Component {
         findeMeScheduleDescription: "",
         startTime: "",
         endTime: "",
-        dayrange1: false,
-        dayrange2: false,
-        dayrange3: false,
-        dayrange4: false,
-        dayrange5: false,
-        dayrange6: false,
-        dayrange7: false,
+        dayrange: [],
         enabled: false,
       },
       formValidations: (values) => {
@@ -192,6 +186,17 @@ export default class extends Component {
               ],
               optionValue: "queueId",
               optionLabel: "queueName",
+            },
+          ],
+        },
+        {
+          inputs: [
+            {
+              name: "findMeScheduleItemId",
+              label: "Destination",
+              placeholder: "Select Destination",
+              type: "dialAssigner",
+              required: true,
             },
           ],
         },
