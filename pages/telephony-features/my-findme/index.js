@@ -55,22 +55,29 @@ export default class extends Component {
         if (!values.endTime) {
           errors.endTime = "End date required";
         }
-        if (!values.destinations || values.destinations.length === 0){
+        if (!values.destinations || (values.destinations.length === 0 )){
           errors.destinations = "At least 1 destination required";
         }else if(values.destinations){
           errors.destinations = []
           values.destinations.map((destination,index)=>{
-            errors.destinations.push({})
-            if(!destination.findMeScheduleItemId){
-              errors.destinations[index].findMeScheduleItemId = "findMeScheduleItemId is required"
-            }
-            if(!destination.destinationType){
-              errors.destinations[index].destinationType = "destinationType is required"
-            }
-            if(!destination.queueName){
-              errors.destinations[index].queueName = "queueName is required"
+            errors.destinations[index] = {}
+            if(!destination.findMeScheduleItemId || !destination.destinationType || !destination.queueName){
+              if(!destination.findMeScheduleItemId){
+                errors.destinations[index].findMeScheduleItemId = "findMeScheduleItemId is required"
+              }
+              if(!destination.destinationType){
+                errors.destinations[index].destinationType = "destinationType is required"
+              }
+              if(!destination.queueName){
+                errors.destinations[index].queueName = "queueName is required"
+              }
+            }else{
+              delete errors.destinations[index]
             }
           })
+          if(errors.destinations.every(o => o.value === '0')){
+            delete errors.destinations
+          }
         }
         return errors;
       },

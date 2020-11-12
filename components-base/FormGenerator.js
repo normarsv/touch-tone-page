@@ -283,7 +283,8 @@ const FormGenerator = ({ FormOptions }) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      render={({values}) => (
+    >
+      {({values}) => (
         <Form
           layout={FormOptions.generalOptions.type}
           className={"formik-form " + FormOptions.generalOptions.formClassName}
@@ -341,7 +342,7 @@ const FormGenerator = ({ FormOptions }) => {
           </div>
         </Form>
       )}
-    />
+    </Formik>
   );
 };
 
