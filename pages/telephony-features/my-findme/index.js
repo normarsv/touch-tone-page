@@ -42,7 +42,6 @@ export default class extends Component {
         enabled: false,
       },
       formValidations: (values) => {
-        console.log(values);
         const errors = {};
         if (!values.findeMeDescription) {
           errors.findeMeDescription = "Description required";
@@ -56,13 +55,36 @@ export default class extends Component {
         if (!values.endTime) {
           errors.endTime = "End date required";
         }
+        if (!values.destinations || (values.destinations.length === 0 )){
+          errors.destinations = "At least 1 destination required";
+        }else if(values.destinations){
+          errors.destinations = []
+          values.destinations.map((destination,index)=>{
+            errors.destinations[index] = {}
+            if(!destination.findMeScheduleItemId || !destination.destinationType || !destination.queueName){
+              if(!destination.findMeScheduleItemId){
+                errors.destinations[index].findMeScheduleItemId = "findMeScheduleItemId is required"
+              }
+              if(!destination.destinationType){
+                errors.destinations[index].destinationType = "destinationType is required"
+              }
+              if(!destination.queueName){
+                errors.destinations[index].queueName = "queueName is required"
+              }
+            }else{
+              delete errors.destinations[index]
+            }
+          })
+          if(errors.destinations.every(o => o.value === '0')){
+            delete errors.destinations
+          }
+        }
         return errors;
       },
       formSubmit: (values, { setSubmitting, setFieldError }) => {
-        console.log(values);
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
           console.log("form submitted values", values);
+          alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400);
       },
@@ -139,64 +161,121 @@ export default class extends Component {
             },
           ],
         },
+        // {
+        //   inputs: [
+        //     {
+        //       name: "findMeScheduleItemId",
+        //       label: "Destination",
+        //       placeholder: "Select Destination",
+        //       type: "select",
+        //       required: true,
+        //       options: [
+        //         { destinationNumber: "1", destinationId: 0 },
+        //         { destinationNumber: "2", destinationId: 1 },
+        //         { destinationNumber: "3", destinationId: 2 },
+        //         { destinationNumber: "4", destinationId: 3 },
+        //         { destinationNumber: "5", destinationId: 4 },
+        //       ],
+        //       optionValue: "destinationId",
+        //       optionLabel: "destinationNumber",
+        //     },
+        //     {
+        //       name: "destinationType",
+        //       label: "Type of Destination",
+        //       placeholder: "Select Type",
+        //       type: "select",
+        //       required: true,
+        //       options: [
+        //         { destinationType: "Ring Group", destinationId: 0 },
+        //         { destinationType: "User", destinationId: 1 },
+        //         { destinationType: "Queue", destinationId: 2 },
+        //         { destinationType: "External Number", destinationId: 3 },
+        //       ],
+        //       optionValue: "destinationId",
+        //       optionLabel: "destinationType",
+        //     },
+        //     {
+        //       name: "queueName",
+        //       label: "Queue Name",
+        //       placeholder: "Select Type",
+        //       type: "select",
+        //       required: true,
+        //       options: [
+        //         { queueName: "Ring Group", queueId: 0 },
+        //         { queueName: "User", queueId: 1 },
+        //         { queueName: "Queue", queueId: 2 },
+        //         { queueName: "External Number", queueId: 3 },
+        //       ],
+        //       optionValue: "queueId",
+        //       optionLabel: "queueName",
+        //     },
+        //   ],
+        // },
         {
           inputs: [
             {
-              name: "findMeScheduleItemId",
+              name: "destinations",
               label: "Destination",
               placeholder: "Select Destination",
-              type: "select",
+              type: "list",
+              addMax: 5,
               required: true,
-              options: [
-                { destinationNumber: "1", destinationId: 0 },
-                { destinationNumber: "2", destinationId: 1 },
-                { destinationNumber: "3", destinationId: 2 },
-                { destinationNumber: "4", destinationId: 3 },
-                { destinationNumber: "5", destinationId: 4 },
+              listFields: [
+                {
+                  name: "findMeScheduleItemId",
+                  label: "Destination",
+                  placeholder: "Select Destination",
+                  type: "select",
+                  required: true,
+                  options: [
+                    { destinationNumber: "1", destinationId: 0 },
+                    { destinationNumber: "2", destinationId: 1 },
+                    { destinationNumber: "3", destinationId: 2 },
+                    { destinationNumber: "4", destinationId: 3 },
+                    { destinationNumber: "5", destinationId: 4 },
+                  ],
+                  optionValue: "destinationId",
+                  optionLabel: "destinationNumber",
+                },
+                {
+                  name: "destinationType",
+                  label: "Type of Destination",
+                  placeholder: "Select Type",
+                  type: "select",
+                  required: true,
+                  options: [
+                    { destinationType: "Ring Group", destinationId: 0 },
+                    { destinationType: "User", destinationId: 1 },
+                    { destinationType: "Queue", destinationId: 2 },
+                    { destinationType: "External Number", destinationId: 3 },
+                  ],
+                  optionValue: "destinationId",
+                  optionLabel: "destinationType",
+                },
+                {
+                  name: "queueName",
+                  label: "Queue Name",
+                  placeholder: "Select Type",
+                  type: "select",
+                  required: true,
+                  options: [
+                    { queueName: "Ring Group", queueId: 0 },
+                    { queueName: "User", queueId: 1 },
+                    { queueName: "Queue", queueId: 2 },
+                    { queueName: "External Number", queueId: 3 },
+                  ],
+                  optionValue: "queueId",
+                  optionLabel: "queueName",
+                },
               ],
-              optionValue: "destinationId",
-              optionLabel: "destinationNumber",
-            },
-            {
-              name: "destinationType",
-              label: "Type of Destination",
-              placeholder: "Select Type",
-              type: "select",
-              required: true,
-              options: [
-                { destinationType: "Ring Group", destinationId: 0 },
-                { destinationType: "User", destinationId: 1 },
-                { destinationType: "Queue", destinationId: 2 },
-                { destinationType: "External Number", destinationId: 3 },
-              ],
-              optionValue: "destinationId",
-              optionLabel: "destinationType",
-            },
-            {
-              name: "queueName",
-              label: "Queue Name",
-              placeholder: "Select Type",
-              type: "select",
-              required: true,
-              options: [
-                { queueName: "Ring Group", queueId: 0 },
-                { queueName: "User", queueId: 1 },
-                { queueName: "Queue", queueId: 2 },
-                { queueName: "External Number", queueId: 3 },
-              ],
-              optionValue: "queueId",
-              optionLabel: "queueName",
-            },
-          ],
-        },
-        {
-          inputs: [
-            {
-              name: "findMeScheduleItemId",
-              label: "Destination",
-              placeholder: "Select Destination",
-              type: "dialAssigner",
-              required: true,
+              customActions: [
+                {
+                  label: "Test",
+                  onClick: (listRowInputs) => {
+                    alert(JSON.stringify(listRowInputs, null, 2));
+                  }
+                }
+              ]
             },
           ],
         },

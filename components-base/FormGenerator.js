@@ -10,8 +10,8 @@ import {
   Switch,
   DatePicker,
 } from "formik-antd";
-import { Formik } from "formik";
-import { Col, Row, Button } from "antd";
+import { Formik, FieldArray, getIn } from "formik";
+import { Col, Row, Button, Typography } from "antd";
 
 // optionals (for dummy data)
 import { useRouter } from "next/dist/client/router";
@@ -20,7 +20,7 @@ import DialAssignerComponent from "../components/telephony-features/DialAssigner
 // const { RangePicker } = DatePicker;
 
 const FormGenerator = ({ FormOptions }) => {
-  console.log("this is form options", FormOptions);
+  // console.log("this is form options", FormOptions);
 
   // const DummyFormOptions = {
   //   generalOptions: {
@@ -113,20 +113,20 @@ const FormGenerator = ({ FormOptions }) => {
   //   ],
   // }
 
-  const renderInputType = (input) => {
+  const renderInputType = (input,values) => {
     switch (input.type) {
       case "text":
-        return <Input name={input.name} placeholder={input.placeholder} />;
+        return <Input name={input.listName? input.listName : input.name} placeholder={input.placeholder} />;
         break;
       case "password":
         return (
-          <Input.Password name={input.name} placeholder={input.placeholder} />
+          <Input.Password name={input.listName? input.listName : input.name} placeholder={input.placeholder} />
         );
         break;
       case "select":
         return (
           <Select
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             placeholder={input.placeholder}
             className="select-arrow-boxes"
             onChange={
@@ -150,7 +150,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "switch":
         return (
           <Switch
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             checkedChildren={input.checkedChildren}
             unCheckedChildren={input.unCheckedChildren}
             defaultChecked={input.defaultChecked}
@@ -158,11 +158,11 @@ const FormGenerator = ({ FormOptions }) => {
         );
         break;
       case "datePicker":
-        return <DatePicker name={input.name} />;
+        return <DatePicker name={input.listName? input.listName : input.name} />;
         break;
       case "checkBox":
         return (
-          <Checkbox name={input.name} defaultChecked={input.defaultChecked}>
+          <Checkbox name={input.listName? input.listName : input.name} defaultChecked={input.defaultChecked}>
             {input.text}
           </Checkbox>
         );
@@ -170,7 +170,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "checkBoxGroup":
         return (
           <Checkbox.Group
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             defaultChecked={input.defaultChecked}
             options={input.options}
           />
@@ -178,6 +178,100 @@ const FormGenerator = ({ FormOptions }) => {
         break;
       case "dialAssigner":
         return <DialAssignerComponent />;
+        break;
+      case "list":
+        let listArrayLength = values[input.name]? values[input.name].length : 0;
+        return (
+          <FieldArray
+            key={input.name}
+            name={input.name}
+            render={arrayHelpers => (
+              <Col span={24}>
+                <h2 className="separator-title">{input.label} {input.addMax? "(max. Inputs: "+input.addMax+")":""}</h2>
+                {
+                  values[input.name] && values[input.name].length > 0 ? 
+                  (
+                    values[input.name].map((listItem, index) => {
+                      return (
+                        <Row key={index}>
+                          {input.listFields.map((field,idx)=>{
+                            const newFieldName = input.name+"["+index+"]."+field.name; 
+                            field.listName = newFieldName;
+                            return (
+                              <Col flex="auto" key={idx}>
+                                <FormItem
+                                  name={newFieldName}
+                                  label={field.label}
+                                  tooltip={field.tooltip}
+                                  valuePropName={
+                                    field.type === "switch" ||
+                                    field.type === "checkBox" ||
+                                    field.type === "checkBoxGroup"
+                                      ? "checked"
+                                      : undefined
+                                  }
+                                >
+                                  {renderInputType(field)}
+                                </FormItem>
+                              </Col>
+                            )
+                          })}
+                          <Col flex="auto" className="list-actions">
+                            <FormItem name="action" label="Actions">
+                              {input.customActions && input.customActions.map((action,i)=>{
+                                return (
+                                    <Button 
+                                      key={i}
+                                      type="dashed" 
+                                      className="custom-added"
+                                      onClick={() => {
+                                        action.onClick(values[input.name][index])
+                                      }}
+                                    >
+                                      {action.label}
+                                    </Button>
+                                )
+                              })}
+                              <Button type="dashed" onClick={() => arrayHelpers.remove(index)}>Remove</Button>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      )
+                   })
+                  ) : ("")
+                }
+                <Col flex="auto" >
+                  {arrayHelpers.form.errors[input.name] &&
+                  typeof arrayHelpers.form.errors[input.name] === 'string' &&
+                  getIn(arrayHelpers.form.errors,input.name) && 
+                    <div><Typography.Text type="danger">{getIn(arrayHelpers.form.errors,input.name)}</Typography.Text></div>
+                  }
+                  <Button 
+                    type="dashed" 
+                    disabled={input.addMax? (listArrayLength < input.addMax? false: true):false}
+                    onClick={() => {
+                      if(input.addMax){
+                        if(listArrayLength < input.addMax){
+                          let addObject = {};
+                          input.listFields.map((field,idx) => {
+                            addObject[field.name] = ""
+                          })
+                          arrayHelpers.push(addObject)
+                        }
+                      }else{
+                        let addObject = {};
+                        input.listFields.map((field,idx) => {
+                          addObject[field.name] = ""
+                        })
+                        arrayHelpers.push(addObject)
+                      }
+                    }}
+                  >Add</Button>
+                </Col>
+              </Col>
+            )}
+          />
+        );
         break;
       default:
         break;
@@ -189,40 +283,42 @@ const FormGenerator = ({ FormOptions }) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      render={() => (
+    >
+      {({values}) => (
         <Form
           layout={FormOptions.generalOptions.type}
           className={"formik-form " + FormOptions.generalOptions.formClassName}
         >
           {FormOptions.formInputsRows.map((row, index) => {
             return (
-              <>
-                <Row key={index}>
-                  {row.separatorTitle && (
-                    <h2 className="separator-title">{row.separatorTitle}</h2>
-                  )}
-                  {row.inputs.map((input, idx) => {
-                    return (
-                      <Col flex="auto" key={idx}>
-                        <FormItem
-                          name={input.name}
-                          label={input.label}
-                          tooltip={input.tooltip}
-                          valuePropName={
-                            input.type === "switch" ||
-                            input.type === "checkBox" ||
-                            input.type === "checkBoxGroup"
-                              ? "checked"
-                              : undefined
-                          }
-                        >
-                          {renderInputType(input)}
-                        </FormItem>
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </>
+              <Row key={index}>
+                {row.separatorTitle && (
+                  <h2 className="separator-title">{row.separatorTitle}</h2>
+                )}
+                {row.inputs.map((input, idx) => {
+                  if(input.type=== 'list'){
+                    return renderInputType(input,values)
+                  }
+                  return (
+                    <Col flex="auto" key={idx}>
+                      <FormItem
+                        name={input.name}
+                        label={input.label}
+                        tooltip={input.tooltip}
+                        valuePropName={
+                          input.type === "switch" ||
+                          input.type === "checkBox" ||
+                          input.type === "checkBoxGroup"
+                            ? "checked"
+                            : undefined
+                        }
+                      >
+                        {renderInputType(input,values)}
+                      </FormItem>
+                    </Col>
+                  );
+                })}
+              </Row>
             );
           })}
           <div className="actions-section">
@@ -246,7 +342,7 @@ const FormGenerator = ({ FormOptions }) => {
           </div>
         </Form>
       )}
-    />
+    </Formik>
   );
 };
 
