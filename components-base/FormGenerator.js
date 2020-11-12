@@ -10,7 +10,7 @@ import {
   Switch,
   DatePicker,
 } from "formik-antd";
-import { Formik, FieldArray, getIn, Field } from "formik";
+import { Formik, FieldArray, getIn } from "formik";
 import { Col, Row, Button, Typography } from "antd";
 
 // optionals (for dummy data)
