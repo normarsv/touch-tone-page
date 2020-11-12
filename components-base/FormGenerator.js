@@ -10,8 +10,9 @@ import {
   Switch,
   DatePicker,
 } from "formik-antd";
-import { Formik } from "formik";
-import { Col, Row, Button } from "antd";
+import { Formik, FieldArray } from "formik";
+import { Col, Row, Button, Space } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 // optionals (for dummy data)
 import { useRouter } from "next/dist/client/router";
@@ -113,20 +114,20 @@ const FormGenerator = ({ FormOptions }) => {
   //   ],
   // }
 
-  const renderInputType = (input) => {
+  const renderInputType = (input,values) => {
     switch (input.type) {
       case "text":
-        return <Input name={input.name} placeholder={input.placeholder} />;
+        return <Input name={input.listName? input.listName : input.name} placeholder={input.placeholder} />;
         break;
       case "password":
         return (
-          <Input.Password name={input.name} placeholder={input.placeholder} />
+          <Input.Password name={input.listName? input.listName : input.name} placeholder={input.placeholder} />
         );
         break;
       case "select":
         return (
           <Select
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             placeholder={input.placeholder}
             className="select-arrow-boxes"
             onChange={
@@ -150,7 +151,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "switch":
         return (
           <Switch
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             checkedChildren={input.checkedChildren}
             unCheckedChildren={input.unCheckedChildren}
             defaultChecked={input.defaultChecked}
@@ -158,11 +159,11 @@ const FormGenerator = ({ FormOptions }) => {
         );
         break;
       case "datePicker":
-        return <DatePicker name={input.name} />;
+        return <DatePicker name={input.listName? input.listName : input.name} />;
         break;
       case "checkBox":
         return (
-          <Checkbox name={input.name} defaultChecked={input.defaultChecked}>
+          <Checkbox name={input.listName? input.listName : input.name} defaultChecked={input.defaultChecked}>
             {input.text}
           </Checkbox>
         );
@@ -170,7 +171,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "checkBoxGroup":
         return (
           <Checkbox.Group
-            name={input.name}
+            name={input.listName? input.listName : input.name}
             defaultChecked={input.defaultChecked}
             options={input.options}
           />
@@ -178,6 +179,62 @@ const FormGenerator = ({ FormOptions }) => {
         break;
       case "dialAssigner":
         return <DialAssignerComponent />;
+        break;
+      case "list":
+        console.log('list input',input)
+        console.log('list value',values)
+        return (
+          <FieldArray
+            key={input.name}
+            name={input.name}
+            render={arrayHelpers => (
+              <Col span={24}>
+                <h2 className="separator-title">{input.label}</h2>
+                {
+                  values[input.name] && values[input.name].length > 0 ? 
+                  (
+                    values[input.name].map((listItem, index) => {
+                      return (
+                        <Row key={index}>
+                          {input.listFields.map((field,idx)=>{
+                            const newFieldName = input.name+"["+index+"]."+field.name; 
+                            field.listName = newFieldName;
+                            return (
+                              <Col flex="auto" key={idx}>
+                                <FormItem
+                                  name={newFieldName}
+                                  label={field.label}
+                                  tooltip={field.tooltip}
+                                  valuePropName={
+                                    field.type === "switch" ||
+                                    field.type === "checkBox" ||
+                                    field.type === "checkBoxGroup"
+                                      ? "checked"
+                                      : undefined
+                                  }
+                                >
+                                  {renderInputType(field)}
+                                </FormItem>
+                              </Col>
+                            )
+                          })}
+                          <Col flex="auto">
+                            <FormItem name="action" label="Actions">
+                              <Button type="dashed" onClick={() => arrayHelpers.remove(index)}>Remove</Button>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      )
+                   })
+                  ) : ("")
+                }
+                <Col flex="auto" >
+                  <Button type="dashed" onClick={() => arrayHelpers.push({})}>Add</Button>
+                </Col>
+              </Col>
+            )}
+          />
+        );
         break;
       default:
         break;
@@ -189,7 +246,7 @@ const FormGenerator = ({ FormOptions }) => {
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
-      render={() => (
+      render={({values}) => (
         <Form
           layout={FormOptions.generalOptions.type}
           className={"formik-form " + FormOptions.generalOptions.formClassName}
@@ -202,6 +259,9 @@ const FormGenerator = ({ FormOptions }) => {
                     <h2 className="separator-title">{row.separatorTitle}</h2>
                   )}
                   {row.inputs.map((input, idx) => {
+                    if(input.type=== 'list'){
+                      return renderInputType(input,values)
+                    }
                     return (
                       <Col flex="auto" key={idx}>
                         <FormItem
@@ -216,7 +276,7 @@ const FormGenerator = ({ FormOptions }) => {
                               : undefined
                           }
                         >
-                          {renderInputType(input)}
+                          {renderInputType(input,values)}
                         </FormItem>
                       </Col>
                     );
