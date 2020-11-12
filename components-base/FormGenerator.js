@@ -10,9 +10,8 @@ import {
   Switch,
   DatePicker,
 } from "formik-antd";
-import { Formik, FieldArray } from "formik";
-import { Col, Row, Button, Space } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Formik, FieldArray, getIn, Field } from "formik";
+import { Col, Row, Button, Typography } from "antd";
 
 // optionals (for dummy data)
 import { useRouter } from "next/dist/client/router";
@@ -21,7 +20,7 @@ import DialAssignerComponent from "../components/telephony-features/DialAssigner
 // const { RangePicker } = DatePicker;
 
 const FormGenerator = ({ FormOptions }) => {
-  console.log("this is form options", FormOptions);
+  // console.log("this is form options", FormOptions);
 
   // const DummyFormOptions = {
   //   generalOptions: {
@@ -181,15 +180,14 @@ const FormGenerator = ({ FormOptions }) => {
         return <DialAssignerComponent />;
         break;
       case "list":
-        console.log('list input',input)
-        console.log('list value',values)
+        let listArrayLength = values[input.name]? values[input.name].length : 0;
         return (
           <FieldArray
             key={input.name}
             name={input.name}
             render={arrayHelpers => (
               <Col span={24}>
-                <h2 className="separator-title">{input.label}</h2>
+                <h2 className="separator-title">{input.label} {input.addMax? "(max. Inputs: "+input.addMax+")":""}</h2>
                 {
                   values[input.name] && values[input.name].length > 0 ? 
                   (
@@ -218,8 +216,22 @@ const FormGenerator = ({ FormOptions }) => {
                               </Col>
                             )
                           })}
-                          <Col flex="auto">
+                          <Col flex="auto" className="list-actions">
                             <FormItem name="action" label="Actions">
+                              {input.customActions && input.customActions.map((action,i)=>{
+                                return (
+                                    <Button 
+                                      key={i}
+                                      type="dashed" 
+                                      className="custom-added"
+                                      onClick={() => {
+                                        action.onClick(values[input.name][index])
+                                      }}
+                                    >
+                                      {action.label}
+                                    </Button>
+                                )
+                              })}
                               <Button type="dashed" onClick={() => arrayHelpers.remove(index)}>Remove</Button>
                             </FormItem>
                           </Col>
@@ -229,7 +241,32 @@ const FormGenerator = ({ FormOptions }) => {
                   ) : ("")
                 }
                 <Col flex="auto" >
-                  <Button type="dashed" onClick={() => arrayHelpers.push({})}>Add</Button>
+                  {arrayHelpers.form.errors[input.name] &&
+                  typeof arrayHelpers.form.errors[input.name] === 'string' &&
+                  getIn(arrayHelpers.form.errors,input.name) && 
+                    <div><Typography.Text type="danger">{getIn(arrayHelpers.form.errors,input.name)}</Typography.Text></div>
+                  }
+                  <Button 
+                    type="dashed" 
+                    disabled={input.addMax? (listArrayLength < input.addMax? false: true):false}
+                    onClick={() => {
+                      if(input.addMax){
+                        if(listArrayLength < input.addMax){
+                          let addObject = {};
+                          input.listFields.map((field,idx) => {
+                            addObject[field.name] = ""
+                          })
+                          arrayHelpers.push(addObject)
+                        }
+                      }else{
+                        let addObject = {};
+                        input.listFields.map((field,idx) => {
+                          addObject[field.name] = ""
+                        })
+                        arrayHelpers.push(addObject)
+                      }
+                    }}
+                  >Add</Button>
                 </Col>
               </Col>
             )}
@@ -253,36 +290,34 @@ const FormGenerator = ({ FormOptions }) => {
         >
           {FormOptions.formInputsRows.map((row, index) => {
             return (
-              <>
-                <Row key={index}>
-                  {row.separatorTitle && (
-                    <h2 className="separator-title">{row.separatorTitle}</h2>
-                  )}
-                  {row.inputs.map((input, idx) => {
-                    if(input.type=== 'list'){
-                      return renderInputType(input,values)
-                    }
-                    return (
-                      <Col flex="auto" key={idx}>
-                        <FormItem
-                          name={input.name}
-                          label={input.label}
-                          tooltip={input.tooltip}
-                          valuePropName={
-                            input.type === "switch" ||
-                            input.type === "checkBox" ||
-                            input.type === "checkBoxGroup"
-                              ? "checked"
-                              : undefined
-                          }
-                        >
-                          {renderInputType(input,values)}
-                        </FormItem>
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </>
+              <Row key={index}>
+                {row.separatorTitle && (
+                  <h2 className="separator-title">{row.separatorTitle}</h2>
+                )}
+                {row.inputs.map((input, idx) => {
+                  if(input.type=== 'list'){
+                    return renderInputType(input,values)
+                  }
+                  return (
+                    <Col flex="auto" key={idx}>
+                      <FormItem
+                        name={input.name}
+                        label={input.label}
+                        tooltip={input.tooltip}
+                        valuePropName={
+                          input.type === "switch" ||
+                          input.type === "checkBox" ||
+                          input.type === "checkBoxGroup"
+                            ? "checked"
+                            : undefined
+                        }
+                      >
+                        {renderInputType(input,values)}
+                      </FormItem>
+                    </Col>
+                  );
+                })}
+              </Row>
             );
           })}
           <div className="actions-section">

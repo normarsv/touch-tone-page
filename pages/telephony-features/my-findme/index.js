@@ -42,7 +42,6 @@ export default class extends Component {
         enabled: false,
       },
       formValidations: (values) => {
-        console.log(values);
         const errors = {};
         if (!values.findeMeDescription) {
           errors.findeMeDescription = "Description required";
@@ -56,13 +55,29 @@ export default class extends Component {
         if (!values.endTime) {
           errors.endTime = "End date required";
         }
+        if (!values.destinations || values.destinations.length === 0){
+          errors.destinations = "At least 1 destination required";
+        }else if(values.destinations){
+          errors.destinations = []
+          values.destinations.map((destination,index)=>{
+            errors.destinations.push({})
+            if(!destination.findMeScheduleItemId){
+              errors.destinations[index].findMeScheduleItemId = "findMeScheduleItemId is required"
+            }
+            if(!destination.destinationType){
+              errors.destinations[index].destinationType = "destinationType is required"
+            }
+            if(!destination.queueName){
+              errors.destinations[index].queueName = "queueName is required"
+            }
+          })
+        }
         return errors;
       },
       formSubmit: (values, { setSubmitting, setFieldError }) => {
-        console.log(values);
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
           console.log("form submitted values", values);
+          alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400);
       },
@@ -196,6 +211,7 @@ export default class extends Component {
               label: "Destination",
               placeholder: "Select Destination",
               type: "list",
+              addMax: 5,
               required: true,
               listFields: [
                 {
@@ -244,6 +260,14 @@ export default class extends Component {
                   optionValue: "queueId",
                   optionLabel: "queueName",
                 },
+              ],
+              customActions: [
+                {
+                  label: "Test",
+                  onClick: (listRowInputs) => {
+                    alert(JSON.stringify(listRowInputs, null, 2));
+                  }
+                }
               ]
             },
           ],
