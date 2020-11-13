@@ -1,10 +1,8 @@
-import { Button, Col, Divider, message, Row, Select, Space } from "antd";
+import { Col, Divider, message, Row, Select, Space } from "antd";
 import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useState } from "react";
-
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import NewUserFormCreator from "./NewUserFormCreator";
+import React, { useState } from "react";
 import FormGenerator from "../../components-base/FormGenerator";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 

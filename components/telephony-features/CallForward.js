@@ -2,27 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Row, Space, Switch } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
-import DialAssignerComponent from "./DialAssignerComponent";
 import FormGenerator from "../../components-base/FormGenerator";
 
-const SpeedDials = ({ speedDialsForm }) => {
+const CallForward = ({ callForwardFormContent }) => {
   return (
     <div>
       <Space size="large" direction="vertical">
         <ContentInnerHeader setBackOption />
 
-        <Row>
-          <h1 className="title-style">Speed Dials</h1>
-        </Row>
+        <Space size="middle">
+          <h1 className="title-style">Call Forward</h1>
+          <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+        </Space>
 
-        <FormGenerator FormOptions={speedDialsForm} />
+        {/* <FormGenerator FormOptions={callForwardFormContent} /> */}
       </Space>
     </div>
   );
 };
 
-SpeedDials.propTypes = {
-  speedDialsForm: PropTypes.object,
+CallForward.propTypes = {
+  someData: PropTypes.string,
 };
 
-export default SpeedDials;
+export default CallForward;

@@ -102,38 +102,6 @@ const MyFindMe = ({ formToDisplay }) => {
         </Row>
 
         <FormGenerator FormOptions={formToDisplay} />
-
-        <Space
-          direction="vertical"
-          size="large"
-          style={{ margin: "2rem 0", width: "100%" }}
-        >
-          <h2>Ringing Group</h2>
-
-          <Space direction="horizontal" size="large">
-            <h4>Ring at the same time</h4>
-            <Switch checkedChildren="ON" unCheckedChildren="OFF" />
-          </Space>
-          <div style={{ marginTop: "2rem", width: "100%" }}>
-            <Transfer
-              dataSource={mockData}
-              showSearch
-              listStyle={{
-                width: "100%",
-                height: "30rem",
-              }}
-              operations={["to right", "to left"]}
-              targetKeys={targetKeys}
-              onChange={handleChange}
-              render={(item) => `${item.title}-${item.description}`}
-            />
-          </div>
-        </Space>
-        <Row type="flex" justify="end">
-          <Button className="primary-button-style" type="primary">
-            SAVE
-          </Button>
-        </Row>
       </Space>
     </div>
   );

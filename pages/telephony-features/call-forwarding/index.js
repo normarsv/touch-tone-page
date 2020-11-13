@@ -1,9 +1,11 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import SpeedDials from "../../../components/telephony-features/SpeedDials";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
+import CallRecordingsOA from "../../../components/tier2-screens/CallRecordingsOA";
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
+import CallForward from "../../../components/telephony-features/CallForward";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -45,8 +47,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.userinfo = "";
-
-    this.speedDialsForm = {
+    this.callForwardingForm = {
       generalOptions: {
         type: "vertical", //horizontal, vertical, inline
         formClassName: "test-form",
@@ -104,68 +105,28 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: "destinations",
-              label: "Destination",
-              placeholder: "Select Destination",
-              type: "list",
-              addMax: 5,
+              name: "userName",
+              label: "Login Name",
+              placeholder: "Put your login name",
+              type: "text",
               required: true,
-              listFields: [
-                {
-                  name: "findMeScheduleItemId",
-                  label: "Destination",
-                  placeholder: "Select Destination",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { destinationNumber: "1", destinationId: 0 },
-                    { destinationNumber: "2", destinationId: 1 },
-                    { destinationNumber: "3", destinationId: 2 },
-                    { destinationNumber: "4", destinationId: 3 },
-                    { destinationNumber: "5", destinationId: 4 },
-                  ],
-                  optionValue: "destinationId",
-                  optionLabel: "destinationNumber",
-                },
-                {
-                  name: "destinationType",
-                  label: "Type of Destination",
-                  placeholder: "Select Type",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { destinationType: "Ring Group", destinationId: 0 },
-                    { destinationType: "User", destinationId: 1 },
-                    { destinationType: "Queue", destinationId: 2 },
-                    { destinationType: "External Number", destinationId: 3 },
-                  ],
-                  optionValue: "destinationId",
-                  optionLabel: "destinationType",
-                },
-                {
-                  name: "queueName",
-                  label: "Queue Name",
-                  placeholder: "Select Type",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { queueName: "Ring Group", queueId: 0 },
-                    { queueName: "User", queueId: 1 },
-                    { queueName: "Queue", queueId: 2 },
-                    { queueName: "External Number", queueId: 3 },
-                  ],
-                  optionValue: "queueId",
-                  optionLabel: "queueName",
-                },
-              ],
-              customActions: [
-                {
-                  label: "Details",
-                  onClick: (listRowInputs) => {
-                    alert(JSON.stringify(listRowInputs, null, 2));
-                  },
-                },
-              ],
+            },
+            {
+              name: "password",
+              label: "Password",
+              placeholder: "Put your password",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "number",
+              label: "DID",
+              placeholder: "Select DID",
+              type: "select",
+              required: true,
+              options: [],
+              optionValue: "number",
+              optionLabel: "number",
             },
           ],
         },
@@ -175,12 +136,11 @@ export default class extends Component {
   componentDidMount() {
     systemLog.log(this.props);
   }
-  render() {
-    const {} = this.props;
 
+  render() {
     return (
       <BaseLayout>
-        <SpeedDials speedDialsForm={this.speedDialsForm} />
+        <CallForward callForwardFormContent={this.callForwardFormContent} />
       </BaseLayout>
     );
   }

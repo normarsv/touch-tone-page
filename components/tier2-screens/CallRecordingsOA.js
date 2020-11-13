@@ -1,27 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Progress,
-  Row,
-  Select,
-  Slider,
-  Space,
-  Table,
-} from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import Search from "antd/lib/input/Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownload,
-  faEraser,
-  faPlay,
-  faPlusCircle,
+  faEnvelope,
   faSync,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Row, Select, Space, Table, Tooltip } from "antd";
+import Search from "antd/lib/input/Search";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
@@ -46,15 +34,20 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
     {
       title: "Date",
       dataIndex: "date",
-      render: (date) =>
-        date.map((item, index) => {
-          return (
-            <Space>
-              <FontAwesomeIcon className="title-style" icon={item.icon} />{" "}
-              {item.date}{" "}
-            </Space>
-          );
-        }),
+      render: (date) => {
+        return (
+          <Space direction="horizontal">
+            {date.map((item, index) => {
+              return (
+                <Space direction="horizontal">
+                  <FontAwesomeIcon className="title-style" icon={item.icon} />{" "}
+                  {item.date}{" "}
+                </Space>
+              );
+            })}
+          </Space>
+        );
+      },
       fixed: "left",
       filterMultiple: false,
       onFilter: (value, record) => record.date.indexOf(value) === 0,
@@ -88,46 +81,28 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
     {
       title: "Actions",
       dataIndex: "actions",
-      width: 400,
+      width: "10%",
       render: (linkDetails, edit) => (
         <Row type="flex" justify="center" align="middle">
           <Space>
-            <Button
-              type="primary"
-              style={{ borderRadius: "2rem", width: "1rem" }}
-              className="flex center"
-            >
-              <FontAwesomeIcon icon={faPlay} />
-            </Button>
-            <div
-              style={{
-                padding: "0.5rem",
-                backgroundColor: "#ffffff",
-                borderRadius: 4,
-                border: "1px solid #dadada",
-                width: 250,
-                position: "relative",
-              }}
-            >
-              <Slider defaultValue={30} />
-              <label
-                style={{
-                  fontSize: 10,
-                  position: "absolute",
-                  bottom: 0,
-                  left: 15,
-                }}
+            <Tooltip title="Download file">
+              <Button
+                type="primary"
+                style={{ borderRadius: "2rem", width: "1rem" }}
+                className="flex center primary-button-style alternate"
               >
-                00:34
-              </label>
-            </div>
-            <Button
-              type="primary"
-              style={{ borderRadius: "2rem", width: "1rem" }}
-              className="flex center primary-button-style alternate"
-            >
-              <FontAwesomeIcon icon={faDownload} />
-            </Button>
+                <FontAwesomeIcon icon={faDownload} />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Send File by Email">
+              <Button
+                type="primary"
+                style={{ borderRadius: "2rem", width: "1rem" }}
+                className="flex center primary-button-style alternate"
+              >
+                <FontAwesomeIcon icon={faEnvelope} />
+              </Button>
+            </Tooltip>
           </Space>
         </Row>
       ),

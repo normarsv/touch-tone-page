@@ -11,122 +11,39 @@ import {
   DatePicker,
 } from "formik-antd";
 import { Formik, FieldArray, getIn } from "formik";
-import { Col, Row, Button, Typography } from "antd";
+import { Col, Row, Button, Typography, Space } from "antd";
 
 // optionals (for dummy data)
 import { useRouter } from "next/dist/client/router";
 import DialAssignerComponent from "../components/telephony-features/DialAssignerComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 // const { RangePicker } = DatePicker;
 
 const FormGenerator = ({ FormOptions }) => {
-  // console.log("this is form options", FormOptions);
-
-  // const DummyFormOptions = {
-  //   generalOptions: {
-  //     type: "vertical", //horizontal, vertical, inline
-  //     formClassName: "test-form",
-  //     submit: {
-  //       className: "primary-button-style",
-  //       text: "Create User",
-  //     },
-  //     reset: {
-  //       className: "primary-button-style",
-  //       text: "Clear",
-  //     },
-  //     cancel: {
-  //       className: "primary-button-style cancel",
-  //       text: "Create User",
-  //       action: () => {
-  //         // useRouter().back();
-  //         console.log('cancel clicked')
-  //       }
-  //     }
-  //   },
-  //   formInitialValues: {
-  //     firstName: "",
-  //     lastName: "",
-  //     username: "",
-  //     password: ""
-  //   },
-  //   formValidations: (values) => {
-  //     const errors = {};
-  //     if(!values.firstName){
-  //       errors.firstName = 'First name required'
-  //     }
-  //     if(!values.lastName){
-  //       errors.lastName = 'Last name required'
-  //     }
-  //     if(!values.username){
-  //       errors.username = 'Login name required'
-  //     }
-  //     if(!values.password){
-  //       errors.password = 'Password required'
-  //     }else if (
-  //       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(values.password)
-  //     ){
-  //       errors.password = 'At least 8 characters, one uppercase and one number'
-  //     }
-  //     return errors;
-  //   },
-  //   formSubmit: (values, { setSubmitting, setFieldError }) => {
-  //     setTimeout(() => {
-  //       alert(JSON.stringify(values, null, 2));
-  //       console.log('form submitted values',values)
-  //       setSubmitting(false);
-  //     }, 400);
-  //   },
-  //   formInputsRows: [
-  //     {
-  //       inputs: [
-  //         {
-  //           name: "firstName",
-  //           label: "First Name",
-  //           placeholder: "Put your first name",
-  //           type: "text",
-  //           required: true
-  //         },
-  //         {
-  //           name: "lastName",
-  //           label: "Last Name",
-  //           placeholder: "Put your last name",
-  //           type: "text",
-  //           required: true
-  //         },
-  //         {
-  //           name: "username",
-  //           label: "Login Name",
-  //           placeholder: "Put your login name",
-  //           type: "text",
-  //           required: true
-  //         },
-  //         {
-  //           name: "password",
-  //           label: "Password",
-  //           placeholder: "Put your password",
-  //           type: "password",
-  //           tooltip: "At least 8 characters, one uppercase and one number",
-  //           required: true
-  //         }
-  //       ]
-  //     }
-  //   ],
-  // }
-
-  const renderInputType = (input,values) => {
+  const renderInputType = (input, values) => {
     switch (input.type) {
       case "text":
-        return <Input name={input.listName? input.listName : input.name} placeholder={input.placeholder} />;
+        return (
+          <Input
+            name={input.listName ? input.listName : input.name}
+            placeholder={input.placeholder}
+          />
+        );
         break;
       case "password":
         return (
-          <Input.Password name={input.listName? input.listName : input.name} placeholder={input.placeholder} />
+          <Input.Password
+            name={input.listName ? input.listName : input.name}
+            placeholder={input.placeholder}
+          />
         );
         break;
       case "select":
         return (
           <Select
-            name={input.listName? input.listName : input.name}
+            name={input.listName ? input.listName : input.name}
             placeholder={input.placeholder}
             className="select-arrow-boxes"
             onChange={
@@ -150,7 +67,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "switch":
         return (
           <Switch
-            name={input.listName? input.listName : input.name}
+            name={input.listName ? input.listName : input.name}
             checkedChildren={input.checkedChildren}
             unCheckedChildren={input.unCheckedChildren}
             defaultChecked={input.defaultChecked}
@@ -158,11 +75,16 @@ const FormGenerator = ({ FormOptions }) => {
         );
         break;
       case "datePicker":
-        return <DatePicker name={input.listName? input.listName : input.name} />;
+        return (
+          <DatePicker name={input.listName ? input.listName : input.name} />
+        );
         break;
       case "checkBox":
         return (
-          <Checkbox name={input.listName? input.listName : input.name} defaultChecked={input.defaultChecked}>
+          <Checkbox
+            name={input.listName ? input.listName : input.name}
+            defaultChecked={input.defaultChecked}
+          >
             {input.text}
           </Checkbox>
         );
@@ -170,32 +92,33 @@ const FormGenerator = ({ FormOptions }) => {
       case "checkBoxGroup":
         return (
           <Checkbox.Group
-            name={input.listName? input.listName : input.name}
+            name={input.listName ? input.listName : input.name}
             defaultChecked={input.defaultChecked}
             options={input.options}
           />
         );
         break;
-      case "dialAssigner":
-        return <DialAssignerComponent />;
-        break;
       case "list":
-        let listArrayLength = values[input.name]? values[input.name].length : 0;
+        let listArrayLength = values[input.name]
+          ? values[input.name].length
+          : 0;
         return (
           <FieldArray
             key={input.name}
             name={input.name}
-            render={arrayHelpers => (
+            render={(arrayHelpers) => (
               <Col span={24}>
-                <h2 className="separator-title">{input.label} {input.addMax? "(max. Inputs: "+input.addMax+")":""}</h2>
-                {
-                  values[input.name] && values[input.name].length > 0 ? 
-                  (
-                    values[input.name].map((listItem, index) => {
+                <h2 className="separator-title">
+                  {input.label}{" "}
+                  {input.addMax ? "(max. Inputs: " + input.addMax + ")" : ""}
+                </h2>
+                {values[input.name] && values[input.name].length > 0
+                  ? values[input.name].map((listItem, index) => {
                       return (
                         <Row key={index}>
-                          {input.listFields.map((field,idx)=>{
-                            const newFieldName = input.name+"["+index+"]."+field.name; 
+                          {input.listFields.map((field, idx) => {
+                            const newFieldName =
+                              input.name + "[" + index + "]." + field.name;
                             field.listName = newFieldName;
                             return (
                               <Col flex="auto" key={idx}>
@@ -214,59 +137,83 @@ const FormGenerator = ({ FormOptions }) => {
                                   {renderInputType(field)}
                                 </FormItem>
                               </Col>
-                            )
+                            );
                           })}
                           <Col flex="auto" className="list-actions">
                             <FormItem name="action" label="Actions">
-                              {input.customActions && input.customActions.map((action,i)=>{
-                                return (
-                                    <Button 
+                              {input.customActions &&
+                                input.customActions.map((action, i) => {
+                                  return (
+                                    <Button
                                       key={i}
-                                      type="dashed" 
-                                      className="custom-added"
+                                      className="custom-added primary-button-style alternate form-full-width"
+                                      type="primary"
                                       onClick={() => {
-                                        action.onClick(values[input.name][index])
+                                        action.onClick(
+                                          values[input.name][index]
+                                        );
                                       }}
                                     >
                                       {action.label}
                                     </Button>
-                                )
-                              })}
-                              <Button type="dashed" onClick={() => arrayHelpers.remove(index)}>Remove</Button>
+                                  );
+                                })}
+                              <Button
+                                onClick={() => arrayHelpers.remove(index)}
+                              >
+                                <Space className="flex center">
+                                  Remove
+                                  <FontAwesomeIcon icon={faMinusCircle} />
+                                </Space>
+                              </Button>
                             </FormItem>
                           </Col>
                         </Row>
-                      )
-                   })
-                  ) : ("")
-                }
-                <Col flex="auto" >
+                      );
+                    })
+                  : ""}
+                <Col flex="auto">
                   {arrayHelpers.form.errors[input.name] &&
-                  typeof arrayHelpers.form.errors[input.name] === 'string' &&
-                  getIn(arrayHelpers.form.errors,input.name) && 
-                    <div><Typography.Text type="danger">{getIn(arrayHelpers.form.errors,input.name)}</Typography.Text></div>
-                  }
-                  <Button 
-                    type="dashed" 
-                    disabled={input.addMax? (listArrayLength < input.addMax? false: true):false}
+                    typeof arrayHelpers.form.errors[input.name] === "string" &&
+                    getIn(arrayHelpers.form.errors, input.name) && (
+                      <div>
+                        <Typography.Text type="danger">
+                          {getIn(arrayHelpers.form.errors, input.name)}
+                        </Typography.Text>
+                      </div>
+                    )}
+                  <Button
+                    type="primary"
+                    className="primary-button-style alternate"
+                    disabled={
+                      input.addMax
+                        ? listArrayLength < input.addMax
+                          ? false
+                          : true
+                        : false
+                    }
                     onClick={() => {
-                      if(input.addMax){
-                        if(listArrayLength < input.addMax){
+                      if (input.addMax) {
+                        if (listArrayLength < input.addMax) {
                           let addObject = {};
-                          input.listFields.map((field,idx) => {
-                            addObject[field.name] = ""
-                          })
-                          arrayHelpers.push(addObject)
+                          input.listFields.map((field, idx) => {
+                            addObject[field.name] = "";
+                          });
+                          arrayHelpers.push(addObject);
                         }
-                      }else{
+                      } else {
                         let addObject = {};
-                        input.listFields.map((field,idx) => {
-                          addObject[field.name] = ""
-                        })
-                        arrayHelpers.push(addObject)
+                        input.listFields.map((field, idx) => {
+                          addObject[field.name] = "";
+                        });
+                        arrayHelpers.push(addObject);
                       }
                     }}
-                  >Add</Button>
+                  >
+                    <Space className="flex center">
+                      Add <FontAwesomeIcon icon={faPlusCircle} />
+                    </Space>
+                  </Button>
                 </Col>
               </Col>
             )}
@@ -284,7 +231,7 @@ const FormGenerator = ({ FormOptions }) => {
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
     >
-      {({values}) => (
+      {({ values }) => (
         <Form
           layout={FormOptions.generalOptions.type}
           className={"formik-form " + FormOptions.generalOptions.formClassName}
@@ -296,8 +243,8 @@ const FormGenerator = ({ FormOptions }) => {
                   <h2 className="separator-title">{row.separatorTitle}</h2>
                 )}
                 {row.inputs.map((input, idx) => {
-                  if(input.type=== 'list'){
-                    return renderInputType(input,values)
+                  if (input.type === "list") {
+                    return renderInputType(input, values);
                   }
                   return (
                     <Col flex="auto" key={idx}>
@@ -313,7 +260,7 @@ const FormGenerator = ({ FormOptions }) => {
                             : undefined
                         }
                       >
-                        {renderInputType(input,values)}
+                        {renderInputType(input, values)}
                       </FormItem>
                     </Col>
                   );

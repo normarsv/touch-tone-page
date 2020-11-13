@@ -264,30 +264,30 @@ export const siderLinks = (role) => {
               icon: <IconFont type="icon-users" />,
               submenu: [],
             },
-            {
-              label: "Call Records",
-              url: "/call-records",
-              icon: <IconFont type="icon-list-alt" />,
-              submenu: [],
-            },
+            // {
+            //   label: "Call Records",
+            //   url: "/call-records",
+            //   icon: <IconFont type="icon-list-alt" />,
+            //   submenu: [],
+            // },
             {
               label: "Conference Room",
               url: "/audio-conference",
               icon: <IconFont type="icon-FontAwesomeheadphones" />,
               submenu: [],
             },
-            {
-              label: "Termination Entries",
-              url: "/web-rtc-meeting",
-              icon: <IconFont type="icon-th" />,
-              submenu: [],
-            },
-            {
-              label: "Queues",
-              url: "/queues",
-              icon: <IconFont type="icon-th-list" />,
-              submenu: [],
-            },
+            // {
+            //   label: "Termination Entries",
+            //   url: "/web-rtc-meeting",
+            //   icon: <IconFont type="icon-th" />,
+            //   submenu: [],
+            // },
+            // {
+            //   label: "Queues",
+            //   url: "/queues",
+            //   icon: <IconFont type="icon-th-list" />,
+            //   submenu: [],
+            // },
           ],
         },
         {
