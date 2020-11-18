@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -225,13 +225,17 @@ const FormGenerator = ({ FormOptions }) => {
     }
   };
 
+  function handleResetForm(resetForm) {
+    resetForm();
+  }
+
   return (
     <Formik
       initialValues={FormOptions.formInitialValues}
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
     >
-      {({ values }) => (
+      {({ values, resetForm }) => (
         <Form
           layout={FormOptions.generalOptions.type}
           className={"formik-form " + FormOptions.generalOptions.formClassName}
@@ -247,7 +251,40 @@ const FormGenerator = ({ FormOptions }) => {
                     return renderInputType(input, values);
                   }
                   return (
-                    <Col flex="auto" key={idx}>
+                    <Col
+                      xxl={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.xxl
+                          : null
+                      }
+                      xl={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.xl
+                          : null
+                      }
+                      lg={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.lg
+                          : null
+                      }
+                      md={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.md
+                          : null
+                      }
+                      sm={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.sm
+                          : null
+                      }
+                      xs={
+                        input.breakpoints !== undefined
+                          ? input.breakpoints.xs
+                          : null
+                      }
+                      flex={input.breakpoints === undefined ? "auto" : null}
+                      key={idx}
+                    >
                       <FormItem
                         name={input.name}
                         label={input.label}
@@ -280,6 +317,11 @@ const FormGenerator = ({ FormOptions }) => {
             <SubmitButton
               className={FormOptions.generalOptions.submit.className}
               disabled={false}
+              onClick={() =>
+                setTimeout(() => {
+                  resetForm();
+                }, 2000)
+              }
             >
               {FormOptions.generalOptions.submit.text}
             </SubmitButton>

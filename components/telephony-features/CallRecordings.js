@@ -13,15 +13,16 @@ import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
-const CallRecordingsOA = ({ callRecordingsTableData }) => {
+const CallRecordings = ({ callRecordingsTableData }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [audioProgress, setAudioProgress] = useState();
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
+
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
   };
 
   const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRow(selectedRowKeys);
   };
 
@@ -148,11 +149,7 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
           <FontAwesomeIcon icon={faTrash} />
           <Space size="small">
             <label>Show</label>
-            <Select
-              defaultValue="10"
-              style={{ width: 120 }}
-              onChange={handleChange}
-            >
+            <Select defaultValue="10" onChange={onChangeTablePageSize}>
               <Option value="10">10</Option>
               <Option value="20">20</Option>
             </Select>
@@ -182,8 +179,8 @@ const CallRecordingsOA = ({ callRecordingsTableData }) => {
   );
 };
 
-CallRecordingsOA.propTypes = {
-  someData: PropTypes.string,
+CallRecordings.propTypes = {
+  callRecordingsTableData: PropTypes.array,
 };
 
-export default CallRecordingsOA;
+export default CallRecordings;

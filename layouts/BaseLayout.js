@@ -14,22 +14,6 @@ export const BaseLayout = ({ children }) => {
 
   const { userInfo } = useContext(UserContext);
 
-  // function menuToRender(userInfo) {
-  //   switch (userInfo.group) {
-  //     case "SuperAdmin":
-  //       return <SuperAdminSiderOptions openSideMenu={openSideMenu}/>;
-
-  //     case "OrganizationAdmin":
-  //       return <OrganizationAdminSiderOptions openSideMenu={openSideMenu}/>;
-
-  //     case "EndUser":
-  //       return <EndUserSiderOptions openSideMenu={openSideMenu}/>;
-
-  //     default:
-  //       return <SiderOptions openSideMenu={openSideMenu}/>;
-  //   }
-  // }
-
   return (
     <Layout>
       <Header className="menu-header-layout">
@@ -45,7 +29,6 @@ export const BaseLayout = ({ children }) => {
             className="sider-style"
             width="250px"
           >
-            {/* {menuToRender(userInfo)} */}
             <SiderOptions openSideMenu={openSideMenu} role={userInfo.group} />
             <Button
               onClick={() => setOpenSideMenu(!openSideMenu)}

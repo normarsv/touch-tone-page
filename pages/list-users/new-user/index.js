@@ -1,17 +1,38 @@
-import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-
 import API from "../../../API/API";
 import NewUser from "../../../components/user/NewUser";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
-import { baseLanguage } from "../../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+    if (res && user.group) {
+      switch (user.group) {
+        case "OrganizationAdmin":
+          res.writeHead(302, {
+            Location: "/admin-dashboard",
+          });
+          res.end();
+
+          break;
+
+        case "EndUser":
+          res.writeHead(302, {
+            Location: "/user-dashboard",
+          });
+          res.end();
+
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      res.writeHead(302, {
+        Location: "/",
+      });
+      res.end();
+    }
 
     let editServiceContent = new Array(24).fill({
       id: 1,
@@ -25,7 +46,6 @@ export default class extends Component {
     // const resUserGroups = await api.GET("/Organizations/");
 
     return {
-      currentLanguage,
       user,
       editServiceContent,
       resOrganizations,
@@ -35,6 +55,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     const { user, editServiceContent, resOrganizations, resUserGroups } = props;
+    this.state = { authGroupValue: "" };
     this.formsByUserSelected = {
       newEndUser: {
         generalOptions: {
@@ -68,7 +89,7 @@ export default class extends Component {
           userTypeId: "",
           userStatusId: 1,
           isStaff: false,
-          authGroupId: 3,
+          authGroupId: "",
           didID: "",
         },
         formValidations: (values) => {
@@ -91,6 +112,9 @@ export default class extends Component {
           if (!values.userTypeId) {
             errors.userTypeId = "User Type is required";
           }
+          if (!values.didID) {
+            errors.didID = "User DID is required";
+          }
           if (!values.password) {
             errors.password = "Password required";
           } else if (
@@ -104,9 +128,11 @@ export default class extends Component {
           return errors;
         },
         formSubmit: (values, { setSubmitting, setFieldError }) => {
+          this.submitForm(values, this.state.authGroupValue);
+          // values = {};
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log("form submitted values", values);
+            // alert(JSON.stringify(values, null, 2));
+            // console.log("form submitted values", values);
             setSubmitting(false);
           }, 400);
         },
@@ -119,6 +145,7 @@ export default class extends Component {
                 placeholder: "Put your first name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "lastName",
@@ -126,6 +153,7 @@ export default class extends Component {
                 placeholder: "Put your last name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "organizationId",
@@ -133,18 +161,18 @@ export default class extends Component {
                 placeholder: "Select Organization",
                 type: "select",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
                 options: resOrganizations.response,
                 optionValue: "organizationId",
                 optionLabel: "prefixName",
                 customOnChange: async (value, formRows) => {
                   const api = new API();
-                  console.log("this is custom value", value, formRows);
                   let inputOptionsToChange = formRows[1].inputs.find(
                     (input) => {
                       return input.name === "didID";
                     }
                   );
-                  console.log("this is input to change", inputOptionsToChange);
+
                   let newOptions = await api.GET(
                     "/tools/organization-number/" + value
                   );
@@ -164,6 +192,7 @@ export default class extends Component {
                 placeholder: "Put your login name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "password",
@@ -172,6 +201,7 @@ export default class extends Component {
                 type: "password",
                 tooltip: "At least 8 characters, one uppercase and one number",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "didID",
@@ -182,6 +212,7 @@ export default class extends Component {
                 options: [],
                 optionValue: "numberId",
                 optionLabel: "number",
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
             ],
           },
@@ -193,6 +224,7 @@ export default class extends Component {
                 placeholder: "Put the user email",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "userTypeId",
@@ -200,6 +232,7 @@ export default class extends Component {
                 placeholder: "Select User Type",
                 type: "select",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
                 options: [
                   { userTypeName: "GRA", userTypeId: 1 },
                   { userTypeName: "Sippo", userTypeId: 2 },
@@ -215,6 +248,7 @@ export default class extends Component {
                 checkedChildren: "Yes",
                 unCheckedChildren: "No",
                 defaultChecked: false,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
             ],
           },
@@ -252,7 +286,7 @@ export default class extends Component {
           userTypeId: "",
           userStatusId: 1,
           isStaff: false,
-          authGroupId: 3,
+          authGroupId: "",
           didID: "",
         },
         formValidations: (values) => {
@@ -263,8 +297,14 @@ export default class extends Component {
           if (!values.lastName) {
             errors.lastName = "Last name required";
           }
-          if (!values.username) {
-            errors.username = "Login name required";
+          if (!values.userName) {
+            errors.userName = "Login name required";
+          }
+          if (!values.organizationId) {
+            errors.organizationId = "Organization required";
+          }
+          if (!values.didID) {
+            errors.didID = "User DID is required";
           }
           if (!values.password) {
             errors.password = "Password required";
@@ -279,9 +319,11 @@ export default class extends Component {
           return errors;
         },
         formSubmit: (values, { setSubmitting, setFieldError }) => {
+          this.submitForm(values, this.state.authGroupValue);
+
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log("form submitted values", values);
+            // alert(JSON.stringify(values, null, 2));
+            // console.log("form submitted values", values);
             setSubmitting(false);
           }, 400);
         },
@@ -294,6 +336,7 @@ export default class extends Component {
                 placeholder: "Put your first name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "lastName",
@@ -301,6 +344,7 @@ export default class extends Component {
                 placeholder: "Put your last name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "organizationId",
@@ -308,18 +352,18 @@ export default class extends Component {
                 placeholder: "Select Organization",
                 type: "select",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
                 options: resOrganizations.response,
                 optionValue: "organizationId",
                 optionLabel: "prefixName",
                 customOnChange: async (value, formRows) => {
                   const api = new API();
-                  console.log("this is custom value", value, formRows);
                   let inputOptionsToChange = formRows[1].inputs.find(
                     (input) => {
-                      return input.name === "number";
+                      return input.name === "didID";
                     }
                   );
-                  console.log("this is input to change", inputOptionsToChange);
+
                   let testOptions = await api.GET(
                     "/tools/organization-number/" + value
                   );
@@ -329,17 +373,18 @@ export default class extends Component {
                   }
                 },
               },
-              {
-                name: "username",
-                label: "Login Name",
-                placeholder: "Put your login name",
-                type: "text",
-                required: true,
-              },
             ],
           },
           {
             inputs: [
+              {
+                name: "userName",
+                label: "Login Name",
+                placeholder: "Put your login name",
+                type: "text",
+                required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              },
               {
                 name: "password",
                 label: "Password",
@@ -347,16 +392,18 @@ export default class extends Component {
                 type: "password",
                 tooltip: "At least 8 characters, one uppercase and one number",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
-                name: "number",
+                name: "didID",
                 label: "DID",
                 placeholder: "Select DID",
                 type: "select",
                 required: true,
                 options: [],
-                optionValue: "number",
+                optionValue: "numberId",
                 optionLabel: "number",
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
             ],
           },
@@ -384,10 +431,18 @@ export default class extends Component {
           },
         },
         formInitialValues: {
+          userName: "",
+          email: "",
           firstName: "",
           lastName: "",
-          username: "",
           password: "",
+          isAgent: false,
+          organizationId: "",
+          userTypeId: "",
+          userStatusId: 1,
+          isStaff: false,
+          authGroupId: "",
+          didID: "",
         },
         formValidations: (values) => {
           const errors = {};
@@ -397,8 +452,8 @@ export default class extends Component {
           if (!values.lastName) {
             errors.lastName = "Last name required";
           }
-          if (!values.username) {
-            errors.username = "Login name required";
+          if (!values.userName) {
+            errors.userName = "Login name required";
           }
           if (!values.password) {
             errors.password = "Password required";
@@ -413,11 +468,13 @@ export default class extends Component {
           return errors;
         },
         formSubmit: (values, { setSubmitting, setFieldError }) => {
+          this.submitForm(values, this.state.authGroupValue);
+
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log("form submitted values", values);
+            // alert(JSON.stringify(values, null, 2));
+            // console.log("form submitted values", values);
             setSubmitting(false);
-          }, 400);
+          }, 2000);
         },
         formInputsRows: [
           {
@@ -428,6 +485,7 @@ export default class extends Component {
                 placeholder: "Put your first name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "lastName",
@@ -435,13 +493,15 @@ export default class extends Component {
                 placeholder: "Put your last name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
-                name: "username",
+                name: "userName",
                 label: "Login Name",
                 placeholder: "Put your login name",
                 type: "text",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
                 name: "password",
@@ -450,6 +510,7 @@ export default class extends Component {
                 type: "password",
                 tooltip: "At least 8 characters, one uppercase and one number",
                 required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
             ],
           },
@@ -462,6 +523,33 @@ export default class extends Component {
     systemLog.log(this.props);
   }
 
+  async submitForm(valuesToSubmit, authGroupValue) {
+    console.log(valuesToSubmit);
+    const { user } = this.props;
+
+    const api = new API(user.token);
+
+    const finalSubmit = {
+      userName: valuesToSubmit.userName,
+      email: valuesToSubmit.email,
+      firstName: valuesToSubmit.firstName,
+      lastName: valuesToSubmit.lastName,
+      password: valuesToSubmit.password,
+      isAgent: valuesToSubmit.isAgent,
+      organizationId: valuesToSubmit.organizationId,
+      userTypeId: valuesToSubmit.userTypeId,
+      userStatusId: valuesToSubmit.userStatusId,
+      isStaff: valuesToSubmit.isStaff,
+      authGroupId: authGroupValue,
+      didID: valuesToSubmit.didID,
+    };
+    console.log(finalSubmit, "true final form");
+
+    const responseNewUser = await api
+      .POST("/AuthUsers/Signup", finalSubmit)
+      .then(() => console.log(responseNewUser));
+  }
+
   render() {
     const { user, editServiceContent, resOrganizations } = this.props;
 
@@ -470,6 +558,25 @@ export default class extends Component {
         <NewUser
           formsByUserSelected={this.formsByUserSelected}
           editServiceContent={editServiceContent}
+          displayedForm={(value) => {
+            switch (value) {
+              case "businessSupport":
+                this.setState({ authGroupValue: 5 });
+                break;
+              case "distributor":
+                this.setState({ authGroupValue: 6 });
+                break;
+              case "organizationAdmin":
+                this.setState({ authGroupValue: 2 });
+                break;
+              case "endUser":
+                this.setState({ authGroupValue: 3 });
+                break;
+
+              default:
+                break;
+            }
+          }}
         />
       </BaseLayout>
     );

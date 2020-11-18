@@ -1,18 +1,13 @@
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { BaseLayout } from "../../../layouts/BaseLayout";
-import { systemLog } from "../../../scripts/General";
-import { baseLanguage } from "../../../scripts/MainInfoData";
-import CallRecordingsOA from "../../../components/telephony-features/CallRecordings";
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
+import { BaseLayout } from "../../layouts/BaseLayout";
+import { systemLog } from "../../scripts/General";
+import CallRecords from "../../components/tier3-screens/CallRecords";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
-
-    const callRecordingsTableData = [
+  static async getInitialProps({ res, query, user }) {
+    const callRecordsTableData = [
       {
         key: "1",
         date: [
@@ -88,9 +83,7 @@ export default class extends Component {
     ];
 
     return {
-      currentLanguage,
-      // columns,
-      callRecordingsTableData,
+      callRecordsTableData,
       user,
     };
   }
@@ -103,11 +96,11 @@ export default class extends Component {
   }
 
   render() {
-    const { callRecordingsTableData } = this.props;
+    const { callRecordsTableData } = this.props;
 
     return (
       <BaseLayout>
-        <CallRecordingsOA callRecordingsTableData={callRecordingsTableData} />
+        <CallRecords callRecordsTableData={callRecordsTableData} />
       </BaseLayout>
     );
   }

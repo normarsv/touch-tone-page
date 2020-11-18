@@ -7,23 +7,32 @@ import { systemLog } from "../../../../scripts/General";
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
-      switch (user.group) {
-        case "OrganizationAdmin":
-          res.writeHead(302, {
-            Location: "/admin-dashboard",
-          });
-          res.end();
+      if (user.group) {
+        switch (user.group) {
+          case "OrganizationAdmin":
+            res.writeHead(302, {
+              Location: "/admin-dashboard",
+            });
+            res.end();
 
-          break;
-        case "EndUser":
-          res.writeHead(302, {
-            Location: "/user-dashboard",
-          });
-          res.end();
+            break;
 
-          break;
-        default:
-          break;
+          case "EndUser":
+            res.writeHead(302, {
+              Location: "/user-dashboard",
+            });
+            res.end();
+
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
       }
     }
 

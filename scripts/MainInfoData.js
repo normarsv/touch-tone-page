@@ -264,12 +264,12 @@ export const siderLinks = (role) => {
               icon: <IconFont type="icon-users" />,
               submenu: [],
             },
-            // {
-            //   label: "Call Records",
-            //   url: "/call-records",
-            //   icon: <IconFont type="icon-list-alt" />,
-            //   submenu: [],
-            // },
+            {
+              label: "Call Records",
+              url: "/call-records",
+              icon: <IconFont type="icon-list-alt" />,
+              submenu: [],
+            },
             {
               label: "Conference Room",
               url: "/audio-conference",

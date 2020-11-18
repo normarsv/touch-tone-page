@@ -1,25 +1,17 @@
-import { Col, Divider, message, Row, Select, Space } from "antd";
-import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import { Col, Divider, Row, Select, Space } from "antd";
+import React, { useEffect, useState } from "react";
 import FormGenerator from "../../components-base/FormGenerator";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { Option } = Select;
 
-const NewUser = ({ formsByUserSelected, editServiceContent }) => {
+const NewUser = ({
+  formsByUserSelected,
+  editServiceContent,
+  displayedForm,
+}) => {
+  const [resetFormFields, setResetFormFields] = useState(false);
   const [formToDisplay, setFormToDisplay] = useState({});
-
-  const [currentFormField, setCurrentFormField] = useState({});
-
-  const router = useRouter();
-
-  const key = "updatable";
-  const openMessage = () => {
-    message
-      .loading("Action in progress..", 2.5)
-      .then(() => message.success("User Created Succesfully!"))
-      .then(() => router.back());
-  };
 
   const roleToSelect = [
     { id: 1, name: "Business Support", value: "businessSupport" },
@@ -30,17 +22,22 @@ const NewUser = ({ formsByUserSelected, editServiceContent }) => {
   ];
 
   function renderForm(value) {
-    setCurrentFormField({});
+    displayedForm(value);
     value === "businessSupport" || value === "distributor"
       ? setFormToDisplay(formsByUserSelected.businessDistributor)
       : value === "organizationAdmin" || value === "enterprise"
       ? setFormToDisplay(formsByUserSelected.orgAdminEnterprise)
       : setFormToDisplay(formsByUserSelected.newEndUser);
+    setResetFormFields(true);
   }
 
-  function onChangeFunction(value, index) {
-    setCurrentFormField(value[index]);
-  }
+  // useEffect(() => {
+  //   if (resetFormFields === true) {
+  //     setResetFormFields(false);
+  //   }
+  // }, [resetFormFields]);
+
+  // console.log(resetFormFields);
 
   return (
     <div>
