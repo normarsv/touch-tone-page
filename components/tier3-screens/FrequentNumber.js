@@ -58,6 +58,8 @@ const FrequentNumbers = ({
     );
     message.success("Frequent Number Deleted Successfully!");
     getFrequentNumberContent();
+    setFrequentNumberInfo({});
+    dataToEdit({});
   };
 
   useEffect(() => {
@@ -72,15 +74,17 @@ const FrequentNumbers = ({
       onFilter: (value, record) => record.alias.indexOf(value) === 0,
       sorter: (a, b) => a.alias.length - b.alias.length,
       sortDirections: ["descend", "ascend"],
+      width: "8%",
     },
     {
       title: "Number",
       dataIndex: "number",
+      width: "8%",
     },
     {
       title: "Actions",
       dataIndex: "actions",
-      width: "10%",
+      width: "6%",
       render: (actions, record) => (
         <>
           <motion.div
@@ -97,7 +101,7 @@ const FrequentNumbers = ({
     {
       title: "Delete",
       dataIndex: "delete",
-      width: "10%",
+      width: "6%",
       render: (actions, record) => (
         <motion.div
           onClick={() => deleteFrequentNumber(record.id)}
@@ -120,7 +124,7 @@ const FrequentNumbers = ({
         frequentNumberForm={frequentNumberForm}
         visibleEditNumber={visibleEditNumber == record.id}
         setVisibleEditNumber={() => {
-          setVisibleEditNumber(0);
+          setVisibleEditNumber(null);
           setFrequentNumberInfo({});
         }}
       />

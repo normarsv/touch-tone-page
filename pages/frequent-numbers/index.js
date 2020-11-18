@@ -115,7 +115,7 @@ function FrequentNumberPage(props) {
         dataToEdit={(frequentNumberInfo) => setDataToEdit(frequentNumberInfo)}
         frequentNumberForm={frequentNumberForm}
         frequentNumbersTableData={currentFrequentNumbersTableData}
-        getFrequentNumberContent={getFrequentNumberContent}
+        getFrequentNumberContent={() => getFrequentNumberContent()}
       />
     </BaseLayout>
   );
