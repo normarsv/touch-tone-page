@@ -8,29 +8,47 @@ import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    // if (res) {
-    //   switch (user.group) {
-    //     case "SuperAdmin":
-    //       res.writeHead(302, {
-    //         Location: "/list-organizations",
-    //       });
-    //       break;
+    if (res) {
+      if (user.group) {
+        switch (user.group) {
+          case "SuperAdmin":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
 
-    //     case "EndUser":
-    //       res.writeHead(302, {
-    //         Location: "/user-dashboard",
-    //       });
-    //       break;
+            break;
+          case "BusinessSuport":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
 
-    //     default:
-    //       res.writeHead(302, {
-    //         Location: "/",
-    //       });
-    //       break;
-    //   }
+            break;
+          case "Distributor":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
 
-    //   res.end();
-    // }
+            break;
+          case "EndUser":
+            res.writeHead(302, {
+              Location: "/user-dashboard",
+            });
+            res.end();
+
+            break;
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
+      }
+    }
 
     const api = new API();
 

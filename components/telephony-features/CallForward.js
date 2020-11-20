@@ -15,7 +15,7 @@ const CallForward = ({ callForwardFormContent }) => {
           <Switch checkedChildren="ON" unCheckedChildren="OFF" />
         </Space>
 
-        {/* <FormGenerator FormOptions={callForwardFormContent} /> */}
+        <FormGenerator FormOptions={callForwardFormContent} />
       </Space>
     </div>
   );

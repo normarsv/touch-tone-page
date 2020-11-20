@@ -7,6 +7,7 @@ import API from "../../API/API";
 const { Option } = Select;
 
 const ProvisioningOrganization = ({
+  userInfo,
   visibleProvisioningOrganization,
   setVisibleProvisioningOrganization,
 }) => {
@@ -15,7 +16,7 @@ const ProvisioningOrganization = ({
   const [selectedOrganization, setSelectedOrganization] = useState({});
   const [errorToDisplay, setErrorToDisplay] = useState("");
 
-  const api = new API();
+  const api = new API(userInfo.token);
 
   async function handleClickProvision() {
     setLoading(true);
@@ -98,7 +99,9 @@ const ProvisioningOrganization = ({
               onChange={(value) => handleSelectedValue(value)}
             >
               {provideOrganizations.map((item, index) => (
-                <Option value={item.name}>{item.name}</Option>
+                <Option key={index} value={item.name}>
+                  {item.name}
+                </Option>
               ))}
             </Select>
           </Col>
@@ -128,7 +131,9 @@ const ProvisioningOrganization = ({
 };
 
 ProvisioningOrganization.propTypes = {
-  someData: PropTypes.string,
+  userInfo: PropTypes.object,
+  visibleProvisioningOrganization: PropTypes.bool,
+  setVisibleProvisioningOrganization: PropTypes.func,
 };
 
 export default ProvisioningOrganization;

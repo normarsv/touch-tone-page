@@ -8,6 +8,7 @@ import EditServices from "../edit-screens/EditServices";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const OrganizationServices = ({
+  query,
   userInfo,
   servicesContent,
   editServiceContent,
@@ -33,7 +34,8 @@ const OrganizationServices = ({
     }, 2000);
   };
 
-  // console.log(userInfo);
+  console.log(userInfo);
+  console.log(query);
 
   const currentUserId = router.query.idOrg;
 
@@ -55,7 +57,7 @@ const OrganizationServices = ({
               disabled={!editable}
             />
           </Space>
-          {!editable && (
+          {editable && (
             <Button
               type="primary"
               onClick={() => router.push("/list-users/edit/" + userInfo.id)}
@@ -91,13 +93,15 @@ const OrganizationServices = ({
               serviceContent={editServiceContent}
             />
           </Space>
-          <Space direction="vertical" size="small">
-            <h4>Telephony Features</h4>
-            <EditServices
-              editable={editable}
-              serviceContent={telephonyFeatures}
-            />
-          </Space>
+          {telephonyFeatures && (
+            <Space direction="vertical" size="small">
+              <h4>Telephony Features</h4>
+              <EditServices
+                editable={editable}
+                serviceContent={telephonyFeatures}
+              />
+            </Space>
+          )}
         </Space>
       </Space>
     </div>

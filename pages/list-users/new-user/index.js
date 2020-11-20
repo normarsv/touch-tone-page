@@ -6,32 +6,34 @@ import { systemLog } from "../../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res && user.group) {
-      switch (user.group) {
-        case "OrganizationAdmin":
-          res.writeHead(302, {
-            Location: "/admin-dashboard",
-          });
-          res.end();
+    if (res) {
+      if (user.group) {
+        switch (user.group) {
+          case "OrganizationAdmin":
+            res.writeHead(302, {
+              Location: "/admin-dashboard",
+            });
+            res.end();
 
-          break;
+            break;
 
-        case "EndUser":
-          res.writeHead(302, {
-            Location: "/user-dashboard",
-          });
-          res.end();
+          case "EndUser":
+            res.writeHead(302, {
+              Location: "/user-dashboard",
+            });
+            res.end();
 
-          break;
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
       }
-    } else {
-      res.writeHead(302, {
-        Location: "/",
-      });
-      res.end();
     }
 
     let editServiceContent = new Array(24).fill({
@@ -40,7 +42,7 @@ export default class extends Component {
       status: true,
     });
 
-    const api = new API();
+    const api = new API(user.token);
     const resOrganizations = await api.GET("/Organizations/");
     const resUserGroups = [];
     // const resUserGroups = await api.GET("/Organizations/");

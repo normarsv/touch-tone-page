@@ -1,11 +1,8 @@
-import moment from "moment/min/moment-with-locales.js";
-import Router from "next/router";
 import { Component } from "react";
 import API from "../../API/API";
 import ListAllOrganizations from "../../components/tier1-screens/ListAllOrganizations";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -73,11 +70,13 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { organizationsTableList } = this.props;
-    // console.log(user);
+    const { organizationsTableList, user } = this.props;
     return (
       <BaseLayout>
-        <ListAllOrganizations organizationsTableList={organizationsTableList} />
+        <ListAllOrganizations
+          userInfo={user}
+          organizationsTableList={organizationsTableList}
+        />
       </BaseLayout>
     );
   }

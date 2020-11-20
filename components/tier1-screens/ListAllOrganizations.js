@@ -10,7 +10,7 @@ import ProvisioningOrganization from "./ProvisioningOrganization";
 
 const { Option } = Select;
 
-const ListAllOrganizations = ({ organizationsTableList }) => {
+const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [visibleDetailsModal, setVisibleDetailsModal] = useState(false);
@@ -26,6 +26,10 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     cursor: "pointer",
     color: "red",
     transition: { duration: 0.5 },
+  };
+
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
   };
 
   function handleVisible(info) {
@@ -93,10 +97,6 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
     },
   ];
 
-  const onChangeTablePageSize = (value) => {
-    setTablePageSize({ pageSize: value });
-  };
-
   return (
     <div>
       <Space size="large" direction="vertical" style={{ width: "100%" }}>
@@ -160,6 +160,7 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
 
         {/* Modal de para provisionar organizaciones */}
         <ProvisioningOrganization
+          userInfo={userInfo}
           visibleProvisioningOrganization={visibleProvisioningOrganization}
           setVisibleProvisioningOrganization={() =>
             setVisibleProvisioningOrganization(!visibleProvisioningOrganization)
@@ -171,7 +172,8 @@ const ListAllOrganizations = ({ organizationsTableList }) => {
 };
 
 ListAllOrganizations.propTypes = {
-  someData: PropTypes.string,
+  userInfo: PropTypes.object,
+  organizationsTableList: PropTypes.array,
 };
 
 export default ListAllOrganizations;

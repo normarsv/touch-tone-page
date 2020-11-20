@@ -1,46 +1,18 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
-import { systemLog } from "../../../../scripts/General";
-import { baseLanguage } from "../../../../scripts/MainInfoData";
-import UserDetails from "../../../../components/details-screens/UserDetails";
-import { BaseLayout } from "../../../../layouts/BaseLayout";
-import API from "../../../../API/API";
+import { systemLog } from "../../scripts/General";
+import { baseLanguage } from "../../scripts/MainInfoData";
+import UserDetails from "../../components/details-screens/UserDetails";
+import { BaseLayout } from "../../layouts/BaseLayout";
+import API from "../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-        switch (user.group) {
-          case "OrganizationAdmin":
-            res.writeHead(302, {
-              Location: "/admin-dashboard",
-            });
-            res.end();
-
-            break;
-
-          case "EndUser":
-            res.writeHead(302, {
-              Location: "/user-dashboard",
-            });
-            res.end();
-
-            break;
-
-          default:
-            break;
-        }
-      } else {
-        res.writeHead(302, {
-          Location: "/",
-        });
-        res.end();
-      }
-    }
-
     const api = new API();
 
-    const resUser = await api.GET("/Users/" + query.idOrg);
+    const resUser = await api.GET("/Users/" + user.userId);
+
+    const finalQuery = query;
 
     const userInfo = resUser.response.authUser;
 
@@ -66,13 +38,13 @@ export default class extends Component {
       editServiceContent,
       servicesContent,
       telephonyFeatures,
-      query,
+      finalQuery,
       userInfo,
+      resUser,
     };
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
   }
   componentDidMount() {
     systemLog.log(this.props);
@@ -81,17 +53,19 @@ export default class extends Component {
     const {
       servicesContent,
       editServiceContent,
-      telephonyFeatures,
       userInfo,
+      finalQuery,
     } = this.props;
+
+    console.log(userInfo);
 
     return (
       <BaseLayout>
         <UserDetails
+          query={finalQuery}
           userInfo={userInfo}
           servicesContent={servicesContent}
           editServiceContent={editServiceContent}
-          telephonyFeatures={telephonyFeatures}
         />
       </BaseLayout>
     );
