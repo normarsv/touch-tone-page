@@ -200,17 +200,17 @@ export const siderLinks = (role) => {
             // },
             {
               label: "Auto - Attendant",
-              url: "#",
+              url: "/auto-attendant",
               icon: <UserOutlined />,
               submenu: [
-                {
-                  label: "Auto - Attendant",
-                  url: "/auto-attendant",
-                },
-                {
-                  label: "Inbound Contact Center",
-                  url: "/contact-center",
-                },
+                // {
+                //   label: "Auto - Attendant",
+                //   url: "/auto-attendant",
+                // },
+                // {
+                //   label: "Inbound Contact Center",
+                //   url: "/contact-center",
+                // },
               ],
             },
           ],
