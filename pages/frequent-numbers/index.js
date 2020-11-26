@@ -1,13 +1,56 @@
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import FrequentNumber from "../../components/tier3-screens/FrequentNumber";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
-import CallRecords from "../../components/tier3-screens/CallRecords";
-import FrequentNumber from "../../components/tier3-screens/FrequentNumber";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
+    if (res) {
+      if (user.group) {
+        switch (user.group) {
+          case "SuperAdmin":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "BusinessSuport":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "Distributor":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "OrganizationAdmin":
+            res.writeHead(302, {
+              Location: "/admin-dashboard",
+            });
+            res.end();
+
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
+      }
+    }
+
     const frequentNumbersTableData = [
       {
         key: "1",

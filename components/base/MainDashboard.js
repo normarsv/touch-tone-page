@@ -28,9 +28,7 @@ const MainDashboard = ({ mainDashboardContent }) => {
       <Space size="large" direction="vertical">
         <ContentInnerHeader />
 
-        <Row>
-          <h1 className="title-style">{titleToDisplay}</h1>
-        </Row>
+        <h1 className="title-style">{titleToDisplay}</h1>
 
         <Row gutter={[10, 24]} type="flex">
           {mainDashboardContent.map((item, index) => {

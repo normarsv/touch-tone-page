@@ -1,16 +1,57 @@
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
+import VoiceMail from "../../components/tier3-screens/VoiceMail";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
-import VoiceMail from "../../components/tier3-screens/VoiceMail";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+  static async getInitialProps({ res, query, user }) {
+    if (res) {
+      if (user.group) {
+        switch (user.group) {
+          case "SuperAdmin":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "BusinessSuport":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "Distributor":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "OrganizationAdmin":
+            res.writeHead(302, {
+              Location: "/admin-dashboard",
+            });
+            res.end();
+
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
+      }
+    }
 
     const voiceMailTableData = [
       {
@@ -84,8 +125,6 @@ export default class extends Component {
     ];
 
     return {
-      currentLanguage,
-      // columns,
       voiceMailTableData,
       user,
     };

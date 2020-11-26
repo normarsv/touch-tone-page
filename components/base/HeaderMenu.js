@@ -89,7 +89,6 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
       <Menu.Item key="0">
         <a
           onClick={() => {
-            removeAppUser();
             router.replace("/reset-password");
           }}
         >

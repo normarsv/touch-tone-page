@@ -1,12 +1,8 @@
-import moment from "moment/min/moment-with-locales.js";
-import Router from "next/router";
 import { Component } from "react";
-
 import { ForgotPassword } from "../components/authentication/ForgotPassword";
 import { LoginForm } from "../components/authentication/LoginForm";
 import { BaseLayout } from "../layouts/BaseLayout";
 import { systemLog } from "../scripts/General";
-import { baseLanguage } from "../scripts/MainInfoData";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -42,7 +38,6 @@ export default class extends Component {
     }
 
     return {
-      data,
       user,
     };
   }

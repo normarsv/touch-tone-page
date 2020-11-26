@@ -1,15 +1,55 @@
-import moment from "moment/min/moment-with-locales.js";
 import { Component } from "react";
 import MainDashboard from "../../components/base/MainDashboard";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
-    const currentLanguage =
-      query.language !== undefined ? query.language : baseLanguage.key;
-    moment.locale(currentLanguage);
+  static async getInitialProps({ res, query, user }) {
+    if (res) {
+      if (user.group) {
+        switch (user.group) {
+          case "SuperAdmin":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "BusinessSuport":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "Distributor":
+            res.writeHead(302, {
+              Location: "/list-organizations",
+            });
+            res.end();
+
+            break;
+
+          case "OrganizationAdmin":
+            res.writeHead(302, {
+              Location: "/admin-dashboard",
+            });
+            res.end();
+
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        res.writeHead(302, {
+          Location: "/",
+        });
+        res.end();
+      }
+    }
 
     const endUserDashboardContent = [
       {
@@ -18,7 +58,7 @@ export default class extends Component {
         count: "9 New Voice Mails",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View all Users",
+        buttonTitle: "View all Voice Mails",
         route: "/voice-mail",
       },
       {
@@ -36,7 +76,7 @@ export default class extends Component {
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View Auto attendant",
+        buttonTitle: "View All Meetings",
         route: "/meetings",
       },
       {
@@ -46,7 +86,7 @@ export default class extends Component {
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
         buttonTitle: "View Call Records",
-        route: "/telephony-features/call-recordings",
+        route: "/call-records",
       },
       {
         id: 5,
@@ -54,8 +94,8 @@ export default class extends Component {
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View Mettings",
-        route: "/conference-room",
+        buttonTitle: "View All Conference Room",
+        route: "/audio-conference",
       },
       {
         id: 6,
@@ -63,13 +103,12 @@ export default class extends Component {
         count: "",
         desc:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-        buttonTitle: "View Ring Groups",
+        buttonTitle: "View Account Details",
         route: "/account-details",
       },
     ];
 
     return {
-      currentLanguage,
       user,
       endUserDashboardContent,
     };
