@@ -152,8 +152,8 @@ export default class extends Component {
           inputs: [
             {
               name: "participants",
-              label: "Destination",
-              placeholder: "Select Destination",
+              label: "Participants",
+              placeholder: "Select Participant",
               type: "list",
               required: true,
               listFields: [
