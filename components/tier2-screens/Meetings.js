@@ -95,7 +95,11 @@ const Meetings = ({ meetingsContent }) => {
 
         <Row type="flex" justify="end">
           <Row>
-            <Button type="primary" className="primary-button-style alternate">
+            <Button
+              onClick={() => router.push("/meetings/create-meetings")}
+              type="primary"
+              className="primary-button-style alternate"
+            >
               <Space>
                 Create Meeting <FontAwesomeIcon icon={faPlusCircle} />
               </Space>

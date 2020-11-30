@@ -43,6 +43,7 @@ const FormGenerator = ({ FormOptions }) => {
       case "select":
         return (
           <Select
+            mode={input.mode ? input.mode : ""}
             name={input.listName ? input.listName : input.name}
             placeholder={input.placeholder}
             className="select-arrow-boxes"
