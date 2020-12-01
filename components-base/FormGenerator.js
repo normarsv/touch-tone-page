@@ -16,12 +16,13 @@ const RenderInputType = ({
   formikData,
   indexArray,
   formOptions,
+  listName,
 }) => {
   switch (input.type) {
     case 'text':
       return (
         <Input
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           placeholder={input.placeholder}
         />
       );
@@ -29,7 +30,7 @@ const RenderInputType = ({
     case 'password':
       return (
         <Input.Password
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           placeholder={input.placeholder}
         />
       );
@@ -38,7 +39,7 @@ const RenderInputType = ({
       return (
         <Select
           mode={input.mode ? input.mode : ''}
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           placeholder={input.placeholder}
           className='select-arrow-boxes'
           onChange={
@@ -67,7 +68,7 @@ const RenderInputType = ({
     case 'switch':
       return (
         <Switch
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           checkedChildren={input.checkedChildren}
           unCheckedChildren={input.unCheckedChildren}
           defaultChecked={input.defaultChecked}
@@ -75,12 +76,12 @@ const RenderInputType = ({
       );
       break;
     case 'datePicker':
-      return <DatePicker name={input.listName ? input.listName : input.name} />;
+      return <DatePicker name={listName ? listName : input.name} />;
       break;
     case 'checkBox':
       return (
         <Checkbox
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
         >
           {input.text}
@@ -90,7 +91,7 @@ const RenderInputType = ({
     case 'checkBoxGroup':
       return (
         <Checkbox.Group
-          name={input.listName ? input.listName : input.name}
+          name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
           options={input.options}
         />
@@ -115,7 +116,7 @@ const RenderInputType = ({
                         {input.listFields.map((field, idx) => {
                           const newFieldName =
                             input.name + '[' + index + '].' + field.name;
-                          field.listName = newFieldName;
+
                           return (
                             <Col flex='auto' key={idx}>
                               <FormItem
@@ -132,6 +133,7 @@ const RenderInputType = ({
                               >
                                 <RenderInputType
                                   input={field}
+                                  listName={newFieldName}
                                   formikData={formikData}
                                   formOptions={formOptions}
                                   indexArray={index}
