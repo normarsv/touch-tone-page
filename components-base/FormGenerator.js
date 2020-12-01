@@ -76,7 +76,14 @@ const RenderInputType = ({
       );
       break;
     case 'datePicker':
-      return <DatePicker name={listName ? listName : input.name} />;
+      return (
+        <DatePicker
+          name={listName ? listName : input.name}
+          format={input.format}
+          disabledDate={input.disabledDate}
+          showTime={input.showTime}
+        />
+      );
       break;
     case 'checkBox':
       return (
