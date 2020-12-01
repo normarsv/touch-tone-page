@@ -1,4 +1,5 @@
 import { Component } from "react";
+import API from "../../../API/API";
 import MyFindMe from "../../../components/tier2-screens/MyFindMe";
 import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
@@ -43,8 +44,17 @@ export default class extends Component {
       }
     }
 
+    const actualUser = user;
+
+    const api = new API(actualUser.token);
+
+    // const resUserMyFindme = await api.GET("/Services/find-me");
+
+    // const actualUserMyFindme = resUserMyFindme.response;
+
     return {
       user,
+      // actualUserMyFindme,
     };
   }
   constructor(props) {
@@ -56,7 +66,7 @@ export default class extends Component {
         formClassName: "test-form",
         submit: {
           className: "primary-button-style",
-          text: "Create User",
+          text: "Save My Find me",
         },
         reset: {
           className: "primary-button-style",
@@ -64,7 +74,7 @@ export default class extends Component {
         },
         cancel: {
           className: "primary-button-style cancel",
-          text: "Cancel User",
+          text: "Cancel My Find me",
           action: () => {
             // useRouter().back();
             console.log("cancel clicked");
@@ -78,6 +88,15 @@ export default class extends Component {
         endTime: "",
         dayrange: [],
         enabled: false,
+
+        // findeMeDescription: this.props.actualUserMyFindme.findeMeDescription,
+        // findeMeScheduleDescription: this.props.actualUserMyFindme
+        //   .findeMeScheduleDescription,
+        // startTime: this.props.actualUserMyFindme.startTime,
+        // endTime: this.props.actualUserMyFindme.endTime,
+        // dayrange: [],
+        // enabled: this.props.actualUserMyFindme.enabled,
+        // destinations: this.props.actualUserMyFindme.findMeItems,
       },
       formValidations: (values) => {
         const errors = {};
@@ -205,56 +224,6 @@ export default class extends Component {
             },
           ],
         },
-        // {
-        //   inputs: [
-        //     {
-        //       name: "findMeScheduleItemId",
-        //       label: "Destination",
-        //       placeholder: "Select Destination",
-        //       type: "select",
-        //       required: true,
-        //       options: [
-        //         { destinationNumber: "1", destinationId: 0 },
-        //         { destinationNumber: "2", destinationId: 1 },
-        //         { destinationNumber: "3", destinationId: 2 },
-        //         { destinationNumber: "4", destinationId: 3 },
-        //         { destinationNumber: "5", destinationId: 4 },
-        //       ],
-        //       optionValue: "destinationId",
-        //       optionLabel: "destinationNumber",
-        //     },
-        //     {
-        //       name: "destinationType",
-        //       label: "Type of Destination",
-        //       placeholder: "Select Type",
-        //       type: "select",
-        //       required: true,
-        //       options: [
-        //         { destinationType: "Ring Group", destinationId: 0 },
-        //         { destinationType: "User", destinationId: 1 },
-        //         { destinationType: "Queue", destinationId: 2 },
-        //         { destinationType: "External Number", destinationId: 3 },
-        //       ],
-        //       optionValue: "destinationId",
-        //       optionLabel: "destinationType",
-        //     },
-        //     {
-        //       name: "queueName",
-        //       label: "Queue Name",
-        //       placeholder: "Select Type",
-        //       type: "select",
-        //       required: true,
-        //       options: [
-        //         { queueName: "Ring Group", queueId: 0 },
-        //         { queueName: "User", queueId: 1 },
-        //         { queueName: "Queue", queueId: 2 },
-        //         { queueName: "External Number", queueId: 3 },
-        //       ],
-        //       optionValue: "queueId",
-        //       optionLabel: "queueName",
-        //     },
-        //   ],
-        // },
         {
           inputs: [
             {

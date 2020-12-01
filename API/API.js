@@ -46,4 +46,17 @@ export default class API extends RestClient {
     const body = await res.json();
     return body;
   }
+
+  async getCurrentUserMyFindMe() {
+    const url = mainIp + "/api/Services/find-me";
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + this.authToken,
+        // ...this.extraHeader,
+      },
+    });
+    const body = await res.json();
+    return body;
+  }
 }
