@@ -1,7 +1,8 @@
-import { Col, Divider, Row, Select, Space } from "antd";
-import React, { useEffect, useState } from "react";
-import FormGenerator from "../../components-base/FormGenerator";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import { Col, Divider, Row, Select, Space } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+
+import FormGenerator from '../../components-base/FormGenerator';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
 
@@ -10,49 +11,43 @@ const NewUser = ({
   editServiceContent,
   displayedForm,
 }) => {
-  const [resetFormFields, setResetFormFields] = useState(false);
+  const formGeneratorRef = useRef(null);
   const [formToDisplay, setFormToDisplay] = useState({});
 
   const roleToSelect = [
-    { id: 1, name: "Business Support", value: "businessSupport" },
-    { id: 2, name: "Distributor", value: "distributor" },
-    { id: 3, name: "Organization Admin", value: "organizationAdmin" },
-    { id: 4, name: "Enterprise", value: "enterprise" },
-    { id: 5, name: "End User", value: "endUser" },
+    { id: 1, name: 'Business Support', value: 'businessSupport' },
+    { id: 2, name: 'Distributor', value: 'distributor' },
+    { id: 3, name: 'Organization Admin', value: 'organizationAdmin' },
+    { id: 4, name: 'Enterprise', value: 'enterprise' },
+    { id: 5, name: 'End User', value: 'endUser' },
   ];
 
   function renderForm(value) {
     displayedForm(value);
-    value === "businessSupport" || value === "distributor"
+    value === 'businessSupport' || value === 'distributor'
       ? setFormToDisplay(formsByUserSelected.businessDistributor)
-      : value === "organizationAdmin" || value === "enterprise"
+      : value === 'organizationAdmin' || value === 'enterprise'
       ? setFormToDisplay(formsByUserSelected.orgAdminEnterprise)
       : setFormToDisplay(formsByUserSelected.newEndUser);
-    setResetFormFields(true);
+    if (formGeneratorRef.current !== null) {
+      formGeneratorRef.current.formikRef.resetForm();
+    }
   }
-
-  // useEffect(() => {
-  //   if (resetFormFields === true) {
-  //     setResetFormFields(false);
-  //   }
-  // }, [resetFormFields]);
-
-  // console.log(resetFormFields);
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">New User</h1>
+          <h1 className='title-style'>New User</h1>
         </Row>
         <Row>
-          <Col flex="auto">
+          <Col flex='auto'>
             <Select
               onChange={(value) => renderForm(value)}
-              placeholder="Select Role..."
-              className="select-arrow-boxes"
+              placeholder='Select Role...'
+              className='select-arrow-boxes'
             >
               {roleToSelect.map((item, index) => {
                 return (
@@ -64,10 +59,10 @@ const NewUser = ({
             </Select>
           </Col>
         </Row>
-        <Divider orientation="center" type="horizontal" />
+        <Divider orientation='center' type='horizontal' />
 
         {formToDisplay.generalOptions && (
-          <FormGenerator FormOptions={formToDisplay} />
+          <FormGenerator FormOptions={formToDisplay} ref={formGeneratorRef} />
         )}
 
         {/* <Row gutter={[0, 20]} type="flex">
