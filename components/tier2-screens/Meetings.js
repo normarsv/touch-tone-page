@@ -1,15 +1,12 @@
-import {
-  faClock,
-  faPlusCircle,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Row, Select, Space, Table } from "antd";
-import { motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import PropTypes from "prop-types";
-import React from "react";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import { faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, message, Row, Select, Space, Table, Tooltip } from 'antd';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
 
@@ -18,67 +15,69 @@ const Meetings = ({ meetingsContent }) => {
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
-      width: "",
+      title: 'Name',
+      dataIndex: 'name',
+      fixed: 'left',
+      width: '',
     },
     {
-      title: "Date",
-      dataIndex: "date",
+      title: 'Date',
+      dataIndex: 'date',
     },
     {
-      title: "Start Time",
-      dataIndex: "startTime",
+      title: 'Start Time',
+      dataIndex: 'startTime',
     },
     {
-      title: "End Time",
-      dataIndex: "endTime",
-      render: (endTime) =>
-        endTime.map((item, index) => {
-          console.log(item);
-          return (
-            <Space>
-              <FontAwesomeIcon className="title-style" item={faClock} />
-              {item.endTime}
-            </Space>
-          );
-        }),
+      title: 'End Time',
+      dataIndex: 'endTime',
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      render: (meetingId) => (
-        <Space className="flex center">
-          <motion.div
-            onClick={() => router.push("/meetings/view/" + meetingId)}
-            whileHover={hoverAnimation}
-          >
-            View
-          </motion.div>
-          |
-          <motion.div
-            onClick={() => router.push("/meetings/edit/" + meetingId)}
-            whileHover={hoverAnimation}
-          >
-            Edit
-          </motion.div>
-        </Space>
-      ),
+      title: 'Actions',
+      dataIndex: 'actions',
+      render: (action, row) => {
+        return (
+          <Space className='flex center'>
+            <Tooltip placement='top' title={row.url}>
+              <motion.div
+                onClick={() => {
+                  const el = document.createElement('textarea');
+                  el.value = row.url;
+                  document.body.appendChild(el);
+                  el.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(el);
+                  message.success('URL Copied!');
+                }}
+                whileHover={hoverAnimation}
+              >
+                URL
+              </motion.div>
+            </Tooltip>
+            |
+            <motion.div
+              onClick={() => router.push('/meetings/edit/' + row.id)}
+              whileHover={hoverAnimation}
+            >
+              Edit
+            </motion.div>
+          </Space>
+        );
+      },
     },
     {
-      title: "Delete",
-      dataIndex: "delete",
+      title: 'Delete',
+      dataIndex: 'delete',
       render: () => (
-        <div className="flex center">
-          <FontAwesomeIcon icon={faTrash} className="title-style" />
+        <div className='flex center'>
+          <FontAwesomeIcon icon={faTrash} className='title-style' />
         </div>
       ),
     },
@@ -86,19 +85,19 @@ const Meetings = ({ meetingsContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">Meetings</h1>
+          <h1 className='title-style'>Meetings</h1>
         </Row>
 
-        <Row type="flex" justify="end">
+        <Row type='flex' justify='end'>
           <Row>
             <Button
-              onClick={() => router.push("/meetings/create-meetings")}
-              type="primary"
-              className="primary-button-style alternate"
+              onClick={() => router.push('/meetings/create-meetings')}
+              type='primary'
+              className='primary-button-style alternate'
             >
               <Space>
                 Create Meeting <FontAwesomeIcon icon={faPlusCircle} />
@@ -114,11 +113,11 @@ const Meetings = ({ meetingsContent }) => {
           columns={columns}
           dataSource={meetingsContent}
           footer={() =>
-            "Showing " +
+            'Showing ' +
             meetingsContent.length +
-            " of " +
+            ' of ' +
             meetingsContent.length +
-            " entries"
+            ' entries'
           }
         />
       </Space>

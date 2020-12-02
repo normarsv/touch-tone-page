@@ -46,15 +46,18 @@ export default class extends Component {
       }
     }
 
-    const api = new API();
+    const api = new API(user.token);
     const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
-
+    const resMeeting = await api.GET('/Meetings/' + query.id);
+    const currentMeeting = resMeeting.response;
     return {
       user,
       orgUsers: resManageUsers.response,
+      currentMeeting,
     };
   }
   constructor(props) {
+    console.log(props);
     const emailsParticipants = props.orgUsers.reduce(
       (returnEmails, currentUser) => {
         const objectToReduce = {
@@ -84,12 +87,24 @@ export default class extends Component {
         },
       },
       formInitialValues: {
-        findeMeDescription: '',
+        name: props.currentMeeting.name,
         findeMeScheduleDescription: '',
-        startTime: '',
-        endTime: '',
-        dayrange: [],
-        enabled: false,
+        startTime: moment(props.currentMeeting.validSince).format(
+          'YYYY-MM-DD HH:mm'
+        ),
+        endTime: moment(props.currentMeeting.validUntil).format(
+          'YYYY-MM-DD HH:mm'
+        ),
+        participants: props.currentMeeting.participants.reduce(
+          (returnParticipants, currentParticipant) => {
+            const participantAdd = {
+              findMeScheduleItemId: [currentParticipant.email],
+            };
+            returnParticipants.push(participantAdd);
+            return returnParticipants;
+          },
+          []
+        ),
       },
       formValidations: (values) => {
         const errors = {};
@@ -129,9 +144,11 @@ export default class extends Component {
           validSince: moment(values.startTime).valueOf(),
           validUntil: moment(momentEndTime).valueOf(),
         };
-
         const api = new API(props.user.token);
-        const resCreateMeeting = await api.POST('/Meetings', bodyMeeting);
+        const resCreateMeeting = await api.PUT(
+          '/Meetings/' + currentMeeting.id,
+          bodyMeeting
+        );
 
         setSubmitting(false);
       },

@@ -2,13 +2,21 @@ import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Row, Space, Typography } from 'antd';
 import { FieldArray, getIn } from 'formik';
-import { Checkbox, DatePicker, Form, FormItem, Input, ResetButton, Select, SubmitButton, Switch } from 'formik-antd';
+import {
+  Checkbox,
+  DatePicker,
+  Form,
+  FormItem,
+  Input,
+  ResetButton,
+  Select,
+  SubmitButton,
+  Switch,
+  TimePicker,
+} from 'formik-antd';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import FormikRef from './FormikRef';
-
-// optionals (for dummy data)
-// const { RangePicker } = DatePicker;
 
 const RenderInputType = ({
   input,
@@ -24,8 +32,8 @@ const RenderInputType = ({
         <Input
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
-          disabled={input.disabled? input.disabled:false}
-          prefix={input.prefix? input.prefix : undefined}
+          disabled={input.disabled ? input.disabled : false}
+          prefix={input.prefix ? input.prefix : undefined}
         />
       );
       break;
@@ -84,6 +92,40 @@ const RenderInputType = ({
           format={input.format}
           disabledDate={input.disabledDate}
           showTime={input.showTime}
+          onChange={
+            input.customOnChange
+              ? (momentDate, stringDate) => {
+                  input.customOnChange(
+                    stringDate,
+                    formOptions,
+                    formikData,
+                    indexArray
+                  );
+                }
+              : null
+          }
+        />
+      );
+      break;
+    case 'timePicker':
+      return (
+        <TimePicker
+          name={listName ? listName : input.name}
+          format={input.format}
+          disabledHours={input.disabledHours}
+          disabledMinutes={input.disabledMinutes}
+          onChange={
+            input.customOnChange
+              ? (momentDate, stringDate) => {
+                  input.customOnChange(
+                    stringDate,
+                    formOptions,
+                    formikData,
+                    indexArray
+                  );
+                }
+              : null
+          }
         />
       );
       break;
