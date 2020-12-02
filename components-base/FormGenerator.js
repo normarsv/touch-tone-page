@@ -24,6 +24,8 @@ const RenderInputType = ({
         <Input
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
+          disabled={input.disabled? input.disabled:false}
+          prefix={input.prefix? input.prefix : undefined}
         />
       );
       break;
