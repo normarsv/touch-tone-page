@@ -4,12 +4,12 @@ import { BaseLayout } from "../../../layouts/BaseLayout";
 import { systemLog } from "../../../scripts/General";
 import { baseLanguage } from "../../../scripts/MainInfoData";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
-import CallForward from "../../../components/tier2-screens/CalForward";
+import CallForward from "../../../components/tier2-screens/CallForward";
 import API from "../../../API/API";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
-    const userInfo = user
+    const userInfo = user;
     const api = new API(userInfo.token);
     const callForwardDataResponse = await api.GET("/Services/call-forward");
     let callForwardData = {
@@ -23,28 +23,33 @@ export default class extends Component {
       callForwardNoAnswerActive: false,
       callForwardAll: {
         currentValue: "",
-        options: []
+        options: [],
       },
       callForwardBusy: {
         currentValue: "",
-        options: []
+        options: [],
       },
       callForwardFailure: {
         currentValue: "",
-        options: []
+        options: [],
       },
       callForwardNoAnswer: {
         currentValue: "",
-        options: []
+        options: [],
       },
     };
-    if(callForwardDataResponse && !callForwardDataResponse.error && callForwardDataResponse.response){
-      callForwardData = callForwardDataResponse.response
+    if (
+      callForwardDataResponse &&
+      !callForwardDataResponse.error &&
+      callForwardDataResponse.response
+    ) {
+      callForwardData = callForwardDataResponse.response;
     }
     // console.log('ca',callForwardData)
     return {
       callForwardData,
-      userInfo
+      userInfo,
+      callForwardDataResponse,
     };
   }
   constructor(props) {
@@ -54,7 +59,7 @@ export default class extends Component {
   componentDidMount() {
     systemLog.log(this.props);
   }
-  
+
   render() {
     const { callForwardData, userInfo } = this.props;
 
@@ -65,7 +70,7 @@ export default class extends Component {
     );
   }
 }
-callForwardFailureActive: false
+callForwardFailureActive: false;
 // destination: "FIND:012111467330"
 // enabled: true
 // number: "012111467330"

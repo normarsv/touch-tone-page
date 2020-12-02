@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { Component } from "react";
 import API from "../../../API/API";
 import MyFindMe from "../../../components/tier2-screens/MyFindMe";
@@ -48,18 +49,20 @@ export default class extends Component {
 
     const api = new API(actualUser.token);
 
-    // const resUserMyFindme = await api.GET("/Services/find-me");
+    const resUserMyFindme = await api.GET("/Services/find-me");
 
-    // const actualUserMyFindme = resUserMyFindme.response;
+    const actualUserMyFindme = resUserMyFindme.response;
 
     return {
       user,
-      // actualUserMyFindme,
+      actualUserMyFindme,
+      actualUser,
     };
   }
   constructor(props) {
     super(props);
     this.userinfo = "";
+
     this.endUserForm = {
       generalOptions: {
         type: "vertical", //horizontal, vertical, inline
@@ -72,87 +75,68 @@ export default class extends Component {
           className: "primary-button-style",
           text: "Clear",
         },
-        cancel: {
-          className: "primary-button-style cancel",
-          text: "Cancel My Find me",
-          action: () => {
-            // useRouter().back();
-            console.log("cancel clicked");
-          },
-        },
+        // cancel: {
+        //   className: "primary-button-style cancel",
+        //   text: "Cancel My Find me",
+        //   action: () => {
+        //     // useRouter().back();
+        //     console.log("cancel clicked");
+        //   },
+        // },
       },
       formInitialValues: {
-        findeMeDescription: "",
-        findeMeScheduleDescription: "",
-        startTime: "",
-        endTime: "",
-        dayrange: [],
-        enabled: false,
+        // findeMeDescription: "",
+        // findeMeScheduleDescription: "",
+        // startTime: "",
+        // endTime: "",
+        // dayrange: ,
+        // enabled: false,
 
-        // findeMeDescription: this.props.actualUserMyFindme.findeMeDescription,
-        // findeMeScheduleDescription: this.props.actualUserMyFindme
-        //   .findeMeScheduleDescription,
-        // startTime: this.props.actualUserMyFindme.startTime,
-        // endTime: this.props.actualUserMyFindme.endTime,
-        // dayrange: [],
-        // enabled: this.props.actualUserMyFindme.enabled,
-        // destinations: this.props.actualUserMyFindme.findMeItems,
+        findeMeDescription: this.props.actualUserMyFindme.findeMeDescription,
+        findeMeScheduleDescription: this.props.actualUserMyFindme
+          .findeMeScheduleDescription,
+        startDate: this.props.actualUserMyFindme.startDate,
+        endDate: this.props.actualUserMyFindme.endDate,
+        enabled: this.props.actualUserMyFindme.enabled,
+        dayrange: this.props.actualUserMyFindme.dayrange,
+        destination1: this.props.actualUserMyFindme.findeMeItems[0].destination
+          .currentValue,
+        destination2: this.props.actualUserMyFindme.findeMeItems[1].destination
+          .currentValue,
+        destination3: this.props.actualUserMyFindme.findeMeItems[2].destination
+          .currentValue,
       },
       formValidations: (values) => {
         const errors = {};
+        // console.log(values);
         if (!values.findeMeDescription) {
           errors.findeMeDescription = "Description required";
         }
         if (!values.findeMeScheduleDescription) {
           errors.findeMeScheduleDescription = "Schedule description required";
         }
-        if (!values.startTime) {
-          errors.startTime = "Start date required";
+        if (!values.startDate) {
+          errors.startDate = "Start date required";
         }
-        if (!values.endTime) {
-          errors.endTime = "End date required";
+        if (!values.endDate) {
+          errors.endDate = "End date required";
         }
-        if (!values.destinations || values.destinations.length === 0) {
-          errors.destinations = "At least 1 destination required";
-        } else if (values.destinations) {
-          errors.destinations = [];
-          values.destinations.map((destination, index) => {
-            errors.destinations[index] = {};
-            if (
-              !destination.findMeScheduleItemId ||
-              !destination.destinationType ||
-              !destination.queueName
-            ) {
-              if (!destination.findMeScheduleItemId) {
-                errors.destinations[index].findMeScheduleItemId =
-                  "findMeScheduleItemId is required";
-              }
-              if (!destination.destinationType) {
-                errors.destinations[index].destinationType =
-                  "destinationType is required";
-              }
-              if (!destination.queueName) {
-                errors.destinations[index].queueName = "queueName is required";
-              }
-            } else {
-              delete errors.destinations[index];
-            }
-          });
-          if (errors.destinations.every((o) => o.value === "0")) {
-            delete errors.destinations;
-          }
+        if (values.endDate < values.startDate) {
+          errors.endDate = "Set a valid end date";
         }
+
         return errors;
       },
       formSubmit: (values, { setSubmitting, setFieldError }) => {
+        this.finalSubmit(values);
+
         setTimeout(() => {
-          console.log("form submitted values", values);
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
+          // console.log("form submitted values", values);
+          // alert(JSON.stringify(values, null, 2));
+          // setSubmitting(false);
         }, 400);
       },
       formInputsRows: [
-        // { separatorTitle: "Test1" },
         {
           inputs: [
             {
@@ -175,13 +159,13 @@ export default class extends Component {
               required: true,
             },
             {
-              name: "startTime",
+              name: "startDate",
               label: "Start Date",
               type: "datePicker",
               required: true,
             },
             {
-              name: "endTime",
+              name: "endDate",
               label: "End Date",
               type: "datePicker",
               required: true,
@@ -194,7 +178,6 @@ export default class extends Component {
             {
               name: "dayrange",
               label: "",
-              text: "Monday",
               placeholder: "",
               type: "checkBoxGroup",
               options: [
@@ -227,77 +210,104 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: "destinations",
-              label: "Destination",
+              name: "destination1",
+              label: "Destination 1",
               placeholder: "Select Destination",
-              type: "list",
-              addMax: 5,
+              type: "select",
               required: true,
-              listFields: [
-                {
-                  name: "findMeScheduleItemId",
-                  label: "Destination",
-                  placeholder: "Select Destination",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { destinationNumber: "1", destinationId: 0 },
-                    { destinationNumber: "2", destinationId: 1 },
-                    { destinationNumber: "3", destinationId: 2 },
-                    { destinationNumber: "4", destinationId: 3 },
-                    { destinationNumber: "5", destinationId: 4 },
-                  ],
-                  optionValue: "destinationId",
-                  optionLabel: "destinationNumber",
-                },
-                {
-                  name: "destinationType",
-                  label: "Type of Destination",
-                  placeholder: "Select Type",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { destinationType: "Ring Group", destinationId: 0 },
-                    { destinationType: "User", destinationId: 1 },
-                    { destinationType: "Queue", destinationId: 2 },
-                    { destinationType: "External Number", destinationId: 3 },
-                  ],
-                  optionValue: "destinationId",
-                  optionLabel: "destinationType",
-                },
-                {
-                  name: "queueName",
-                  label: "Queue Name",
-                  placeholder: "Select Type",
-                  type: "select",
-                  required: true,
-                  options: [
-                    { queueName: "Ring Group", queueId: 0 },
-                    { queueName: "User", queueId: 1 },
-                    { queueName: "Queue", queueId: 2 },
-                    { queueName: "External Number", queueId: 3 },
-                  ],
-                  optionValue: "queueId",
-                  optionLabel: "queueName",
-                },
-              ],
-              customActions: [
-                {
-                  label: "Test",
-                  onClick: (listRowInputs) => {
-                    alert(JSON.stringify(listRowInputs, null, 2));
-                  },
-                },
-              ],
+              options: this.props.actualUserMyFindme.findeMeItems[0].destination
+                .options,
+              optionValue: "number",
+              optionLabel: "number",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            },
+          ],
+        },
+        {
+          inputs: [
+            {
+              name: "destination2",
+              label: "Destination 2",
+              placeholder: "Select Destination",
+              type: "select",
+              required: true,
+              options: this.props.actualUserMyFindme.findeMeItems[0].destination
+                .options,
+              optionValue: "number",
+              optionLabel: "number",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            },
+          ],
+        },
+        {
+          inputs: [
+            {
+              name: "destination3",
+              label: "Destination 3",
+              placeholder: "Select Destination",
+              type: "select",
+              required: true,
+              options: this.props.actualUserMyFindme.findeMeItems[0].destination
+                .options,
+              optionValue: "number",
+              optionLabel: "number",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
             },
           ],
         },
       ],
     };
   }
+
   componentDidMount() {
     systemLog.log(this.props);
   }
+
+  async finalSubmit(valuesToSubmit) {
+    // console.log(valuesToSubmit);
+    const { actualUser, actualUserMyFindme } = this.props;
+
+    const api = new API(actualUser.token);
+
+    const finalSubmit = {
+      findeMeDescription: valuesToSubmit.findeMeDescription,
+      findeMeScheduleDescription: valuesToSubmit.findeMeDescription,
+      startDate: valuesToSubmit.startDate,
+      endDate: valuesToSubmit.endDate,
+      startTime: "",
+      endTime: "",
+      dayrange: valuesToSubmit.dayrange,
+      enabled: valuesToSubmit.enabled,
+      findeMeItems: [
+        {
+          findMeScheduleItemId:
+            actualUserMyFindme.findeMeItems[0].findMeScheduleItemId,
+          priority: valuesToSubmit.enabled ? 1 : 1,
+          destination: { currentValue: valuesToSubmit.destination1 },
+        },
+        {
+          findMeScheduleItemId:
+            actualUserMyFindme.findeMeItems[1].findMeScheduleItemId,
+          priority: valuesToSubmit.enabled ? 1 : 2,
+          destination: { currentValue: valuesToSubmit.destination2 },
+        },
+        {
+          findMeScheduleItemId:
+            actualUserMyFindme.findeMeItems[2].findMeScheduleItemId,
+          priority: valuesToSubmit.enabled ? 1 : 3,
+          destination: { currentValue: valuesToSubmit.destination3 },
+        },
+      ],
+    };
+    console.log(finalSubmit, "true final form");
+
+    const responsePut = await api
+      .PUT("/Services/find-me", finalSubmit)
+      .then(() => console.log(responsePut));
+
+    message.success("My Find Me Updated Succesfully!");
+  }
+
   render() {
     const {} = this.props;
 
