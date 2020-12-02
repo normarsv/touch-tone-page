@@ -1,0 +1,119 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
+  font-family: Base;
+  line-height: 1.19;
+  font-weight: @base-bold;
+}
+
+h1 {
+  font-size: @heading-h1-size;
+  @media @medium {
+    font-size: @heading-h1-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h1-size * @heading-sm-multiplier;
+  }
+}
+
+h2 {
+  font-size: @heading-h2-size;
+  @media @medium {
+    font-size: @heading-h2-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h2-size * @heading-sm-multiplier;
+  }
+}
+
+h3 {
+  font-size: @heading-h3-size;
+  @media @medium {
+    font-size: @heading-h3-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h4-size * @heading-sm-multiplier;
+  }
+}
+
+h4 {
+  font-size: @heading-h4-size;
+  @media @medium {
+    font-size: @heading-h4-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h4-size * @heading-sm-multiplier;
+  }
+}
+
+h5 {
+  font-size: @heading-h5-size;
+  @media @medium {
+    font-size: @heading-h5-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h5-size * @heading-sm-multiplier;
+  }
+}
+
+h6 {
+  font-size: @heading-h6-size;
+  @media @medium {
+    font-size: @heading-h6-size * @heading-md-multiplier;
+  }
+  @media @small {
+    font-size: @heading-h6-size * @heading-sm-multiplier;
+  }
+}
+
+body {
+  font-family: Base;
+  font-display: auto;
+  font-size: @font-size-base;
+  font-weight: @base-bold-body;
+
+  @media @small {
+    //line-height: 1.6;
+    //font-size: @font-size-small;
+  }
+}
+
+.flex {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  &.center {
+    justify-content: center;
+  }
+  &.space-between {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media @small {
+      flex-direction: column;
+    }
+  }
+}
+
+.position-relative {
+  position: relative;
+}
+
+.ant-space {
+  width: 100%;
+
+  .spaced-between {
+    width: auto;
+  }
+}
+
+.left {
+  padding-left: 24px;
+}
+
+.ant-picker {
+  width: 100%;
+}

@@ -2,19 +2,21 @@ import "../styles/app.less";
 
 import App from "next/app";
 import nookies from "nookies";
-import React from "react";
 
-import API from "../API/API";
+import { UserContext } from "../components/authentication/UserContext";
 import { nameSession } from "../scripts/MainInfoData";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
-    let user = {};
+    let user = {}; //{ name: "Daniel Zamarripa", role: "super-admin" };
+
     const cookies = nookies.get(ctx);
     const userCookie = cookies[nameSession + "_data"];
     if (userCookie !== undefined) {
-      // const userParse = JSON.parse(userCookie)
+      const userParse = JSON.parse(userCookie);
+      user = userParse;
+      user.role = user.group;
     }
 
     if (Component.getInitialProps) {
@@ -23,12 +25,16 @@ class MyApp extends App {
         user,
       });
     }
-    return { pageProps };
+    return { pageProps, user };
   }
 
   render() {
-    const { Component, pageProps } = this.props;
-    return <Component {...pageProps} />;
+    const { Component, pageProps, user } = this.props;
+    return (
+      <UserContext.Provider value={{ userInfo: user }}>
+        <Component {...pageProps} />
+      </UserContext.Provider>
+    );
   }
 }
 

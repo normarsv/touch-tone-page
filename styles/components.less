@@ -1,0 +1,85 @@
+// ---------- edit styles ----------
+
+.edit-services-div {
+  width: 100%;
+  height: 100%;
+  box-shadow: @box-shadow-base;
+  border: solid 1px @neutral-background-color;
+  padding: 1rem;
+}
+
+// ---------- Date show styles ----------
+
+.date-component-div {
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  border: solid 1px @neutral-background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.primary-button-style {
+  height: 2rem;
+  width: 12rem;
+
+  @media @small {
+    width: 100%;
+  }
+
+  &.modal-style {
+    width: 32%;
+  }
+
+  &.provisioning {
+    width: 8.1rem;
+  }
+
+  &.alternate {
+    height: 2rem;
+    border-color: @alternate-button-color;
+    background-color: @alternate-button-color;
+    &.modal-style {
+      width: 32%;
+    }
+    &.form-full-width {
+      width: auto;
+    }
+    &:hover {
+      background-color: @alternate-hover-color;
+    }
+  }
+  &:hover {
+    background-color: @primary-hover-color;
+  }
+  &.cancel {
+    border-color: @primary-color;
+    color: @primary-color;
+    &:hover {
+      background-color: @primary-hover-color;
+      color: @header-color;
+    }
+  }
+}
+.ant-btn[disabled] {
+  background-color: @disabled-alternate-color;
+  color: @disabled-text-color;
+  border: 0;
+  opacity: 0.8;
+  &:hover {
+    background-color: @disabled-alternate-color;
+    color: @disabled-text-color;
+    opacity: 0.8;
+  }
+}
+
+//----------Transfer style---------//
+
+.transfer-main-div {
+  margin-top: 2rem;
+  width: 100%;
+  border: 1px solid @neutral-background-color;
+  padding: 2rem;
+}
