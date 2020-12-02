@@ -134,22 +134,28 @@ export default class extends Component {
         const time = values.endTime;
         const [hours, minutes] = time.split(':');
         const momentEndTime = moment(values.startTime)
+          .startOf('day')
           .set('hour', hours)
           .set('minutes', minutes)
           .format('YYYY-MM-DD HH:mm');
+        const momentStartTime = moment(values.startTime).format(
+          'YYYY-MM-DD HH:mm'
+        );
+        const timeStampEndTime = moment(momentStartTime).valueOf();
+        const timeStampStartTime = moment(momentEndTime).valueOf();
+
         const bodyMeeting = {
           name: values.name,
           participants: paticipants,
           language: 'es',
-          validSince: moment(values.startTime).valueOf(),
-          validUntil: moment(momentEndTime).valueOf(),
+          validSince: timeStampStartTime,
+          validUntil: timeStampEndTime,
         };
         const api = new API(props.user.token);
         const resCreateMeeting = await api.PUT(
           '/Meetings/' + currentMeeting.id,
           bodyMeeting
         );
-
         setSubmitting(false);
       },
       formInputsRows: [

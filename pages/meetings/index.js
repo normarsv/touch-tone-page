@@ -66,6 +66,7 @@ export default class extends Component {
 
     return {
       user,
+      meetings,
       meetingsContent,
     };
   }
