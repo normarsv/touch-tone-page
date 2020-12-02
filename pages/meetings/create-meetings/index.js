@@ -115,20 +115,21 @@ export default class extends Component {
           },
           []
         );
+        console.log(values);
+        const timeStampStartTime = moment(values.startTime).valueOf();
+        const timeStampEndTime = moment(values.endTime).valueOf();
+        console.log('timeStampStartTime', timeStampStartTime);
+        console.log('timeStampEndTime', timeStampEndTime);
 
-        const time = values.endTime;
-        const [hours, minutes] = time.split(':');
-        const momentEndTime = moment(values.startTime)
-          .set('hour', hours)
-          .set('minutes', minutes)
-          .format('YYYY-MM-DD HH:mm');
         const bodyMeeting = {
           name: values.name,
           participants: paticipants,
           language: 'es',
-          validSince: moment(values.startTime).valueOf(),
-          validUntil: moment(momentEndTime).valueOf(),
+          validSince: timeStampStartTime,
+          validUntil: timeStampEndTime,
         };
+
+        console.log(bodyMeeting);
 
         const api = new API(props.user.token);
         const resCreateMeeting = await api.POST('/Meetings', bodyMeeting);
@@ -201,6 +202,8 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
+                console.log(formikData);
+                console.log(newVal);
                 const time = newVal;
                 const [hours, minutes] = time.split(':');
                 const momentNewVal = moment(formikData.startTime)
