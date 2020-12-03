@@ -250,9 +250,9 @@ const RenderInputType = ({
                   disabled={
                     input.addMax
                       ? listArrayLength < input.addMax
-                        ? false
+                        ? formikData.isSubmitting
                         : true
-                      : false
+                      : formikData.isSubmitting
                   }
                   onClick={() => {
                     if (input.addMax) {
