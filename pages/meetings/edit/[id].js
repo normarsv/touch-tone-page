@@ -98,7 +98,7 @@ export default class extends Component {
         participants: props.currentMeeting.participants.reduce(
           (returnParticipants, currentParticipant) => {
             const participantAdd = {
-              findMeScheduleItemId: [currentParticipant.email],
+              email: [currentParticipant.email],
             };
             returnParticipants.push(participantAdd);
             return returnParticipants;
@@ -123,7 +123,7 @@ export default class extends Component {
         const paticipants = values.participants.reduce(
           (returnArray, currentParticipant) => {
             returnArray.push({
-              email: currentParticipant.findMeScheduleItemId[0],
+              email: currentParticipant.email[0],
               sendSMS: false,
             });
             return returnArray;
@@ -272,7 +272,7 @@ export default class extends Component {
               required: true,
               listFields: [
                 {
-                  name: 'findMeScheduleItemId',
+                  name: 'email',
                   label: 'Destination',
                   placeholder: 'Select Destination',
                   type: 'select',
@@ -299,9 +299,7 @@ export default class extends Component {
                       },
                       []
                     );
-                    curretValues[
-                      indexArray
-                    ].findMeScheduleItemId = reduceGetOnlyNew;
+                    curretValues[indexArray].email = reduceGetOnlyNew;
                     formikData.setFieldValue(
                       'participants',
                       curretValues,
