@@ -34,6 +34,7 @@ const RenderInputType = ({
           placeholder={input.placeholder}
           disabled={input.disabled ? input.disabled : false}
           prefix={input.prefix ? input.prefix : undefined}
+          disabled={formikData.isSubmitting}
         />
       );
       break;
@@ -42,12 +43,14 @@ const RenderInputType = ({
         <Input.Password
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
+          disabled={formikData.isSubmitting}
         />
       );
       break;
     case 'select':
       return (
         <Select
+          disabled={formikData.isSubmitting}
           mode={input.mode ? input.mode : ''}
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
@@ -78,6 +81,7 @@ const RenderInputType = ({
     case 'switch':
       return (
         <Switch
+          disabled={formikData.isSubmitting}
           name={listName ? listName : input.name}
           checkedChildren={input.checkedChildren}
           unCheckedChildren={input.unCheckedChildren}
@@ -88,6 +92,7 @@ const RenderInputType = ({
     case 'datePicker':
       return (
         <DatePicker
+          disabled={formikData.isSubmitting}
           name={listName ? listName : input.name}
           format={input.format}
           disabledDate={input.disabledDate}
@@ -110,6 +115,7 @@ const RenderInputType = ({
     case 'timePicker':
       return (
         <TimePicker
+          disabled={formikData.isSubmitting}
           name={listName ? listName : input.name}
           format={input.format}
           disabledHours={input.disabledHours}
@@ -132,6 +138,7 @@ const RenderInputType = ({
     case 'checkBox':
       return (
         <Checkbox
+          disabled={formikData.isSubmitting}
           name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
         >
@@ -142,6 +149,7 @@ const RenderInputType = ({
     case 'checkBoxGroup':
       return (
         <Checkbox.Group
+          disabled={formikData.isSubmitting}
           name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
           options={input.options}
@@ -287,11 +295,12 @@ let FormGenerator = ({ FormOptions }, ref) => {
       validate={FormOptions.formValidations}
       onSubmit={FormOptions.formSubmit}
     >
-      {({ values, resetForm, setFieldValue }) => {
+      {({ values, resetForm, setFieldValue, isSubmitting }) => {
         const formikData = {
           values,
           resetForm,
           setFieldValue,
+          isSubmitting,
         };
         return (
           <Form
@@ -387,15 +396,11 @@ let FormGenerator = ({ FormOptions }, ref) => {
               <SubmitButton
                 className={FormOptions.generalOptions.submit.className}
                 disabled={false}
-                onClick={() =>
-                  setTimeout(() => {
-                    resetForm();
-                  }, 2000)
-                }
               >
                 {FormOptions.generalOptions.submit.text}
               </SubmitButton>
               <ResetButton
+                disabled={isSubmitting}
                 className={FormOptions.generalOptions.reset.className}
               >
                 {FormOptions.generalOptions.reset.text}

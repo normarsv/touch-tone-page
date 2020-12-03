@@ -11,11 +11,15 @@ import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import AddNewFrequentNumber from "../user/AddNewFrequentNumber";
 
 const { Option } = Select;
 
-const FrequentNumbers = ({ frequentNumbersTableData }) => {
+const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
+  const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
+    false
+  );
 
   const hoverAnimation = {
     scale: 1.02,
@@ -95,7 +99,11 @@ const FrequentNumbers = ({ frequentNumbersTableData }) => {
             </Select>
             <label>entries</label>
           </Space>
-          <Button type="primary" className="primary-button-style alternate">
+          <Button
+            type="primary"
+            className="primary-button-style alternate"
+            onClick={() => setVisibleNewFrequentNumber(true)}
+          >
             <Space className="flex center">
               New Number <FontAwesomeIcon icon={faPlusCircle} />
             </Space>
@@ -116,6 +124,14 @@ const FrequentNumbers = ({ frequentNumbersTableData }) => {
             " entries"
           }
         />
+
+        <AddNewFrequentNumber
+          frequentNumberForm={frequentNumberForm}
+          visibleNewFrequentNumber={visibleNewFrequentNumber}
+          setVisibleNewFrequentNumber={() =>
+            setVisibleNewFrequentNumber(!visibleNewFrequentNumber)
+          }
+        />
       </Space>
     </div>
   );
@@ -123,6 +139,7 @@ const FrequentNumbers = ({ frequentNumbersTableData }) => {
 
 FrequentNumbers.propTypes = {
   frequentNumbersTableData: PropTypes.array,
+  frequentNumberForm: PropTypes.object,
 };
 
 export default FrequentNumbers;

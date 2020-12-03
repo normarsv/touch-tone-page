@@ -1,10 +1,11 @@
+import { message } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
 
 import API from '../../../API/API';
 import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
 import { BaseLayout } from '../../../layouts/BaseLayout';
-import { IsAValidEmail, systemLog } from '../../../scripts/General';
+import { IsAValidEmail, IsValidPhoneNumber, systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -48,25 +49,29 @@ export default class extends Component {
 
     const api = new API();
     const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
+    const resUserFrequentContacts = await api.GET(
+      '/UserFrequentContacts/user/' + user.userId
+    );
 
     return {
       user,
+      frequentContacts: resUserFrequentContacts.response,
       orgUsers: resManageUsers.response,
     };
   }
   constructor(props) {
+    super(props);
+    console.log(props);
     const emailsParticipants = props.orgUsers.reduce(
       (returnEmails, currentUser) => {
         const objectToReduce = {
-          destinationNumber: currentUser.authUser.email,
-          destinationId: currentUser.authUser.email,
+          email: currentUser.authUser.email,
         };
         returnEmails.push(objectToReduce);
         return returnEmails;
       },
       []
     );
-    super(props);
     this.userinfo = '';
     this.state = { emailsToSend: '' };
 
@@ -104,35 +109,38 @@ export default class extends Component {
         }
         return errors;
       },
-      formSubmit: async (values, { setSubmitting, setFieldError }) => {
+      formSubmit: async (
+        values,
+        { setSubmitting, setFieldError, resetForm }
+      ) => {
+        setSubmitting(true);
         const paticipants = values.participants.reduce(
           (returnArray, currentParticipant) => {
             returnArray.push({
-              email: currentParticipant.findMeScheduleItemId[0],
-              sendSMS: false,
+              email: currentParticipant.email[0],
+              phone: currentParticipant.phone[0],
+              sendSMS: currentParticipant.sendSMS,
             });
             return returnArray;
           },
           []
         );
 
-        const time = values.endTime;
-        const [hours, minutes] = time.split(':');
-        const momentEndTime = moment(values.startTime)
-          .set('hour', hours)
-          .set('minutes', minutes)
-          .format('YYYY-MM-DD HH:mm');
+        const timeStampStartTime = moment(values.startTime).valueOf();
+        const timeStampEndTime = moment(values.endTime).valueOf();
+
         const bodyMeeting = {
           name: values.name,
           participants: paticipants,
           language: 'es',
-          validSince: moment(values.startTime).valueOf(),
-          validUntil: moment(momentEndTime).valueOf(),
+          validSince: timeStampStartTime,
+          validUntil: timeStampEndTime,
         };
 
         const api = new API(props.user.token);
         const resCreateMeeting = await api.POST('/Meetings', bodyMeeting);
-
+        resetForm();
+        message.success('Meeting created successfully!');
         setSubmitting(false);
       },
       formInputsRows: [
@@ -249,7 +257,7 @@ export default class extends Component {
               required: true,
               listFields: [
                 {
-                  name: 'findMeScheduleItemId',
+                  name: 'email',
                   label: 'Destination',
                   placeholder: 'Select Destination',
                   type: 'select',
@@ -276,9 +284,7 @@ export default class extends Component {
                       },
                       []
                     );
-                    curretValues[
-                      indexArray
-                    ].findMeScheduleItemId = reduceGetOnlyNew;
+                    curretValues[indexArray].email = reduceGetOnlyNew;
                     formikData.setFieldValue(
                       'participants',
                       curretValues,
@@ -287,8 +293,58 @@ export default class extends Component {
                   },
                   required: true,
                   options: emailsParticipants,
-                  optionValue: 'destinationId',
-                  optionLabel: 'destinationNumber',
+                  optionValue: 'email',
+                  optionLabel: 'email',
+                },
+                {
+                  name: 'phone',
+                  label: 'Phone',
+                  placeholder: 'Select Phone',
+                  type: 'select',
+                  mode: 'tags',
+                  customOnChange: async (
+                    newVal,
+                    formOptions,
+                    formikData,
+                    indexArray
+                  ) => {
+                    const curretValues = [...formikData.values.participants];
+                    const reduceGetOnlyNew = newVal.reduce(
+                      (returnData, currentPhone) => {
+                        if (
+                          curretValues.find((phone) => {
+                            return phone === currentPhone;
+                          }) === undefined
+                        ) {
+                          if (IsValidPhoneNumber(currentPhone) === true) {
+                            returnData = [currentPhone];
+                          }
+                        }
+                        return returnData;
+                      },
+                      []
+                    );
+                    curretValues[indexArray].phone = reduceGetOnlyNew;
+                    formikData.setFieldValue(
+                      'participants',
+                      curretValues,
+                      false
+                    );
+                  },
+                  required: true,
+                  options: [],
+                  optionValue: 'email',
+                  optionLabel: 'email',
+                },
+                {
+                  name: 'sendSMS',
+                  label: 'SMS',
+                  placeholder: '',
+                  type: 'switch',
+                  checkedChildren: 'Yes',
+                  unCheckedChildren: 'No',
+                  defaultChecked: false,
+                  breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
                 },
               ],
             },
