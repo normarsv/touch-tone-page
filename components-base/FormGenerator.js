@@ -218,7 +218,10 @@ const RenderInputType = ({
                                   </Button>
                                 );
                               })}
-                            <Button onClick={() => arrayHelpers.remove(index)}>
+                            <Button
+                              disabled={formikData.isSubmitting}
+                              onClick={() => arrayHelpers.remove(index)}
+                            >
                               <Space className='flex center'>
                                 Remove
                                 <FontAwesomeIcon icon={faMinusCircle} />
@@ -241,6 +244,7 @@ const RenderInputType = ({
                     </div>
                   )}
                 <Button
+                  disabled={formikData.isSubmitting}
                   type='primary'
                   className='primary-button-style alternate'
                   disabled={

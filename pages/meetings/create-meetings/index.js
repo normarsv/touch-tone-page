@@ -5,7 +5,7 @@ import { Component } from 'react';
 import API from '../../../API/API';
 import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
 import { BaseLayout } from '../../../layouts/BaseLayout';
-import { IsAValidEmail, IsValidPhoneNumber, systemLog } from '../../../scripts/General';
+import { IsAValidEmail, IsAValidPhoneNumber, systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -316,7 +316,7 @@ export default class extends Component {
                             return phone === currentPhone;
                           }) === undefined
                         ) {
-                          if (IsValidPhoneNumber(currentPhone) === true) {
+                          if (IsAValidPhoneNumber(currentPhone) === true) {
                             returnData = [currentPhone];
                           }
                         }
