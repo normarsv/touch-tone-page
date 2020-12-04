@@ -4,18 +4,26 @@ import { Button, message, Popconfirm, Row, Select, Space, Table } from 'antd';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
 
-const Meetings = ({ meetingsContent, user }) => {
+const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
+  const [loadingTable, setLoadingTable] = useState(false);
   const deleteMeetings = async (meetingID) => {
+    setLoadingTable(true);
     const api = new API(user.token);
     const resMeetings = await api.DELETE('/Meetings/' + meetingID);
+    message.success('Meeting deleted successfully!');
+    getMeetingsContent();
   };
+
+  useEffect(() => {
+    setLoadingTable(false);
+  }, [meetingsContent]);
   const router = useRouter();
 
   const hoverAnimation = {
@@ -163,9 +171,8 @@ const Meetings = ({ meetingsContent, user }) => {
             </Button>
           </Row>
         </Row>
-
         <Table
-          // rowSelection={rowSelection}
+          loading={loadingTable}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
