@@ -1,35 +1,35 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
+import moment from 'moment/min/moment-with-locales.js';
+import { Component } from 'react';
 
-import API from "../../API/API";
-import Meetings from "../../components/tier2-screens/Meetings";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
+import API from '../../API/API';
+import Meetings from '../../components/tier2-screens/Meetings';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "SuperAdmin":
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
 
-          case "BusinessSuport":
+          case 'BusinessSuport':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
 
-          case "Distributor":
+          case 'Distributor':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
@@ -40,7 +40,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -49,17 +49,18 @@ export default class extends Component {
     const meetingsContent = [];
 
     const api = new API(user.token);
-    const resMeetings = await api.GET("/Meetings");
+    const resMeetings = await api.GET('/Meetings');
     const meetings = resMeetings.response;
 
     for (const meeting of meetings) {
       const createMeeting = {
         id: meeting.id,
         name: meeting.name,
-        date: moment(meeting.validSince).format("L"),
-        startTime: moment(meeting.validSince).format("LT"),
-        endTime: moment(meeting.validUntil).format("LT"),
+        date: moment(meeting.validSince).format('L'),
+        startTime: moment(meeting.validSince).format('LT'),
+        endTime: moment(meeting.validUntil).format('LT'),
         url: meeting.url,
+        ddi: meeting.ddi,
       };
       meetingsContent.push(createMeeting);
     }
@@ -73,17 +74,17 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);
   }
   render() {
-    const { meetingsContent } = this.props;
+    const { meetingsContent, user } = this.props;
 
     return (
       <BaseLayout>
-        <Meetings meetingsContent={meetingsContent} />
+        <Meetings meetingsContent={meetingsContent} user={user} />
       </BaseLayout>
     );
   }

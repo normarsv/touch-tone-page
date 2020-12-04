@@ -32,9 +32,8 @@ const RenderInputType = ({
         <Input
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
-          disabled={input.disabled ? input.disabled : false}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           prefix={input.prefix ? input.prefix : undefined}
-          disabled={formikData.isSubmitting}
         />
       );
       break;
@@ -43,14 +42,14 @@ const RenderInputType = ({
         <Input.Password
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
         />
       );
       break;
     case 'select':
       return (
         <Select
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           mode={input.mode ? input.mode : ''}
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
@@ -81,7 +80,7 @@ const RenderInputType = ({
     case 'switch':
       return (
         <Switch
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           name={listName ? listName : input.name}
           checkedChildren={input.checkedChildren}
           unCheckedChildren={input.unCheckedChildren}
@@ -92,7 +91,7 @@ const RenderInputType = ({
     case 'datePicker':
       return (
         <DatePicker
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           name={listName ? listName : input.name}
           format={input.format}
           disabledDate={input.disabledDate}
@@ -115,7 +114,7 @@ const RenderInputType = ({
     case 'timePicker':
       return (
         <TimePicker
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           name={listName ? listName : input.name}
           format={input.format}
           disabledHours={input.disabledHours}
@@ -138,7 +137,7 @@ const RenderInputType = ({
     case 'checkBox':
       return (
         <Checkbox
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
         >
@@ -149,7 +148,7 @@ const RenderInputType = ({
     case 'checkBoxGroup':
       return (
         <Checkbox.Group
-          disabled={formikData.isSubmitting}
+          disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           name={listName ? listName : input.name}
           defaultChecked={input.defaultChecked}
           options={input.options}
