@@ -9,8 +9,6 @@ const AddNewFrequentNumber = ({
   setVisibleNewFrequentNumber,
 }) => {
   function handleCancel() {
-    // setSelectedOrganization({});
-    // setProvideOrganizations([]);
     setVisibleNewFrequentNumber();
   }
 

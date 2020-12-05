@@ -9,17 +9,27 @@ import { Button, Row, Select, Space, Table, Tooltip } from "antd";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import API from "../../API/API";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import AddNewFrequentNumber from "../user/AddNewFrequentNumber";
+import EditFrequentNumber from "./EditFrequentNumber";
 
 const { Option } = Select;
 
-const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
+const FrequentNumbers = ({
+  userInfo,
+  frequentNumberForm,
+  frequentNumbersTableData,
+  getFrequentNumberContent,
+}) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
     false
   );
+  const [visibleEditNumber, setVisibleEditNumber] = useState(false);
+  const [frequentNumberInfo, setFrequentNumberInfo] = useState({});
+  const [loadingTable, setLoadingTable] = useState(false);
 
   const hoverAnimation = {
     scale: 1.02,
@@ -31,6 +41,25 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
   };
+
+  function handleVisible(info) {
+    setVisibleEditNumber(!visibleEditNumber);
+    setFrequentNumberInfo(info);
+  }
+
+  const deleteMeetings = async (meetingID) => {
+    setLoadingTable(true);
+    const api = new API(user.token);
+    const resMeetings = await api.DELETE("/Meetings/" + meetingID);
+    message.success("Meeting deleted successfully!");
+    getMeetingsContent();
+  };
+
+  useEffect(() => {
+    setLoadingTable(false);
+  }, [frequentNumbersTableData]);
+
+  console.log(frequentNumbersTableData);
 
   const columns = [
     {
@@ -49,9 +78,9 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
       title: "Actions",
       dataIndex: "actions",
       width: "10%",
-      render: (linkDetails, edit) => (
+      render: (actions, record) => (
         <motion.div
-          // onClick={() => handleVisible(record)}
+          onClick={() => handleVisible(record)}
           whileHover={hoverAnimation}
           className="flex center"
         >
@@ -74,6 +103,8 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
       ),
     },
   ];
+
+  console.log(frequentNumbersTableData);
 
   return (
     <div>
@@ -110,21 +141,32 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
           </Button>
         </Space>
 
-        <Table
-          bordered
-          scroll={{ x: 1300 }}
-          columns={columns}
-          pagination={tablePageSize}
-          dataSource={frequentNumbersTableData}
-          footer={(currentData) =>
-            "Showing " +
-            currentData.length +
-            " of " +
-            frequentNumbersTableData.length +
-            " entries"
-          }
+        {frequentNumbersTableData && (
+          <Table
+            loading={loadingTable}
+            bordered
+            scroll={{ x: 1300 }}
+            columns={columns}
+            pagination={tablePageSize}
+            dataSource={frequentNumbersTableData}
+            footer={(currentData) =>
+              "Showing " +
+              currentData.length +
+              " of " +
+              frequentNumbersTableData.length +
+              " entries"
+            }
+          />
+        )}
+
+        {/* Modal para agregar nuevo numero frecuente */}
+        <EditFrequentNumber
+          frequentNumberInfo={frequentNumberInfo}
+          visibleEditNumber={visibleEditNumber}
+          setVisibleEditNumber={() => setVisibleEditNumber(!visibleEditNumber)}
         />
 
+        {/* Modal para agregar nuevo numero frecuente */}
         <AddNewFrequentNumber
           frequentNumberForm={frequentNumberForm}
           visibleNewFrequentNumber={visibleNewFrequentNumber}
