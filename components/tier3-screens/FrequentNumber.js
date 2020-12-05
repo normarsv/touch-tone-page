@@ -5,7 +5,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Row, Select, Space, Table, Tooltip } from "antd";
+import { Button, message, Row, Select, Space, Table, Tooltip } from "antd";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
@@ -22,6 +22,7 @@ const FrequentNumbers = ({
   frequentNumberForm,
   frequentNumbersTableData,
   getFrequentNumberContent,
+  dataToEdit,
 }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
@@ -43,16 +44,19 @@ const FrequentNumbers = ({
   };
 
   function handleVisible(info) {
+    dataToEdit(info);
     setVisibleEditNumber(!visibleEditNumber);
     setFrequentNumberInfo(info);
   }
 
-  const deleteMeetings = async (meetingID) => {
+  const deleteFrequentNumber = async (frequentNumberId) => {
     setLoadingTable(true);
-    const api = new API(user.token);
-    const resMeetings = await api.DELETE("/Meetings/" + meetingID);
-    message.success("Meeting deleted successfully!");
-    getMeetingsContent();
+    const api = new API(userInfo.token);
+    const resDeleteFrequentNumber = await api.DELETE(
+      "/UserFrequentContacts/" + frequentNumberId
+    );
+    message.success("Frequent Number Deleted Successfully!");
+    getFrequentNumberContent();
   };
 
   useEffect(() => {
@@ -92,9 +96,9 @@ const FrequentNumbers = ({
       title: "Delete",
       dataIndex: "delete",
       width: "10%",
-      render: (linkDetails, edit) => (
+      render: (actions, record) => (
         <motion.div
-          // onClick={() => handleVisible(record)}
+          onClick={() => deleteFrequentNumber(record.id)}
           whileHover={hoverAnimation}
           className="flex center"
         >
@@ -159,11 +163,15 @@ const FrequentNumbers = ({
           />
         )}
 
-        {/* Modal para agregar nuevo numero frecuente */}
+        {/* Modal para editar un numero frecuente */}
         <EditFrequentNumber
           frequentNumberInfo={frequentNumberInfo}
+          frequentNumberForm={frequentNumberForm}
           visibleEditNumber={visibleEditNumber}
-          setVisibleEditNumber={() => setVisibleEditNumber(!visibleEditNumber)}
+          setVisibleEditNumber={() => {
+            setVisibleEditNumber(!visibleEditNumber);
+            dataToEdit({ alias: "", number: "" });
+          }}
         />
 
         {/* Modal para agregar nuevo numero frecuente */}

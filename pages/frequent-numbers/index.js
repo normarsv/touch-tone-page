@@ -11,6 +11,7 @@ function FrequentNumberPage(props) {
     currentFrequentNumbersTableData,
     setCurrentFrequentNumbersTableData,
   ] = useState(frequentNumbersResponse);
+  const [dataToEdit, setDataToEdit] = useState({});
 
   const getFrequentNumberContent = async () => {
     const api = new API(user.token);
@@ -35,8 +36,8 @@ function FrequentNumberPage(props) {
       },
     },
     formInitialValues: {
-      alias: "",
-      number: "",
+      alias: dataToEdit ? dataToEdit.alias : "",
+      number: dataToEdit ? dataToEdit.number : "",
     },
     formValidations: (values) => {
       const errors = {};
@@ -51,8 +52,7 @@ function FrequentNumberPage(props) {
       }
       return errors;
     },
-    formSubmit: async (values, { setSubmitting, setFieldError }) => {
-      console.log(values);
+    formSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
       setSubmitting(true);
 
       const bodyFrequentNumbers = {
@@ -71,16 +71,14 @@ function FrequentNumberPage(props) {
       if (resAddFrequentNumber.statusCode === 201) {
         message.success("Frequent Number Added Succesfully!");
         getFrequentNumberContent();
+        resetForm();
       } else {
         message.error("Failed to add frequent number");
       }
 
       setTimeout(() => {
-        // console.log("form submitted values", values);
-        // alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }, 400);
-      // setSubmitting(false);
     },
     formInputsRows: [
       {
@@ -108,6 +106,7 @@ function FrequentNumberPage(props) {
     <BaseLayout>
       <FrequentNumber
         userInfo={user}
+        dataToEdit={(frequentNumberInfo) => setDataToEdit(frequentNumberInfo)}
         frequentNumberForm={frequentNumberForm}
         frequentNumbersTableData={currentFrequentNumbersTableData}
         getFrequentNumberContent={getFrequentNumberContent}
