@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { Component, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import API from "../../API/API";
 import FrequentNumber from "../../components/tier3-screens/FrequentNumber";
 import { BaseLayout } from "../../layouts/BaseLayout";
@@ -12,15 +12,7 @@ function FrequentNumberPage(props) {
     setCurrentFrequentNumbersTableData,
   ] = useState(frequentNumbersResponse);
   const [dataToEdit, setDataToEdit] = useState({});
-
-  const getFrequentNumberContent = async () => {
-    const api = new API(user.token);
-    const resFrequentNumbers = await api.GET(
-      "/UserFrequentContacts/user/" + user.userId
-    );
-
-    setCurrentFrequentNumbersTableData(resFrequentNumbers.response);
-  };
+  const [currentForm, setCurrentForm] = useState({});
 
   const frequentNumberForm = {
     generalOptions: {
@@ -36,10 +28,12 @@ function FrequentNumberPage(props) {
       },
     },
     formInitialValues: {
+      id: dataToEdit ? dataToEdit.id : "",
       alias: dataToEdit ? dataToEdit.alias : "",
       number: dataToEdit ? dataToEdit.number : "",
     },
     formValidations: (values) => {
+      console.log(values);
       const errors = {};
       if (!values.alias) {
         errors.alias = "Alias required";
@@ -54,20 +48,22 @@ function FrequentNumberPage(props) {
     },
     formSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
       setSubmitting(true);
-
+      // setSubmitting(false);
+      console.log(values);
+      // if (values.id) {
+      //   console.log("update");
+      // } else {
       const bodyFrequentNumbers = {
         alias: values.alias,
         number: values.number,
         authUserId: props.user.userId,
       };
-
       const api = new API(props.user.token);
       const resAddFrequentNumber = await api.POST(
         "/UserFrequentContacts",
         bodyFrequentNumbers
       );
       console.log(resAddFrequentNumber);
-
       if (resAddFrequentNumber.statusCode === 201) {
         message.success("Frequent Number Added Succesfully!");
         getFrequentNumberContent();
@@ -75,6 +71,7 @@ function FrequentNumberPage(props) {
       } else {
         message.error("Failed to add frequent number");
       }
+      // }
 
       setTimeout(() => {
         setSubmitting(false);
@@ -100,6 +97,15 @@ function FrequentNumberPage(props) {
         ],
       },
     ],
+  };
+
+  const getFrequentNumberContent = async () => {
+    const api = new API(user.token);
+    const resFrequentNumbers = await api.GET(
+      "/UserFrequentContacts/user/" + user.userId
+    );
+
+    setCurrentFrequentNumbersTableData(resFrequentNumbers.response);
   };
 
   return (

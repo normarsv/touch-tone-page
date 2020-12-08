@@ -16,21 +16,19 @@ const EditFrequentNumber = ({
 }) => {
   const router = useRouter();
 
-  console.log(frequentNumberInfo);
-
   return (
     <Modal
       // title={frequentNumberInfo.name + " Details"}
       visible={visibleEditNumber}
       centered
-      onCancel={() => setVisibleEditNumber()}
+      onCancel={() => setVisibleEditNumber("")}
       footer={null}
     >
       <Space direction="vertical" className="organization-detail-modal">
         <h2 className="title-style">Edit Frequent Number</h2>
-        {/* <FormGenerator FormOptions={frequentNumberForm} /> */}
+        <FormGenerator FormOptions={frequentNumberForm} />
 
-        <Row type="flex" justify="center" gutter={[4, 0]} className="header">
+        {/* <Row type="flex" justify="center" gutter={[4, 0]} className="header">
           <Col span={12}>
             <h3>Alias</h3>
           </Col>
@@ -48,7 +46,7 @@ const EditFrequentNumber = ({
           <Col span={12}>
             <Button onClick={() => console.log("edit")}>Edit Number</Button>
           </Col>
-        </Row>
+        </Row> */}
       </Space>
     </Modal>
   );

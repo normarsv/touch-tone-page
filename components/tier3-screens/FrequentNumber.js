@@ -28,7 +28,7 @@ const FrequentNumbers = ({
   const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
     false
   );
-  const [visibleEditNumber, setVisibleEditNumber] = useState(false);
+  const [visibleEditNumber, setVisibleEditNumber] = useState(0);
   const [frequentNumberInfo, setFrequentNumberInfo] = useState({});
   const [loadingTable, setLoadingTable] = useState(false);
 
@@ -44,8 +44,9 @@ const FrequentNumbers = ({
   };
 
   function handleVisible(info) {
+    console.log("true info", info);
     dataToEdit(info);
-    setVisibleEditNumber(!visibleEditNumber);
+    setVisibleEditNumber(info.id);
     setFrequentNumberInfo(info);
   }
 
@@ -62,8 +63,6 @@ const FrequentNumbers = ({
   useEffect(() => {
     setLoadingTable(false);
   }, [frequentNumbersTableData]);
-
-  console.log(frequentNumbersTableData);
 
   const columns = [
     {
@@ -83,13 +82,16 @@ const FrequentNumbers = ({
       dataIndex: "actions",
       width: "10%",
       render: (actions, record) => (
-        <motion.div
-          onClick={() => handleVisible(record)}
-          whileHover={hoverAnimation}
-          className="flex center"
-        >
-          Edit
-        </motion.div>
+        <>
+          <motion.div
+            onClick={() => handleVisible(record)}
+            whileHover={hoverAnimation}
+            className="flex center"
+          >
+            Edit
+          </motion.div>
+          {renderEditModal(record)}
+        </>
       ),
     },
     {
@@ -109,6 +111,21 @@ const FrequentNumbers = ({
   ];
 
   console.log(frequentNumbersTableData);
+
+  /* Modal para editar un numero frecuente */
+  function renderEditModal(record) {
+    return (
+      <EditFrequentNumber
+        frequentNumberInfo={frequentNumberInfo}
+        frequentNumberForm={frequentNumberForm}
+        visibleEditNumber={visibleEditNumber == record.id}
+        setVisibleEditNumber={() => {
+          setVisibleEditNumber(0);
+          setFrequentNumberInfo({});
+        }}
+      />
+    );
+  }
 
   return (
     <div>
@@ -137,7 +154,10 @@ const FrequentNumbers = ({
           <Button
             type="primary"
             className="primary-button-style alternate"
-            onClick={() => setVisibleNewFrequentNumber(true)}
+            onClick={() => {
+              setVisibleNewFrequentNumber(true);
+              dataToEdit({});
+            }}
           >
             <Space className="flex center">
               New Number <FontAwesomeIcon icon={faPlusCircle} />
@@ -162,17 +182,6 @@ const FrequentNumbers = ({
             }
           />
         )}
-
-        {/* Modal para editar un numero frecuente */}
-        <EditFrequentNumber
-          frequentNumberInfo={frequentNumberInfo}
-          frequentNumberForm={frequentNumberForm}
-          visibleEditNumber={visibleEditNumber}
-          setVisibleEditNumber={() => {
-            setVisibleEditNumber(!visibleEditNumber);
-            dataToEdit({ alias: "", number: "" });
-          }}
-        />
 
         {/* Modal para agregar nuevo numero frecuente */}
         <AddNewFrequentNumber
