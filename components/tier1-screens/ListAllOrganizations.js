@@ -1,12 +1,13 @@
-import { Button, Row, Select, Space, Switch, Table } from "antd";
+import { Button, Input, Row, Select, Space, Switch, Table } from "antd";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import OrganizationDetailsModal from "./OrganizationDetailsModal";
 import ProvisioningOrganization from "./ProvisioningOrganization";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -20,6 +21,9 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
   ] = useState(false);
   const [organizationDetailsInfo, setOrganizationDetailsInfo] = useState();
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  let searchInput = useRef();
 
   const hoverAnimation = {
     scale: 1.02,
@@ -37,22 +41,95 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
     setOrganizationDetailsInfo(info);
   }
 
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            searchInput = node;
+          }}
+          placeholder={"Search by " + dataIndex}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.select(), 100);
+      }
+    },
+    render: (text) => text,
+  });
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       fixed: "left",
-      width: "6rem",
+      width: "5rem",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Billing ID in Rev.io",
       dataIndex: "billingId",
       width: "10%",
+      ...getColumnSearchProps("billingId"),
     },
     {
-      title: "Organization Distribuitor",
+      title: "Organization Distributor",
       dataIndex: "orgDist",
       width: "10%",
+      ...getColumnSearchProps("orgDist"),
     },
     {
       title: "Count of DIDs",
