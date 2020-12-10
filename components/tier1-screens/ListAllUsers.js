@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Checkbox,
+  Input,
   message,
   Popconfirm,
   Row,
@@ -14,9 +15,10 @@ import {
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import API from "../../API/API";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -26,6 +28,9 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [titleToDisplay, setTitleToDisplay] = useState("");
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  let searchInput = useRef();
 
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
@@ -60,9 +65,66 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     transition: { duration: 0.5 },
   };
 
-  async function searchByOrg(input) {
-    const api = new API();
-  }
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div className="seach-box">
+        <Input
+          ref={(node) => {
+            searchInput = node;
+          }}
+          placeholder={"Search by " + dataIndex}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          className="search-input"
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            className="search-buttons"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            className="search-buttons"
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => <SearchOutlined />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
+  });
 
   const columns = [
     {
@@ -70,16 +132,19 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       dataIndex: "name",
       fixed: "left",
       width: "6rem",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Email",
       dataIndex: "email",
       width: "15%",
+      ...getColumnSearchProps("email"),
     },
     {
       title: "DID",
       dataIndex: "did",
       width: "15%",
+      ...getColumnSearchProps("DID"),
     },
     {
       title: "Actions",
@@ -146,7 +211,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
         <h1 className="title-style">
           List All Users {titleToDisplay ? "of " + titleToDisplay : ""}
         </h1>
-        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
+        {/* <Search placeholder="Search..." enterButton style={{ width: 300 }} /> */}
 
         <Row type="flex" justify="space-between">
           <Space size="large" className="spaced-between">

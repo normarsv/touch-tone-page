@@ -43,7 +43,6 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
@@ -60,7 +59,7 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
       confirm,
       clearFilters,
     }) => (
-      <div style={{ padding: 8 }}>
+      <div className="seach-box">
         <Input
           ref={(node) => {
             searchInput = node;
@@ -71,7 +70,7 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          className="search-input"
         />
         <Space>
           <Button
@@ -79,23 +78,21 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             icon={<SearchOutlined />}
             size="small"
-            style={{ width: 90 }}
+            className="search-buttons"
           >
             Search
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
-            style={{ width: 90 }}
+            className="search-buttons"
           >
             Reset
           </Button>
         </Space>
       </div>
     ),
-    filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
+    filterIcon: (filtered) => <SearchOutlined />,
     onFilter: (value, record) =>
       record[dataIndex]
         ? record[dataIndex]
@@ -103,12 +100,6 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
             .toLowerCase()
             .includes(value.toLowerCase())
         : "",
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.select(), 100);
-      }
-    },
-    render: (text) => text,
   });
 
   const columns = [
@@ -183,7 +174,7 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
           <h1 className="title-style">List All Organizations</h1>
         </Row>
 
-        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
+        {/* <Search placeholder="Search..." enterButton style={{ width: 300 }} /> */}
 
         <Row type="flex" justify="space-between">
           <Space size="small" className="spaced-between">
