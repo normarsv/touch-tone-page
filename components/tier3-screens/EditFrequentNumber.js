@@ -1,52 +1,47 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import Modal from "antd/lib/modal/Modal";
-import { Button, Col, Input, Row, Space } from "antd";
-import { useRouter } from "next/router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList, faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import { CloseOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import FormGenerator from "../../components-base/FormGenerator";
+import { Space } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+
+import FormGenerator from '../../components-base/FormGenerator';
 
 const EditFrequentNumber = ({
-  frequentNumberInfo,
+  dataToEdit,
   visibleEditNumber,
   setVisibleEditNumber,
   frequentNumberForm,
 }) => {
   const router = useRouter();
+  const [formGeneratorRef, setFormGeneratorRef] = useState(null);
+  useEffect(() => {
+    if (visibleEditNumber === true) {
+      if (formGeneratorRef !== null) {
+        formGeneratorRef.setFieldValue('alias', dataToEdit.alias);
+        formGeneratorRef.setFieldValue('number', dataToEdit.number);
+      }
+    }
+  }, [visibleEditNumber, formGeneratorRef]);
 
   return (
     <Modal
-      // title={frequentNumberInfo.name + " Details"}
       visible={visibleEditNumber}
       centered
-      onCancel={() => setVisibleEditNumber("")}
+      onCancel={() => setVisibleEditNumber('')}
       footer={null}
     >
-      <Space direction="vertical" className="organization-detail-modal">
-        <h2 className="title-style">Edit Frequent Number</h2>
-        <FormGenerator FormOptions={frequentNumberForm} />
-
-        {/* <Row type="flex" justify="center" gutter={[4, 0]} className="header">
-          <Col span={12}>
-            <h3>Alias</h3>
-          </Col>
-          <Col span={12}>
-            <h3>Number</h3>
-          </Col>
-        </Row>
-        <Row type="flex" gutter={[4, 10]} className="content">
-          <Col span={12}>
-            <Input value={frequentNumberInfo.alias}></Input>
-          </Col>
-          <Col span={12}>
-            <Input value={frequentNumberInfo.number}></Input>
-          </Col>
-          <Col span={12}>
-            <Button onClick={() => console.log("edit")}>Edit Number</Button>
-          </Col>
-        </Row> */}
+      <Space direction='vertical' className='organization-detail-modal'>
+        <h2 className='title-style'>
+          {dataToEdit !== undefined ? 'Edit ' + dataToEdit.alias : ''}
+        </h2>
+        <FormGenerator
+          ref={(ref) => {
+            if (ref !== null && formGeneratorRef === null) {
+              setFormGeneratorRef(ref.formikRef);
+            }
+          }}
+          FormOptions={frequentNumberForm}
+        />
       </Space>
     </Modal>
   );

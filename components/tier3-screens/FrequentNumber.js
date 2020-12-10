@@ -1,19 +1,15 @@
-import {
-  faDownload,
-  faEnvelope,
-  faPlusCircle,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, message, Row, Select, Space, Table, Tooltip } from "antd";
-import Search from "antd/lib/input/Search";
-import { motion } from "framer-motion";
-import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
-import API from "../../API/API";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import AddNewFrequentNumber from "../user/AddNewFrequentNumber";
-import EditFrequentNumber from "./EditFrequentNumber";
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, message, Row, Select, Space, Table } from 'antd';
+import Search from 'antd/lib/input/Search';
+import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+
+import API from '../../API/API';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import AddNewFrequentNumber from '../user/AddNewFrequentNumber';
+import EditFrequentNumber from './EditFrequentNumber';
 
 const { Option } = Select;
 
@@ -22,20 +18,19 @@ const FrequentNumbers = ({
   frequentNumberForm,
   frequentNumbersTableData,
   getFrequentNumberContent,
+  setDataToEdit,
   dataToEdit,
 }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
     false
   );
-  const [visibleEditNumber, setVisibleEditNumber] = useState(0);
-  const [frequentNumberInfo, setFrequentNumberInfo] = useState({});
   const [loadingTable, setLoadingTable] = useState(false);
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
@@ -44,22 +39,18 @@ const FrequentNumbers = ({
   };
 
   function handleVisible(info) {
-    console.log("true info", info);
-    dataToEdit(info);
-    setVisibleEditNumber(info.id);
-    setFrequentNumberInfo(info);
+    setDataToEdit(info);
   }
 
   const deleteFrequentNumber = async (frequentNumberId) => {
     setLoadingTable(true);
     const api = new API(userInfo.token);
     const resDeleteFrequentNumber = await api.DELETE(
-      "/UserFrequentContacts/" + frequentNumberId
+      '/UserFrequentContacts/' + frequentNumberId
     );
-    message.success("Frequent Number Deleted Successfully!");
+    message.success('Frequent Number Deleted Successfully!');
     getFrequentNumberContent();
-    setFrequentNumberInfo({});
-    dataToEdit({});
+    setDataToEdit(undefined);
   };
 
   useEffect(() => {
@@ -68,29 +59,29 @@ const FrequentNumbers = ({
 
   const columns = [
     {
-      title: "Alias",
-      dataIndex: "alias",
-      fixed: "left",
+      title: 'Alias',
+      dataIndex: 'alias',
+      fixed: 'left',
       onFilter: (value, record) => record.alias.indexOf(value) === 0,
       sorter: (a, b) => a.alias.length - b.alias.length,
-      sortDirections: ["descend", "ascend"],
-      width: "8%",
+      sortDirections: ['descend', 'ascend'],
+      width: '8%',
     },
     {
-      title: "Number",
-      dataIndex: "number",
-      width: "8%",
+      title: 'Number',
+      dataIndex: 'number',
+      width: '8%',
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      width: "6%",
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '6%',
       render: (actions, record) => (
         <>
           <motion.div
             onClick={() => handleVisible(record)}
             whileHover={hoverAnimation}
-            className="flex center"
+            className='flex center'
           >
             Edit
           </motion.div>
@@ -99,14 +90,14 @@ const FrequentNumbers = ({
       ),
     },
     {
-      title: "Delete",
-      dataIndex: "delete",
-      width: "6%",
+      title: 'Delete',
+      dataIndex: 'delete',
+      width: '6%',
       render: (actions, record) => (
         <motion.div
           onClick={() => deleteFrequentNumber(record.id)}
           whileHover={hoverAnimation}
-          className="flex center"
+          className='flex center'
         >
           <FontAwesomeIcon icon={faTrashAlt} />
         </motion.div>
@@ -114,18 +105,17 @@ const FrequentNumbers = ({
     },
   ];
 
-  console.log(frequentNumbersTableData);
-
   /* Modal para editar un numero frecuente */
   function renderEditModal(record) {
     return (
       <EditFrequentNumber
-        frequentNumberInfo={frequentNumberInfo}
+        dataToEdit={dataToEdit}
         frequentNumberForm={frequentNumberForm}
-        visibleEditNumber={visibleEditNumber == record.id}
+        visibleEditNumber={
+          dataToEdit !== undefined ? dataToEdit.id == record.id : false
+        }
         setVisibleEditNumber={() => {
-          setVisibleEditNumber(null);
-          setFrequentNumberInfo({});
+          setDataToEdit(undefined);
         }}
       />
     );
@@ -133,37 +123,37 @@ const FrequentNumbers = ({
 
   return (
     <div>
-      <Space size="large" direction="vertical">
+      <Space size='large' direction='vertical'>
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">Frequent Number</h1>
+          <h1 className='title-style'>Frequent Number</h1>
         </Row>
 
         <Search
-          placeholder="Search user..."
+          placeholder='Search user...'
           enterButton
           style={{ width: 300 }}
         />
 
-        <Space size="large" className="flex space-between">
-          <Space size="small">
+        <Space size='large' className='flex space-between'>
+          <Space size='small'>
             <label>Show</label>
-            <Select defaultValue="10" onChange={onChangeTablePageSize}>
-              <Option value="10">10</Option>
-              <Option value="20">20</Option>
+            <Select defaultValue='10' onChange={onChangeTablePageSize}>
+              <Option value='10'>10</Option>
+              <Option value='20'>20</Option>
             </Select>
             <label>entries</label>
           </Space>
           <Button
-            type="primary"
-            className="primary-button-style alternate"
+            type='primary'
+            className='primary-button-style alternate'
             onClick={() => {
               setVisibleNewFrequentNumber(true);
-              dataToEdit({});
+              setDataToEdit(undefined);
             }}
           >
-            <Space className="flex center">
+            <Space className='flex center'>
               New Number <FontAwesomeIcon icon={faPlusCircle} />
             </Space>
           </Button>
@@ -178,11 +168,11 @@ const FrequentNumbers = ({
             pagination={tablePageSize}
             dataSource={frequentNumbersTableData}
             footer={(currentData) =>
-              "Showing " +
+              'Showing ' +
               currentData.length +
-              " of " +
+              ' of ' +
               frequentNumbersTableData.length +
-              " entries"
+              ' entries'
             }
           />
         )}

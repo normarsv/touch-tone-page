@@ -1,9 +1,10 @@
-import { message } from "antd";
-import { Component, useEffect, useState } from "react";
-import API from "../../API/API";
-import FrequentNumber from "../../components/tier3-screens/FrequentNumber";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog, IsAValidPhoneNumber } from "../../scripts/General";
+import { message } from 'antd';
+import { Component, useEffect, useState } from 'react';
+
+import API from '../../API/API';
+import FrequentNumber from '../../components/tier3-screens/FrequentNumber';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { IsAValidPhoneNumber } from '../../scripts/General';
 
 function FrequentNumberPage(props) {
   const { user, frequentNumbersResponse } = props;
@@ -11,67 +12,78 @@ function FrequentNumberPage(props) {
     currentFrequentNumbersTableData,
     setCurrentFrequentNumbersTableData,
   ] = useState(frequentNumbersResponse);
-  const [dataToEdit, setDataToEdit] = useState({});
-  const [currentForm, setCurrentForm] = useState({});
+  const [dataToEdit, setDataToEdit] = useState(undefined);
 
   const frequentNumberForm = {
     generalOptions: {
-      type: "vertical", //horizontal, vertical, inline
-      formClassName: "test-form",
+      type: 'vertical', //horizontal, vertical, inline
+      formClassName: 'test-form',
       submit: {
-        className: "primary-button-style",
-        text: "Create Frequent number",
+        className: 'primary-button-style',
+        text: (dataToEdit ? 'Edit' : 'Create') + ' Frequent number',
       },
       reset: {
-        className: "primary-button-style",
-        text: "Clear",
+        className: 'primary-button-style',
+        text: 'Clear',
       },
     },
     formInitialValues: {
-      id: dataToEdit ? dataToEdit.id : "",
-      alias: dataToEdit ? dataToEdit.alias : "",
-      number: dataToEdit ? dataToEdit.number : "",
+      alias: '',
+      number: '',
     },
     formValidations: (values) => {
-      console.log(values);
       const errors = {};
       if (!values.alias) {
-        errors.alias = "Alias required";
+        errors.alias = 'Alias required';
       }
       if (!values.number) {
-        errors.number = "Number required";
+        errors.number = 'Number required';
       }
       if (!IsAValidPhoneNumber(values.number)) {
-        errors.number = "Input a valid number";
+        errors.number = 'Input a valid number';
       }
       return errors;
     },
     formSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
       setSubmitting(true);
-      // setSubmitting(false);
-      console.log(values);
-      // if (values.id) {
-      //   console.log("update");
-      // } else {
       const bodyFrequentNumbers = {
         alias: values.alias,
         number: values.number,
         authUserId: props.user.userId,
       };
       const api = new API(props.user.token);
-      const resAddFrequentNumber = await api.POST(
-        "/UserFrequentContacts",
-        bodyFrequentNumbers
-      );
-      console.log(resAddFrequentNumber);
-      if (resAddFrequentNumber.statusCode === 201) {
-        message.success("Frequent Number Added Succesfully!");
-        getFrequentNumberContent();
-        resetForm();
+      let resFrequentNumber = {};
+      if (dataToEdit !== undefined) {
+        resFrequentNumber = await api.PUT(
+          '/UserFrequentContacts/' + dataToEdit.id,
+          { id: dataToEdit.id, ...bodyFrequentNumbers }
+        );
       } else {
-        message.error("Failed to add frequent number");
+        resFrequentNumber = await api.POST(
+          '/UserFrequentContacts',
+          bodyFrequentNumbers
+        );
       }
-      // }
+      if (
+        resFrequentNumber.statusCode === 201 ||
+        resFrequentNumber.statusCode === 200
+      ) {
+        message.success(
+          'Frequent Number ' +
+            (dataToEdit ? 'Edited' : 'Created') +
+            ' Succesfully!'
+        );
+        getFrequentNumberContent();
+        if (dataToEdit === undefined) {
+          resetForm();
+        } else {
+          setDataToEdit(undefined);
+        }
+      } else {
+        message.error(
+          'Failed to ' + (dataToEdit ? 'Edit' : 'Create') + ' Frequent Number'
+        );
+      }
 
       setTimeout(() => {
         setSubmitting(false);
@@ -81,17 +93,17 @@ function FrequentNumberPage(props) {
       {
         inputs: [
           {
-            name: "alias",
-            label: "Frequent Number Alias",
-            placeholder: "Frequent number alias...",
-            type: "text",
+            name: 'alias',
+            label: 'Frequent Number Alias',
+            placeholder: 'Frequent number alias...',
+            type: 'text',
             required: true,
           },
           {
-            name: "number",
-            label: "Number",
-            placeholder: "Frequent number...",
-            type: "text",
+            name: 'number',
+            label: 'Number',
+            placeholder: 'Frequent number...',
+            type: 'text',
             required: true,
           },
         ],
@@ -102,7 +114,7 @@ function FrequentNumberPage(props) {
   const getFrequentNumberContent = async () => {
     const api = new API(user.token);
     const resFrequentNumbers = await api.GET(
-      "/UserFrequentContacts/user/" + user.userId
+      '/UserFrequentContacts/user/' + user.userId
     );
 
     setCurrentFrequentNumbersTableData(resFrequentNumbers.response);
@@ -112,7 +124,8 @@ function FrequentNumberPage(props) {
     <BaseLayout>
       <FrequentNumber
         userInfo={user}
-        dataToEdit={(frequentNumberInfo) => setDataToEdit(frequentNumberInfo)}
+        setDataToEdit={setDataToEdit}
+        dataToEdit={dataToEdit}
         frequentNumberForm={frequentNumberForm}
         frequentNumbersTableData={currentFrequentNumbersTableData}
         getFrequentNumberContent={() => getFrequentNumberContent()}
@@ -125,33 +138,33 @@ FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
   if (res) {
     if (user.group) {
       switch (user.group) {
-        case "SuperAdmin":
+        case 'SuperAdmin':
           res.writeHead(302, {
-            Location: "/list-organizations",
+            Location: '/list-organizations',
           });
           res.end();
 
           break;
 
-        case "BusinessSuport":
+        case 'BusinessSuport':
           res.writeHead(302, {
-            Location: "/list-organizations",
+            Location: '/list-organizations',
           });
           res.end();
 
           break;
 
-        case "Distributor":
+        case 'Distributor':
           res.writeHead(302, {
-            Location: "/list-organizations",
+            Location: '/list-organizations',
           });
           res.end();
 
           break;
 
-        case "OrganizationAdmin":
+        case 'OrganizationAdmin':
           res.writeHead(302, {
-            Location: "/admin-dashboard",
+            Location: '/admin-dashboard',
           });
           res.end();
 
@@ -162,7 +175,7 @@ FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
       }
     } else {
       res.writeHead(302, {
-        Location: "/",
+        Location: '/',
       });
       res.end();
     }
@@ -170,7 +183,7 @@ FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
 
   const api = new API(user.token);
   const resFrequentNumbers = await api.GET(
-    "/UserFrequentContacts/user/" + user.userId
+    '/UserFrequentContacts/user/' + user.userId
   );
   const frequentNumbersResponse = resFrequentNumbers.response;
 
