@@ -1,49 +1,40 @@
 import {
   AppstoreFilled,
-  UnorderedListOutlined,
-  UserOutlined,
-  OrderedListOutlined,
-  IdcardOutlined,
-  PlusCircleFilled,
-  ReconciliationOutlined,
-  ProfileOutlined,
   CustomerServiceFilled,
+  OrderedListOutlined,
+  UnorderedListOutlined,
   UsergroupAddOutlined,
-} from "@ant-design/icons";
-import {
-  faFileAudio,
-  faMapMarker,
-  faMicrophone,
-  faPhone,
-  faTty,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Divider, Menu, Space } from "antd";
-import SubMenu from "antd/lib/menu/SubMenu";
-import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useState } from "react";
-import UserInfo from "../user/UserInfo";
+  UserOutlined,
+} from '@ant-design/icons';
+import { faMapMarker, faMicrophone, faPhone, faTty } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Divider, Menu, Space } from 'antd';
+import SubMenu from 'antd/lib/menu/SubMenu';
+import { useRouter } from 'next/dist/client/router';
+import React, { useEffect, useState } from 'react';
+
+import UserInfo from '../user/UserInfo';
 
 const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
-  const [menuItem, setSelectedMenuItem] = useState("admin");
+  const [menuItem, setSelectedMenuItem] = useState('admin');
 
   const router = useRouter();
 
-  console.log(router.route.includes("organizations"));
+  console.log(router.route.includes('organizations'));
 
   useEffect(() => {
-    if (router.route.includes("organizations")) {
-      setSelectedMenuItem("organizations");
-    } else if (router.route.includes("list-users")) {
-      if (router.route.includes("list-users") && router.route.includes("new")) {
-        setSelectedMenuItem("newUser");
+    if (router.route.includes('organizations')) {
+      setSelectedMenuItem('organizations');
+    } else if (router.route.includes('list-users')) {
+      if (router.route.includes('list-users') && router.route.includes('new')) {
+        setSelectedMenuItem('newUser');
       } else if (
-        router.route.includes("list-users") &&
-        router.route.includes("bulk")
+        router.route.includes('list-users') &&
+        router.route.includes('bulk')
       ) {
-        setSelectedMenuItem("bulkImport");
+        setSelectedMenuItem('bulkImport');
       } else {
-        setSelectedMenuItem("users");
+        setSelectedMenuItem('users');
       }
     }
   }, []);
@@ -52,10 +43,10 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
     organizationAdminOptions: [
       {
         id: 1,
-        key: "manageUsers",
-        title: "Manage Users",
+        key: 'manageUsers',
+        title: 'Manage Users',
         icon: <UnorderedListOutlined />,
-        route: "manage-users",
+        route: 'manage-users',
         subOptions: [],
       },
       // {
@@ -70,46 +61,46 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
     servicesOptions: [
       {
         id: 1,
-        key: "audioConference",
-        title: "Audio Conference Room",
+        key: 'audioConference',
+        title: 'Audio Conference Room',
         icon: <CustomerServiceFilled />,
-        route: "audio-conference",
+        route: 'audio-conference',
         subOptions: [],
       },
       {
         id: 2,
-        key: "rtcMeeting",
-        title: "Web RTC Meeting",
+        key: 'rtcMeeting',
+        title: 'Web RTC Meeting',
         icon: <UsergroupAddOutlined />,
-        route: "meetings",
+        route: 'meetings',
         subOptions: [],
       },
       {
         id: 3,
-        key: "queue",
-        title: "Queue",
+        key: 'queue',
+        title: 'Queue',
         icon: <OrderedListOutlined />,
-        route: "queues",
+        route: 'queues',
         subOptions: [],
       },
       {
         id: 4,
-        key: "autoAttendant",
-        title: "Auto - Attendant",
+        key: 'autoAttendant',
+        title: 'Auto - Attendant',
         icon: <UserOutlined />,
-        route: "web-rtc-meeting",
+        route: 'web-rtc-meeting',
         subOptions: [
           {
             id: 1,
-            key: "autoAttendant",
-            title: "Auto - Attendant",
-            route: "auto-attendant",
+            key: 'autoAttendant',
+            title: 'Auto - Attendant',
+            route: 'auto-attendant',
           },
           {
             id: 2,
-            key: "contactCenter",
-            title: "Inbound Contact Center",
-            route: "contact-center",
+            key: 'contactCenter',
+            title: 'Inbound Contact Center',
+            route: 'contact-center',
           },
           // { id: 3, key: "ringGroup", title: "Ring Group", route: "ring-group" },
         ],
@@ -118,31 +109,31 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
     telephonyFeaturesOptions: [
       {
         id: 1,
-        key: "callForwarding",
-        title: "Call Forwarding",
+        key: 'callForwarding',
+        title: 'Call Forwarding',
         icon: faPhone,
-        route: "/telephony-features/call-forwarding",
+        route: '/telephony-features/call-forwarding',
       },
       {
         id: 2,
-        key: "ringGroups",
-        title: "Ring Groups",
+        key: 'ringGroups',
+        title: 'Ring Groups',
         icon: faMapMarker,
-        route: "/telephony-features/ring-groups",
+        route: '/telephony-features/ring-groups',
       },
       {
         id: 3,
-        key: "speedDials",
-        title: "Speed Dials",
+        key: 'speedDials',
+        title: 'Speed Dials',
         icon: faTty,
-        route: "/telephony-features/speed-dials",
+        route: '/telephony-features/speed-dials',
       },
       {
         id: 4,
-        key: "callRecordings",
-        title: "Call Recordings",
+        key: 'callRecordings',
+        title: 'Call Recordings',
         icon: faMicrophone,
-        route: "/telephony-features/call-recordings",
+        route: '/telephony-features/call-recordings',
       },
       // {
       //   id: 5,
@@ -155,28 +146,28 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
   };
 
   return (
-    <div className="sider-style">
+    <div className='sider-style'>
       <div>
         <UserInfo openSideMenu={openSideMenu} />
       </div>
       {!openSideMenu && (
-        <div className="side-menu-title-div left">
-          <Space className="flex center">
+        <div className='side-menu-title-div left'>
+          <Space className='flex center'>
             <AppstoreFilled /> <h4>Organization Admin</h4>
           </Space>
-          <Divider style={{ margin: "0.5rem 0" }} />
+          <Divider style={{ margin: '0.5rem 0' }} />
         </div>
       )}
       <Menu
-        mode="inline"
+        mode='inline'
         selectedKeys={menuItem}
-        className="side-menu-options-parent-div"
-        id="Menu div"
+        className='side-menu-options-parent-div'
+        id='Menu div'
       >
         {organizationAdminMenu.organizationAdminOptions.map((item, index) => {
           return (
             <Menu.Item
-              onClick={() => router.push("/" + item.route)}
+              onClick={() => router.push('/' + item.route)}
               icon={item.icon}
               key={item.key}
               style={{ margin: 0 }}
@@ -185,9 +176,9 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             </Menu.Item>
           );
         })}
-        <Divider style={{ margin: "0.1rem 0" }} />
+        <Divider style={{ margin: '0.1rem 0' }} />
         {!openSideMenu && (
-          <div className="side-menu-title-div left secondary">
+          <div className='side-menu-title-div left secondary'>
             <h4>Services</h4>
           </div>
         )}
@@ -199,13 +190,13 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
                 key={item.key}
                 icon={item.icon}
                 title={item.title}
-                className="side-menu-submenu-style"
+                className='side-menu-submenu-style'
               >
                 {item.subOptions.map((subItem, subIndex) => {
                   return (
                     <Menu.Item
                       key={subItem.key}
-                      onClick={() => router.push("/" + subItem.route)}
+                      onClick={() => router.push('/' + subItem.route)}
                     >
                       {subItem.title}
                     </Menu.Item>
@@ -216,7 +207,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
           } else {
             return (
               <Menu.Item
-                onClick={() => router.push("/" + item.route)}
+                onClick={() => router.push('/' + item.route)}
                 icon={item.icon}
                 key={item.key}
                 style={{ margin: 0 }}
@@ -227,9 +218,9 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
           }
         })}
 
-        <Divider style={{ margin: "0.1rem 0" }} />
+        <Divider style={{ margin: '0.1rem 0' }} />
         {!openSideMenu && (
-          <div className="side-menu-title-div left secondary">
+          <div className='side-menu-title-div left secondary'>
             <h4>Telephony Features</h4>
           </div>
         )}
@@ -243,8 +234,8 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
                 <FontAwesomeIcon
                   icon={item.icon}
                   style={{
-                    marginRight: !openSideMenu && "0.5rem",
-                    width: "1rem",
+                    marginRight: !openSideMenu && '0.5rem',
+                    width: '1rem',
                   }}
                 />
               }
@@ -257,23 +248,23 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         })}
       </Menu>
       <Menu
-        mode="inline"
+        mode='inline'
         selectedKeys={menuItem}
-        className="side-menu-options-parent-div"
-        id="Menu div"
+        className='side-menu-options-parent-div'
+        id='Menu div'
       >
-        <Divider style={{ margin: "0.1rem 0" }} />
+        <Divider style={{ margin: '0.1rem 0' }} />
       </Menu>
 
       {!openSideMenu && (
         <>
           <Space
-            style={{ padding: "1rem 1.5rem" }}
-            direction="vertical"
-            id="Need help?"
+            style={{ padding: '1rem 1.5rem' }}
+            direction='vertical'
+            id='Need help?'
           >
-            <h5 className="title-style"> Need help? </h5>
-            <a href="tel:">Call 800 900 5464</a>
+            <h5 className='title-style'> Need help? </h5>
+            <a href='tel:'>Call 800 900 5464</a>
           </Space>
           {/* <Space className="side-menu-bottom-text " id="Need help?">
               <p>TouchTone Communications Control Center</p>

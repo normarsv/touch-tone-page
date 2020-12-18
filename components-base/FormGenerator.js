@@ -396,18 +396,22 @@ let FormGenerator = ({ FormOptions }, ref) => {
                   {FormOptions.generalOptions.cancel.text}
                 </Button>
               )}
-              <SubmitButton
-                className={FormOptions.generalOptions.submit.className}
-                disabled={false}
-              >
-                {FormOptions.generalOptions.submit.text}
-              </SubmitButton>
-              <ResetButton
-                disabled={isSubmitting}
-                className={FormOptions.generalOptions.reset.className}
-              >
-                {FormOptions.generalOptions.reset.text}
-              </ResetButton>
+              {FormOptions.generalOptions.submit !== undefined && (
+                <SubmitButton
+                  className={FormOptions.generalOptions.submit.className}
+                  disabled={false}
+                >
+                  {FormOptions.generalOptions.submit.text}
+                </SubmitButton>
+              )}
+              {FormOptions.generalOptions.reset !== undefined && (
+                <ResetButton
+                  disabled={isSubmitting}
+                  className={FormOptions.generalOptions.reset.className}
+                >
+                  {FormOptions.generalOptions.reset.text}
+                </ResetButton>
+              )}
             </div>
           </Form>
         );

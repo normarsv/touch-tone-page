@@ -75,6 +75,9 @@ export const StringToNumber = (number) => {
 
 //Validate if is a valid phone number
 export const IsAValidPhoneNumber = (number) => {
+  if (number === undefined) {
+    return false;
+  }
   var onlyNumbers = number.replace(/\D/g, '');
   var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   return re.test(onlyNumbers);
@@ -84,6 +87,13 @@ export const IsAValidPhoneNumber = (number) => {
 export const IsAValidEmail = (email) => {
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
+};
+
+export const ReplaceChar = (text, index, replacement) => {
+  if (index >= text.length) {
+    return text.valueOf();
+  }
+  return text.substring(0, index) + replacement + text.substring(index + 1);
 };
 
 //Get query from url
