@@ -1,3 +1,4 @@
+import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
 
 import API from '../../../API/API';
@@ -10,7 +11,7 @@ export default class extends Component {
     const userInfo = user;
     const api = new API(userInfo.token);
     const callForwardSelectiveDataResponse = await api.GET(
-      '/Services/call-forward'
+      '/Services/call-forward-selective'
     );
     let callForwardSelectiveData = {
       number: '',
@@ -33,7 +34,32 @@ export default class extends Component {
       !callForwardSelectiveDataResponse.error &&
       callForwardSelectiveDataResponse.response
     ) {
-      //callForwardSelectiveData = callForwardSelectiveDataResponse.response;
+      callForwardSelectiveData = {
+        enabled: callForwardSelectiveDataResponse.response.enabled,
+        number: callForwardSelectiveDataResponse.response.number,
+        destination: callForwardSelectiveDataResponse.response.destination,
+        forwardType: callForwardSelectiveDataResponse.response.forwarD_TYPE,
+        startDate: moment(callForwardSelectiveDataResponse.response.starT_DATE),
+        endDate: moment(callForwardSelectiveDataResponse.response.enD_DATE),
+        startTime: moment(
+          '2020-11-10 ' + callForwardSelectiveDataResponse.response.starT_TIME
+        ),
+        endTime: moment(
+          '2020-11-10 ' + callForwardSelectiveDataResponse.response.enD_TIME
+        ),
+        monday: callForwardSelectiveDataResponse.response.monday,
+        tuesday: callForwardSelectiveDataResponse.response.tuesday,
+        wednesday: callForwardSelectiveDataResponse.response.wednesday,
+        thursday: callForwardSelectiveDataResponse.response.thursday,
+        friday: callForwardSelectiveDataResponse.response.friday,
+        saturday: callForwardSelectiveDataResponse.response.saturday,
+        sunday: callForwardSelectiveDataResponse.response.sunday,
+        priority: callForwardSelectiveDataResponse.response.priority,
+        password: callForwardSelectiveDataResponse.response.password,
+        dnis: callForwardSelectiveDataResponse.response.dnis,
+        callForwardSelectiveId:
+          callForwardSelectiveDataResponse.response.calL_FORWARD_SELECTIVE_ID,
+      };
     }
     // console.log('ca',callForwardSelectiveData)
     return {

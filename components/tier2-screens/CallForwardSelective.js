@@ -1,4 +1,4 @@
-import { Row, Space } from 'antd';
+import { message, Row, Space } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
 import React, { useContext } from 'react';
 
@@ -52,7 +52,7 @@ const CallForwardSelective = ({ callForwardSelectiveData }) => {
       }
       return errors;
     },
-    formSubmit: (values, { setSubmitting, setFieldError, resetForm }) => {
+    formSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
       setSubmitting(true);
       const api = new API(userInfo.token);
       const sendValues = JSON.parse(JSON.stringify(values));
@@ -63,48 +63,75 @@ const CallForwardSelective = ({ callForwardSelectiveData }) => {
       delete sendValues.friday;
       delete sendValues.saturday;
       delete sendValues.sunday;
+      sendValues.startDate = moment(values.endDate).format('YYYY-MM-DD');
+      sendValues.endDate = moment(values.endDate).format('YYYY-MM-DD');
+      sendValues.startTime = moment(values.startTime).format('HH:MM:SS');
+      sendValues.endTime = moment(values.endTime).format('HH:MM:SS');
       sendValues.dayRange = '0000000';
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         0,
-        values.monday === true ? '1' : '0'
+        values.sunday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         1,
-        values.tuesday === true ? '1' : '0'
+        values.monday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         2,
-        values.wednesday === true ? '1' : '0'
+        values.tuesday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         3,
-        values.thursday === true ? '1' : '0'
+        values.wednesday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         4,
-        values.friday === true ? '1' : '0'
+        values.thursday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         5,
-        values.saturday === true ? '1' : '0'
+        values.friday === true ? '1' : '0'
       );
       sendValues.dayRange = ReplaceChar(
         sendValues.dayRange,
         6,
-        values.sunday === true ? '1' : '0'
+        values.saturday === true ? '1' : '0'
       );
       console.log(sendValues);
+      const putCallForwardSelective = await api.PUT(
+        '/Services/call-forward-selective',
+        sendValues
+      );
+      console.log(putCallForwardSelective);
+      if (
+        putCallForwardSelective.statusCode === 201 ||
+        putCallForwardSelective.statusCode === 200
+      ) {
+        message.success('Call Forward Selective ' + 'Edited' + ' Succesfully!');
+      } else {
+        message.error('Failed to ' + 'Edit' + ' Call Forward Selective');
+      }
       setSubmitting(false);
     },
     formInputsRows: [
       {
         inputs: [
+          {
+            name: 'enabled',
+            label: 'Enabled',
+            placeholder: '',
+            type: 'switch',
+            checkedChildren: 'Yes',
+            unCheckedChildren: 'No',
+            defaultChecked: true,
+            required: true,
+          },
           {
             name: 'number',
             label: 'Number',
@@ -128,31 +155,31 @@ const CallForwardSelective = ({ callForwardSelectiveData }) => {
             required: true,
             options: [
               {
-                key: 'Default',
+                key: 0,
                 label: 'Default',
               },
               {
-                key: 'Disconnect',
+                key: 1,
                 label: 'Disconnect',
               },
               {
-                key: 'Play or Send Busy',
+                key: 2,
                 label: 'Play or Send Busy',
               },
               {
-                key: 'Play or Send FastBusy',
+                key: 3,
                 label: 'Play or Send FastBusy',
               },
               {
-                key: 'DND',
+                key: 4,
                 label: 'DND',
               },
               {
-                key: 'DND - Out of Service',
+                key: 5,
                 label: 'DND - Out of Service',
               },
               {
-                key: 'Blocked',
+                key: 6,
                 label: 'Blocked',
               },
             ],
