@@ -6,7 +6,6 @@ import {
   PhoneFilled,
   PlusCircleFilled,
   UnorderedListOutlined,
-  UsergroupAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
@@ -181,12 +180,14 @@ export const siderLinks = (role) => {
               icon: <CustomerServiceFilled />,
               submenu: [],
             },
+            /*
             {
               label: 'Web RTC Meeting',
               url: '/meetings',
               icon: <UsergroupAddOutlined />,
               submenu: [],
             },
+            */
             // {
             //   label: "Queue",
             //   url: "/queues",
@@ -225,12 +226,14 @@ export const siderLinks = (role) => {
               icon: <IconFont type='icon-map' />,
               submenu: [],
             },
+            /*
             {
               label: 'Speed Dials',
               url: '/telephony-features/speed-dials',
               icon: <IconFont type='icon-tty' />,
               submenu: [],
             },
+            */
             {
               label: 'Call Recordings',
               url: '/telephony-features/call-recordings',

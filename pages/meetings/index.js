@@ -54,6 +54,14 @@ MeetingsPage.getInitialProps = async ({ res, query, user }) => {
 
           break;
 
+        case 'OrganizationAdmin':
+          res.writeHead(302, {
+            Location: '/admin-dashboard',
+          });
+          res.end();
+
+          break;
+
         case 'BusinessSuport':
           res.writeHead(302, {
             Location: '/list-organizations',

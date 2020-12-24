@@ -20,6 +20,13 @@ export default class extends Component {
 
             break;
 
+          case 'OrganizationAdmin':
+            res.writeHead(302, {
+              Location: '/admin-dashboard',
+            });
+            res.end();
+
+            break;
           case 'BusinessSuport':
             res.writeHead(302, {
               Location: '/list-organizations',
