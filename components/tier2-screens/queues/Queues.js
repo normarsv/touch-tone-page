@@ -1,12 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useRouter } from "next/dist/client/router";
-import { Button, Row, Select, Space, Switch, Table } from "antd";
-import { motion } from "framer-motion";
-import ContentInnerHeader from "../../misc/ContentInnerHeader";
-import Search from "antd/lib/input/Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Row, Select, Space, Switch, Table } from 'antd';
+import Search from 'antd/lib/input/Search';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import ContentInnerHeader from '../../misc/ContentInnerHeader';
 
 const { Option } = Select;
 
@@ -15,31 +16,31 @@ const Queues = ({ queueTableContent }) => {
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
+      title: 'Name',
+      dataIndex: 'name',
+      fixed: 'left',
       width: 150,
     },
     {
-      title: "Description",
-      dataIndex: "description",
+      title: 'Description',
+      dataIndex: 'description',
       width: 400,
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
+      title: 'Actions',
+      dataIndex: 'actions',
       width: 100,
       render: (actions) => (
         <Space>
           <motion.div
-            onClick={() => router.push("/queues/details/" + actions)}
+            onClick={() => router.push('/queues/details/' + actions)}
             whileHover={hoverAnimation}
           >
             Details
@@ -48,15 +49,15 @@ const Queues = ({ queueTableContent }) => {
       ),
     },
     {
-      title: "Enable",
-      dataIndex: "enable",
+      title: 'Enable',
+      dataIndex: 'enable',
       width: 100,
       render: (enable) => (
         <div>
           <Switch
             checked={enable}
-            checkedChildren="ON"
-            unCheckedChildren="OFF"
+            checkedChildren='ON'
+            unCheckedChildren='OFF'
           />
         </div>
       ),
@@ -65,24 +66,28 @@ const Queues = ({ queueTableContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">Queues</h1>
+          <h1 className='title-style'>Queues</h1>
         </Row>
 
-        <Row type="flex" justify="space-between">
+        <Row type='flex' justify='space-between'>
           <Row>
             <Search
-              placeholder="Search..."
+              placeholder='Search...'
               enterButton
               style={{ width: 300 }}
             />
           </Row>
-          <Space size="small" className="spaced-between">
-            <Button className="primary-button-style alternate" type="primary">
-              <Space className="flex center">
+          <Space size='small' className='spaced-between'>
+            <Button
+              onClick={() => router.push('/queues/create-queue')}
+              className='primary-button-style alternate'
+              type='primary'
+            >
+              <Space className='flex center'>
                 Create Queue <FontAwesomeIcon icon={faPlusCircle} />
               </Space>
             </Button>
@@ -96,11 +101,11 @@ const Queues = ({ queueTableContent }) => {
           columns={columns}
           dataSource={queueTableContent}
           footer={() =>
-            "Showing " +
+            'Showing ' +
             queueTableContent.length +
-            " of " +
+            ' of ' +
             queueTableContent.length +
-            " entries"
+            ' entries'
           }
         />
       </Space>

@@ -3,6 +3,7 @@ import {
   CustomerServiceFilled,
   ForwardFilled,
   MailOutlined,
+  OrderedListOutlined,
   PhoneFilled,
   PlusCircleFilled,
   UnorderedListOutlined,
@@ -188,12 +189,12 @@ export const siderLinks = (role) => {
               submenu: [],
             },
             */
-            // {
-            //   label: "Queue",
-            //   url: "/queues",
-            //   icon: <OrderedListOutlined/>,
-            //   submenu: []
-            // },
+            {
+              label: 'Queue',
+              url: '/queues',
+              icon: <OrderedListOutlined />,
+              submenu: [],
+            },
             {
               label: 'Auto - Attendant',
               url: '/auto-attendant',
