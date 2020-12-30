@@ -1,54 +1,54 @@
-import fetch from 'isomorphic-fetch';
-import jsCookie from 'js-cookie';
-import moment from 'moment/min/moment-with-locales.js';
-import platform from 'platform';
+import fetch from "isomorphic-fetch";
+import jsCookie from "js-cookie";
+import moment from "moment/min/moment-with-locales.js";
+import platform from "platform";
 
-import { GetPage } from './LandingFunctions';
-import { nameSession, RoutesMetaTags } from './MainInfoData';
-import SystemLog from './SystemLog';
+import { GetPage } from "./LandingFunctions";
+import { nameSession, RoutesMetaTags } from "./MainInfoData";
+import SystemLog from "./SystemLog";
 
 //Save data in cookie
 export const saveToCookie = (key, data) => {
-  jsCookie.set(nameSession + '_' + key, data);
+  jsCookie.set(nameSession + "_" + key, data);
 };
 
 //Remove data in cookie
 export const removeFromCookie = (key) => {
-  jsCookie.remove(nameSession + '_' + key);
+  jsCookie.remove(nameSession + "_" + key);
 };
 
 //Save app user in cookie
 export const saveAppUser = (data) => {
-  jsCookie.set(nameSession + '_data', data);
+  jsCookie.set(nameSession + "_data", data);
 };
 
 //Remove app user in cookie
 export const removeAppUser = () => {
-  jsCookie.remove(nameSession + '_data');
+  jsCookie.remove(nameSession + "_data");
 };
 
 //Get app user from cookie
 export const getAppUser = () => {
-  let returnData = jsCookie.getJSON(nameSession + '_data');
+  let returnData = jsCookie.getJSON(nameSession + "_data");
   return returnData;
 };
 
 //Formater for Price
-export const formatterPrice = new Intl.NumberFormat('es-MX', {
-  style: 'currency',
-  currency: 'MXN',
+export const formatterPrice = new Intl.NumberFormat("es-MX", {
+  style: "currency",
+  currency: "MXN",
   minimumFractionDigits: 2,
   // the default value for minimumFractionDigits depends on the currency
   // and is usually already 2
 });
 
 export const IsAValidDate = (date) => {
-  var dateParts = date.split('/');
+  var dateParts = date.split("/");
   const stringDate =
     dateParts[2].toString() +
-    '/' +
+    "/" +
     dateParts[1].toString() +
-    '/' +
+    "/" +
     dateParts[0].toString();
   var dateObject = new Date(stringDate);
 
@@ -69,7 +69,7 @@ export const FormatNumberToPrice = (number) => {
 
 //Validate if is a valid phone number
 export const StringToNumber = (number) => {
-  var onlyNumbers = number.replace(/\D/g, '');
+  var onlyNumbers = number.replace(/\D/g, "");
   return onlyNumbers;
 };
 
@@ -78,15 +78,30 @@ export const IsAValidPhoneNumber = (number) => {
   if (number === undefined) {
     return false;
   }
-  var onlyNumbers = number.replace(/\D/g, '');
+  var onlyNumbers = number.replace(/\D/g, "");
   var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   return re.test(onlyNumbers);
 };
 
 //Validate if is a valid email
 export const IsAValidEmail = (email) => {
+  if (email === undefined) {
+    return false;
+  }
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
+};
+
+export const IsValidPassword = (password, pattern) => {
+  if (password === undefined || pattern === undefined) {
+    return false;
+  }
+  let isValid = true;
+  var regexPattern = new RegExp(pattern);
+  if (regexPattern.test(password) === false) {
+    isValid = false;
+  }
+  return isValid;
 };
 
 export const ReplaceChar = (text, index, replacement) => {
@@ -99,15 +114,15 @@ export const ReplaceChar = (text, index, replacement) => {
 //Get query from url
 export const GetQueryVariable = (query, variable) => {
   var query = query.substring(1);
-  var vars = query.split('&');
+  var vars = query.split("&");
   for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split('=');
+    var pair = vars[i].split("=");
     if (decodeURIComponent(pair[0]) === variable) {
       let finalValue = decodeURIComponent(pair[1]);
       return decodeURIComponent(finalValue);
     }
   }
-  return '';
+  return "";
 };
 
 //N is even or not
@@ -117,7 +132,7 @@ export const isEven = (n) => {
 
 //Truncate the text to the total of chars
 export const truncateTextByChar = (compareText, totalChar) => {
-  const text = compareText || '';
+  const text = compareText || "";
   let newText = text;
   if (text.length >= totalChar) {
     newText = text.substring(0, totalChar);
@@ -138,23 +153,23 @@ export const systemLog = new SystemLog(true);
 //Array of browsers that support WEBP
 export const supportBrowsersWEBP = [
   {
-    name: 'chrome',
+    name: "chrome",
     minVer: 32,
   },
   {
-    name: 'edge',
+    name: "edge",
     minVer: 18,
   },
   {
-    name: 'firefox',
+    name: "firefox",
     minVer: 65,
   },
   {
-    name: 'opera',
+    name: "opera",
     minVer: 19,
   },
   {
-    name: 'android',
+    name: "android",
     minVer: 4.2,
   },
 ];
@@ -165,10 +180,10 @@ export const browserSupportWEBP = (name, version) => {
   if (
     name !== null &&
     name !== undefined &&
-    name !== '' &&
+    name !== "" &&
     version !== null &&
     version !== undefined &&
-    version !== ''
+    version !== ""
   ) {
     name = name.toLowerCase();
     const findBrowser = supportBrowsersWEBP.find((browser) => {
@@ -186,21 +201,21 @@ export const imageChangeWEBP = (supportWEBP, imageToRender) => {
   let finalImage = imageToRender;
   if (supportWEBP === true) {
     const imageToRenderNOExtension = imageToRender
-      .split('.')
+      .split(".")
       .slice(0, -1)
-      .join('.');
+      .join(".");
 
-    finalImage = imageToRenderNOExtension + '.webp';
+    finalImage = imageToRenderNOExtension + ".webp";
   }
-  finalImage = finalImage + '?lqip';
+  finalImage = finalImage + "?lqip";
   return finalImage;
 };
 
 //Get IP of the user
 export const getIp = () => {
   return new Promise((resolve, reject) => {
-    fetch('https://ipapi.co/json/', {
-      method: 'GET',
+    fetch("https://ipapi.co/json/", {
+      method: "GET",
     })
       .then((response) => {
         resolve(response.json());
@@ -238,13 +253,13 @@ export const decimalToFraction = function (_decimal) {
     return {
       top: parseInt(_decimal),
       bottom: 1,
-      display: parseInt(_decimal) + '/' + 1,
+      display: parseInt(_decimal) + "/" + 1,
     };
   } else {
-    var top = _decimal.toString().includes('.')
-      ? _decimal.toString().replace(/\d+[.]/, '')
+    var top = _decimal.toString().includes(".")
+      ? _decimal.toString().replace(/\d+[.]/, "")
       : 0;
-    var bottom = Math.pow(10, top.toString().replace('-', '').length);
+    var bottom = Math.pow(10, top.toString().replace("-", "").length);
     if (_decimal >= 1) {
       top = +top + Math.floor(_decimal) * bottom;
     } else if (_decimal <= -1) {
@@ -255,9 +270,9 @@ export const decimalToFraction = function (_decimal) {
     return {
       top: top / x,
       bottom: bottom / x,
-      display: top / x + '/' + bottom / x,
-      displayAspectA: top / x + ':' + bottom / x,
-      displayAspectB: bottom / x + ':' + top / x,
+      display: top / x + "/" + bottom / x,
+      displayAspectA: top / x + ":" + bottom / x,
+      displayAspectB: bottom / x + ":" + top / x,
     };
   }
 };
