@@ -1,26 +1,26 @@
-import moment from 'moment/min/moment-with-locales.js';
-import { Component } from 'react';
+import moment from "moment/min/moment-with-locales.js";
+import { Component } from "react";
 
-import API from '../../../API/API';
-import CallForwardSelective from '../../../components/tier2-screens/CallForwardSelective';
-import { BaseLayout } from '../../../layouts/BaseLayout';
-import { systemLog } from '../../../scripts/General';
+import API from "../../../API/API";
+import CallForwardSelective from "../../../components/tier2-screens/CallForwardSelective";
+import { BaseLayout } from "../../../layouts/BaseLayout";
+import { systemLog } from "../../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const userInfo = user;
     const api = new API(userInfo.token);
     const callForwardSelectiveDataResponse = await api.GET(
-      '/Services/call-forward-selective'
+      "/Services/call-forward-selective"
     );
     let callForwardSelectiveData = {
-      number: '',
-      destination: '',
-      forwardType: '',
-      startDate: '',
-      endDate: '',
-      startTime: '',
-      endTime: '',
+      number: "",
+      destination: "",
+      forwardType: "",
+      startDate: "",
+      endDate: "",
+      startTime: "",
+      endTime: "",
       monday: false,
       tuesday: false,
       wednesday: false,
@@ -42,10 +42,10 @@ export default class extends Component {
         startDate: moment(callForwardSelectiveDataResponse.response.starT_DATE),
         endDate: moment(callForwardSelectiveDataResponse.response.enD_DATE),
         startTime: moment(
-          '2020-11-10 ' + callForwardSelectiveDataResponse.response.starT_TIME
+          "2020-11-10 " + callForwardSelectiveDataResponse.response.starT_TIME
         ),
         endTime: moment(
-          '2020-11-10 ' + callForwardSelectiveDataResponse.response.enD_TIME
+          "2020-11-10 " + callForwardSelectiveDataResponse.response.enD_TIME
         ),
         monday: callForwardSelectiveDataResponse.response.monday,
         tuesday: callForwardSelectiveDataResponse.response.tuesday,
@@ -65,7 +65,8 @@ export default class extends Component {
     return {
       callForwardSelectiveData,
       userInfo,
-      callForwardSelectiveDataResponse,
+      callForwardSelectiveDataResponse:
+        callForwardSelectiveDataResponse.response,
     };
   }
   constructor(props) {
@@ -77,11 +78,15 @@ export default class extends Component {
   }
 
   render() {
-    const { callForwardSelectiveData, userInfo } = this.props;
+    const {
+      callForwardSelectiveData,
+      callForwardSelectiveDataResponse,
+    } = this.props;
 
     return (
       <BaseLayout>
         <CallForwardSelective
+          callForwardSelectiveDataResponse={callForwardSelectiveDataResponse}
           callForwardSelectiveData={callForwardSelectiveData}
         />
       </BaseLayout>
