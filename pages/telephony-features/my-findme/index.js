@@ -524,9 +524,8 @@ export default class extends Component {
     };
     console.log(finalSubmit, "true final form");
 
-    const responsePut = await api
-      .PUT("/Services/find-me", finalSubmit)
-      .then(() => console.log(responsePut));
+    const responsePut = await api.PUT("/Services/find-me", finalSubmit);
+    console.log(responsePut);
 
     message.success("My Find Me Updated Succesfully!");
   }
