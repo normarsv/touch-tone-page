@@ -1,30 +1,36 @@
-import {
-  faDownload,
-  faEnvelope,
-  faPlusCircle,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Row, Select, Space, Table, Tooltip } from "antd";
-import Search from "antd/lib/input/Search";
-import { motion } from "framer-motion";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import AddNewFrequentNumber from "../user/AddNewFrequentNumber";
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, message, Row, Select, Space, Table } from 'antd';
+import Search from 'antd/lib/input/Search';
+import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+
+import API from '../../API/API';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import AddNewFrequentNumber from '../user/AddNewFrequentNumber';
+import EditFrequentNumber from './EditFrequentNumber';
 
 const { Option } = Select;
 
-const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
+const FrequentNumbers = ({
+  userInfo,
+  frequentNumberForm,
+  frequentNumbersTableData,
+  getFrequentNumberContent,
+  setDataToEdit,
+  dataToEdit,
+}) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [visibleNewFrequentNumber, setVisibleNewFrequentNumber] = useState(
     false
   );
+  const [loadingTable, setLoadingTable] = useState(false);
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
@@ -32,42 +38,66 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
     setTablePageSize({ pageSize: value });
   };
 
+  function handleVisible(info) {
+    setDataToEdit(info);
+  }
+
+  const deleteFrequentNumber = async (frequentNumberId) => {
+    setLoadingTable(true);
+    const api = new API(userInfo.token);
+    const resDeleteFrequentNumber = await api.DELETE(
+      '/UserFrequentContacts/' + frequentNumberId
+    );
+    message.success('Frequent Number Deleted Successfully!');
+    getFrequentNumberContent();
+    setDataToEdit(undefined);
+  };
+
+  useEffect(() => {
+    setLoadingTable(false);
+  }, [frequentNumbersTableData]);
+
   const columns = [
     {
-      title: "Alias",
-      dataIndex: "alias",
-      fixed: "left",
+      title: 'Alias',
+      dataIndex: 'alias',
+      fixed: 'left',
       onFilter: (value, record) => record.alias.indexOf(value) === 0,
       sorter: (a, b) => a.alias.length - b.alias.length,
-      sortDirections: ["descend", "ascend"],
+      sortDirections: ['descend', 'ascend'],
+      width: '8%',
     },
     {
-      title: "Number",
-      dataIndex: "number",
+      title: 'Number',
+      dataIndex: 'number',
+      width: '8%',
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      width: "10%",
-      render: (linkDetails, edit) => (
-        <motion.div
-          // onClick={() => handleVisible(record)}
-          whileHover={hoverAnimation}
-          className="flex center"
-        >
-          Edit
-        </motion.div>
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '6%',
+      render: (actions, record) => (
+        <>
+          <motion.div
+            onClick={() => handleVisible(record)}
+            whileHover={hoverAnimation}
+            className='flex center'
+          >
+            Edit
+          </motion.div>
+          {renderEditModal(record)}
+        </>
       ),
     },
     {
-      title: "Delete",
-      dataIndex: "delete",
-      width: "10%",
-      render: (linkDetails, edit) => (
+      title: 'Delete',
+      dataIndex: 'delete',
+      width: '6%',
+      render: (actions, record) => (
         <motion.div
-          // onClick={() => handleVisible(record)}
+          onClick={() => deleteFrequentNumber(record.id)}
           whileHover={hoverAnimation}
-          className="flex center"
+          className='flex center'
         >
           <FontAwesomeIcon icon={faTrashAlt} />
         </motion.div>
@@ -75,56 +105,79 @@ const FrequentNumbers = ({ frequentNumbersTableData, frequentNumberForm }) => {
     },
   ];
 
+  /* Modal para editar un numero frecuente */
+  function renderEditModal(record) {
+    return (
+      <EditFrequentNumber
+        dataToEdit={dataToEdit}
+        frequentNumberForm={frequentNumberForm}
+        visibleEditNumber={
+          dataToEdit !== undefined ? dataToEdit.id == record.id : false
+        }
+        setVisibleEditNumber={() => {
+          setDataToEdit(undefined);
+        }}
+      />
+    );
+  }
+
   return (
     <div>
-      <Space size="large" direction="vertical">
+      <Space size='large' direction='vertical'>
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">Frequent Number</h1>
+          <h1 className='title-style'>Frequent Number</h1>
         </Row>
 
         <Search
-          placeholder="Search user..."
+          placeholder='Search user...'
           enterButton
           style={{ width: 300 }}
         />
 
-        <Space size="large" className="flex space-between">
-          <Space size="small">
+        <Space size='large' className='flex space-between'>
+          <Space size='small'>
             <label>Show</label>
-            <Select defaultValue="10" onChange={onChangeTablePageSize}>
-              <Option value="10">10</Option>
-              <Option value="20">20</Option>
+            <Select defaultValue='10' onChange={onChangeTablePageSize}>
+              <Option value='10'>10</Option>
+              <Option value='20'>20</Option>
             </Select>
             <label>entries</label>
           </Space>
           <Button
-            type="primary"
-            className="primary-button-style alternate"
-            onClick={() => setVisibleNewFrequentNumber(true)}
+            type='primary'
+            className='primary-button-style alternate'
+            onClick={() => {
+              setVisibleNewFrequentNumber(true);
+              setDataToEdit(undefined);
+            }}
           >
-            <Space className="flex center">
+            <Space className='flex center'>
               New Number <FontAwesomeIcon icon={faPlusCircle} />
             </Space>
           </Button>
         </Space>
 
-        <Table
-          bordered
-          scroll={{ x: 1300 }}
-          columns={columns}
-          pagination={tablePageSize}
-          dataSource={frequentNumbersTableData}
-          footer={(currentData) =>
-            "Showing " +
-            currentData.length +
-            " of " +
-            frequentNumbersTableData.length +
-            " entries"
-          }
-        />
+        {frequentNumbersTableData && (
+          <Table
+            loading={loadingTable}
+            bordered
+            scroll={{ x: 1300 }}
+            columns={columns}
+            pagination={tablePageSize}
+            dataSource={frequentNumbersTableData}
+            footer={(currentData) =>
+              'Showing ' +
+              currentData.length +
+              ' of ' +
+              frequentNumbersTableData.length +
+              ' entries'
+            }
+          />
+        )}
 
+        {/* Modal para agregar nuevo numero frecuente */}
         <AddNewFrequentNumber
           frequentNumberForm={frequentNumberForm}
           visibleNewFrequentNumber={visibleNewFrequentNumber}

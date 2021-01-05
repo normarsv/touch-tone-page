@@ -1,0 +1,26 @@
+{
+    "apps": [
+      {
+        "name": "Page",
+        "script": "./server.js",
+        "instances": "max",
+        "exec_mode": "cluster",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "env_production": {
+          "NODE_ENV": "production"
+        }
+      }
+    ],
+    "deploy": {
+      "production": {
+        "user": "",
+        "host": "10.7.2.97",
+        "ref": "origin/develop",
+        "repo": "git@github.com:guaostudio/touch-tone-page.git",
+        "path": "C:\touch-tone-page",
+        "post-deploy": "npm install && npm run build && pm2 startOrRestart ecosystem.json --env production"
+      }
+    }
+  }

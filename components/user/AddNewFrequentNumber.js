@@ -9,8 +9,6 @@ const AddNewFrequentNumber = ({
   setVisibleNewFrequentNumber,
 }) => {
   function handleCancel() {
-    // setSelectedOrganization({});
-    // setProvideOrganizations([]);
     setVisibleNewFrequentNumber();
   }
 
@@ -30,7 +28,9 @@ const AddNewFrequentNumber = ({
 };
 
 AddNewFrequentNumber.propTypes = {
-  someData: PropTypes.string,
+  frequentNumberForm: PropTypes.object,
+  visibleNewFrequentNumber: PropTypes.bool,
+  setVisibleNewFrequentNumber: PropTypes.func,
 };
 
 export default AddNewFrequentNumber;

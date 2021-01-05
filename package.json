@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "NODE_ENV=production node server/server.js"
+    "build": "NODE_ENV=production && next build",
+    "build-win": "SET NODE_ENV=production && next build",
+    "start": "node server.js",
+    "start-wn": "npm install && SET NODE_ENV=production && next build",
+    "deploy-dev": "npm install && npm run build-win && pm2 startOrRestart ecosystem.json --env dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",

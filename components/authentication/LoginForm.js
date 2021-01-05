@@ -26,6 +26,8 @@ export const LoginForm = ({ showForgotPassword }) => {
       password: values.password,
     });
 
+    console.log(resLogin);
+
     if (resLogin.statusCode === 400) {
       message.error(resLogin.response);
       setLoading(false);

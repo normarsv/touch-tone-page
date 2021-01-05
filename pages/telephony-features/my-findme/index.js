@@ -3,7 +3,7 @@ import { Component } from "react";
 import API from "../../../API/API";
 import MyFindMe from "../../../components/tier2-screens/MyFindMe";
 import { BaseLayout } from "../../../layouts/BaseLayout";
-import { systemLog } from "../../../scripts/General";
+import { IsAValidPhoneNumber, systemLog } from "../../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -61,8 +61,35 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    console.log(props);
+    const destination1Type =
+      this.props.actualUserMyFindme.findeMeItems[0].destination.currentType ||
+      "Extentions";
+    const destination1Options = this.props.actualUserMyFindme.findeMeItems[0].destination.options.find(
+      (option) => {
+        return option.optionName === destination1Type;
+      }
+    );
 
+    const destination2Type =
+      this.props.actualUserMyFindme.findeMeItems[1].destination.currentType ||
+      "Extentions";
+    const destination2Options = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
+      (option) => {
+        return option.optionName === destination2Type;
+      }
+    );
+
+    const destination3Type =
+      this.props.actualUserMyFindme.findeMeItems[2].destination.currentType ||
+      "Frequent Numbers";
+    const destination3Options = this.props.actualUserMyFindme.findeMeItems[2].destination.options.find(
+      (option) => {
+        return option.optionName === destination3Type;
+      }
+    );
+
+    this.userinfo = "";
     this.endUserForm = {
       generalOptions: {
         type: "vertical", //horizontal, vertical, inline
@@ -101,10 +128,13 @@ export default class extends Component {
         dayrange: this.props.actualUserMyFindme.dayrange,
         destination1: this.props.actualUserMyFindme.findeMeItems[0].destination
           .currentValue,
+        destination1Options: destination1Type,
         destination2: this.props.actualUserMyFindme.findeMeItems[1].destination
           .currentValue,
+        destination2Options: destination2Type,
         destination3: this.props.actualUserMyFindme.findeMeItems[2].destination
           .currentValue,
+        destination3Options: destination3Type,
       },
       formValidations: (values) => {
         const errors = {};
@@ -127,16 +157,13 @@ export default class extends Component {
 
         return errors;
       },
-      formSubmit: (values, { setSubmitting, setFieldError }) => {
-        this.finalSubmit(values);
-
-        setTimeout(() => {
-          // console.log("form submitted values", values);
-          // alert(JSON.stringify(values, null, 2));
-          // setSubmitting(false);
-        }, 400);
+      formSubmit: async (values, { setSubmitting, setFieldError }) => {
+        setSubmitting(true);
+        await this.finalSubmit(values);
+        setSubmitting(false);
       },
       formInputsRows: [
+        /*
         {
           inputs: [
             {
@@ -148,6 +175,7 @@ export default class extends Component {
             },
           ],
         },
+        */
         { separatorTitle: "Schedule", inputs: [] },
         {
           inputs: [
@@ -210,48 +238,228 @@ export default class extends Component {
         {
           inputs: [
             {
+              name: "destination1Options",
+              label: "Destination 1 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
+              required: true,
+              options: [
+                ...this.props.actualUserMyFindme.findeMeItems[0].destination
+                  .options,
+                { optionName: "External" },
+              ],
+              optionValue: "optionName",
+              optionLabel: "optionName",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                if (newVal === "External") {
+                  formOptions.formInputsRows[6].inputs[1].mode = "tags";
+                  formOptions.formInputsRows[6].inputs[1].options = [];
+                  formikData.setFieldValue("destination1", "", false);
+                } else {
+                  const destinationOptions = this.props.actualUserMyFindme.findeMeItems[0].destination.options.find(
+                    (option) => {
+                      return option.optionName === newVal;
+                    }
+                  );
+                  formOptions.formInputsRows[6].inputs[1].mode = "";
+                  formOptions.formInputsRows[6].inputs[1].options =
+                    destinationOptions.numbers;
+                  formikData.setFieldValue("destination1", "", false);
+                }
+              },
+            },
+            {
               name: "destination1",
               label: "Destination 1",
               placeholder: "Select Destination",
               type: "select",
               required: true,
-              options: this.props.actualUserMyFindme.findeMeItems[0].destination
-                .options,
-              optionValue: "number",
-              optionLabel: "number",
+              options: destination1Options.numbers,
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                const currentOption = formikData.values.destination1Options;
+                if (currentOption === "External") {
+                  const reduceGetOnlyNew = newVal.reduce(
+                    (returnData, currentNumber) => {
+                      if (IsAValidPhoneNumber(currentNumber) === true) {
+                        returnData = [currentNumber];
+                      }
+                      return returnData;
+                    },
+                    []
+                  );
+                  formikData.setFieldValue(
+                    "destination1",
+                    reduceGetOnlyNew,
+                    false
+                  );
+                }
+              },
             },
           ],
         },
         {
           inputs: [
+            {
+              name: "destination2Options",
+              label: "Destination 2 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
+              required: true,
+              options: [
+                ...this.props.actualUserMyFindme.findeMeItems[1].destination
+                  .options,
+                { optionName: "External" },
+              ],
+              optionValue: "optionName",
+              optionLabel: "optionName",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                if (newVal === "External") {
+                  formOptions.formInputsRows[7].inputs[1].mode = "tags";
+                  formOptions.formInputsRows[7].inputs[1].options = [];
+                  formikData.setFieldValue("destination2", "", false);
+                } else {
+                  const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
+                    (option) => {
+                      return option.optionName === newVal;
+                    }
+                  );
+                  formOptions.formInputsRows[7].inputs[1].mode = "";
+                  formOptions.formInputsRows[7].inputs[1].options =
+                    destinationOptions.numbers;
+                  formikData.setFieldValue("destination2", "", false);
+                }
+              },
+            },
             {
               name: "destination2",
               label: "Destination 2",
               placeholder: "Select Destination",
               type: "select",
               required: true,
-              options: this.props.actualUserMyFindme.findeMeItems[0].destination
-                .options,
-              optionValue: "number",
-              optionLabel: "number",
+              options: destination2Options.numbers,
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                const currentOption = formikData.values.destination2Options;
+                if (currentOption === "External") {
+                  const reduceGetOnlyNew = newVal.reduce(
+                    (returnData, currentNumber) => {
+                      if (IsAValidPhoneNumber(currentNumber) === true) {
+                        returnData = [currentNumber];
+                      }
+                      return returnData;
+                    },
+                    []
+                  );
+                  formikData.setFieldValue(
+                    "destination2",
+                    reduceGetOnlyNew,
+                    false
+                  );
+                }
+              },
             },
           ],
         },
         {
           inputs: [
             {
+              name: "destination3Options",
+              label: "Destination 3 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
+              required: true,
+              options: [
+                ...this.props.actualUserMyFindme.findeMeItems[2].destination
+                  .options,
+                { optionName: "External" },
+              ],
+              optionValue: "optionName",
+              optionLabel: "optionName",
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                if (newVal === "External") {
+                  formOptions.formInputsRows[8].inputs[1].mode = "tags";
+                  formOptions.formInputsRows[8].inputs[1].options = [];
+                  formikData.setFieldValue("destination3", "", false);
+                } else {
+                  const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
+                    (option) => {
+                      return option.optionName === newVal;
+                    }
+                  );
+                  formOptions.formInputsRows[8].inputs[1].mode = "";
+                  formOptions.formInputsRows[8].inputs[1].options =
+                    destinationOptions.numbers;
+                  formikData.setFieldValue("destination3", "", false);
+                }
+              },
+            },
+            {
               name: "destination3",
               label: "Destination 3",
               placeholder: "Select Destination",
               type: "select",
               required: true,
-              options: this.props.actualUserMyFindme.findeMeItems[0].destination
-                .options,
-              optionValue: "number",
-              optionLabel: "number",
+              options: destination3Options.numbers,
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                const currentOption = formikData.values.destination3Options;
+                if (currentOption === "External") {
+                  const reduceGetOnlyNew = newVal.reduce(
+                    (returnData, currentNumber) => {
+                      if (IsAValidPhoneNumber(currentNumber) === true) {
+                        returnData = [currentNumber];
+                      }
+                      return returnData;
+                    },
+                    []
+                  );
+                  formikData.setFieldValue(
+                    "destination3",
+                    reduceGetOnlyNew,
+                    false
+                  );
+                }
+              },
             },
           ],
         },
@@ -283,27 +491,41 @@ export default class extends Component {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[0].findMeScheduleItemId,
           priority: valuesToSubmit.enabled ? 1 : 1,
-          destination: { currentValue: valuesToSubmit.destination1 },
+          destination: {
+            currentValue:
+              Array.isArray(valuesToSubmit.destination1) === true
+                ? valuesToSubmit.destination1[0]
+                : valuesToSubmit.destination1,
+          },
         },
         {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[1].findMeScheduleItemId,
           priority: valuesToSubmit.enabled ? 1 : 2,
-          destination: { currentValue: valuesToSubmit.destination2 },
+          destination: {
+            currentValue:
+              Array.isArray(valuesToSubmit.destination2) === true
+                ? valuesToSubmit.destination2[0]
+                : valuesToSubmit.destination2,
+          },
         },
         {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[2].findMeScheduleItemId,
           priority: valuesToSubmit.enabled ? 1 : 3,
-          destination: { currentValue: valuesToSubmit.destination3 },
+          destination: {
+            currentValue:
+              Array.isArray(valuesToSubmit.destination3) === true
+                ? valuesToSubmit.destination3[0]
+                : valuesToSubmit.destination3,
+          },
         },
       ],
     };
     console.log(finalSubmit, "true final form");
 
-    const responsePut = await api
-      .PUT("/Services/find-me", finalSubmit)
-      .then(() => console.log(responsePut));
+    const responsePut = await api.PUT("/Services/find-me", finalSubmit);
+    console.log(responsePut);
 
     message.success("My Find Me Updated Succesfully!");
   }

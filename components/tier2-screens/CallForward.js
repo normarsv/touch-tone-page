@@ -1,32 +1,51 @@
+import { DatePicker, Row, Space, message } from "antd";
 import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Input,
-  message,
-  Row,
-  Space,
-  Switch,
-  Transfer,
-  Upload,
-} from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import Search from "antd/lib/input/Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "../authentication/UserContext";
-import FormGenerator from "../../components-base/FormGenerator";
+
 import API from "../../API/API";
+import FormGenerator from "../../components-base/FormGenerator";
+import { IsAValidPhoneNumber } from "../../scripts/General";
+import { UserContext } from "../authentication/UserContext";
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
 const { RangePicker } = DatePicker;
 
-const CallForward = ({callForwardData,token}) => {
+const CallForward = ({ callForwardData, token }) => {
   const { userInfo } = useContext(UserContext);
   // const [mockData, setMockData] = useState();
   // const [targetKeys, setTargetKeys] = useState();
   const [infoByRole, setInfoByRole] = useState({});
+
+  const callForwardAllType =
+    callForwardData.callForwardAll.currentType || "Extentions";
+  const callForwardAllOptions = callForwardData.callForwardAll.options.find(
+    (option) => {
+      return option.optionName === callForwardAllType;
+    }
+  );
+
+  const callForwardBusyType =
+    callForwardData.callForwardBusy.currentType || "Extentions";
+  const callForwardBusyOptions = callForwardData.callForwardBusy.options.find(
+    (option) => {
+      return option.optionName === callForwardBusyType;
+    }
+  );
+
+  const callForwardFailureType =
+    callForwardData.callForwardFailure.currentType || "Extentions";
+  const callForwardFailureOptions = callForwardData.callForwardFailure.options.find(
+    (option) => {
+      return option.optionName === callForwardFailureType;
+    }
+  );
+
+  const callForwardNoAnswerType =
+    callForwardData.callForwardNoAnswer.currentType || "Extentions";
+  const callForwardNoAnswerOptions = callForwardData.callForwardNoAnswer.options.find(
+    (option) => {
+      return option.optionName === callForwardNoAnswerType;
+    }
+  );
   const formToDisplay = {
     generalOptions: {
       type: "vertical", //horizontal, vertical, inline
@@ -44,11 +63,17 @@ const CallForward = ({callForwardData,token}) => {
         text: "Cancel",
         action: () => {
           // useRouter().back();
-          console.log('cancel clicked')
-        }
-      }
+          console.log("cancel clicked");
+        },
+      },
     },
-    formInitialValues: callForwardData,
+    formInitialValues: {
+      ...callForwardData,
+      callForwardAllType: callForwardAllType,
+      callForwardBusyType: callForwardBusyType,
+      callForwardFailureType: callForwardFailureType,
+      callForwardNoAnswerType: callForwardNoAnswerType,
+    },
     formValidations: (values) => {
       const errors = {};
       // if(!values.firstName){
@@ -69,15 +94,33 @@ const CallForward = ({callForwardData,token}) => {
       // }
       return errors;
     },
-    formSubmit: (values, { setSubmitting, setFieldError }) => {
-      setTimeout(async () => {
-        // alert(JSON.stringify(values, null, 2));
-        const api = new API(token);
-        const responseDoPut = await api.PUT('/Services/call-forward',values);
-        console.log('form submitted values',values)
-        console.log('form response ',responseDoPut)
-        setSubmitting(false);
-      }, 400);
+    formSubmit: async (values, { setSubmitting, setFieldError }) => {
+      setSubmitting(true);
+      const api = new API(token);
+      values.callForwardAll.currentValue =
+        Array.isArray(values.callForwardAll.currentValue) === true
+          ? values.callForwardAll.currentValue[0]
+          : values.callForwardAll.currentValue;
+
+      values.callForwardBusy.currentValue =
+        Array.isArray(values.callForwardBusy.currentValue) === true
+          ? values.callForwardBusy.currentValue[0]
+          : values.callForwardBusy.currentValue;
+
+      values.callForwardFailure.currentValue =
+        Array.isArray(values.callForwardFailure.currentValue) === true
+          ? values.callForwardFailure.currentValue[0]
+          : values.callForwardFailure.currentValue;
+
+      values.callForwardNoAnswer.currentValue =
+        Array.isArray(values.callForwardNoAnswer.currentValue) === true
+          ? values.callForwardNoAnswer.currentValue[0]
+          : values.callForwardNoAnswer.currentValue;
+      console.log("form submitted values", values);
+      const responseDoPut = await api.PUT("/Services/call-forward", values);
+      console.log("form response ", responseDoPut);
+      message.success("Call Forwarding Updated Succesfully!");
+      setSubmitting(false);
     },
     formInputsRows: [
       {
@@ -89,9 +132,9 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
       {
         inputs: [
@@ -109,27 +152,88 @@ const CallForward = ({callForwardData,token}) => {
             type: "text",
             disabled: true,
           },
-        ]
+        ],
       },
       {
         inputs: [
           {
-            name: "callForwardAll.currentValue",
-            label: "Call Forward All",
-            placeholder: "",
-            type: "text",
-            disabled: true,
-            prefix: "Current Value: "
+            name: "callForwardAllType",
+            label: "Call Forward All Type",
+            placeholder: "Select Options",
+            type: "select",
+            required: true,
+            options: [
+              ...callForwardData.callForwardAll.options,
+              { optionName: "External" },
+            ],
+            optionValue: "optionName",
+            optionLabel: "optionName",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              if (newVal === "External") {
+                formOptions.formInputsRows[2].inputs[1].mode = "tags";
+                formOptions.formInputsRows[2].inputs[1].options = [];
+                formikData.setFieldValue(
+                  "callForwardAll.currentValue",
+                  "",
+                  false
+                );
+              } else {
+                const destinationOptions = callForwardData.callForwardAll.options.find(
+                  (option) => {
+                    return option.optionName === newVal;
+                  }
+                );
+                formOptions.formInputsRows[2].inputs[1].mode = "";
+                formOptions.formInputsRows[2].inputs[1].options =
+                  destinationOptions.numbers;
+                formikData.setFieldValue(
+                  "callForwardAll.currentValue",
+                  "",
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardAll.currentValue",
-            label: "Number",
+            label: "Call Forward All Number",
             placeholder: "Select Number",
             type: "select",
             required: true,
-            options: callForwardData.callForwardAll.options,
-            optionValue: "number",
-            optionLabel: "number",
+            options: callForwardAllOptions.numbers,
+            optionValue: "value",
+            optionLabel: "name",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              const currentOption = formikData.values.callForwardAllType;
+              if (currentOption === "External") {
+                const reduceGetOnlyNew = newVal.reduce(
+                  (returnData, currentNumber) => {
+                    if (IsAValidPhoneNumber(currentNumber) === true) {
+                      returnData = [currentNumber];
+                    }
+                    return returnData;
+                  },
+                  []
+                );
+                formikData.setFieldValue(
+                  "callForwardAll.currentValue",
+                  reduceGetOnlyNew,
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardAllActive",
@@ -138,29 +242,90 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
       {
         inputs: [
           {
-            name: "callForwardBusy.currentValue",
-            label: "Call Forward Busy",
-            placeholder: "",
-            type: "text",
-            disabled: true,
-            prefix: "Current Value: "
+            name: "callForwardBusyType",
+            label: "Call Forward Busy Type",
+            placeholder: "Select Type",
+            type: "select",
+            required: true,
+            options: [
+              ...callForwardData.callForwardBusy.options,
+              { optionName: "External" },
+            ],
+            optionValue: "optionName",
+            optionLabel: "optionName",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              if (newVal === "External") {
+                formOptions.formInputsRows[3].inputs[1].mode = "tags";
+                formOptions.formInputsRows[3].inputs[1].options = [];
+                formikData.setFieldValue(
+                  "callForwardBusy.currentValue",
+                  "",
+                  false
+                );
+              } else {
+                const destinationOptions = callForwardData.callForwardBusy.options.find(
+                  (option) => {
+                    return option.optionName === newVal;
+                  }
+                );
+                formOptions.formInputsRows[3].inputs[1].mode = "";
+                formOptions.formInputsRows[3].inputs[1].options =
+                  destinationOptions.numbers;
+                formikData.setFieldValue(
+                  "callForwardBusy.currentValue",
+                  "",
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardBusy.currentValue",
-            label: "Number",
+            label: "Call Forward Busy Number",
             placeholder: "Select Number",
             type: "select",
             required: true,
-            options: callForwardData.callForwardBusy.options,
-            optionValue: "number",
-            optionLabel: "number",
+            options: callForwardBusyOptions.numbers,
+            optionValue: "value",
+            optionLabel: "name",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              const currentOption = formikData.values.callForwardBusyType;
+              if (currentOption === "External") {
+                const reduceGetOnlyNew = newVal.reduce(
+                  (returnData, currentNumber) => {
+                    if (IsAValidPhoneNumber(currentNumber) === true) {
+                      returnData = [currentNumber];
+                    }
+                    return returnData;
+                  },
+                  []
+                );
+                formikData.setFieldValue(
+                  "callForwardBusy.currentValue",
+                  reduceGetOnlyNew,
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardBusyActive",
@@ -169,29 +334,90 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
       {
         inputs: [
           {
-            name: "callForwardFailure.currentValue",
-            label: "Call Forward Failure",
-            placeholder: "",
-            type: "text",
-            disabled: true,
-            prefix: "Current Value: "
+            name: "callForwardFailureType",
+            label: "Call Forward Failure Type",
+            placeholder: "Select Type",
+            type: "select",
+            required: true,
+            options: [
+              ...callForwardData.callForwardFailure.options,
+              { optionName: "External" },
+            ],
+            optionValue: "optionName",
+            optionLabel: "optionName",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              if (newVal === "External") {
+                formOptions.formInputsRows[4].inputs[1].mode = "tags";
+                formOptions.formInputsRows[4].inputs[1].options = [];
+                formikData.setFieldValue(
+                  "callForwardFailure.currentValue",
+                  "",
+                  false
+                );
+              } else {
+                const destinationOptions = callForwardData.callForwardFailure.options.find(
+                  (option) => {
+                    return option.optionName === newVal;
+                  }
+                );
+                formOptions.formInputsRows[4].inputs[1].mode = "";
+                formOptions.formInputsRows[4].inputs[1].options =
+                  destinationOptions.numbers;
+                formikData.setFieldValue(
+                  "callForwardFailure.currentValue",
+                  "",
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardFailure.currentValue",
-            label: "Number",
+            label: "Call Forward Failure Number",
             placeholder: "Select Number",
             type: "select",
             required: true,
-            options: callForwardData.callForwardFailure.options,
-            optionValue: "number",
-            optionLabel: "number",
+            options: callForwardFailureOptions.numbers,
+            optionValue: "value",
+            optionLabel: "name",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              const currentOption = formikData.values.callForwardFailureType;
+              if (currentOption === "External") {
+                const reduceGetOnlyNew = newVal.reduce(
+                  (returnData, currentNumber) => {
+                    if (IsAValidPhoneNumber(currentNumber) === true) {
+                      returnData = [currentNumber];
+                    }
+                    return returnData;
+                  },
+                  []
+                );
+                formikData.setFieldValue(
+                  "callForwardFailure.currentValue",
+                  reduceGetOnlyNew,
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardFailureActive",
@@ -200,29 +426,90 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
       {
         inputs: [
           {
-            name: "callForwardNoAnswer.currentValue",
-            label: "Call Forward No Asnwer",
-            placeholder: "",
-            type: "text",
-            disabled: true,
-            prefix: "Current Value: "
+            name: "callForwardNoAnswerType",
+            label: "Call Forward No Answer Type",
+            placeholder: "Select Type",
+            type: "select",
+            required: true,
+            options: [
+              ...callForwardData.callForwardNoAnswer.options,
+              { optionName: "External" },
+            ],
+            optionValue: "optionName",
+            optionLabel: "optionName",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              if (newVal === "External") {
+                formOptions.formInputsRows[5].inputs[1].mode = "tags";
+                formOptions.formInputsRows[5].inputs[1].options = [];
+                formikData.setFieldValue(
+                  "callForwardNoAnswer.currentValue",
+                  "",
+                  false
+                );
+              } else {
+                const destinationOptions = callForwardData.callForwardNoAnswer.options.find(
+                  (option) => {
+                    return option.optionName === newVal;
+                  }
+                );
+                formOptions.formInputsRows[5].inputs[1].mode = "";
+                formOptions.formInputsRows[5].inputs[1].options =
+                  destinationOptions.numbers;
+                formikData.setFieldValue(
+                  "callForwardNoAnswer.currentValue",
+                  "",
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardNoAnswer.currentValue",
-            label: "Number",
+            label: "Call Forward No Answer Number",
             placeholder: "Select Number",
             type: "select",
             required: true,
-            options: callForwardData.callForwardNoAnswer.options,
-            optionValue: "number",
-            optionLabel: "number",
+            options: callForwardNoAnswerOptions.numbers,
+            optionValue: "value",
+            optionLabel: "name",
+            breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+            customOnChange: async (
+              newVal,
+              formOptions,
+              formikData,
+              indexArray
+            ) => {
+              const currentOption = formikData.values.callForwardNoAnswerType;
+              if (currentOption === "External") {
+                const reduceGetOnlyNew = newVal.reduce(
+                  (returnData, currentNumber) => {
+                    if (IsAValidPhoneNumber(currentNumber) === true) {
+                      returnData = [currentNumber];
+                    }
+                    return returnData;
+                  },
+                  []
+                );
+                formikData.setFieldValue(
+                  "callForwardNoAnswer.currentValue",
+                  reduceGetOnlyNew,
+                  false
+                );
+              }
+            },
           },
           {
             name: "callForwardNoAnswerActive",
@@ -231,9 +518,9 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
       {
         inputs: [
@@ -244,12 +531,12 @@ const CallForward = ({callForwardData,token}) => {
             type: "switch",
             checkedChildren: "Yes",
             unCheckedChildren: "No",
-            defaultChecked: false
+            defaultChecked: false,
           },
-        ]
+        ],
       },
-    ]
-  }
+    ],
+  };
 
   return (
     <div>

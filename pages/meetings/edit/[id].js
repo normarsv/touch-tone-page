@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
 
@@ -14,6 +15,14 @@ export default class extends Component {
           case 'SuperAdmin':
             res.writeHead(302, {
               Location: '/list-organizations',
+            });
+            res.end();
+
+            break;
+
+          case 'OrganizationAdmin':
+            res.writeHead(302, {
+              Location: '/admin-dashboard',
             });
             res.end();
 
@@ -57,19 +66,18 @@ export default class extends Component {
     };
   }
   constructor(props) {
+    super(props);
     console.log(props);
     const emailsParticipants = props.orgUsers.reduce(
       (returnEmails, currentUser) => {
         const objectToReduce = {
-          destinationNumber: currentUser.authUser.email,
-          destinationId: currentUser.authUser.email,
+          email: currentUser.authUser.email,
         };
         returnEmails.push(objectToReduce);
         return returnEmails;
       },
       []
     );
-    super(props);
     this.userinfo = '';
     this.state = { emailsToSend: '' };
 
@@ -79,7 +87,7 @@ export default class extends Component {
         formClassName: 'test-form',
         submit: {
           className: 'primary-button-style',
-          text: 'Create Meeting',
+          text: 'Update Meeting',
         },
         reset: {
           className: 'primary-button-style',
@@ -88,7 +96,6 @@ export default class extends Component {
       },
       formInitialValues: {
         name: props.currentMeeting.name,
-        findeMeScheduleDescription: '',
         startTime: moment(props.currentMeeting.validSince).format(
           'YYYY-MM-DD HH:mm'
         ),
@@ -96,15 +103,17 @@ export default class extends Component {
           'YYYY-MM-DD HH:mm'
         ),
         participants: props.currentMeeting.participants.reduce(
-          (returnParticipants, currentParticipant) => {
-            const participantAdd = {
-              email: [currentParticipant.email],
-            };
-            returnParticipants.push(participantAdd);
+          (returnParticipants, participant) => {
+            returnParticipants.push({
+              email: [participant.email],
+            });
             return returnParticipants;
           },
           []
         ),
+        url: props.currentMeeting.url,
+        ddiEXT: props.currentMeeting.ddi.extension,
+        ddiPIN: props.currentMeeting.ddi.pin,
       },
       formValidations: (values) => {
         const errors = {};
@@ -119,7 +128,11 @@ export default class extends Component {
         }
         return errors;
       },
-      formSubmit: async (values, { setSubmitting, setFieldError }) => {
+      formSubmit: async (
+        values,
+        { setSubmitting, setFieldError, resetForm }
+      ) => {
+        setSubmitting(true);
         const paticipants = values.participants.reduce(
           (returnArray, currentParticipant) => {
             returnArray.push({
@@ -131,18 +144,8 @@ export default class extends Component {
           []
         );
 
-        const time = values.endTime;
-        const [hours, minutes] = time.split(':');
-        const momentEndTime = moment(values.startTime)
-          .startOf('day')
-          .set('hour', hours)
-          .set('minutes', minutes)
-          .format('YYYY-MM-DD HH:mm');
-        const momentStartTime = moment(values.startTime).format(
-          'YYYY-MM-DD HH:mm'
-        );
-        const timeStampEndTime = moment(momentStartTime).valueOf();
-        const timeStampStartTime = moment(momentEndTime).valueOf();
+        const timeStampStartTime = moment(values.startTime).valueOf();
+        const timeStampEndTime = moment(values.endTime).valueOf();
 
         const bodyMeeting = {
           name: values.name,
@@ -151,14 +154,45 @@ export default class extends Component {
           validSince: timeStampStartTime,
           validUntil: timeStampEndTime,
         };
+
         const api = new API(props.user.token);
-        const resCreateMeeting = await api.PUT(
-          '/Meetings/' + currentMeeting.id,
+        const resPutMeeting = await api.PUT(
+          '/Meetings/' + props.currentMeeting.id,
           bodyMeeting
         );
+        console.log(bodyMeeting);
+        message.success('Meeting updated successfully!');
         setSubmitting(false);
       },
       formInputsRows: [
+        {
+          inputs: [
+            {
+              name: 'url',
+              label: 'Meeting URL',
+              placeholder: 'Meeting URL...',
+              type: 'text',
+              required: false,
+              disabled: true,
+            },
+            {
+              name: 'ddiEXT',
+              label: 'Meeting DDI EXT',
+              placeholder: 'Meeting DDI EXT...',
+              type: 'text',
+              required: false,
+              disabled: true,
+            },
+            {
+              name: 'ddiPIN',
+              label: 'Meeting DDI PIN',
+              placeholder: 'Meeting DDI PIN...',
+              type: 'text',
+              required: false,
+              disabled: true,
+            },
+          ],
+        },
         {
           inputs: [
             {
@@ -236,11 +270,6 @@ export default class extends Component {
                 const currentHour = moment(momentNewVal).hour();
                 const currentMinutes = moment(momentNewVal).minutes();
 
-                let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
-                  (input) => {
-                    return input.name === 'endTime';
-                  }
-                );
                 if (startTimeHour === currentHour) {
                   const minutesToDisable = [];
                   for (let index = 0; index < 60; index++) {
@@ -248,14 +277,21 @@ export default class extends Component {
                       minutesToDisable.push(index);
                     }
                   }
-                  inputEndTimeForm.disableMinutes = () => minutesToDisable;
-                  if (currentMinutes < startTimeMinutes) {
-                    const newMoment = moment(momentNewVal)
-                      .set('minute', startTimeMinutes)
-                      .format('HH:mm');
-                    setTimeout(() => {
-                      formikData.setFieldValue('endTime', newMoment);
-                    }, 500);
+                  let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
+                    (input) => {
+                      return input.name === 'endTime';
+                    }
+                  );
+                  if (inputEndTimeForm) {
+                    inputEndTimeForm.disableMinutes = () => minutesToDisable;
+                    if (currentMinutes < startTimeMinutes) {
+                      const newMoment = moment(momentNewVal)
+                        .set('minute', startTimeMinutes)
+                        .format('HH:mm');
+                      setTimeout(() => {
+                        formikData.setFieldValue('endTime', newMoment);
+                      }, 500);
+                    }
                   }
                 }
               },
@@ -308,8 +344,8 @@ export default class extends Component {
                   },
                   required: true,
                   options: emailsParticipants,
-                  optionValue: 'destinationId',
-                  optionLabel: 'destinationNumber',
+                  optionValue: 'email',
+                  optionLabel: 'email',
                 },
               ],
             },

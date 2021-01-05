@@ -5,7 +5,7 @@ import { Component } from 'react';
 import API from '../../../API/API';
 import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
 import { BaseLayout } from '../../../layouts/BaseLayout';
-import { IsAValidEmail, IsValidPhoneNumber, systemLog } from '../../../scripts/General';
+import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -20,6 +20,13 @@ export default class extends Component {
 
             break;
 
+          case 'OrganizationAdmin':
+            res.writeHead(302, {
+              Location: '/admin-dashboard',
+            });
+            res.end();
+
+            break;
           case 'BusinessSuport':
             res.writeHead(302, {
               Location: '/list-organizations',
@@ -49,13 +56,8 @@ export default class extends Component {
 
     const api = new API();
     const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
-    const resUserFrequentContacts = await api.GET(
-      '/UserFrequentContacts/user/' + user.userId
-    );
-
     return {
       user,
-      frequentContacts: resUserFrequentContacts.response,
       orgUsers: resManageUsers.response,
     };
   }
@@ -89,12 +91,10 @@ export default class extends Component {
         },
       },
       formInitialValues: {
-        findeMeDescription: '',
-        findeMeScheduleDescription: '',
+        name: '',
         startTime: '',
         endTime: '',
-        dayrange: [],
-        enabled: false,
+        Participants: [],
       },
       formValidations: (values) => {
         const errors = {};
@@ -118,8 +118,7 @@ export default class extends Component {
           (returnArray, currentParticipant) => {
             returnArray.push({
               email: currentParticipant.email[0],
-              phone: currentParticipant.phone[0],
-              sendSMS: currentParticipant.sendSMS,
+              sendSMS: false,
             });
             return returnArray;
           },
@@ -295,56 +294,6 @@ export default class extends Component {
                   options: emailsParticipants,
                   optionValue: 'email',
                   optionLabel: 'email',
-                },
-                {
-                  name: 'phone',
-                  label: 'Phone',
-                  placeholder: 'Select Phone',
-                  type: 'select',
-                  mode: 'tags',
-                  customOnChange: async (
-                    newVal,
-                    formOptions,
-                    formikData,
-                    indexArray
-                  ) => {
-                    const curretValues = [...formikData.values.participants];
-                    const reduceGetOnlyNew = newVal.reduce(
-                      (returnData, currentPhone) => {
-                        if (
-                          curretValues.find((phone) => {
-                            return phone === currentPhone;
-                          }) === undefined
-                        ) {
-                          if (IsValidPhoneNumber(currentPhone) === true) {
-                            returnData = [currentPhone];
-                          }
-                        }
-                        return returnData;
-                      },
-                      []
-                    );
-                    curretValues[indexArray].phone = reduceGetOnlyNew;
-                    formikData.setFieldValue(
-                      'participants',
-                      curretValues,
-                      false
-                    );
-                  },
-                  required: true,
-                  options: [],
-                  optionValue: 'email',
-                  optionLabel: 'email',
-                },
-                {
-                  name: 'sendSMS',
-                  label: 'SMS',
-                  placeholder: '',
-                  type: 'switch',
-                  checkedChildren: 'Yes',
-                  unCheckedChildren: 'No',
-                  defaultChecked: false,
-                  breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
                 },
               ],
             },
