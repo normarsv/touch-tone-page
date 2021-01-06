@@ -4,7 +4,7 @@ import { Component } from 'react';
 import API from '../../../API/API';
 import NewUser from '../../../components/user/NewUser';
 import { BaseLayout } from '../../../layouts/BaseLayout';
-import { systemLog } from '../../../scripts/General';
+import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -110,7 +110,7 @@ export default class extends Component {
           if (!values.organizationId) {
             errors.organizationId = 'Organization required';
           }
-          if (!values.email) {
+          if (IsAValidEmail(values.email)) {
             errors.email = 'Email required';
           }
           if (!values.userTypeId) {
@@ -315,6 +315,9 @@ export default class extends Component {
           if (!values.didID) {
             errors.didID = 'User DID is required';
           }
+          if (IsAValidEmail(values.email)) {
+            errors.email = 'Email required';
+          }
           if (!values.password) {
             errors.password = 'Password required';
           } else if (
@@ -401,15 +404,6 @@ export default class extends Component {
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
               {
-                name: 'password',
-                label: 'Password',
-                placeholder: 'Put your password',
-                type: 'password',
-                tooltip: 'At least 8 characters, one uppercase and one number',
-                required: true,
-                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
-              },
-              {
                 name: 'didID',
                 label: 'DID',
                 placeholder: 'Select DID',
@@ -418,6 +412,27 @@ export default class extends Component {
                 options: [],
                 optionValue: 'numberId',
                 optionLabel: 'number',
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              },
+            ],
+          },
+          {
+            inputs: [
+              {
+                name: 'email',
+                label: 'Email',
+                placeholder: 'Put the user email',
+                type: 'text',
+                required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              },
+              {
+                name: 'password',
+                label: 'Password',
+                placeholder: 'Put your password',
+                type: 'password',
+                tooltip: 'At least 8 characters, one uppercase and one number',
+                required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
             ],
@@ -470,6 +485,9 @@ export default class extends Component {
           if (!values.userName) {
             errors.userName = 'Login name required';
           }
+          if (IsAValidEmail(values.email)) {
+            errors.email = 'Email required';
+          }
           if (!values.password) {
             errors.password = 'Password required';
           } else if (
@@ -510,6 +528,14 @@ export default class extends Component {
                 name: 'userName',
                 label: 'Login Name',
                 placeholder: 'Put your login name',
+                type: 'text',
+                required: true,
+                breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                placeholder: 'Put the user email',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
