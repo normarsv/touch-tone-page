@@ -46,6 +46,7 @@ export default class extends Component {
 
     const api = new API(user.token);
     const resOrganizations = await api.GET('/Organizations/');
+    const resUserTypes = await api.GET('/UserTypes/');
     const resUserGroups = [];
     // const resUserGroups = await api.GET("/Organizations/");
 
@@ -54,12 +55,14 @@ export default class extends Component {
       editServiceContent,
       resOrganizations,
       resUserGroups,
+      resUserTypes,
     };
   }
   constructor(props) {
     super(props);
+    console.log(props);
     const { user, editServiceContent, resOrganizations, resUserGroups } = props;
-    this.state = { authGroupValue: '' };
+    this.state = { authGroupValue: '', userTypeForce: '' };
     this.formsByUserSelected = {
       newEndUser: {
         generalOptions: {
@@ -90,7 +93,7 @@ export default class extends Component {
           password: '',
           isAgent: false,
           organizationId: '',
-          userTypeId: '',
+          userTypeId: 1,
           userStatusId: 1,
           isStaff: false,
           authGroupId: '',
@@ -122,23 +125,20 @@ export default class extends Component {
           if (!values.password) {
             errors.password = 'Password required';
           } else if (
-            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{9,})/i.test(
               values.password
             )
           ) {
             errors.password =
-              'At least 8 characters, one uppercase and one number';
+              'At least 9 characters, one uppercase and one number';
           }
           return errors;
         },
-        formSubmit: (values, { setSubmitting, setFieldError }) => {
-          this.submitForm(values, this.state.authGroupValue);
-          // values = {};
-          setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            // console.log("form submitted values", values);
-            setSubmitting(false);
-          }, 400);
+        formSubmit: async (values, { setSubmitting, resetForm }) => {
+          setSubmitting(true);
+          await this.submitForm(values, this.state.authGroupValue);
+          resetForm();
+          setSubmitting(false);
         },
         formInputsRows: [
           {
@@ -208,7 +208,7 @@ export default class extends Component {
                 label: 'Password',
                 placeholder: 'Put your password',
                 type: 'password',
-                tooltip: 'At least 8 characters, one uppercase and one number',
+                tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
@@ -245,6 +245,7 @@ export default class extends Component {
                 options: [
                   { userTypeName: 'GRA', userTypeId: 1 },
                   { userTypeName: 'Sippo', userTypeId: 2 },
+                  { userTypeName: 'Both', userTypeId: 8 },
                 ],
                 optionValue: 'userTypeId',
                 optionLabel: 'userTypeName',
@@ -321,23 +322,20 @@ export default class extends Component {
           if (!values.password) {
             errors.password = 'Password required';
           } else if (
-            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{9,})/i.test(
               values.password
             )
           ) {
             errors.password =
-              'At least 8 characters, one uppercase and one number';
+              'At least 9 characters, one uppercase and one number';
           }
           return errors;
         },
-        formSubmit: (values, { setSubmitting, setFieldError }) => {
-          this.submitForm(values, this.state.authGroupValue);
-
-          setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            // console.log("form submitted values", values);
-            setSubmitting(false);
-          }, 400);
+        formSubmit: async (values, { setSubmitting, resetForm }) => {
+          setSubmitting(true);
+          await this.submitForm(values, this.state.authGroupValue);
+          resetForm();
+          setSubmitting(false);
         },
         formInputsRows: [
           {
@@ -431,7 +429,7 @@ export default class extends Component {
                 label: 'Password',
                 placeholder: 'Put your password',
                 type: 'password',
-                tooltip: 'At least 8 characters, one uppercase and one number',
+                tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
@@ -491,18 +489,19 @@ export default class extends Component {
           if (!values.password) {
             errors.password = 'Password required';
           } else if (
-            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/i.test(
+            !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{9,})/i.test(
               values.password
             )
           ) {
             errors.password =
-              'At least 8 characters, one uppercase and one number';
+              'At least 9 characters, one uppercase and one number';
           }
           return errors;
         },
-        formSubmit: async (values, { setSubmitting, setFieldError }) => {
+        formSubmit: async (values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           await this.submitForm(values, this.state.authGroupValue);
+          resetForm();
           setSubmitting(false);
         },
         formInputsRows: [
@@ -545,7 +544,7 @@ export default class extends Component {
                 label: 'Password',
                 placeholder: 'Put your password',
                 type: 'password',
-                tooltip: 'At least 8 characters, one uppercase and one number',
+                tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               },
@@ -576,13 +575,15 @@ export default class extends Component {
       organizationId:
         valuesToSubmit.organizationId !== ''
           ? valuesToSubmit.organizationId
-          : undefined,
+          : 0,
       userTypeId:
         valuesToSubmit.userTypeId !== ''
           ? valuesToSubmit.userTypeId
+          : this.state.userTypeForce !== undefined
+          ? this.state.userTypeForce
           : undefined,
       userStatusId: valuesToSubmit.userStatusId,
-      isStaff: valuesToSubmit.isStaff,
+      isStaff: authGroupValue === 5 ? true : valuesToSubmit.isStaff,
       authGroupId: authGroupValue,
       didID: valuesToSubmit.didID !== '' ? valuesToSubmit.didID : undefined,
     };
@@ -604,13 +605,16 @@ export default class extends Component {
           displayedForm={(value) => {
             switch (value) {
               case 'businessSupport':
-                this.setState({ authGroupValue: 5 });
+                this.setState({ authGroupValue: 5, userTypeForce: 5 });
                 break;
               case 'distributor':
-                this.setState({ authGroupValue: 6 });
+                this.setState({ authGroupValue: 6, userTypeForce: 4 });
                 break;
               case 'organizationAdmin':
-                this.setState({ authGroupValue: 2 });
+                this.setState({ authGroupValue: 2, userTypeForce: 5 });
+                break;
+              case 'corporateService':
+                this.setState({ authGroupValue: 8, userTypeForce: 3 });
                 break;
               case 'endUser':
                 this.setState({ authGroupValue: 3 });
