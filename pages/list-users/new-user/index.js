@@ -110,7 +110,7 @@ export default class extends Component {
           if (!values.organizationId) {
             errors.organizationId = 'Organization required';
           }
-          if (IsAValidEmail(values.email)) {
+          if (IsAValidEmail(values.email) === false) {
             errors.email = 'Email required';
           }
           if (!values.userTypeId) {
@@ -315,7 +315,7 @@ export default class extends Component {
           if (!values.didID) {
             errors.didID = 'User DID is required';
           }
-          if (IsAValidEmail(values.email)) {
+          if (IsAValidEmail(values.email) === false) {
             errors.email = 'Email required';
           }
           if (!values.password) {
@@ -485,7 +485,7 @@ export default class extends Component {
           if (!values.userName) {
             errors.userName = 'Login name required';
           }
-          if (IsAValidEmail(values.email)) {
+          if (IsAValidEmail(values.email) === false) {
             errors.email = 'Email required';
           }
           if (!values.password) {
