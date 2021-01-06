@@ -1,40 +1,32 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import AutoAttendant from "../../components/tier2-screens/auto-attendant/Autoattendant";
-import Queues from "../../components/tier2-screens/queues/Queues";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
+import { Component } from 'react';
+
+import AutoAttendant from '../../components/tier2-screens/auto-attendant/Autoattendant';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "SuperAdmin":
+          case 'BusinessSupport':
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
-          case "BusinessSuport":
+          case 'Distributor':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
-          case "Distributor":
+          case 'EndUser':
             res.writeHead(302, {
-              Location: "/list-organizations",
-            });
-            res.end();
-
-            break;
-          case "EndUser":
-            res.writeHead(302, {
-              Location: "/user-dashboard",
+              Location: '/user-dashboard',
             });
             res.end();
 
@@ -45,7 +37,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -54,45 +46,45 @@ export default class extends Component {
     const autoAttendantTableContent = [
       {
         id: 1,
-        name: "Welcome GS",
-        description: "Organization Welcome Message",
-        did: "33278779099",
-        actions: "welcomeGS",
+        name: 'Welcome GS',
+        description: 'Organization Welcome Message',
+        did: '33278779099',
+        actions: 'welcomeGS',
       },
       {
         id: 2,
-        name: "Tech Support",
-        description: "Tech Support",
-        did: "33278779099",
-        actions: "tech-support",
+        name: 'Tech Support',
+        description: 'Tech Support',
+        did: '33278779099',
+        actions: 'tech-support',
       },
       {
         id: 3,
-        name: "Auto attendant",
-        description: "Auto attendant",
-        did: "33278779099",
-        actions: "auto-attendant",
+        name: 'Auto attendant',
+        description: 'Auto attendant',
+        did: '33278779099',
+        actions: 'auto-attendant',
       },
       {
         id: 4,
-        name: "Welcome GS",
-        description: "Organization Welcome Message",
-        did: "33278779099",
-        actions: "welcomeGS",
+        name: 'Welcome GS',
+        description: 'Organization Welcome Message',
+        did: '33278779099',
+        actions: 'welcomeGS',
       },
       {
         id: 5,
-        name: "Tech Support",
-        description: "Tech Support",
-        did: "33278779099",
-        actions: "tech-support",
+        name: 'Tech Support',
+        description: 'Tech Support',
+        did: '33278779099',
+        actions: 'tech-support',
       },
       {
         id: 6,
-        name: "Auto attendant",
-        description: "Auto attendant",
-        did: "33278779099",
-        actions: "auto-attendant",
+        name: 'Auto attendant',
+        description: 'Auto attendant',
+        did: '33278779099',
+        actions: 'auto-attendant',
       },
     ];
 
@@ -103,7 +95,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);

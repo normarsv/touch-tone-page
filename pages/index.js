@@ -1,29 +1,31 @@
-import { Component } from "react";
-import { ForgotPassword } from "../components/authentication/ForgotPassword";
-import { LoginForm } from "../components/authentication/LoginForm";
-import { BaseLayout } from "../layouts/BaseLayout";
-import { systemLog } from "../scripts/General";
+import { Component } from 'react';
+
+import { ForgotPassword } from '../components/authentication/ForgotPassword';
+import { LoginForm } from '../components/authentication/LoginForm';
+import { BaseLayout } from '../layouts/BaseLayout';
+import { systemLog } from '../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (user.group !== undefined) {
       if (res) {
         switch (user.group) {
-          case "SuperAdmin":
+          case 'BusinessSupport':
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             break;
 
-          case "OrganizationAdmin":
+          case 'OrganizationAdmin':
             res.writeHead(302, {
-              Location: "/admin-dashboard",
+              Location: '/admin-dashboard',
             });
             break;
 
-          case "EndUser":
+          case 'EndUser':
             res.writeHead(302, {
-              Location: "/user-dashboard",
+              Location: '/user-dashboard',
             });
             break;
 
@@ -43,7 +45,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
     this.state = { showForgotPassword: false };
   }
   componentDidMount() {

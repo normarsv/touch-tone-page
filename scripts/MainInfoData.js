@@ -117,6 +117,7 @@ export const OGMetaTagBase = [
 
 export const siderLinks = (role) => {
   switch (role) {
+    case 'BusinessSupport':
     case 'SuperAdmin':
       return [
         {

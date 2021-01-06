@@ -136,9 +136,14 @@ export default class extends Component {
         },
         formSubmit: async (values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          await this.submitForm(values, this.state.authGroupValue);
+          try {
+            await this.submitForm(values, this.state.authGroupValue);
+          } catch (error) {
+            console.log(error);
+          }
           resetForm();
           setSubmitting(false);
+          message.success('User Created Successfully!');
         },
         formInputsRows: [
           {
@@ -333,9 +338,14 @@ export default class extends Component {
         },
         formSubmit: async (values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          await this.submitForm(values, this.state.authGroupValue);
+          try {
+            await this.submitForm(values, this.state.authGroupValue);
+          } catch (error) {
+            console.log(error);
+          }
           resetForm();
           setSubmitting(false);
+          message.success('User Created Successfully!');
         },
         formInputsRows: [
           {
@@ -500,9 +510,14 @@ export default class extends Component {
         },
         formSubmit: async (values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          await this.submitForm(values, this.state.authGroupValue);
+          try {
+            await this.submitForm(values, this.state.authGroupValue);
+          } catch (error) {
+            console.log(error);
+          }
           resetForm();
           setSubmitting(false);
+          message.success('User Created Successfully!');
         },
         formInputsRows: [
           {
@@ -591,7 +606,6 @@ export default class extends Component {
 
     const responseNewUser = await api.POST('/AuthUsers/Signup', finalSubmit);
     console.log(responseNewUser);
-    message.success('User Created Successfully!');
   }
 
   render() {

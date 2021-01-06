@@ -46,6 +46,7 @@ MeetingsPage.getInitialProps = async ({ res, query, user }) => {
   if (res) {
     if (user.group) {
       switch (user.group) {
+        case 'BusinessSupport':
         case 'SuperAdmin':
           res.writeHead(302, {
             Location: '/list-organizations',
@@ -57,14 +58,6 @@ MeetingsPage.getInitialProps = async ({ res, query, user }) => {
         case 'OrganizationAdmin':
           res.writeHead(302, {
             Location: '/admin-dashboard',
-          });
-          res.end();
-
-          break;
-
-        case 'BusinessSuport':
-          res.writeHead(302, {
-            Location: '/list-organizations',
           });
           res.end();
 

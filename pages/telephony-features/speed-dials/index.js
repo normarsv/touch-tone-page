@@ -8,6 +8,7 @@ export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       switch (user.group) {
+        case 'BusinessSupport':
         case 'SuperAdmin':
           res.writeHead(302, {
             Location: '/list-organizations',
@@ -19,14 +20,6 @@ export default class extends Component {
         case 'OrganizationAdmin':
           res.writeHead(302, {
             Location: '/admin-dashboard',
-          });
-          res.end();
-
-          break;
-
-        case 'BusinessSuport':
-          res.writeHead(302, {
-            Location: '/list-organizations',
           });
           res.end();
 

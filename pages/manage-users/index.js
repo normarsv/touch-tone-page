@@ -1,40 +1,33 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import API from "../../API/API";
-import ManageUsers from "../../components/tier2-screens/ManageUsers";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
+import { Component } from 'react';
+
+import API from '../../API/API';
+import ManageUsers from '../../components/tier2-screens/ManageUsers';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "SuperAdmin":
+          case 'BusinessSupport':
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
-          case "BusinessSuport":
+          case 'Distributor':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
-          case "Distributor":
+          case 'EndUser':
             res.writeHead(302, {
-              Location: "/list-organizations",
-            });
-            res.end();
-
-            break;
-          case "EndUser":
-            res.writeHead(302, {
-              Location: "/user-dashboard",
+              Location: '/user-dashboard',
             });
             res.end();
 
@@ -44,7 +37,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -52,7 +45,7 @@ export default class extends Component {
 
     const api = new API();
 
-    const resManageUsers = await api.GET("/Users/orgId/" + user.organizationId);
+    const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
 
     const finalManageUsersList = [];
 
@@ -60,7 +53,7 @@ export default class extends Component {
       finalManageUsersList.push({
         key: currentUser.authUser.id,
         name:
-          currentUser.authUser.firstName + " " + currentUser.authUser.lastName,
+          currentUser.authUser.firstName + ' ' + currentUser.authUser.lastName,
         email: currentUser.authUser.email,
         did: currentUser.authUser.did,
         actions: currentUser.authUser.id,
@@ -71,66 +64,66 @@ export default class extends Component {
     const manageUsersContent = [
       {
         id: 1,
-        name: "Peter Lock",
-        email: "PeterLock@gmail.com",
-        status: "33278779099",
-        actions: "peter",
+        name: 'Peter Lock',
+        email: 'PeterLock@gmail.com',
+        status: '33278779099',
+        actions: 'peter',
         active: true,
       },
       {
         id: 2,
-        name: "Anna Frías",
-        email: "Annafrias@gmail.com",
-        status: "33278779099",
-        actions: "anna",
+        name: 'Anna Frías',
+        email: 'Annafrias@gmail.com',
+        status: '33278779099',
+        actions: 'anna',
         active: false,
       },
       {
         id: 3,
-        name: "Samuel Harlock",
-        email: "samuelharlock@gmail.com",
-        status: "33278779099",
-        actions: "Samuel",
+        name: 'Samuel Harlock',
+        email: 'samuelharlock@gmail.com',
+        status: '33278779099',
+        actions: 'Samuel',
         active: true,
       },
       {
         id: 4,
-        name: "Sebastian Bones",
-        email: "sebastianbones@gmail.com",
-        status: "33278779099",
-        actions: "Sebastian",
+        name: 'Sebastian Bones',
+        email: 'sebastianbones@gmail.com',
+        status: '33278779099',
+        actions: 'Sebastian',
         active: true,
       },
       {
         id: 5,
-        name: "Orlando Tyler",
-        email: "orlandotyler@gmail.com",
-        status: "33278779099",
-        actions: "Orlando",
+        name: 'Orlando Tyler',
+        email: 'orlandotyler@gmail.com',
+        status: '33278779099',
+        actions: 'Orlando',
         active: true,
       },
       {
         id: 6,
-        name: "Brad Bloom",
-        email: "bradbloom@gmail.com",
-        status: "33278779099",
-        actions: "Brad",
+        name: 'Brad Bloom',
+        email: 'bradbloom@gmail.com',
+        status: '33278779099',
+        actions: 'Brad',
         active: false,
       },
       {
         id: 7,
-        name: "Linda King",
-        email: "lindaking@gmail.com",
-        status: "33278779099",
-        actions: "Linda",
+        name: 'Linda King',
+        email: 'lindaking@gmail.com',
+        status: '33278779099',
+        actions: 'Linda',
         route: true,
       },
       {
         id: 8,
-        name: "Thomas Hank",
-        email: "thomashank@gmail.com",
-        status: "33278779099",
-        actions: "Thomas",
+        name: 'Thomas Hank',
+        email: 'thomashank@gmail.com',
+        status: '33278779099',
+        actions: 'Thomas',
         active: false,
       },
     ];
@@ -144,7 +137,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);
