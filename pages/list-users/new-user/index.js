@@ -188,7 +188,7 @@ export default class extends Component {
                   );
 
                   let newOptions = await api.GET(
-                    '/tools/organization-number/' + newVal
+                    '/tools/organization-available-number/' + newVal
                   );
                   if (inputOptionsToChange && newOptions.response) {
                     inputOptionsToChange.options = newOptions.response;
@@ -390,7 +390,7 @@ export default class extends Component {
                   );
 
                   let testOptions = await api.GET(
-                    '/tools/organization-number/' + newVal
+                    '/tools/organization-available-number/' + newVal
                   );
                   console.log('this response', testOptions.response);
                   if (testOptions.response) {

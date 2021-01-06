@@ -46,6 +46,7 @@ export default class extends Component {
     }
 
     const endUserDashboardContent = [
+      /*
       {
         id: 1,
         title: 'Voice Mail',
@@ -55,6 +56,7 @@ export default class extends Component {
         buttonTitle: 'View all Voice Mails',
         route: '/voice-mail',
       },
+      */
       {
         id: 2,
         title: 'My Find Me',
@@ -73,6 +75,7 @@ export default class extends Component {
         buttonTitle: 'View All Meetings',
         route: '/meetings',
       },
+      /*
       {
         id: 4,
         title: 'Call Records',
@@ -82,6 +85,8 @@ export default class extends Component {
         buttonTitle: 'View Call Records',
         route: '/call-records',
       },
+      */
+      /*
       {
         id: 5,
         title: 'Conference Room',
@@ -91,6 +96,7 @@ export default class extends Component {
         buttonTitle: 'View All Conference Room',
         route: '/audio-conference',
       },
+      */
       {
         id: 6,
         title: 'Account Details',
