@@ -102,6 +102,9 @@ const ProvisioningOrganization = ({
     if (testOptions.response) {
       setCurrentDIDS(testOptions.response);
     }
+    const selectedOrganization = provideOrganizations.find(
+      (item) => item.id === value
+    );
     setSelectedOrganization({
       orgId: selectedOrganization.id,
       organization: selectedOrganization.name,
