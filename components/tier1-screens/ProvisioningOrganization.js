@@ -59,7 +59,7 @@ const ProvisioningOrganization = ({
       {
         email: selectedOrganization.email,
         password: selectedOrganization.password,
-        did: selectedOrganization.did,
+        didId: selectedOrganization.didId,
       }
     );
 
@@ -115,7 +115,7 @@ const ProvisioningOrganization = ({
   function handleSelectedValueDID(value) {
     setSelectedOrganization({
       ...selectedOrganization,
-      did: value,
+      didId: value,
     });
   }
 
@@ -201,7 +201,7 @@ const ProvisioningOrganization = ({
               disabled={loading}
               className='select-arrow-boxes modals'
               placeholder='Select DID...'
-              value={selectedOrganization.did}
+              value={selectedOrganization.didId}
               onChange={(value) => handleSelectedValueDID(value)}
             >
               {currentDIDS.map((item, index) => (
@@ -232,8 +232,8 @@ const ProvisioningOrganization = ({
               selectedOrganization.password === '' ||
               !selectedOrganization.email ||
               selectedOrganization.email === '' ||
-              !selectedOrganization.did ||
-              selectedOrganization.did === ''
+              !selectedOrganization.didId ||
+              selectedOrganization.didId === ''
             }
             loading={loading}
             onClick={() => handleClickProvision()}
