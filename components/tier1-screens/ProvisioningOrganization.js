@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 import API from '../../API/API';
-import { IsAValidEmail, IsAValidPhoneNumber, IsValidPassword } from '../../scripts/General';
+import { IsAValidEmail, IsValidPassword } from '../../scripts/General';
 
 const { Option } = Select;
 
@@ -13,6 +13,7 @@ const ProvisioningOrganization = ({
   setVisibleProvisioningOrganization,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [currentDIDS, setCurrentDIDS] = useState([]);
   const [provideOrganizations, setProvideOrganizations] = useState([]);
   const [selectedOrganization, setSelectedOrganization] = useState({});
   const [errorToDisplay, setErrorToDisplay] = useState('');
@@ -38,13 +39,14 @@ const ProvisioningOrganization = ({
       }
       errorToSend = errorToSend + 'Enter a valid Password';
     }
-
+    /*
     if (IsAValidPhoneNumber(selectedOrganization.did) === false) {
       if (errorToSend !== '') {
         errorToSend = errorToSend + ', ';
       }
       errorToSend = errorToSend + 'Enter a valid Phone Number';
     }
+    */
 
     if (errorToSend !== '') {
       setErrorToDisplay(errorToSend);
@@ -91,14 +93,26 @@ const ProvisioningOrganization = ({
     }
   }
 
-  function handleSelectedValue(value) {
-    const selectedOrganization = provideOrganizations.find(
-      (item) => item.name === value
+  async function handleSelectedValueOrg(value) {
+    const api = new API();
+
+    let testOptions = await api.GET(
+      '/tools/organization-available-number/' + value
     );
+    if (testOptions.response) {
+      setCurrentDIDS(testOptions.response);
+    }
     setSelectedOrganization({
       orgId: selectedOrganization.id,
       organization: selectedOrganization.name,
       billingId: selectedOrganization.billingId,
+    });
+  }
+
+  function handleSelectedValueDID(value) {
+    setSelectedOrganization({
+      ...selectedOrganization,
+      did: value,
     });
   }
 
@@ -143,10 +157,10 @@ const ProvisioningOrganization = ({
               className='select-arrow-boxes modals'
               placeholder='Select Organization...'
               value={selectedOrganization.organization}
-              onChange={(value) => handleSelectedValue(value)}
+              onChange={(value) => handleSelectedValueOrg(value)}
             >
               {provideOrganizations.map((item, index) => (
-                <Option key={index} value={item.name}>
+                <Option key={index} value={item.id}>
                   {item.name}
                 </Option>
               ))}
@@ -180,16 +194,19 @@ const ProvisioningOrganization = ({
             ></Input.Password>
           </Col>
           <Col span={4}>
-            <Input
+            <Select
               disabled={loading}
+              className='select-arrow-boxes modals'
+              placeholder='Select DID...'
               value={selectedOrganization.did}
-              onChange={(e) => {
-                setSelectedOrganization({
-                  ...selectedOrganization,
-                  did: e.target.value.replace(/\D/g, ''),
-                });
-              }}
-            ></Input>
+              onChange={(value) => handleSelectedValueDID(value)}
+            >
+              {currentDIDS.map((item, index) => (
+                <Option key={index} value={item.number}>
+                  {item.number}
+                </Option>
+              ))}
+            </Select>
           </Col>
         </Row>
 
