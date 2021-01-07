@@ -1,10 +1,11 @@
-import { Button, Col, Row, Space } from "antd";
-import { motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import { UserContext } from "../authentication/UserContext";
-import PropTypes from "prop-types";
-import React, { useContext, useEffect } from "react";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import { Button, Col, Row, Space } from 'antd';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React, { useContext, useEffect } from 'react';
+
+import { UserContext } from '../authentication/UserContext';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const MainDashboard = ({ mainDashboardContent }) => {
   const router = useRouter();
@@ -12,11 +13,12 @@ const MainDashboard = ({ mainDashboardContent }) => {
 
   let titleToDisplay;
   switch (userInfo.group) {
-    case "OrganizationAdmin":
-      titleToDisplay = "Admin Dashboard";
+    case 'CorporateService':
+    case 'OrganizationAdmin':
+      titleToDisplay = 'Admin Dashboard';
       break;
-    case "EndUser":
-      titleToDisplay = "User Dashboard";
+    case 'EndUser':
+      titleToDisplay = 'User Dashboard';
       break;
 
     default:
@@ -25,12 +27,12 @@ const MainDashboard = ({ mainDashboardContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical">
+      <Space size='large' direction='vertical'>
         <ContentInnerHeader />
 
-        <h1 className="title-style">{titleToDisplay}</h1>
+        <h1 className='title-style'>{titleToDisplay}</h1>
 
-        <Row gutter={[10, 24]} type="flex">
+        <Row gutter={[10, 24]} type='flex'>
           {mainDashboardContent.map((item, index) => {
             return (
               <Col
@@ -41,21 +43,21 @@ const MainDashboard = ({ mainDashboardContent }) => {
                 md={12}
                 sm={24}
                 xs={24}
-                className="flex center"
+                className='flex center'
               >
                 <motion.div
                   whileHover={{ scale: 1.002 }}
-                  className="admin-option-main-div"
+                  className='admin-option-main-div'
                 >
-                  <Space direction="vertical">
-                    <h2 className="title-style">{item.title}</h2>
+                  <Space direction='vertical'>
+                    <h2 className='title-style'>{item.title}</h2>
                     <h4>{item.count}</h4>
                   </Space>
                   <p>{item.desc}</p>
                   <motion.div whileHover={{ scale: 1.01 }}>
                     <Button
-                      type="primary"
-                      className="primary-button-style"
+                      type='primary'
+                      className='primary-button-style'
                       onClick={() => router.push(item.route)}
                     >
                       {item.buttonTitle}

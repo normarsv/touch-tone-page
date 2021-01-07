@@ -159,6 +159,7 @@ export const siderLinks = (role) => {
       ];
       break;
 
+    case 'CorporateService':
     case 'OrganizationAdmin':
       return [
         {

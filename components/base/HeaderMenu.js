@@ -67,6 +67,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         setRouteToGo('list-organizations');
         break;
 
+      case 'CorporateService':
       case 'OrganizationAdmin':
         setRouteToGo('admin-dashboard');
         break;

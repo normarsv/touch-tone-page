@@ -10,6 +10,7 @@ export default class extends Component {
     if (res) {
       if (user.group) {
         switch (user.group) {
+          case 'CorporateService':
           case 'OrganizationAdmin':
             res.writeHead(302, {
               Location: '/admin-dashboard',

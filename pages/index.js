@@ -17,6 +17,7 @@ export default class extends Component {
             });
             break;
 
+          case 'CorporateService':
           case 'OrganizationAdmin':
             res.writeHead(302, {
               Location: '/admin-dashboard',

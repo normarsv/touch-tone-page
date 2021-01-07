@@ -1,26 +1,28 @@
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import HistoryLog from "../../../../components/details-screens/HistoryLog";
-import { BaseLayout } from "../../../../layouts/BaseLayout";
-import { systemLog } from "../../../../scripts/General";
+import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment/min/moment-with-locales.js';
+import { Component } from 'react';
+
+import HistoryLog from '../../../../components/details-screens/HistoryLog';
+import { BaseLayout } from '../../../../layouts/BaseLayout';
+import { systemLog } from '../../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "OrganizationAdmin":
+          case 'CorporateService':
+          case 'OrganizationAdmin':
             res.writeHead(302, {
-              Location: "/admin-dashboard",
+              Location: '/admin-dashboard',
             });
             res.end();
 
             break;
 
-          case "EndUser":
+          case 'EndUser':
             res.writeHead(302, {
-              Location: "/user-dashboard",
+              Location: '/user-dashboard',
             });
             res.end();
 
@@ -31,26 +33,26 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
     }
 
     let data = new Array(10).fill({
-      key: "1",
-      user: "Gregory Sanders",
-      previous: "Walmart",
-      current: "Walmart México",
+      key: '1',
+      user: 'Gregory Sanders',
+      previous: 'Walmart',
+      current: 'Walmart México',
       date: [
         {
           id: 1,
-          date: moment().format("L"),
+          date: moment().format('L'),
           icon: faCalendarAlt,
         },
         {
           id: 2,
-          date: moment().format("LT"),
+          date: moment().format('LT'),
           icon: faClock,
         },
       ],
@@ -59,54 +61,54 @@ export default class extends Component {
     const historyLogDataTable = [
       {
         key: 1,
-        user: "Gregory Sanders",
-        previous: "Walmart",
-        current: "Walmart México",
+        user: 'Gregory Sanders',
+        previous: 'Walmart',
+        current: 'Walmart México',
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
       },
       {
         key: 2,
-        user: "Gregory Sanders 2",
-        previous: "Walmart",
-        current: "Walmart México",
+        user: 'Gregory Sanders 2',
+        previous: 'Walmart',
+        current: 'Walmart México',
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
       },
       {
         key: 3,
-        user: "Guao",
-        previous: "Walmart",
-        current: "Walmart México",
+        user: 'Guao',
+        previous: 'Walmart',
+        current: 'Walmart México',
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
@@ -121,7 +123,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);

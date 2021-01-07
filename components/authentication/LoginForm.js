@@ -41,6 +41,7 @@ export const LoginForm = ({ showForgotPassword }) => {
       case 'SuperAdmin':
         router.push('/list-organizations');
         break;
+      case 'CorporateService':
       case 'OrganizationAdmin':
         router.push('/admin-dashboard');
         break;

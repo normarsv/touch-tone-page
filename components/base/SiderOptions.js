@@ -23,6 +23,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
     case 'SuperAdmin':
       siderTitle = 'Super Admin Controls';
       break;
+    case 'CorporateService':
     case 'OrganizationAdmin':
       siderTitle = 'Organization Admin';
       break;
