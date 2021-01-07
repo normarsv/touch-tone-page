@@ -11,6 +11,7 @@ const ProvisioningOrganization = ({
   userInfo,
   visibleProvisioningOrganization,
   setVisibleProvisioningOrganization,
+  refreshOrg,
 }) => {
   const [loading, setLoading] = useState(false);
   const [currentDIDS, setCurrentDIDS] = useState([]);
@@ -69,8 +70,10 @@ const ProvisioningOrganization = ({
     } else {
       message.error('Organization Already Provisioned');
     }
-
-    setLoading(false);
+    refreshOrg();
+    setTimeout(() => {
+      setLoading(false);
+    }, 150);
   }
 
   async function organizationsToProvision() {

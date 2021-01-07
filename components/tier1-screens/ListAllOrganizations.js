@@ -1,17 +1,21 @@
-import { Button, Input, Row, Select, Space, Switch, Table } from "antd";
-import Search from "antd/lib/input/Search";
-import { motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import OrganizationDetailsModal from "./OrganizationDetailsModal";
-import ProvisioningOrganization from "./ProvisioningOrganization";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Row, Select, Space, Switch, Table } from 'antd';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
+
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import OrganizationDetailsModal from './OrganizationDetailsModal';
+import ProvisioningOrganization from './ProvisioningOrganization';
 
 const { Option } = Select;
 
-const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
+const ListAllOrganizations = ({
+  userInfo,
+  organizationsTableList,
+  refreshOrg,
+}) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [visibleDetailsModal, setVisibleDetailsModal] = useState(false);
@@ -21,14 +25,14 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
   ] = useState(false);
   const [organizationDetailsInfo, setOrganizationDetailsInfo] = useState();
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   let searchInput = useRef();
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
@@ -49,7 +53,7 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText("");
+    setSearchText('');
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -59,33 +63,33 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
       confirm,
       clearFilters,
     }) => (
-      <div className="seach-box">
+      <div className='seach-box'>
         <Input
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={"Search by " + dataIndex}
+          placeholder={'Search by ' + dataIndex}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          className="search-input"
+          className='search-input'
         />
         <Space>
           <Button
-            type="primary"
+            type='primary'
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             icon={<SearchOutlined />}
-            size="small"
-            className="search-buttons"
+            size='small'
+            className='search-buttons'
           >
             Search
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
-            size="small"
-            className="search-buttons"
+            size='small'
+            className='search-buttons'
           >
             Reset
           </Button>
@@ -99,43 +103,43 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase())
-        : "",
+        : '',
   });
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
-      width: "5rem",
-      ...getColumnSearchProps("name"),
+      title: 'Name',
+      dataIndex: 'name',
+      fixed: 'left',
+      width: '5rem',
+      ...getColumnSearchProps('name'),
     },
     {
-      title: "Billing ID in Rev.io",
-      dataIndex: "billingId",
-      width: "10%",
-      ...getColumnSearchProps("billingId"),
+      title: 'Billing ID in Rev.io',
+      dataIndex: 'billingId',
+      width: '10%',
+      ...getColumnSearchProps('billingId'),
     },
     {
-      title: "Organization Distributor",
-      dataIndex: "orgDist",
-      width: "10%",
-      ...getColumnSearchProps("orgDist"),
+      title: 'Organization Distributor',
+      dataIndex: 'orgDist',
+      width: '10%',
+      ...getColumnSearchProps('orgDist'),
     },
     {
-      title: "Count of DIDs",
-      dataIndex: "didsCount",
-      width: "7%",
+      title: 'Count of DIDs',
+      dataIndex: 'didsCount',
+      width: '7%',
     },
     {
-      title: "Count of Users",
-      dataIndex: "users",
-      width: "7%",
+      title: 'Count of Users',
+      dataIndex: 'users',
+      width: '7%',
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      width: "7%",
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '7%',
       render: (_, record) => {
         return (
           <Space>
@@ -150,15 +154,15 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
       },
     },
     {
-      title: "Organization Status",
-      dataIndex: "status",
-      width: "7%",
+      title: 'Organization Status',
+      dataIndex: 'status',
+      width: '7%',
       render: (status) => (
-        <div className="flex center">
+        <div className='flex center'>
           <Switch
             checked={status}
-            checkedChildren="ON"
-            unCheckedChildren="OFF"
+            checkedChildren='ON'
+            unCheckedChildren='OFF'
           />
         </div>
       ),
@@ -167,21 +171,21 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader />
 
         <Row>
-          <h1 className="title-style">List All Organizations</h1>
+          <h1 className='title-style'>List All Organizations</h1>
         </Row>
 
         {/* <Search placeholder="Search..." enterButton style={{ width: 300 }} /> */}
 
-        <Row type="flex" justify="space-between">
-          <Space size="small" className="spaced-between">
+        <Row type='flex' justify='space-between'>
+          <Space size='small' className='spaced-between'>
             <label>Show</label>
-            <Select defaultValue="10" onChange={onChangeTablePageSize}>
-              <Option value="10">10</Option>
-              <Option value="20">20</Option>
+            <Select defaultValue='10' onChange={onChangeTablePageSize}>
+              <Option value='10'>10</Option>
+              <Option value='20'>20</Option>
             </Select>
             <label>entries</label>
           </Space>
@@ -192,8 +196,8 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
                   !visibleProvisioningOrganization
                 )
               }
-              type="primary"
-              className="primary-button-style alternate"
+              type='primary'
+              className='primary-button-style alternate'
             >
               Provision Organization
             </Button>
@@ -207,11 +211,11 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
           pagination={tablePageSize}
           dataSource={organizationsTableList}
           footer={(currentData) =>
-            "Showing " +
+            'Showing ' +
             currentData.length +
-            " of " +
+            ' of ' +
             organizationsTableList.length +
-            " entries"
+            ' entries'
           }
         />
 
@@ -233,6 +237,7 @@ const ListAllOrganizations = ({ userInfo, organizationsTableList }) => {
           setVisibleProvisioningOrganization={() =>
             setVisibleProvisioningOrganization(!visibleProvisioningOrganization)
           }
+          refreshOrg={refreshOrg}
         />
       </Space>
     </div>
