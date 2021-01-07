@@ -34,33 +34,40 @@ export default class extends Component {
       !callForwardSelectiveDataResponse.error &&
       callForwardSelectiveDataResponse.response
     ) {
+      const startDate =
+        callForwardSelectiveDataResponse.response.starT_DATE !== null
+          ? moment(callForwardSelectiveDataResponse.response.starT_DATE)
+          : moment();
+      const endDate =
+        callForwardSelectiveDataResponse.response.enD_DATE !== null
+          ? moment(callForwardSelectiveDataResponse.response.enD_DATE)
+          : moment();
+
+      const startTime =
+        callForwardSelectiveDataResponse.response.starT_TIME !== null
+          ? moment(
+              startDate.format('YYYY-MM-DD') +
+                ' ' +
+                callForwardSelectiveDataResponse.response.starT_TIME
+            )
+          : moment();
+      const endTime =
+        callForwardSelectiveDataResponse.response.enD_TIME !== null
+          ? moment(
+              endDate.format('YYYY-MM-DD') +
+                ' ' +
+                callForwardSelectiveDataResponse.response.enD_TIME
+            )
+          : moment();
       callForwardSelectiveData = {
         enabled: callForwardSelectiveDataResponse.response.enabled,
         number: callForwardSelectiveDataResponse.response.number,
         destination: callForwardSelectiveDataResponse.response.destination,
         forwardType: callForwardSelectiveDataResponse.response.forwarD_TYPE,
-        startDate:
-          callForwardSelectiveDataResponse.response.starT_DATE !== null
-            ? moment(callForwardSelectiveDataResponse.response.starT_DATE)
-            : moment(),
-        endDate:
-          callForwardSelectiveDataResponse.response.enD_DATE !== null
-            ? moment(callForwardSelectiveDataResponse.response.enD_DATE)
-            : moment(),
-        startTime:
-          callForwardSelectiveDataResponse.response.starT_TIME !== null
-            ? moment(
-                '2020-11-10 ' +
-                  callForwardSelectiveDataResponse.response.starT_TIME
-              )
-            : moment(),
-        endTime:
-          callForwardSelectiveDataResponse.response.enD_TIME !== null
-            ? moment(
-                '2020-11-10 ' +
-                  callForwardSelectiveDataResponse.response.enD_TIME
-              )
-            : moment(),
+        startDate: startDate,
+        endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
         monday: callForwardSelectiveDataResponse.response.monday,
         tuesday: callForwardSelectiveDataResponse.response.tuesday,
         wednesday: callForwardSelectiveDataResponse.response.wednesday,
