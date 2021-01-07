@@ -205,7 +205,7 @@ const ProvisioningOrganization = ({
               onChange={(value) => handleSelectedValueDID(value)}
             >
               {currentDIDS.map((item, index) => (
-                <Option key={index} value={item.number}>
+                <Option key={index} value={item.numberId}>
                   {item.number}
                 </Option>
               ))}
