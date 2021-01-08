@@ -1,7 +1,8 @@
-import { Component } from "react";
-import { ResetPassword } from "../../components/authentication/ResetPassword";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
+import { Component } from 'react';
+
+import { ResetPassword } from '../../components/authentication/ResetPassword';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
@@ -9,7 +10,7 @@ export default class extends Component {
       if (user.group) {
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -21,7 +22,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);
@@ -30,7 +31,7 @@ export default class extends Component {
     const { user } = this.props;
     return (
       <BaseLayout>
-        <ResetPassword />
+        <ResetPassword user={user} />
       </BaseLayout>
     );
   }

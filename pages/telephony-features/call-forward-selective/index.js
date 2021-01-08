@@ -1,26 +1,26 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
+import moment from 'moment/min/moment-with-locales.js';
+import { Component } from 'react';
 
-import API from "../../../API/API";
-import CallForwardSelective from "../../../components/tier2-screens/CallForwardSelective";
-import { BaseLayout } from "../../../layouts/BaseLayout";
-import { systemLog } from "../../../scripts/General";
+import API from '../../../API/API';
+import CallForwardSelective from '../../../components/tier2-screens/CallForwardSelective';
+import { BaseLayout } from '../../../layouts/BaseLayout';
+import { systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const userInfo = user;
     const api = new API(userInfo.token);
     const callForwardSelectiveDataResponse = await api.GET(
-      "/Services/call-forward-selective"
+      '/Services/call-forward-selective'
     );
     let callForwardSelectiveData = {
-      number: "",
-      destination: "",
-      forwardType: "",
-      startDate: "",
-      endDate: "",
-      startTime: "",
-      endTime: "",
+      number: '',
+      destination: '',
+      forwardType: '',
+      startDate: '',
+      endDate: '',
+      startTime: '',
+      endTime: '',
       monday: false,
       tuesday: false,
       wednesday: false,
@@ -34,19 +34,40 @@ export default class extends Component {
       !callForwardSelectiveDataResponse.error &&
       callForwardSelectiveDataResponse.response
     ) {
+      const startDate =
+        callForwardSelectiveDataResponse.response.starT_DATE !== null
+          ? moment(callForwardSelectiveDataResponse.response.starT_DATE)
+          : moment();
+      const endDate =
+        callForwardSelectiveDataResponse.response.enD_DATE !== null
+          ? moment(callForwardSelectiveDataResponse.response.enD_DATE)
+          : moment();
+
+      const startTime =
+        callForwardSelectiveDataResponse.response.starT_TIME !== null
+          ? moment(
+              startDate.format('YYYY-MM-DD') +
+                ' ' +
+                callForwardSelectiveDataResponse.response.starT_TIME
+            )
+          : moment();
+      const endTime =
+        callForwardSelectiveDataResponse.response.enD_TIME !== null
+          ? moment(
+              endDate.format('YYYY-MM-DD') +
+                ' ' +
+                callForwardSelectiveDataResponse.response.enD_TIME
+            )
+          : moment();
       callForwardSelectiveData = {
         enabled: callForwardSelectiveDataResponse.response.enabled,
         number: callForwardSelectiveDataResponse.response.number,
         destination: callForwardSelectiveDataResponse.response.destination,
         forwardType: callForwardSelectiveDataResponse.response.forwarD_TYPE,
-        startDate: moment(callForwardSelectiveDataResponse.response.starT_DATE),
-        endDate: moment(callForwardSelectiveDataResponse.response.enD_DATE),
-        startTime: moment(
-          "2020-11-10 " + callForwardSelectiveDataResponse.response.starT_TIME
-        ),
-        endTime: moment(
-          "2020-11-10 " + callForwardSelectiveDataResponse.response.enD_TIME
-        ),
+        startDate: startDate,
+        endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
         monday: callForwardSelectiveDataResponse.response.monday,
         tuesday: callForwardSelectiveDataResponse.response.tuesday,
         wednesday: callForwardSelectiveDataResponse.response.wednesday,

@@ -138,15 +138,8 @@ FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
   if (res) {
     if (user.group) {
       switch (user.group) {
+        case 'BusinessSupport':
         case 'SuperAdmin':
-          res.writeHead(302, {
-            Location: '/list-organizations',
-          });
-          res.end();
-
-          break;
-
-        case 'BusinessSuport':
           res.writeHead(302, {
             Location: '/list-organizations',
           });
@@ -162,6 +155,7 @@ FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
 
           break;
 
+        case 'CorporateService':
         case 'OrganizationAdmin':
           res.writeHead(302, {
             Location: '/admin-dashboard',

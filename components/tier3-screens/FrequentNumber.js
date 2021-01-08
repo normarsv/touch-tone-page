@@ -1,7 +1,6 @@
 import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, message, Row, Select, Space, Table } from 'antd';
-import Search from 'antd/lib/input/Search';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -129,12 +128,13 @@ const FrequentNumbers = ({
         <Row>
           <h1 className='title-style'>Frequent Number</h1>
         </Row>
-
+        {/*
         <Search
           placeholder='Search user...'
           enterButton
           style={{ width: 300 }}
         />
+        */}
 
         <Space size='large' className='flex space-between'>
           <Space size='small'>

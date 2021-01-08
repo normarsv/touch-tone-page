@@ -1,33 +1,27 @@
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
-import { baseLanguage } from "../../scripts/MainInfoData";
-import AudioConference from "../../components/tier2-screens/conference-room/AudioConference";
+import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment/min/moment-with-locales.js';
+import { Component } from 'react';
+
+import AudioConference from '../../components/tier2-screens/conference-room/AudioConference';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "SuperAdmin":
+          case 'BusinessSupport':
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
-          case "BusinessSuport":
+          case 'Distributor':
             res.writeHead(302, {
-              Location: "/list-organizations",
-            });
-            res.end();
-
-            break;
-          case "Distributor":
-            res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
@@ -38,7 +32,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -50,18 +44,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message",
-        accessCode: "123123456456",
-        actions: ["01"],
+        desc: 'Organization Welcome Message',
+        accessCode: '123123456456',
+        actions: ['01'],
         enable: true,
       },
       {
@@ -69,18 +63,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Charge in tech support",
-        accessCode: "123123456456",
-        actions: ["02"],
+        desc: 'Charge in tech support',
+        accessCode: '123123456456',
+        actions: ['02'],
         enable: true,
       },
       {
@@ -88,18 +82,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 2",
-        accessCode: "123123456456",
-        actions: ["03"],
+        desc: 'Organization Welcome Message 2',
+        accessCode: '123123456456',
+        actions: ['03'],
         enable: false,
       },
       {
@@ -107,18 +101,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 3",
-        accessCode: "123123456456",
-        actions: ["04"],
+        desc: 'Organization Welcome Message 3',
+        accessCode: '123123456456',
+        actions: ['04'],
         enable: true,
       },
       {
@@ -126,18 +120,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 4",
-        accessCode: "123123456456",
-        actions: ["05"],
+        desc: 'Organization Welcome Message 4',
+        accessCode: '123123456456',
+        actions: ['05'],
         enable: false,
       },
       {
@@ -145,18 +139,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 5",
-        accessCode: "123123456456",
-        actions: ["06"],
+        desc: 'Organization Welcome Message 5',
+        accessCode: '123123456456',
+        actions: ['06'],
         enable: false,
       },
       {
@@ -164,18 +158,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 6",
-        accessCode: "123123456456",
-        actions: ["07"],
+        desc: 'Organization Welcome Message 6',
+        accessCode: '123123456456',
+        actions: ['07'],
         enable: false,
       },
       {
@@ -183,18 +177,18 @@ export default class extends Component {
         date: [
           {
             id: 1,
-            date: moment().format("L"),
+            date: moment().format('L'),
             icon: faCalendarAlt,
           },
           {
             id: 2,
-            date: moment().format("LT"),
+            date: moment().format('LT'),
             icon: faClock,
           },
         ],
-        desc: "Organization Welcome Message 7",
-        accessCode: "123123456456",
-        actions: ["08"],
+        desc: 'Organization Welcome Message 7',
+        accessCode: '123123456456',
+        actions: ['08'],
         enable: true,
       },
     ];
@@ -206,7 +200,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
   }
   componentDidMount() {
     systemLog.log(this.props);

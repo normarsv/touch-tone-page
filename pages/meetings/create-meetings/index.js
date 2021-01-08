@@ -1,43 +1,39 @@
-import { message } from 'antd';
-import moment from 'moment/min/moment-with-locales.js';
-import { Component } from 'react';
+import { message } from "antd";
+import moment from "moment/min/moment-with-locales.js";
+import { withRouter } from "next/dist/client/router";
+import { Component } from "react";
 
-import API from '../../../API/API';
-import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
-import { BaseLayout } from '../../../layouts/BaseLayout';
-import { IsAValidEmail, systemLog } from '../../../scripts/General';
+import API from "../../../API/API";
+import ModifyMeeting from "../../../components/tier3-screens/ModifyMeeting";
+import { BaseLayout } from "../../../layouts/BaseLayout";
+import { IsAValidEmail, systemLog } from "../../../scripts/General";
 
-export default class extends Component {
+class CreateMeetings extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case 'SuperAdmin':
+          case "BusinessSupport":
+          case "SuperAdmin":
             res.writeHead(302, {
-              Location: '/list-organizations',
+              Location: "/list-organizations",
             });
             res.end();
 
             break;
 
-          case 'OrganizationAdmin':
+          case "CorporateService":
+          case "OrganizationAdmin":
             res.writeHead(302, {
-              Location: '/admin-dashboard',
-            });
-            res.end();
-
-            break;
-          case 'BusinessSuport':
-            res.writeHead(302, {
-              Location: '/list-organizations',
+              Location: "/admin-dashboard",
             });
             res.end();
 
             break;
 
-          case 'Distributor':
+          case "Distributor":
             res.writeHead(302, {
-              Location: '/list-organizations',
+              Location: "/list-organizations",
             });
             res.end();
 
@@ -48,14 +44,14 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: '/',
+          Location: "/",
         });
         res.end();
       }
     }
 
     const api = new API();
-    const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
+    const resManageUsers = await api.GET("/Users/orgId/" + user.organizationId);
     return {
       user,
       orgUsers: resManageUsers.response,
@@ -74,38 +70,49 @@ export default class extends Component {
       },
       []
     );
-    this.userinfo = '';
-    this.state = { emailsToSend: '' };
+    this.userinfo = "";
+    this.state = { emailsToSend: "" };
 
     this.createMeetingForm = {
       generalOptions: {
-        type: 'vertical', //horizontal, vertical, inline
-        formClassName: 'test-form',
+        type: "vertical", //horizontal, vertical, inline
+        formClassName: "test-form",
         submit: {
-          className: 'primary-button-style',
-          text: 'Create Meeting',
+          className: "primary-button-style",
+          text: "Create Meeting",
         },
         reset: {
-          className: 'primary-button-style',
-          text: 'Clear',
+          className: "primary-button-style",
+          text: "Clear",
         },
       },
       formInitialValues: {
-        name: '',
-        startTime: '',
-        endTime: '',
-        Participants: [],
+        name: "",
+        startTime: "",
+        endTime: "",
+        participants: [],
       },
       formValidations: (values) => {
+        console.log(values);
         const errors = {};
         if (!values.name) {
-          errors.name = 'Meeting name required';
+          errors.name = "Meeting name required";
         }
         if (!values.startTime) {
-          errors.startTime = 'Start date required';
+          errors.startTime = "Start date required";
         }
         if (!values.participants || values.participants.length === 0) {
-          errors.participants = 'At least 1 destination required';
+          errors.participants = "At least 1 destination required";
+        } else {
+          const validParticipants = [];
+          for (const participant of values.participants) {
+            if (IsAValidEmail(participant.email[0])) {
+              validParticipants.push(participant);
+            }
+          }
+          if (validParticipants.length === 0) {
+            errors.participants = "At least 1 destination required";
+          }
         }
         return errors;
       },
@@ -116,10 +123,12 @@ export default class extends Component {
         setSubmitting(true);
         const paticipants = values.participants.reduce(
           (returnArray, currentParticipant) => {
-            returnArray.push({
-              email: currentParticipant.email[0],
-              sendSMS: false,
-            });
+            if (IsAValidEmail(currentParticipant.email[0])) {
+              returnArray.push({
+                email: currentParticipant.email[0],
+                sendSMS: false,
+              });
+            }
             return returnArray;
           },
           []
@@ -131,39 +140,43 @@ export default class extends Component {
         const bodyMeeting = {
           name: values.name,
           participants: paticipants,
-          language: 'es',
+          language: "es",
           validSince: timeStampStartTime,
           validUntil: timeStampEndTime,
         };
 
         const api = new API(props.user.token);
-        const resCreateMeeting = await api.POST('/Meetings', bodyMeeting);
-        resetForm();
-        message.success('Meeting created successfully!');
-        setSubmitting(false);
+        try {
+          await api.POST("/Meetings", bodyMeeting);
+        } catch (error) {
+          console.log(error);
+        }
+        message.success("Meeting created successfully!");
+        props.router.back();
+        //setSubmitting(false);
       },
       formInputsRows: [
         {
           inputs: [
             {
-              name: 'name',
-              label: 'Meeting Name',
-              placeholder: 'Meeting name...',
-              type: 'text',
+              name: "name",
+              label: "Meeting Name",
+              placeholder: "Meeting name...",
+              type: "text",
               required: true,
             },
             {
-              name: 'startTime',
-              label: 'Start Date',
-              type: 'datePicker',
+              name: "startTime",
+              label: "Start Date",
+              type: "datePicker",
               disabledDate: (current) => {
                 return moment() >= current;
               },
               showTime: {
-                format: 'HH:mm',
-                defaultValue: moment().startOf('day'),
+                format: "HH:mm",
+                defaultValue: moment().startOf("day"),
               },
-              format: 'YYYY-MM-DD HH:mm',
+              format: "YYYY-MM-DD HH:mm",
               required: true,
               customOnChange: async (
                 newVal,
@@ -173,7 +186,7 @@ export default class extends Component {
               ) => {
                 let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
                   (input) => {
-                    return input.name === 'endTime';
+                    return input.name === "endTime";
                   }
                 );
                 if (inputEndTimeForm) {
@@ -186,21 +199,21 @@ export default class extends Component {
                   }
                   inputEndTimeForm.disabledHours = () => hourDisable;
                 }
-                formikData.setFieldValue('endTime', '');
+                formikData.setFieldValue("endTime", "");
               },
             },
             {
-              name: 'endTime',
-              label: 'End Time',
-              type: 'timePicker',
+              name: "endTime",
+              label: "End Time",
+              type: "timePicker",
               disabledDate: (current) => {
                 return moment() >= current;
               },
               showTime: {
-                format: 'HH:mm',
-                defaultValue: moment().startOf('day'),
+                format: "HH:mm",
+                defaultValue: moment().startOf("day"),
               },
-              format: 'HH:mm',
+              format: "HH:mm",
               required: true,
               customOnChange: async (
                 newVal,
@@ -209,11 +222,11 @@ export default class extends Component {
                 indexArray
               ) => {
                 const time = newVal;
-                const [hours, minutes] = time.split(':');
+                const [hours, minutes] = time.split(":");
                 const momentNewVal = moment(formikData.startTime)
-                  .set('hour', hours)
-                  .set('minutes', minutes)
-                  .format('YYYY-MM-DD HH:mm');
+                  .set("hour", hours)
+                  .set("minutes", minutes)
+                  .format("YYYY-MM-DD HH:mm");
 
                 const startTimeHour = moment(formikData.startTime).hour();
                 const startTimeMinutes = moment(formikData.startTime).minutes();
@@ -222,7 +235,7 @@ export default class extends Component {
 
                 let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
                   (input) => {
-                    return input.name === 'endTime';
+                    return input.name === "endTime";
                   }
                 );
                 if (startTimeHour === currentHour) {
@@ -235,10 +248,10 @@ export default class extends Component {
                   inputEndTimeForm.disableMinutes = () => minutesToDisable;
                   if (currentMinutes < startTimeMinutes) {
                     const newMoment = moment(momentNewVal)
-                      .set('minute', startTimeMinutes)
-                      .format('HH:mm');
+                      .set("minute", startTimeMinutes)
+                      .format("HH:mm");
                     setTimeout(() => {
-                      formikData.setFieldValue('endTime', newMoment);
+                      formikData.setFieldValue("endTime", newMoment);
                     }, 500);
                   }
                 }
@@ -249,18 +262,18 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: 'participants',
-              label: 'Participants',
-              placeholder: 'Select Participant',
-              type: 'list',
+              name: "participants",
+              label: "Participants",
+              placeholder: "Select Participant",
+              type: "list",
               required: true,
               listFields: [
                 {
-                  name: 'email',
-                  label: 'Destination',
-                  placeholder: 'Select Destination',
-                  type: 'select',
-                  mode: 'tags',
+                  name: "email",
+                  label: "Destination",
+                  placeholder: "Select Destination",
+                  type: "select",
+                  mode: "tags",
                   customOnChange: async (
                     newVal,
                     formOptions,
@@ -285,15 +298,15 @@ export default class extends Component {
                     );
                     curretValues[indexArray].email = reduceGetOnlyNew;
                     formikData.setFieldValue(
-                      'participants',
+                      "participants",
                       curretValues,
                       false
                     );
                   },
                   required: true,
                   options: emailsParticipants,
-                  optionValue: 'email',
-                  optionLabel: 'email',
+                  optionValue: "email",
+                  optionLabel: "email",
                 },
               ],
             },
@@ -313,3 +326,4 @@ export default class extends Component {
     );
   }
 }
+export default withRouter(CreateMeetings);

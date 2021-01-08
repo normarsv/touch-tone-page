@@ -2,7 +2,6 @@ import {
   createFromIconfontCN,
   CustomerServiceFilled,
   ForwardFilled,
-  MailOutlined,
   OrderedListOutlined,
   PhoneFilled,
   PlusCircleFilled,
@@ -117,6 +116,7 @@ export const OGMetaTagBase = [
 
 export const siderLinks = (role) => {
   switch (role) {
+    case 'BusinessSupport':
     case 'SuperAdmin':
       return [
         {
@@ -159,6 +159,7 @@ export const siderLinks = (role) => {
       ];
       break;
 
+    case 'CorporateService':
     case 'OrganizationAdmin':
       return [
         {
@@ -251,30 +252,36 @@ export const siderLinks = (role) => {
         {
           sectionTitle: '',
           links: [
+            /*
             {
               label: 'Voice Mail',
               url: '/voice-mail',
               icon: <MailOutlined />,
               submenu: [],
             },
+            */
             {
               label: 'Meetings',
               url: '/meetings',
               icon: <IconFont type='icon-users' />,
               submenu: [],
             },
+            /*
             {
               label: 'Call Records',
               url: '/call-records',
               icon: <IconFont type='icon-list-alt' />,
               submenu: [],
             },
+            */
+            /*
             {
               label: 'Conference Room',
               url: '/audio-conference',
               icon: <IconFont type='icon-FontAwesomeheadphones' />,
               submenu: [],
             },
+            */
             // {
             //   label: "Termination Entries",
             //   url: "/web-rtc-meeting",
@@ -310,18 +317,22 @@ export const siderLinks = (role) => {
               icon: <IconFont type='icon-map' />,
               submenu: [],
             },
+            /*
             {
               label: 'Speed Dials',
               url: '/telephony-features/speed-dials',
               icon: <IconFont type='icon-tty' />,
               submenu: [],
             },
+            */
+            /*
             {
               label: 'Call Recordings',
               url: '/telephony-features/call-recordings',
               icon: <IconFont type='icon-mic' />,
               submenu: [],
             },
+            */
           ],
         },
       ];

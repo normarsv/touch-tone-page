@@ -18,7 +18,7 @@ const NewUser = ({
     { id: 1, name: 'Business Support', value: 'businessSupport' },
     { id: 2, name: 'Distributor', value: 'distributor' },
     { id: 3, name: 'Organization Admin', value: 'organizationAdmin' },
-    { id: 4, name: 'Enterprise', value: 'enterprise' },
+    { id: 4, name: 'Corporate Service', value: 'corporateService' },
     { id: 5, name: 'End User', value: 'endUser' },
   ];
 
@@ -26,7 +26,7 @@ const NewUser = ({
     displayedForm(value);
     value === 'businessSupport' || value === 'distributor'
       ? setFormToDisplay(formsByUserSelected.businessDistributor)
-      : value === 'organizationAdmin' || value === 'enterprise'
+      : value === 'organizationAdmin' || value === 'corporateService'
       ? setFormToDisplay(formsByUserSelected.orgAdminEnterprise)
       : setFormToDisplay(formsByUserSelected.newEndUser);
     if (formGeneratorRef.current !== null) {

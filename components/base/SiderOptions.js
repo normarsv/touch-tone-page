@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Divider, Menu, Space } from "antd";
-import { useRouter } from "next/dist/client/router";
-import SubMenu from "antd/lib/menu/SubMenu";
-import UserInfo from "../user/UserInfo";
-import { siderLinks } from "../../scripts/MainInfoData";
-import { removeAppUser } from "../../scripts/General";
-import {
-  AppstoreFilled,
-  LogoutOutlined,
-  PhoneOutlined,
-  StarFilled,
-  SettingFilled,
-} from "@ant-design/icons";
+import { AppstoreFilled, LogoutOutlined, PhoneOutlined, SettingFilled, StarFilled } from '@ant-design/icons';
+import { Menu, Space } from 'antd';
+import SubMenu from 'antd/lib/menu/SubMenu';
+import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-import PropTypes from "prop-types";
+import { removeAppUser } from '../../scripts/General';
+import { siderLinks } from '../../scripts/MainInfoData';
+import UserInfo from '../user/UserInfo';
 
 const SiderOptions = ({ openSideMenu, role }) => {
   const router = useRouter();
   const linksArray = siderLinks(role);
-  const [selectedMenuItem, setSelectedMenuItem] = useState("");
-  const [selectedSubmenuItem, setSelectedSubmenuItem] = useState([""]);
+  const [selectedMenuItem, setSelectedMenuItem] = useState('');
+  const [selectedSubmenuItem, setSelectedSubmenuItem] = useState(['']);
 
-  let siderTitle = "";
+  let siderTitle = '';
   switch (role) {
-    case "SuperAdmin":
-      siderTitle = "Super Admin Controls";
+    case 'BusinessSupport':
+      siderTitle = 'Business Support Controls';
       break;
-    case "OrganizationAdmin":
-      siderTitle = "Organization Admin";
+    case 'SuperAdmin':
+      siderTitle = 'Super Admin Controls';
       break;
-    case "EndUser":
-      siderTitle = "End User";
+    case 'CorporateService':
+      siderTitle = 'Corporate Service';
+      break;
+    case 'OrganizationAdmin':
+      siderTitle = 'Organization Admin';
+      break;
+    case 'EndUser':
+      siderTitle = 'End User';
       break;
   }
 
   useEffect(() => {
     if (router.route) {
-      setSelectedMenuItem(router.route.replace(/[/-]+/g, ""));
+      setSelectedMenuItem(router.route.replace(/[/-]+/g, ''));
       if ((router.route.match(/\//g) || []).length > 1) {
         setSelectedSubmenuItem([
-          router.route.split("/")[1].replace(/[/-]+/g, "") + "submenu",
+          router.route.split('/')[1].replace(/[/-]+/g, '') + 'submenu',
         ]);
       }
     }
@@ -50,17 +50,17 @@ const SiderOptions = ({ openSideMenu, role }) => {
     const latestOpenKey = openKeys.find((key) => {
       return selectedSubmenuItem.indexOf(key) === -1;
     });
-    setSelectedSubmenuItem(latestOpenKey ? [latestOpenKey] : [""]);
+    setSelectedSubmenuItem(latestOpenKey ? [latestOpenKey] : ['']);
   };
   return (
     <>
       <UserInfo openSideMenu={openSideMenu} />
       <Menu
-        mode="inline"
+        mode='inline'
         selectedKeys={[selectedMenuItem]}
         openKeys={selectedSubmenuItem}
         onOpenChange={onOpenChange}
-        className="side-menu-options-parent-div"
+        className='side-menu-options-parent-div'
         forceSubMenuRender={true}
       >
         <Menu.ItemGroup
@@ -84,8 +84,8 @@ const SiderOptions = ({ openSideMenu, role }) => {
                       <SubMenu
                         key={
                           menuItem.submenu[0].url
-                            .split("/")[1]
-                            .replace(/[/-]+/g, "") + "submenu"
+                            .split('/')[1]
+                            .replace(/[/-]+/g, '') + 'submenu'
                         }
                         icon={menuItem.icon}
                         title={menuItem.label}
@@ -96,7 +96,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
 
                           return (
                             <Menu.Item
-                              key={submenuItem.url.replace(/[/-]+/g, "")}
+                              key={submenuItem.url.replace(/[/-]+/g, '')}
                               onClick={() => router.push(submenuItem.url)}
                             >
                               {submenuItem.label}
@@ -114,89 +114,89 @@ const SiderOptions = ({ openSideMenu, role }) => {
                     <Menu.Item
                       onClick={() => router.push(menuItem.url)}
                       icon={menuItem.icon}
-                      key={menuItem.url.replace(/[/-]+/g, "")}
+                      key={menuItem.url.replace(/[/-]+/g, '')}
                     >
                       {menuItem.label}
                     </Menu.Item>
                   );
                 })}
-              <Menu.Divider style={{ margin: "0.1rem 0" }} />
+              <Menu.Divider style={{ margin: '0.1rem 0' }} />
             </Menu.ItemGroup>
           );
         })}
 
-        {role === "EndUser" && (
+        {role === 'EndUser' && (
           <Menu.Item
             onClick={() => {
-              router.push("/frequent-numbers");
+              router.push('/frequent-numbers');
             }}
             icon={<StarFilled />}
-            key="frequentnumbers"
+            key='frequentnumbers'
           >
             Frequent Numbers
           </Menu.Item>
         )}
-        {role === "EndUser" && <Menu.Divider style={{ margin: "0.1rem 0" }} />}
+        {role === 'EndUser' && <Menu.Divider style={{ margin: '0.1rem 0' }} />}
 
         {/* Account details for all roles */}
         <Menu.Item
           onClick={() => {
-            router.push("/account-details");
+            router.push('/account-details');
           }}
           icon={<SettingFilled />}
-          key="accountdetails"
+          key='accountdetails'
         >
           Account Details
         </Menu.Item>
 
         <Menu.Divider
-          className="logout-menu-item"
-          style={{ margin: "0.1rem 0" }}
+          className='logout-menu-item'
+          style={{ margin: '0.1rem 0' }}
         />
 
-        {role === "EndUser" && (
+        {role === 'EndUser' && (
           <Menu.Item
             onClick={() => {
-              console.log("use phone");
+              console.log('use phone');
             }}
             icon={<PhoneOutlined />}
-            key="use-phone"
-            className="logout-menu-item"
+            key='use-phone'
+            className='logout-menu-item'
           >
             Use Phone
           </Menu.Item>
         )}
-        {role === "EndUser" && (
+        {role === 'EndUser' && (
           <Menu.Divider
-            className="logout-menu-item"
-            style={{ margin: "0.1rem 0" }}
+            className='logout-menu-item'
+            style={{ margin: '0.1rem 0' }}
           />
         )}
 
         <Menu.Item
           onClick={() => {
             removeAppUser();
-            router.replace("/");
+            router.replace('/');
           }}
           icon={<LogoutOutlined />}
-          key="logout"
-          className="logout-menu-item"
+          key='logout'
+          className='logout-menu-item'
         >
           Log out
         </Menu.Item>
         <Menu.Divider
-          className="logout-menu-item"
-          style={{ margin: "0.1rem 0" }}
+          className='logout-menu-item'
+          style={{ margin: '0.1rem 0' }}
         />
       </Menu>
       {!openSideMenu && (
         <>
-          <Space direction="vertical" id="Need help?" className="info-wrapper">
-            <h5 className="title-style"> Need help? </h5>
-            <a href="tel:">Call 800 900 5474</a>
+          <Space direction='vertical' id='Need help?' className='info-wrapper'>
+            <h5 className='title-style'> Need help? </h5>
+            <a href='tel:'>Call 800 900 5474</a>
           </Space>
-          <div className="slogan">
-            <p className="inner-p">TouchTone Communications Control Center</p>
+          <div className='slogan'>
+            <p className='inner-p'>TouchTone Communications Control Center</p>
           </div>
         </>
       )}

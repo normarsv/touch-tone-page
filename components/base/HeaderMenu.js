@@ -1,38 +1,31 @@
-import {
-  faChevronDown,
-  faPhone,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Col, Dropdown, Menu, Row } from "antd";
-import { motion, useCycle } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import { useContext, useEffect, useRef, useState } from "react";
+import { faChevronDown, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Col, Dropdown, Menu, Row } from 'antd';
+import { motion, useCycle } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import { useContext, useEffect, useRef, useState } from 'react';
 
-import { removeAppUser } from "../../scripts/General";
-import { UserContext } from "../authentication/UserContext";
-import SuperAdminSiderOptions from "../tier1-screens/SuperAdminSiderOptions";
-import OrganizationAdminSiderOptions from "../tier2-screens/OrganizationAdminSiderOptions";
-import EndUserSiderOptions from "../tier3-screens/EndUserSiderOptions";
-import { MenuToggle } from "./MenuToggle";
-import SiderOptions from "./SiderOptions";
+import { removeAppUser } from '../../scripts/General';
+import { UserContext } from '../authentication/UserContext';
+import { MenuToggle } from './MenuToggle';
+import SiderOptions from './SiderOptions';
 
 const menuDiv = {
   open: {
     zIndex: 10,
     opacity: 1,
-    x: "0",
+    x: '0',
     transition: {
-      type: "tween",
+      type: 'tween',
       duration: 0.3,
     },
   },
   closed: {
     zIndex: 0,
     opacity: 0,
-    x: "100%",
+    x: '100%',
     transition: {
-      type: "tween",
+      type: 'tween',
       duration: 0.3,
     },
   },
@@ -48,6 +41,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
 
   // function menuToRender(userInfo) {
   //   switch (userInfo.group) {
+  //     case 'BusinessSupport':
   //     case "SuperAdmin":
   //       return <SuperAdminSiderOptions openSideMenu={openSideMenu} />;
   //       break;
@@ -68,16 +62,18 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
 
   useEffect(() => {
     switch (userInfo.group) {
-      case "SuperAdmin":
-        setRouteToGo("list-organizations");
+      case 'BusinessSupport':
+      case 'SuperAdmin':
+        setRouteToGo('list-organizations');
         break;
 
-      case "OrganizationAdmin":
-        setRouteToGo("admin-dashboard");
+      case 'CorporateService':
+      case 'OrganizationAdmin':
+        setRouteToGo('admin-dashboard');
         break;
 
-      case "EndUser":
-        setRouteToGo("user-dashboard");
+      case 'EndUser':
+        setRouteToGo('user-dashboard');
         break;
       default:
         break;
@@ -86,20 +82,20 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
+      <Menu.Item key='0'>
         <a
           onClick={() => {
-            router.replace("/reset-password");
+            router.replace('/reset-password');
           }}
         >
           Reset Password
         </a>
       </Menu.Item>
-      <Menu.Item key="1">
+      <Menu.Item key='1'>
         <a
           onClick={() => {
             removeAppUser();
-            router.replace("/");
+            router.replace('/');
           }}
         >
           Log out
@@ -109,42 +105,42 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
   );
 
   return (
-    <Row className="menu-main-div">
-      <Col flex="50%" className="page-side-menu-logo-container">
+    <Row className='menu-main-div'>
+      <Col flex='50%' className='page-side-menu-logo-container'>
         <a
           onClick={() => {
-            router.replace("/" + routeToGo);
+            router.replace('/' + routeToGo);
           }}
-          id="menu-header-logo"
+          id='menu-header-logo'
         >
-          <img className="page-side-menu-logo" src={"/logo.jpg"} />
+          <img className='page-side-menu-logo' src={'/logo.jpg'} />
         </a>
       </Col>
-      <Col flex="50%">
-        <Row type="flex" align="middle" justify="end">
-          {userInfo.role === "EndUser" ? (
-            <Button type="primary" className="account-avatar">
+      <Col flex='50%'>
+        <Row type='flex' align='middle' justify='end'>
+          {userInfo.role === 'EndUser' ? (
+            <Button type='primary' className='account-avatar'>
               <FontAwesomeIcon
                 icon={faPhone}
-                style={{ marginRight: "0.5rem" }}
-              />{" "}
+                style={{ marginRight: '0.5rem' }}
+              />{' '}
               Use Phone
             </Button>
           ) : userInfo.name === undefined ? (
-            <Col className="header-menu-need-help">
+            <Col className='header-menu-need-help'>
               <span>
-                Need help? <a href="#">Call 800 900 5464</a>
+                Need help? <a href='#'>Call 800 900 5464</a>
               </span>
             </Col>
           ) : (
             <div />
           )}
           {userInfo.name ? (
-            <Dropdown overlay={menu} className="account-avatar">
-              <div className="menu-top-right-options logged-in">
+            <Dropdown overlay={menu} className='account-avatar'>
+              <div className='menu-top-right-options logged-in'>
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="menu-user-status logged-in"
+                  className='menu-user-status logged-in'
                 />
                 <FontAwesomeIcon icon={faChevronDown} />
               </div>
@@ -153,16 +149,16 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           {userInfo.name ? (
             <div
               style={{
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-              className="burger-icon"
+              className='burger-icon'
             >
-              <motion.nav initial={false} animate={isOpen ? "open" : "closed"}>
+              <motion.nav initial={false} animate={isOpen ? 'open' : 'closed'}>
                 <MenuToggle
-                  animate={isOpen ? "open" : "closed"}
+                  animate={isOpen ? 'open' : 'closed'}
                   toggle={() => setOpenMenu()}
                 />
               </motion.nav>
@@ -175,8 +171,8 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
         <motion.div
           initial={false}
           variants={menuDiv}
-          animate={isOpen ? "open" : "closed"}
-          className="mobile-hamburger-menu"
+          animate={isOpen ? 'open' : 'closed'}
+          className='mobile-hamburger-menu'
         >
           {/* {menuToRender(userInfo)} */}
           <SiderOptions openSideMenu={openSideMenu} role={userInfo.group} />
