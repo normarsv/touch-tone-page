@@ -147,13 +147,12 @@ class CreateMeetings extends Component {
 
         const api = new API(props.user.token);
         try {
-          const resCreateMeeting = await api.POST("/Meetings", bodyMeeting);
-          message.success("Meeting created successfully!");
-          props.router.back();
+          await api.POST("/Meetings", bodyMeeting);
         } catch (error) {
-          message.success("Meeting created successfully!");
-          props.router.back();
+          console.log(error);
         }
+        message.success("Meeting created successfully!");
+        props.router.back();
         //setSubmitting(false);
       },
       formInputsRows: [

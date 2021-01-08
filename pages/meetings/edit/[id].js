@@ -162,16 +162,12 @@ class EditMeetings extends Component {
 
         const api = new API(props.user.token);
         try {
-          const resPutMeeting = await api.PUT(
-            "/Meetings/" + props.currentMeeting.id,
-            bodyMeeting
-          );
-          message.success("Meeting updated successfully!");
-          props.router.back();
+          await api.PUT("/Meetings/" + props.currentMeeting.id, bodyMeeting);
         } catch (error) {
-          message.success("Meeting updated successfully!");
-          props.router.back();
+          console.log(error);
         }
+        message.success("Meeting updated successfully!");
+        props.router.back();
       },
       formInputsRows: [
         {
