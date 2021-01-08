@@ -17,6 +17,7 @@ const OrganizationServices = ({
   const router = useRouter();
 
   const [fieldsValues, setFieldsValues] = useState({
+    username: userInfo.username,
     name: userInfo.firstName + " " + userInfo.lastName,
     email: userInfo.email,
   });
@@ -48,7 +49,15 @@ const OrganizationServices = ({
           <h1 className="title-style">{servicesContent.title}</h1>
         </Row>
 
-        <Space direction="horizontal" size="middle" className="flex-end">
+        <Space direction="horizontal" size="middle" className="flex-end flex-wrap">
+        <Space direction="vertical">
+            <h4>Username</h4>
+            <Input
+              style={{ width: 300 }}
+              value={fieldsValues.username}
+              disabled ={true}
+            />
+          </Space>
           <Space direction="vertical">
             <h4>Name</h4>
             <Input
@@ -83,6 +92,7 @@ const OrganizationServices = ({
               disabled={!editable}
             />
           </Space>
+     
         </Space>
 
         <Space direction="vertical" size="large">
