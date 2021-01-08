@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
+import { withRouter } from 'next/dist/client/router';
 import { Component } from 'react';
 
 import API from '../../../API/API';
@@ -7,7 +8,7 @@ import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
 import { BaseLayout } from '../../../layouts/BaseLayout';
 import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
-export default class extends Component {
+class CreateMeetings extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
@@ -89,9 +90,10 @@ export default class extends Component {
         name: '',
         startTime: '',
         endTime: '',
-        Participants: [],
+        participants: [],
       },
       formValidations: (values) => {
+        console.log(values);
         const errors = {};
         if (!values.name) {
           errors.name = 'Meeting name required';
@@ -101,6 +103,16 @@ export default class extends Component {
         }
         if (!values.participants || values.participants.length === 0) {
           errors.participants = 'At least 1 destination required';
+        } else {
+          const validParticipants = [];
+          for (const participant of values.participants) {
+            if (IsAValidEmail(participant.email[0])) {
+              validParticipants.push(participant);
+            }
+          }
+          if (validParticipants.length === 0) {
+            errors.participants = 'At least 1 destination required';
+          }
         }
         return errors;
       },
@@ -111,10 +123,12 @@ export default class extends Component {
         setSubmitting(true);
         const paticipants = values.participants.reduce(
           (returnArray, currentParticipant) => {
-            returnArray.push({
-              email: currentParticipant.email[0],
-              sendSMS: false,
-            });
+            if (IsAValidEmail(currentParticipant.email[0])) {
+              returnArray.push({
+                email: currentParticipant.email[0],
+                sendSMS: false,
+              });
+            }
             return returnArray;
           },
           []
@@ -133,9 +147,9 @@ export default class extends Component {
 
         const api = new API(props.user.token);
         const resCreateMeeting = await api.POST('/Meetings', bodyMeeting);
-        resetForm();
         message.success('Meeting created successfully!');
-        setSubmitting(false);
+        props.router.back();
+        //setSubmitting(false);
       },
       formInputsRows: [
         {
@@ -308,3 +322,4 @@ export default class extends Component {
     );
   }
 }
+export default withRouter(CreateMeetings);

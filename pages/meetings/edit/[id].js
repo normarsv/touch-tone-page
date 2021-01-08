@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
+import { withRouter } from 'next/dist/client/router';
 import { Component } from 'react';
 
 import API from '../../../API/API';
@@ -7,7 +8,7 @@ import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
 import { BaseLayout } from '../../../layouts/BaseLayout';
 import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
-export default class extends Component {
+class EditMeetings extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
@@ -119,6 +120,16 @@ export default class extends Component {
         }
         if (!values.participants || values.participants.length === 0) {
           errors.participants = 'At least 1 destination required';
+        } else {
+          const validParticipants = [];
+          for (const participant of values.participants) {
+            if (IsAValidEmail(participant.email[0])) {
+              validParticipants.push(participant);
+            }
+          }
+          if (validParticipants.length === 0) {
+            errors.participants = 'At least 1 destination required';
+          }
         }
         return errors;
       },
@@ -156,7 +167,7 @@ export default class extends Component {
         );
         console.log(bodyMeeting);
         message.success('Meeting updated successfully!');
-        setSubmitting(false);
+        props.router.back();
       },
       formInputsRows: [
         {
@@ -359,3 +370,4 @@ export default class extends Component {
     );
   }
 }
+export default withRouter(EditMeetings);

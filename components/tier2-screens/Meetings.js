@@ -136,14 +136,18 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
       dataIndex: 'delete',
       render: (action, row) => (
         <div className='flex center'>
-          <motion.div
-            onClick={() => {
+          <Popconfirm
+            title='Are you sure want to deleted?'
+            onConfirm={() => {
               deleteMeetings(row.id);
             }}
-            whileHover={hoverAnimation}
+            okText='Yes'
+            cancelText='No'
           >
-            <FontAwesomeIcon icon={faTrash} className='title-style' />
-          </motion.div>
+            <motion.div whileHover={hoverAnimation}>
+              <FontAwesomeIcon icon={faTrash} className='title-style' />
+            </motion.div>
+          </Popconfirm>
         </div>
       ),
     },
