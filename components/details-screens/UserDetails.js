@@ -1,97 +1,208 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, message, Row, Space } from 'antd';
-import { useRouter } from 'next/dist/client/router';
-import React, { useState } from 'react';
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Input, message, Row, Space, Form } from "antd";
+import { useRouter } from "next/dist/client/router";
+import React, { useState } from "react";
+import API from "../../API/API";
+import { IsAValidEmail } from "../../scripts/General";
 
-import ContentInnerHeader from '../misc/ContentInnerHeader';
+import ContentInnerHeader from "../misc/ContentInnerHeader";
 
-const OrganizationServices = ({
-  query,
-  userInfo,
-  servicesContent,
-  editServiceContent,
-  telephonyFeatures,
-}) => {
+const OrganizationServices = ({ user, userInfo, servicesContent }) => {
   const router = useRouter();
 
   const [fieldsValues, setFieldsValues] = useState({
     username: userInfo.username,
-    name: userInfo.firstName + ' ' + userInfo.lastName,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
     email: userInfo.email,
     did: userInfo.did,
   });
 
-  const [editable, setEditable] = useState(servicesContent.editable);
-  const key = 'updatable';
+  const [editable, setEditable] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const key = "updatable";
   const openMessage = () => {
-    message.loading({ content: 'Saving changes...', key });
+    message.loading({ content: "Saving changes...", key });
     setTimeout(() => {
       message.success({
-        content: 'Changes Saved Successfully!',
+        content: "Changes Saved Successfully!",
         key,
         duration: 3,
       });
     }, 2000);
   };
 
-  console.log(userInfo);
-  console.log(query);
+  const saveUser = async (values) => {
+    console.log("Received values of form: ", values);
+    setSaving(true);
+    const api = new API(user.token);
+    const authUserInfo = await api.GET("/AuthUsers/" + userInfo.id);
+    console.log(authUserInfo.response);
+    const changeUserInfo = await api.PUT("/AuthUsers/" + userInfo.id, {
+      ...authUserInfo.response,
+      ...values,
+    });
+    console.log(changeUserInfo);
+    if (changeUserInfo.response !== 200) {
+      message.success({
+        content: "Changes Saved Successfully!",
+        key,
+        duration: 3,
+      });
+    } else {
+      message.error("Error updating, please try again");
+    }
+    setSaving(false);
+    setEditable(false);
+  };
 
   const currentUserId = router.query.idOrg;
 
   return (
     <div>
-      <Space size='large' direction='vertical' style={{ width: '100%' }}>
+      <Space size="large" direction="vertical" style={{ width: "100%" }}>
         <ContentInnerHeader setBackOption />
-
         <Row>
-          <h1 className='title-style'>{servicesContent.title}</h1>
+          <h1 className="title-style">{servicesContent.title}</h1>
         </Row>
-        <Space direction="horizontal" size="middle" className="flex-end flex-wrap">
-        <Space direction="vertical">
+        <Form
+          initialValues={fieldsValues}
+          onFinish={(values) => {
+            saveUser(values);
+          }}
+        >
+          <Space
+            direction="horizontal"
+            size="middle"
+            className="flex-end flex-wrap"
+          >
+            <Space direction="vertical">
+              <h4>Email</h4>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "The email field is required",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (IsAValidEmail(value)) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject("Enter a valid email");
+                    },
+                  }),
+                ]}
+              >
+                <Input
+                  style={{ width: 300 }}
+                  disabled={!editable || saving}
+                  onChange={(e) => {
+                    setFieldsValues({ ...fieldsValues, name: e.target.email });
+                  }}
+                />
+              </Form.Item>
+            </Space>
+            <Space direction="vertical">
+              <h4>First Name</h4>
+              <Form.Item
+                name="firstName"
+                rules={[
+                  {
+                    required: true,
+                    message: "The first name field is required",
+                  },
+                ]}
+              >
+                <Input
+                  style={{ width: 300 }}
+                  disabled={!editable || saving}
+                  onChange={(e) => {
+                    setFieldsValues({
+                      ...fieldsValues,
+                      firstName: e.target.value,
+                    });
+                  }}
+                />
+              </Form.Item>
+            </Space>
+            <Space direction="vertical">
+              <h4>Last Name</h4>
+              <Form.Item
+                name="lastName"
+                rules={[
+                  {
+                    required: true,
+                    message: "The last name field is required",
+                  },
+                ]}
+              >
+                <Input
+                  style={{ width: 300 }}
+                  disabled={!editable || saving}
+                  onChange={(e) => {
+                    setFieldsValues({
+                      ...fieldsValues,
+                      lastName: e.target.value,
+                    });
+                  }}
+                />
+              </Form.Item>
+            </Space>
+            <Space direction="vertical">
+              <Form.Item>
+                <h4> </h4>
+                <Space
+                  direction="horizontal"
+                  size="middle"
+                  className="flex-end flex-wrap"
+                >
+                  <Button
+                    type="primary"
+                    loading={saving}
+                    onClick={() => {
+                      setEditable(!editable);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Button>
+                  <Button
+                    type="primary"
+                    disabled={!editable}
+                    loading={saving}
+                    htmlType="submit"
+                  >
+                    {"Save"}
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Space>
+          </Space>
+        </Form>
+        <Space
+          direction="horizontal"
+          size="middle"
+          className="flex-end flex-wrap"
+        >
+          <Space direction="vertical">
             <h4>Username</h4>
             <Input
               style={{ width: 300 }}
               value={fieldsValues.username}
-              disabled ={true}
+              disabled={true}
             />
           </Space>
-          <Space direction="vertical">
-            <h4>Name</h4>
-            <Input
-              style={{ width: 300 }}
-              value={fieldsValues.name}
-              disabled={!editable}
-            />
-          </Space>
-          {editable && (
-            <Button
-              type='primary'
-              onClick={() => router.push('/list-users/edit/' + userInfo.id)}
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </Button>
-          )}
 
-          <Space direction='vertical'>
+          <Space direction="vertical">
             <h4>DID</h4>
             <Input
               style={{ width: 300 }}
               value={fieldsValues.did}
-              disabled={!editable}
+              disabled={true}
             />
           </Space>
-
-          <Space direction='vertical'>
-            <h4>Email</h4>
-            <Input
-              style={{ width: 300 }}
-              value={fieldsValues.email}
-              disabled={!editable}
-            />
-          </Space>
-     
         </Space>
         {/*
         <Space direction='vertical' size='large'>

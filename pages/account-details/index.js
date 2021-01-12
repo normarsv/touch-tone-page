@@ -1,15 +1,15 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import API from '../../API/API';
-import UserDetails from '../../components/details-screens/UserDetails';
-import { BaseLayout } from '../../layouts/BaseLayout';
-import { systemLog } from '../../scripts/General';
+import API from "../../API/API";
+import UserDetails from "../../components/details-screens/UserDetails";
+import { BaseLayout } from "../../layouts/BaseLayout";
+import { systemLog } from "../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     const api = new API();
 
-    const resUser = await api.GET('/Users/' + user.userId);
+    const resUser = await api.GET("/Users/" + user.userId);
 
     const finalQuery = query;
 
@@ -18,18 +18,18 @@ export default class extends Component {
 
     const servicesContent = {
       editable: false,
-      title: 'User Details',
+      title: "User Details",
     };
 
     const editServiceContent = new Array(24).fill({
       id: 1,
-      title: 'Access to the User list view',
+      title: "Access to the User list view",
       status: true,
     });
 
     const telephonyFeatures = new Array(24).fill({
       id: 1,
-      title: 'Access to the User list view',
+      title: "Access to the User list view",
       status: true,
     });
 
@@ -55,6 +55,7 @@ export default class extends Component {
       editServiceContent,
       userInfo,
       finalQuery,
+      user,
     } = this.props;
 
     console.log(userInfo);
@@ -63,6 +64,7 @@ export default class extends Component {
       <BaseLayout>
         <UserDetails
           query={finalQuery}
+          user={user}
           userInfo={userInfo}
           servicesContent={servicesContent}
           editServiceContent={editServiceContent}
