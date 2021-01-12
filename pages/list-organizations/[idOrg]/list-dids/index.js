@@ -1,27 +1,27 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import API from '../../../../API/API';
-import DidsDetailList from '../../../../components/details-screens/DidsDetailList';
-import { BaseLayout } from '../../../../layouts/BaseLayout';
-import { systemLog } from '../../../../scripts/General';
+import API from "../../../../API/API";
+import DidsDetailList from "../../../../components/details-screens/DidsDetailList";
+import { BaseLayout } from "../../../../layouts/BaseLayout";
+import { systemLog } from "../../../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case 'CorporateService':
-          case 'OrganizationAdmin':
+          case "CorporateService":
+          case "OrganizationAdmin":
             res.writeHead(302, {
-              Location: '/admin-dashboard',
+              Location: "/admin-dashboard",
             });
             res.end();
 
             break;
 
-          case 'EndUser':
+          case "EndUser":
             res.writeHead(302, {
-              Location: '/user-dashboard',
+              Location: "/user-dashboard",
             });
             res.end();
 
@@ -32,16 +32,16 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: '/',
+          Location: "/",
         });
         res.end();
       }
     }
 
-    const api = new API();
+    const api = new API(user.token);
 
     const resDidList = await api.GET(
-      '/Tools/organization-number/' + query.idOrg
+      "/Tools/organization-number/" + query.idOrg
     );
 
     const finalDidList = [];
@@ -51,7 +51,7 @@ export default class extends Component {
         key: currentElement.numberId,
         nameOrg: currentElement.organizationName,
         phoneNumber: currentElement.number,
-        type: '',
+        type: "",
       });
     }
 
@@ -63,7 +63,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = '';
+    this.userinfo = "";
   }
   componentDidMount() {
     systemLog.log(this.props);
