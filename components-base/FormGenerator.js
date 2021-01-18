@@ -1,7 +1,11 @@
-import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Row, Space, Typography } from 'antd';
-import { FieldArray, getIn } from 'formik';
+import {
+  faMinusCircle,
+  faPlusCircle,
+  faUpload,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, message, Row, Space, Typography, Upload } from "antd";
+import { FieldArray, getIn } from "formik";
 import {
   Checkbox,
   DatePicker,
@@ -13,10 +17,16 @@ import {
   SubmitButton,
   Switch,
   TimePicker,
-} from 'formik-antd';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+} from "formik-antd";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
-import FormikRef from './FormikRef';
+import FormikRef from "./FormikRef";
 
 const RenderInputType = ({
   input,
@@ -26,8 +36,26 @@ const RenderInputType = ({
   formOptions,
   listName,
 }) => {
+  const fileProps = {
+    name: "file",
+    action: "",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   switch (input.type) {
-    case 'text':
+    case "text":
       return (
         <Input
           name={listName ? listName : input.name}
@@ -37,7 +65,19 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'password':
+
+    case "upload":
+      return (
+        <Upload {...fileProps}>
+          <Button type="primary" className="primary-button-style alternate">
+            <Space>
+              <FontAwesomeIcon icon={faUpload} /> Upload{" "}
+            </Space>
+          </Button>
+        </Upload>
+      );
+      break;
+    case "password":
       return (
         <Input.Password
           name={listName ? listName : input.name}
@@ -46,14 +86,14 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'select':
+    case "select":
       return (
         <Select
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
-          mode={input.mode ? input.mode : ''}
+          mode={input.mode ? input.mode : ""}
           name={listName ? listName : input.name}
           placeholder={input.placeholder}
-          className='select-arrow-boxes'
+          className="select-arrow-boxes"
           onChange={
             input.customOnChange
               ? (newVal) => {
@@ -77,7 +117,7 @@ const RenderInputType = ({
         </Select>
       );
       break;
-    case 'switch':
+    case "switch":
       return (
         <Switch
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
@@ -88,7 +128,7 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'datePicker':
+    case "datePicker":
       return (
         <DatePicker
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
@@ -111,7 +151,7 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'timePicker':
+    case "timePicker":
       return (
         <TimePicker
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
@@ -134,7 +174,7 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'checkBox':
+    case "checkBox":
       return (
         <Checkbox
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
@@ -145,7 +185,7 @@ const RenderInputType = ({
         </Checkbox>
       );
       break;
-    case 'checkBoxGroup':
+    case "checkBoxGroup":
       return (
         <Checkbox.Group
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
@@ -155,7 +195,7 @@ const RenderInputType = ({
         />
       );
       break;
-    case 'list':
+    case "list":
       let listArrayLength = values[input.name] ? values[input.name].length : 0;
       return (
         <FieldArray
@@ -163,9 +203,9 @@ const RenderInputType = ({
           name={input.name}
           render={(arrayHelpers) => (
             <Col span={24}>
-              <h2 className='separator-title'>
-                {input.label}{' '}
-                {input.addMax ? '(max. Inputs: ' + input.addMax + ')' : ''}
+              <h2 className="separator-title">
+                {input.label}{" "}
+                {input.addMax ? "(max. Inputs: " + input.addMax + ")" : ""}
               </h2>
               {values[input.name] && values[input.name].length > 0
                 ? values[input.name].map((listItem, index) => {
@@ -173,19 +213,19 @@ const RenderInputType = ({
                       <Row key={index}>
                         {input.listFields.map((field, idx) => {
                           const newFieldName =
-                            input.name + '[' + index + '].' + field.name;
+                            input.name + "[" + index + "]." + field.name;
 
                           return (
-                            <Col flex='auto' key={idx}>
+                            <Col flex="auto" key={idx}>
                               <FormItem
                                 name={newFieldName}
                                 label={field.label}
                                 tooltip={field.tooltip}
                                 valuePropName={
-                                  field.type === 'switch' ||
-                                  field.type === 'checkBox' ||
-                                  field.type === 'checkBoxGroup'
-                                    ? 'checked'
+                                  field.type === "switch" ||
+                                  field.type === "checkBox" ||
+                                  field.type === "checkBoxGroup"
+                                    ? "checked"
                                     : undefined
                                 }
                               >
@@ -200,15 +240,15 @@ const RenderInputType = ({
                             </Col>
                           );
                         })}
-                        <Col flex='auto' className='list-actions'>
-                          <FormItem name='action' label='Actions'>
+                        <Col flex="auto" className="list-actions">
+                          <FormItem name="action" label="Actions">
                             {input.customActions &&
                               input.customActions.map((action, i) => {
                                 return (
                                   <Button
                                     key={i}
-                                    className='custom-added primary-button-style alternate form-full-width'
-                                    type='primary'
+                                    className="custom-added primary-button-style alternate form-full-width"
+                                    type="primary"
                                     onClick={() => {
                                       action.onClick(values[input.name][index]);
                                     }}
@@ -221,7 +261,7 @@ const RenderInputType = ({
                               disabled={formikData.isSubmitting}
                               onClick={() => arrayHelpers.remove(index)}
                             >
-                              <Space className='flex center'>
+                              <Space className="flex center">
                                 Remove
                                 <FontAwesomeIcon icon={faMinusCircle} />
                               </Space>
@@ -231,21 +271,21 @@ const RenderInputType = ({
                       </Row>
                     );
                   })
-                : ''}
-              <Col flex='auto'>
+                : ""}
+              <Col flex="auto">
                 {arrayHelpers.form.errors[input.name] &&
-                  typeof arrayHelpers.form.errors[input.name] === 'string' &&
+                  typeof arrayHelpers.form.errors[input.name] === "string" &&
                   getIn(arrayHelpers.form.errors, input.name) && (
                     <div>
-                      <Typography.Text type='danger'>
+                      <Typography.Text type="danger">
                         {getIn(arrayHelpers.form.errors, input.name)}
                       </Typography.Text>
                     </div>
                   )}
                 <Button
                   disabled={formikData.isSubmitting}
-                  type='primary'
-                  className='primary-button-style alternate'
+                  type="primary"
+                  className="primary-button-style alternate"
                   disabled={
                     input.addMax
                       ? listArrayLength < input.addMax
@@ -258,20 +298,20 @@ const RenderInputType = ({
                       if (listArrayLength < input.addMax) {
                         let addObject = {};
                         input.listFields.map((field, idx) => {
-                          addObject[field.name] = '';
+                          addObject[field.name] = "";
                         });
                         arrayHelpers.push(addObject);
                       }
                     } else {
                       let addObject = {};
                       input.listFields.map((field, idx) => {
-                        addObject[field.name] = '';
+                        addObject[field.name] = "";
                       });
                       arrayHelpers.push(addObject);
                     }
                   }}
                 >
-                  <Space className='flex center'>
+                  <Space className="flex center">
                     Add <FontAwesomeIcon icon={faPlusCircle} />
                   </Space>
                 </Button>
@@ -309,17 +349,17 @@ let FormGenerator = ({ FormOptions }, ref) => {
           <Form
             layout={FormOptions.generalOptions.type}
             className={
-              'formik-form ' + FormOptions.generalOptions.formClassName
+              "formik-form " + FormOptions.generalOptions.formClassName
             }
           >
             {FormOptions.formInputsRows.map((row, index) => {
               return (
                 <Row key={index}>
                   {row.separatorTitle && (
-                    <h2 className='separator-title'>{row.separatorTitle}</h2>
+                    <h2 className="separator-title">{row.separatorTitle}</h2>
                   )}
                   {row.inputs.map((input, idx) => {
-                    if (input.type === 'list') {
+                    if (input.type === "list") {
                       <RenderInputType
                         input={input}
                         values={values}
@@ -359,7 +399,7 @@ let FormGenerator = ({ FormOptions }, ref) => {
                             ? input.breakpoints.xs
                             : null
                         }
-                        flex={input.breakpoints === undefined ? 'auto' : null}
+                        flex={input.breakpoints === undefined ? "auto" : null}
                         key={idx}
                       >
                         <FormItem
@@ -367,10 +407,10 @@ let FormGenerator = ({ FormOptions }, ref) => {
                           label={input.label}
                           tooltip={input.tooltip}
                           valuePropName={
-                            input.type === 'switch' ||
-                            input.type === 'checkBox' ||
-                            input.type === 'checkBoxGroup'
-                              ? 'checked'
+                            input.type === "switch" ||
+                            input.type === "checkBox" ||
+                            input.type === "checkBoxGroup"
+                              ? "checked"
                               : undefined
                           }
                         >
@@ -387,7 +427,7 @@ let FormGenerator = ({ FormOptions }, ref) => {
                 </Row>
               );
             })}
-            <div className='actions-section'>
+            <div className="actions-section">
               {FormOptions.generalOptions.cancel && (
                 <Button
                   className={FormOptions.generalOptions.cancel.className}
