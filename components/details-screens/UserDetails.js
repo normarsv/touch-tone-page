@@ -1,6 +1,6 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, message, Row, Space, Form } from "antd";
+import { Button, Input, message, Row, Space, Form, Select } from "antd";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import API from "../../API/API";
@@ -8,6 +8,7 @@ import { IsAValidEmail } from "../../scripts/General";
 
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 
+const { Option } = Select;
 const OrganizationServices = ({ user, userInfo, servicesContent }) => {
   const router = useRouter();
 
@@ -194,14 +195,25 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
               disabled={true}
             />
           </Space>
-
           <Space direction="vertical">
             <h4>DID</h4>
-            <Input
+            <Select
               style={{ width: 300 }}
               value={fieldsValues.did}
               disabled={true}
             />
+          </Space>
+          <Space direction="vertical">
+            <h4>User Type</h4>
+            <Select
+              style={{ width: 300 }}
+              value={user.userType}
+              disabled={true}
+            >
+              <Option value={1}>GRA</Option>
+              <Option value={2}>Sippo</Option>
+              <Option value={8}>Both</Option>
+            </Select>
           </Space>
         </Space>
         {/*
