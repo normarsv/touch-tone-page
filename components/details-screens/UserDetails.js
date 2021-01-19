@@ -1,18 +1,19 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, message, Row, Space, Form, Select } from "antd";
-import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
-import API from "../../API/API";
-import { IsAValidEmail } from "../../scripts/General";
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Input, message, Row, Space, Form, Select } from 'antd';
+import { useRouter } from 'next/dist/client/router';
+import React, { useState } from 'react';
+import API from '../../API/API';
+import { IsAValidEmail } from '../../scripts/General';
 
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
 const OrganizationServices = ({ user, userInfo, servicesContent }) => {
   const router = useRouter();
 
   const [fieldsValues, setFieldsValues] = useState({
+    userTypeId: userInfo.userTypeId,
     username: userInfo.username,
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
@@ -22,12 +23,12 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
 
   const [editable, setEditable] = useState(false);
   const [saving, setSaving] = useState(false);
-  const key = "updatable";
+  const key = 'updatable';
   const openMessage = () => {
-    message.loading({ content: "Saving changes...", key });
+    message.loading({ content: 'Saving changes...', key });
     setTimeout(() => {
       message.success({
-        content: "Changes Saved Successfully!",
+        content: 'Changes Saved Successfully!',
         key,
         duration: 3,
       });
@@ -35,24 +36,24 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
   };
 
   const saveUser = async (values) => {
-    console.log("Received values of form: ", values);
+    console.log('Received values of form: ', values);
     setSaving(true);
-    const api = new API(user.token);
-    const authUserInfo = await api.GET("/AuthUsers/" + userInfo.id);
+    const api = new API(userInfo.token);
+    const authUserInfo = await api.GET('/AuthUsers/' + userInfo.id);
     console.log(authUserInfo.response);
-    const changeUserInfo = await api.PUT("/AuthUsers/" + userInfo.id, {
+    const changeUserInfo = await api.PUT('/AuthUsers/' + userInfo.id, {
       ...authUserInfo.response,
       ...values,
     });
     console.log(changeUserInfo);
     if (changeUserInfo.response !== 200) {
       message.success({
-        content: "Changes Saved Successfully!",
+        content: 'Changes Saved Successfully!',
         key,
         duration: 3,
       });
     } else {
-      message.error("Error updating, please try again");
+      message.error('Error updating, please try again');
     }
     setSaving(false);
     setEditable(false);
@@ -62,7 +63,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size="large" direction="vertical" style={{ width: '100%' }}>
         <ContentInnerHeader setBackOption />
         <Row>
           <h1 className="title-style">{servicesContent.title}</h1>
@@ -85,14 +86,14 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 rules={[
                   {
                     required: true,
-                    message: "The email field is required",
+                    message: 'The email field is required',
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (IsAValidEmail(value)) {
                         return Promise.resolve();
                       }
-                      return Promise.reject("Enter a valid email");
+                      return Promise.reject('Enter a valid email');
                     },
                   }),
                 ]}
@@ -113,7 +114,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 rules={[
                   {
                     required: true,
-                    message: "The first name field is required",
+                    message: 'The first name field is required',
                   },
                 ]}
               >
@@ -136,7 +137,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 rules={[
                   {
                     required: true,
-                    message: "The last name field is required",
+                    message: 'The last name field is required',
                   },
                 ]}
               >
@@ -175,7 +176,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                     loading={saving}
                     htmlType="submit"
                   >
-                    {"Save"}
+                    {'Save'}
                   </Button>
                 </Space>
               </Form.Item>
@@ -199,7 +200,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
             <h4>DID</h4>
             <Select
               style={{ width: 300 }}
-              value={fieldsValues.did}
+              value={fieldsValues.did || 'NO DID'}
               disabled={true}
             />
           </Space>
@@ -207,7 +208,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
             <h4>User Type</h4>
             <Select
               style={{ width: 300 }}
-              value={user.userType}
+              value={fieldsValues.userTypeId}
               disabled={true}
             >
               <Option value={1}>GRA</Option>
