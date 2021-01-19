@@ -1,5 +1,5 @@
-import { faEraser, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Checkbox,
@@ -11,14 +11,14 @@ import {
   Space,
   Switch,
   Table,
-} from "antd";
-import Search from "antd/lib/input/Search";
-import { motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
-import React, { useEffect, useRef, useState } from "react";
-import API from "../../API/API";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import { SearchOutlined } from "@ant-design/icons";
+} from 'antd';
+import Search from 'antd/lib/input/Search';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/dist/client/router';
+import React, { useEffect, useRef, useState } from 'react';
+import API from '../../API/API';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -26,10 +26,10 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [titleToDisplay, setTitleToDisplay] = useState("");
+  const [titleToDisplay, setTitleToDisplay] = useState('');
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   let searchInput = useRef();
 
   const onChangeTablePageSize = (value) => {
@@ -39,29 +39,29 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const api = new API(userInfo.token);
 
   async function onChangeUserState(selectedUser) {
-    const resOnChangeUser = await api.PUT("/AuthUsers/" + selectedUser.key, {
+    const resOnChangeUser = await api.PUT('/AuthUsers/' + selectedUser.key, {
       username: selectedUser.userName,
       isActive: !selectedUser.status,
     });
 
     if (resOnChangeUser.statusCode === 200) {
       message
-        .loading("Changing Status...", 2)
-        .then(() => message.success("User Status Changed Succesfully!", 2));
+        .loading('Changing Status...', 2)
+        .then(() => message.success('User Status Changed Succesfully!', 2));
       setTimeout(() => {
         reloadInfo();
       }, 2000);
     } else {
       message
-        .loading("Changing Status...", 2)
-        .then(() => message.error("Unable to Change This User State", 2));
+        .loading('Changing Status...', 2)
+        .then(() => message.error('Unable to Change This User State', 2));
     }
   }
 
   const hoverAnimation = {
     scale: 1.02,
-    cursor: "pointer",
-    color: "red",
+    cursor: 'pointer',
+    color: 'red',
     transition: { duration: 0.5 },
   };
 
@@ -73,7 +73,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText("");
+    setSearchText('');
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -88,7 +88,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={"Search by " + dataIndex}
+          placeholder={'Search by ' + dataIndex}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -123,55 +123,48 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase())
-        : "",
+        : '',
   });
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
-      width: "6rem",
-      ...getColumnSearchProps("name"),
+      title: 'Name',
+      dataIndex: 'name',
+      fixed: 'left',
+      width: '6rem',
+      ...getColumnSearchProps('name'),
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      width: "15%",
-      ...getColumnSearchProps("email"),
+      title: 'Email',
+      dataIndex: 'email',
+      width: '15%',
+      ...getColumnSearchProps('email'),
     },
     {
-      title: "DID",
-      dataIndex: "did",
-      width: "15%",
-      ...getColumnSearchProps("did"),
+      title: 'DID',
+      dataIndex: 'did',
+      width: '15%',
+      ...getColumnSearchProps('did'),
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      width: "10%",
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '10%',
       render: (actions) => (
         <Space className="flex center">
           <motion.div
-            onClick={() => router.push("/list-users/details/" + actions)}
+            onClick={() => router.push('/list-users/details/' + actions)}
             whileHover={hoverAnimation}
           >
             Details
-          </motion.div>
-          |
-          <motion.div
-            onClick={() => router.push("/list-users/edit/" + actions)}
-            whileHover={hoverAnimation}
-          >
-            Edit
           </motion.div>
         </Space>
       ),
     },
     {
-      title: "Activate / Deactivate",
-      dataIndex: "status",
-      width: "10%",
+      title: 'Activate / Deactivate',
+      dataIndex: 'status',
+      width: '10%',
       render: (status, record) => (
         <div className="flex center">
           <Popconfirm
@@ -199,17 +192,17 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     ) {
       setTitleToDisplay(userTableList[0].organization);
     } else {
-      setTitleToDisplay("");
+      setTitleToDisplay('');
     }
   }, []);
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size="large" direction="vertical" style={{ width: '100%' }}>
         <ContentInnerHeader />
 
         <h1 className="title-style">
-          List All Users {titleToDisplay ? "of " + titleToDisplay : ""}
+          List All Users {titleToDisplay ? 'of ' + titleToDisplay : ''}
         </h1>
         {/* <Search placeholder="Search..." enterButton style={{ width: 300 }} /> */}
 
@@ -231,7 +224,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate "
-                  onClick={() => router.push("/list-users/bulk-import")}
+                  onClick={() => router.push('/list-users/bulk-import')}
                 >
                   <Space className="flex center">
                     Bulk Import
@@ -241,7 +234,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
                 <Button
                   type="primary"
                   className="primary-button-style alternate"
-                  onClick={() => router.push("/list-users/new-user")}
+                  onClick={() => router.push('/list-users/new-user')}
                 >
                   <Space className="flex center">
                     New User
@@ -260,11 +253,11 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
           dataSource={userTableList}
           pagination={tablePageSize}
           footer={(currentData) =>
-            "Showing " +
+            'Showing ' +
             currentData.length +
-            " of " +
+            ' of ' +
             userTableList.length +
-            " entries"
+            ' entries'
           }
         />
       </Space>

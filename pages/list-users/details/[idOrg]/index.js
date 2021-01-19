@@ -43,6 +43,8 @@ export default class extends Component {
     const resUser = await api.GET('/Users/' + query.idOrg);
 
     const userInfo = resUser.response.authUser;
+    userInfo.did = resUser.response.did;
+    userInfo.userTypeId = resUser.response.userTypeId;
 
     const servicesContent = {
       editable: false,
@@ -83,11 +85,13 @@ export default class extends Component {
       editServiceContent,
       telephonyFeatures,
       userInfo,
+      user,
     } = this.props;
 
     return (
       <BaseLayout>
         <UserDetails
+          user={user}
           userInfo={userInfo}
           servicesContent={servicesContent}
           editServiceContent={editServiceContent}
