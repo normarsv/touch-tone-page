@@ -1,28 +1,29 @@
-import { message } from 'antd';
-import { Component } from 'react';
+import { message } from "antd";
+import { Component } from "react";
 
-import API from '../../../API/API';
-import MyFindMe from '../../../components/tier2-screens/MyFindMe';
-import { BaseLayout } from '../../../layouts/BaseLayout';
-import { IsAValidPhoneNumber, systemLog } from '../../../scripts/General';
+import moment from "moment/min/moment-with-locales.js";
+import API from "../../../API/API";
+import MyFindMe from "../../../components/tier2-screens/MyFindMe";
+import { BaseLayout } from "../../../layouts/BaseLayout";
+import { IsAValidPhoneNumber, systemLog } from "../../../scripts/General";
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case 'BusinessSupport':
-          case 'SuperAdmin':
+          case "BusinessSupport":
+          case "SuperAdmin":
             res.writeHead(302, {
-              Location: '/list-organizations',
+              Location: "/list-organizations",
             });
             res.end();
 
             break;
 
-          case 'Distributor':
+          case "Distributor":
             res.writeHead(302, {
-              Location: '/list-organizations',
+              Location: "/list-organizations",
             });
             res.end();
 
@@ -33,7 +34,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: '/',
+          Location: "/",
         });
         res.end();
       }
@@ -43,7 +44,7 @@ export default class extends Component {
 
     const api = new API(actualUser.token);
 
-    const resUserMyFindme = await api.GET('/Services/find-me');
+    const resUserMyFindme = await api.GET("/Services/find-me");
 
     const actualUserMyFindme = resUserMyFindme.response;
 
@@ -58,7 +59,7 @@ export default class extends Component {
     console.log(props);
     const destination1Type =
       this.props.actualUserMyFindme.findeMeItems[0].destination.currentType ||
-      'Extentions';
+      "Extentions";
     const destination1Options = this.props.actualUserMyFindme.findeMeItems[0].destination.options.find(
       (option) => {
         return option.optionName === destination1Type;
@@ -67,7 +68,7 @@ export default class extends Component {
 
     const destination2Type =
       this.props.actualUserMyFindme.findeMeItems[1].destination.currentType ||
-      'Extentions';
+      "Extentions";
     const destination2Options = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
       (option) => {
         return option.optionName === destination2Type;
@@ -76,25 +77,25 @@ export default class extends Component {
 
     const destination3Type =
       this.props.actualUserMyFindme.findeMeItems[2].destination.currentType ||
-      'Frequent Numbers';
+      "Frequent Numbers";
     const destination3Options = this.props.actualUserMyFindme.findeMeItems[2].destination.options.find(
       (option) => {
         return option.optionName === destination3Type;
       }
     );
 
-    this.userinfo = '';
+    this.userinfo = "";
     this.endUserForm = {
       generalOptions: {
-        type: 'vertical', //horizontal, vertical, inline
-        formClassName: 'test-form',
+        type: "vertical", //horizontal, vertical, inline
+        formClassName: "test-form",
         submit: {
-          className: 'primary-button-style',
-          text: 'Save My Find me',
+          className: "primary-button-style",
+          text: "Save My Find me",
         },
         reset: {
-          className: 'primary-button-style',
-          text: 'Clear',
+          className: "primary-button-style",
+          text: "Clear",
         },
         // cancel: {
         //   className: "primary-button-style cancel",
@@ -134,19 +135,19 @@ export default class extends Component {
         const errors = {};
         // console.log(values);
         if (!values.findeMeDescription) {
-          errors.findeMeDescription = 'Description required';
+          errors.findeMeDescription = "Description required";
         }
         if (!values.findeMeScheduleDescription) {
-          errors.findeMeScheduleDescription = 'Schedule description required';
+          errors.findeMeScheduleDescription = "Schedule description required";
         }
         if (!values.startDate) {
-          errors.startDate = 'Start date required';
+          errors.startDate = "Start date required";
         }
         if (!values.endDate) {
-          errors.endDate = 'End date required';
+          errors.endDate = "End date required";
         }
         if (values.endDate < values.startDate) {
-          errors.endDate = 'Set a valid end date';
+          errors.endDate = "Set a valid end date";
         }
 
         return errors;
@@ -170,61 +171,90 @@ export default class extends Component {
           ],
         },
         */
-        { separatorTitle: 'Schedule', inputs: [] },
+        { separatorTitle: "Schedule", inputs: [] },
         {
           inputs: [
             {
-              name: 'findeMeScheduleDescription',
-              label: 'Schedule Description',
-              placeholder: 'Schedule Description...',
-              type: 'text',
+              name: "findeMeScheduleDescription",
+              label: "Schedule Description",
+              placeholder: "Schedule Description...",
+              type: "text",
               required: true,
             },
             {
-              name: 'startDate',
-              label: 'Start Date',
-              type: 'datePicker',
+              name: "startDate",
+              label: "Start Date",
+              type: "datePicker",
+              showTime: {
+                format: "YYYY-MM-DD",
+                defaultValue: moment().startOf("day"),
+              },
+              format: "YYYY-MM-DD",
               required: true,
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                let inputEndDateForm = formOptions.formInputsRows[1].inputs.find(
+                  (input) => {
+                    return input.name === "endDate";
+                  }
+                );
+
+                if (inputEndDateForm) {
+                  inputEndDateForm.disabledDate = (current) => {
+                    return current < moment(newVal).startOf("day");
+                  };
+                }
+                formikData.setFieldValue("endDate", "");
+              },
             },
             {
-              name: 'endDate',
-              label: 'End Date',
-              type: 'datePicker',
+              name: "endDate",
+              label: "End Date",
+              type: "datePicker",
+              showTime: {
+                format: "YYYY-MM-DD",
+                defaultValue: moment().add(1, "day").startOf("day"),
+              },
+              format: "YYYY-MM-DD",
               required: true,
             },
           ],
         },
-        { separatorTitle: 'Day Range', inputs: [] },
+        { separatorTitle: "Day Range", inputs: [] },
         {
           inputs: [
             {
-              name: 'dayrange',
-              label: '',
-              placeholder: '',
-              type: 'checkBoxGroup',
+              name: "dayrange",
+              label: "",
+              placeholder: "",
+              type: "checkBoxGroup",
               options: [
-                { label: 'Monday', value: 'monday' },
-                { label: 'Tuesday', value: 'tuesday' },
-                { label: 'Wednesday', value: 'wednesday' },
-                { label: 'Thursday', value: 'thursday' },
-                { label: 'Friday', value: 'friday' },
-                { label: 'Saturday', value: 'saturday' },
-                { label: 'Sunday', value: 'sunday' },
+                { label: "Monday", value: "monday" },
+                { label: "Tuesday", value: "tuesday" },
+                { label: "Wednesday", value: "wednesday" },
+                { label: "Thursday", value: "thursday" },
+                { label: "Friday", value: "friday" },
+                { label: "Saturday", value: "saturday" },
+                { label: "Sunday", value: "sunday" },
               ],
               defaultChecked: false,
             },
           ],
         },
-        { separatorTitle: 'Ringing Group', inputs: [] },
+        { separatorTitle: "Ringing Group", inputs: [] },
         {
           inputs: [
             {
-              name: 'enabled',
-              label: 'Ring at the same time',
-              placeholder: '',
-              type: 'switch',
-              checkedChildren: 'Yes',
-              unCheckedChildren: 'No',
+              name: "enabled",
+              label: "Ring at the same time",
+              placeholder: "",
+              type: "switch",
+              checkedChildren: "Yes",
+              unCheckedChildren: "No",
               defaultChecked: false,
             },
           ],
@@ -232,18 +262,18 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: 'destination1Options',
-              label: 'Destination 1 Type',
-              placeholder: 'Select Destination Options',
-              type: 'select',
+              name: "destination1Options",
+              label: "Destination 1 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
               required: true,
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[0].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: "External" },
               ],
-              optionValue: 'optionName',
-              optionLabel: 'optionName',
+              optionValue: "optionName",
+              optionLabel: "optionName",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -251,32 +281,32 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
-                  formOptions.formInputsRows[6].inputs[1].mode = 'tags';
+                if (newVal === "External") {
+                  formOptions.formInputsRows[6].inputs[1].mode = "tags";
                   formOptions.formInputsRows[6].inputs[1].options = [];
-                  formikData.setFieldValue('destination1', '', false);
+                  formikData.setFieldValue("destination1", "", false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[0].destination.options.find(
                     (option) => {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[6].inputs[1].mode = '';
+                  formOptions.formInputsRows[6].inputs[1].mode = "";
                   formOptions.formInputsRows[6].inputs[1].options =
                     destinationOptions.numbers;
-                  formikData.setFieldValue('destination1', '', false);
+                  formikData.setFieldValue("destination1", "", false);
                 }
               },
             },
             {
-              name: 'destination1',
-              label: 'Destination 1',
-              placeholder: 'Select Destination',
-              type: 'select',
+              name: "destination1",
+              label: "Destination 1",
+              placeholder: "Select Destination",
+              type: "select",
               required: true,
               options: destination1Options.numbers,
-              optionValue: 'value',
-              optionLabel: 'name',
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -285,7 +315,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination1Options;
-                if (currentOption === 'External') {
+                if (currentOption === "External") {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -296,7 +326,7 @@ export default class extends Component {
                     []
                   );
                   formikData.setFieldValue(
-                    'destination1',
+                    "destination1",
                     reduceGetOnlyNew,
                     false
                   );
@@ -308,18 +338,18 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: 'destination2Options',
-              label: 'Destination 2 Type',
-              placeholder: 'Select Destination Options',
-              type: 'select',
+              name: "destination2Options",
+              label: "Destination 2 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
               required: true,
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[1].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: "External" },
               ],
-              optionValue: 'optionName',
-              optionLabel: 'optionName',
+              optionValue: "optionName",
+              optionLabel: "optionName",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -327,32 +357,32 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
-                  formOptions.formInputsRows[7].inputs[1].mode = 'tags';
+                if (newVal === "External") {
+                  formOptions.formInputsRows[7].inputs[1].mode = "tags";
                   formOptions.formInputsRows[7].inputs[1].options = [];
-                  formikData.setFieldValue('destination2', '', false);
+                  formikData.setFieldValue("destination2", "", false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
                     (option) => {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[7].inputs[1].mode = '';
+                  formOptions.formInputsRows[7].inputs[1].mode = "";
                   formOptions.formInputsRows[7].inputs[1].options =
                     destinationOptions.numbers;
-                  formikData.setFieldValue('destination2', '', false);
+                  formikData.setFieldValue("destination2", "", false);
                 }
               },
             },
             {
-              name: 'destination2',
-              label: 'Destination 2',
-              placeholder: 'Select Destination',
-              type: 'select',
+              name: "destination2",
+              label: "Destination 2",
+              placeholder: "Select Destination",
+              type: "select",
               required: true,
               options: destination2Options.numbers,
-              optionValue: 'value',
-              optionLabel: 'name',
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -361,7 +391,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination2Options;
-                if (currentOption === 'External') {
+                if (currentOption === "External") {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -372,7 +402,7 @@ export default class extends Component {
                     []
                   );
                   formikData.setFieldValue(
-                    'destination2',
+                    "destination2",
                     reduceGetOnlyNew,
                     false
                   );
@@ -384,18 +414,18 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: 'destination3Options',
-              label: 'Destination 3 Type',
-              placeholder: 'Select Destination Options',
-              type: 'select',
+              name: "destination3Options",
+              label: "Destination 3 Type",
+              placeholder: "Select Destination Options",
+              type: "select",
               required: true,
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[2].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: "External" },
               ],
-              optionValue: 'optionName',
-              optionLabel: 'optionName',
+              optionValue: "optionName",
+              optionLabel: "optionName",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -403,32 +433,32 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
-                  formOptions.formInputsRows[8].inputs[1].mode = 'tags';
+                if (newVal === "External") {
+                  formOptions.formInputsRows[8].inputs[1].mode = "tags";
                   formOptions.formInputsRows[8].inputs[1].options = [];
-                  formikData.setFieldValue('destination3', '', false);
+                  formikData.setFieldValue("destination3", "", false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
                     (option) => {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[8].inputs[1].mode = '';
+                  formOptions.formInputsRows[8].inputs[1].mode = "";
                   formOptions.formInputsRows[8].inputs[1].options =
                     destinationOptions.numbers;
-                  formikData.setFieldValue('destination3', '', false);
+                  formikData.setFieldValue("destination3", "", false);
                 }
               },
             },
             {
-              name: 'destination3',
-              label: 'Destination 3',
-              placeholder: 'Select Destination',
-              type: 'select',
+              name: "destination3",
+              label: "Destination 3",
+              placeholder: "Select Destination",
+              type: "select",
               required: true,
               options: destination3Options.numbers,
-              optionValue: 'value',
-              optionLabel: 'name',
+              optionValue: "value",
+              optionLabel: "name",
               breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
               customOnChange: async (
                 newVal,
@@ -437,7 +467,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination3Options;
-                if (currentOption === 'External') {
+                if (currentOption === "External") {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -448,7 +478,7 @@ export default class extends Component {
                     []
                   );
                   formikData.setFieldValue(
-                    'destination3',
+                    "destination3",
                     reduceGetOnlyNew,
                     false
                   );
@@ -476,8 +506,8 @@ export default class extends Component {
       findeMeScheduleDescription: valuesToSubmit.findeMeDescription,
       startDate: valuesToSubmit.startDate,
       endDate: valuesToSubmit.endDate,
-      startTime: '',
-      endTime: '',
+      startTime: "",
+      endTime: "",
       dayrange: valuesToSubmit.dayrange,
       enabled: valuesToSubmit.enabled,
       findeMeItems: [
@@ -516,12 +546,12 @@ export default class extends Component {
         },
       ],
     };
-    console.log(finalSubmit, 'true final form');
+    console.log(finalSubmit, "true final form");
 
-    const responsePut = await api.PUT('/Services/find-me', finalSubmit);
+    const responsePut = await api.PUT("/Services/find-me", finalSubmit);
     console.log(responsePut);
 
-    message.success('My Find Me Updated Succesfully!');
+    message.success("My Find Me Updated Succesfully!");
   }
 
   render() {

@@ -139,12 +139,14 @@ export default class extends Component {
           setSubmitting(true);
           try {
             await this.submitForm(values, this.state.authGroupValue);
+            setSubmitting(false);
+            message.success("User Created Successfully!");
           } catch (error) {
             console.log(error);
+            setSubmitting(false);
+            message.error("Cant create User, please try again");
           }
           resetForm();
-          setSubmitting(false);
-          message.success("User Created Successfully!");
         },
         formInputsRows: [
           {
@@ -341,12 +343,14 @@ export default class extends Component {
           setSubmitting(true);
           try {
             await this.submitForm(values, this.state.authGroupValue);
+            setSubmitting(false);
+            message.success("User Created Successfully!");
           } catch (error) {
             console.log(error);
+            setSubmitting(false);
+            message.error("Cant create User, please try again");
           }
           resetForm();
-          setSubmitting(false);
-          message.success("User Created Successfully!");
         },
         formInputsRows: [
           {
@@ -513,12 +517,14 @@ export default class extends Component {
           setSubmitting(true);
           try {
             await this.submitForm(values, this.state.authGroupValue);
+            setSubmitting(false);
+            message.success("User Created Successfully!");
           } catch (error) {
             console.log(error);
+            setSubmitting(false);
+            message.error("Cant create User, please try again");
           }
           resetForm();
-          setSubmitting(false);
-          message.success("User Created Successfully!");
         },
         formInputsRows: [
           {
