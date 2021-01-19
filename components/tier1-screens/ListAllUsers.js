@@ -144,7 +144,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       title: "DID",
       dataIndex: "did",
       width: "15%",
-      ...getColumnSearchProps("DID"),
+      ...getColumnSearchProps("did"),
     },
     {
       title: "Actions",
