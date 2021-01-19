@@ -1,9 +1,9 @@
-import { Button, Form, Input, message, Space } from "antd";
-import { useRouter } from "next/dist/client/router";
-import { useEffect, useRef, useState } from "react";
+import { Button, Form, Input, message, Space } from 'antd';
+import { useRouter } from 'next/dist/client/router';
+import { useEffect, useRef, useState } from 'react';
 
-import API from "../../API/API";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import API from '../../API/API';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 // import PropTypes from "prop-types";
 // import { useRouter } from "next/router";
@@ -19,11 +19,14 @@ export const ResetPassword = ({ user }) => {
     console.log(values);
     console.log(user);
     const api = new API(user.token);
-    const changePass = await api.POST("/AuthUsers/ResetPassword", {
+    const changePass = await api.POST('/AuthUsers/ResetPassword', {
       password: values.password,
     });
     console.log(changePass);
-    message.success("Updated Password Successfully!");
+    message.success('Updated Password Successfully!');
+    if (form.current !== undefined && form.current !== null) {
+      form.current.resetFields();
+    }
     setLoading(false);
     // console.log("Success:", values);
     //router.push('/main');
@@ -35,18 +38,18 @@ export const ResetPassword = ({ user }) => {
 
   return (
     <>
-      <Space direction="vertical">
+      <Space direction='vertical'>
         <ContentInnerHeader setBackOption />
-        <Space direction="vertical" className="flex center">
-          <div className="login-form-div">
-            <div className="login-form-content-div">
+        <Space direction='vertical' className='flex center'>
+          <div className='login-form-div'>
+            <div className='login-form-content-div'>
               <Space
-                size="middle"
-                direction="vertical"
-                style={{ width: "100%" }}
+                size='middle'
+                direction='vertical'
+                style={{ width: '100%' }}
               >
                 <div>
-                  <h2 className="title-style">Reset Password</h2>
+                  <h2 className='title-style'>Reset Password</h2>
                 </div>
                 <Form
                   ref={form}
@@ -55,17 +58,17 @@ export const ResetPassword = ({ user }) => {
                   onFinishFailed={onFinishFailed}
                 >
                   <Space
-                    size="middle"
-                    direction="vertical"
-                    style={{ width: "100%" }}
+                    size='middle'
+                    direction='vertical'
+                    style={{ width: '100%' }}
                   >
                     <label>New Password</label>
                     <Form.Item
-                      name="password"
+                      name='password'
                       rules={[
                         {
                           required: true,
-                          message: "Insert Password",
+                          message: 'Insert Password',
                         },
                         ({ getFieldValue }) => ({
                           validator(_, value) {
@@ -77,7 +80,7 @@ export const ResetPassword = ({ user }) => {
                               return Promise.resolve();
                             }
                             return Promise.reject(
-                              "At least 9 characters, one uppercase and one number"
+                              'At least 9 characters, one uppercase and one number'
                             );
                           },
                         }),
@@ -87,26 +90,26 @@ export const ResetPassword = ({ user }) => {
                     </Form.Item>
                     <label>Confirm New Password </label>
                     <Form.Item
-                      name="confirmPassword"
-                      dependencies={["password"]}
+                      name='confirmPassword'
+                      dependencies={['password']}
                       rules={[
                         {
                           required: true,
-                          message: "Please confirm your password!",
+                          message: 'Please confirm your password!',
                         },
                         ({ getFieldValue }) => ({
                           validator(_, value) {
-                            if (!value || getFieldValue("password") === value) {
+                            if (!value || getFieldValue('password') === value) {
                               return Promise.resolve();
                             }
                             return Promise.reject(
-                              "The two passwords that you entered do not match!"
+                              'The two passwords that you entered do not match!'
                             );
                           },
                         }),
                       ]}
                       style={{
-                        width: "100%",
+                        width: '100%',
                         marginBottom: 0,
                       }}
                     >
@@ -114,17 +117,17 @@ export const ResetPassword = ({ user }) => {
                     </Form.Item>
                     <div
                       style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "flex-end",
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
                       }}
                     >
                       <Form.Item>
                         <Button
                           // onClick={onCheck}
-                          htmlType="submit"
-                          style={{ width: "15rem" }}
-                          type="primary"
+                          htmlType='submit'
+                          style={{ width: '15rem' }}
+                          type='primary'
                           loading={loading}
                         >
                           Reset Password

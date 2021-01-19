@@ -14,7 +14,6 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
   const router = useRouter();
 
   const [fieldsValues, setFieldsValues] = useState({
-    userTypeId: userInfo.userTypeId,
     username: userInfo.username,
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
@@ -35,6 +34,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
     const api = new API();
     const resUserTypes = await api.GET('/UserTypes');
     setUserTypes(resUserTypes.response);
+    setFieldsValues({ ...fieldsValues, userTypeId: userInfo.userTypeId });
   };
 
   const key = 'updatable';
