@@ -1,37 +1,40 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import API from "../../API/API";
-import UserDetails from "../../components/details-screens/UserDetails";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
+import API from '../../API/API';
+import UserDetails from '../../components/details-screens/UserDetails';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     const api = new API();
 
-    const resUser = await api.GET("/Users/" + user.userId);
+    const resUser = await api.GET('/Users/' + user.userId);
 
     const finalQuery = query;
 
     const userInfo = resUser.response.authUser;
     userInfo.did = resUser.response.did;
+    userInfo.userTypeId = resUser.response.userTypeId;
 
     const servicesContent = {
       editable: false,
-      title: "User Details",
+      title: 'User Details',
     };
 
     const editServiceContent = new Array(24).fill({
       id: 1,
-      title: "Access to the User list view",
+      title: 'Access to the User list view',
       status: true,
     });
 
     const telephonyFeatures = new Array(24).fill({
       id: 1,
-      title: "Access to the User list view",
+      title: 'Access to the User list view',
       status: true,
     });
+
+    const resUserTypes = await api.GET('/UserTypes');
 
     return {
       user,
@@ -41,6 +44,7 @@ export default class extends Component {
       finalQuery,
       userInfo,
       resUser,
+      resUserTypes,
     };
   }
   constructor(props) {
@@ -57,8 +61,6 @@ export default class extends Component {
       finalQuery,
       user,
     } = this.props;
-
-    console.log(userInfo);
 
     return (
       <BaseLayout>

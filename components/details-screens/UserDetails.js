@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input, message, Row, Space, Form, Select } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import API from '../../API/API';
 import { IsAValidEmail } from '../../scripts/General';
 
@@ -23,6 +24,19 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
 
   const [editable, setEditable] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  const [userTypes, setUserTypes] = useState([]);
+  useEffect(() => {
+    if (userTypes.length === 0) {
+      getUserTypes();
+    }
+  }, [userTypes]);
+  const getUserTypes = async () => {
+    const api = new API();
+    const resUserTypes = await api.GET('/UserTypes');
+    setUserTypes(resUserTypes.response);
+  };
+
   const key = 'updatable';
   const openMessage = () => {
     message.loading({ content: 'Saving changes...', key });
@@ -63,10 +77,10 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: '100%' }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader setBackOption />
         <Row>
-          <h1 className="title-style">{servicesContent.title}</h1>
+          <h1 className='title-style'>{servicesContent.title}</h1>
         </Row>
         <Form
           initialValues={fieldsValues}
@@ -75,14 +89,14 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
           }}
         >
           <Space
-            direction="horizontal"
-            size="middle"
-            className="flex-end flex-wrap"
+            direction='horizontal'
+            size='middle'
+            className='flex-end flex-wrap'
           >
-            <Space direction="vertical">
+            <Space direction='vertical'>
               <h4>Email</h4>
               <Form.Item
-                name="email"
+                name='email'
                 rules={[
                   {
                     required: true,
@@ -107,10 +121,10 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 />
               </Form.Item>
             </Space>
-            <Space direction="vertical">
+            <Space direction='vertical'>
               <h4>First Name</h4>
               <Form.Item
-                name="firstName"
+                name='firstName'
                 rules={[
                   {
                     required: true,
@@ -130,10 +144,10 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 />
               </Form.Item>
             </Space>
-            <Space direction="vertical">
+            <Space direction='vertical'>
               <h4>Last Name</h4>
               <Form.Item
-                name="lastName"
+                name='lastName'
                 rules={[
                   {
                     required: true,
@@ -153,16 +167,16 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                 />
               </Form.Item>
             </Space>
-            <Space direction="vertical">
+            <Space direction='vertical'>
               <Form.Item>
                 <h4> </h4>
                 <Space
-                  direction="horizontal"
-                  size="middle"
-                  className="flex-end flex-wrap"
+                  direction='horizontal'
+                  size='middle'
+                  className='flex-end flex-wrap'
                 >
                   <Button
-                    type="primary"
+                    type='primary'
                     loading={saving}
                     onClick={() => {
                       setEditable(!editable);
@@ -171,10 +185,10 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
                     <FontAwesomeIcon icon={faEdit} />
                   </Button>
                   <Button
-                    type="primary"
+                    type='primary'
                     disabled={!editable}
                     loading={saving}
-                    htmlType="submit"
+                    htmlType='submit'
                   >
                     {'Save'}
                   </Button>
@@ -184,11 +198,11 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
           </Space>
         </Form>
         <Space
-          direction="horizontal"
-          size="middle"
-          className="flex-end flex-wrap"
+          direction='horizontal'
+          size='middle'
+          className='flex-end flex-wrap'
         >
-          <Space direction="vertical">
+          <Space direction='vertical'>
             <h4>Username</h4>
             <Input
               style={{ width: 300 }}
@@ -196,7 +210,7 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
               disabled={true}
             />
           </Space>
-          <Space direction="vertical">
+          <Space direction='vertical'>
             <h4>DID</h4>
             <Select
               style={{ width: 300 }}
@@ -204,16 +218,20 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
               disabled={true}
             />
           </Space>
-          <Space direction="vertical">
+          <Space direction='vertical'>
             <h4>User Type</h4>
             <Select
               style={{ width: 300 }}
               value={fieldsValues.userTypeId}
               disabled={true}
             >
-              <Option value={1}>GRA</Option>
-              <Option value={2}>Sippo</Option>
-              <Option value={8}>Both</Option>
+              {userTypes.map((userType, index) => {
+                return (
+                  <Option key={userType.id} value={userType.id}>
+                    {userType.description}
+                  </Option>
+                );
+              })}
             </Select>
           </Space>
         </Space>
