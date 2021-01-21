@@ -1,27 +1,27 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import API from "../../API/API";
-import ListAllUsers from "../../components/tier1-screens/ListAllUsers";
-import { BaseLayout } from "../../layouts/BaseLayout";
-import { systemLog } from "../../scripts/General";
+import API from '../../API/API';
+import ListAllUsers from '../../components/tier1-screens/ListAllUsers';
+import { BaseLayout } from '../../layouts/BaseLayout';
+import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "CorporateService":
-          case "OrganizationAdmin":
+          case 'CorporateService':
+          case 'OrganizationAdmin':
             res.writeHead(302, {
-              Location: "/admin-dashboard",
+              Location: '/admin-dashboard',
             });
             res.end();
 
             break;
 
-          case "EndUser":
+          case 'EndUser':
             res.writeHead(302, {
-              Location: "/user-dashboard",
+              Location: '/user-dashboard',
             });
             res.end();
 
@@ -32,7 +32,7 @@ export default class extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
@@ -40,7 +40,7 @@ export default class extends Component {
 
     const api = new API();
 
-    const resUserList = await api.GET("/Users/");
+    const resUserList = await api.GET('/Users/');
     let resQueryUserList;
 
     let finalUserList = [];
@@ -51,7 +51,7 @@ export default class extends Component {
         key: currentUser.authUser.id,
         userName: currentUser.authUser.username,
         name:
-          currentUser.authUser.firstName + " " + currentUser.authUser.lastName,
+          currentUser.authUser.firstName + ' ' + currentUser.authUser.lastName,
         email: currentUser.authUser.email,
         did: currentUser.did,
         status: currentUser.authUser.isActive,
@@ -61,7 +61,7 @@ export default class extends Component {
 
     if (query.orgId !== undefined) {
       finalUserList = [];
-      resQueryUserList = await api.GET("/Users/orgId/" + query.orgId);
+      resQueryUserList = await api.GET('/Users/orgId/' + query.orgId);
       for (let i = 0; i < resQueryUserList.response.length; i++) {
         const currentUser = resQueryUserList.response[i];
         const currentOrg = resQueryUserList.response[i].organization;
@@ -71,7 +71,7 @@ export default class extends Component {
           userName: currentUser.authUser.username,
           name:
             currentUser.authUser.firstName +
-            " " +
+            ' ' +
             currentUser.authUser.lastName,
           email: currentUser.authUser.email,
           did: currentUser.did,
@@ -95,7 +95,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    this.userinfo = "";
+    this.userinfo = '';
     this.state = { reloadInfo: false, currentProps: props };
   }
 
@@ -108,7 +108,7 @@ export default class extends Component {
 
     const api = new API();
 
-    const resUserList = await api.GET("/Users/");
+    const resUserList = await api.GET('/Users/');
     let resQueryUserList;
 
     let finalUserList = [];
@@ -119,7 +119,7 @@ export default class extends Component {
         key: currentUser.authUser.id,
         userName: currentUser.authUser.username,
         name:
-          currentUser.authUser.firstName + " " + currentUser.authUser.lastName,
+          currentUser.authUser.firstName + ' ' + currentUser.authUser.lastName,
         email: currentUser.authUser.email,
         did: currentUser.did,
         status: currentUser.authUser.isActive,
@@ -129,7 +129,7 @@ export default class extends Component {
 
     if (finalQuery.orgId !== undefined) {
       finalUserList = [];
-      resQueryUserList = await api.GET("/Users/orgId/" + finalQuery.orgId);
+      resQueryUserList = await api.GET('/Users/orgId/' + finalQuery.orgId);
       for (let i = 0; i < resQueryUserList.response.length; i++) {
         const currentUser = resQueryUserList.response[i];
         const currentOrg = resQueryUserList.response[i].organization;
@@ -139,7 +139,7 @@ export default class extends Component {
           userName: currentUser.authUser.username,
           name:
             currentUser.authUser.firstName +
-            " " +
+            ' ' +
             currentUser.authUser.lastName,
           email: currentUser.authUser.email,
           did: currentUser.did,

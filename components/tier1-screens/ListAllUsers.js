@@ -1,8 +1,8 @@
-import { faEraser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { SearchOutlined } from '@ant-design/icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
-  Checkbox,
   Input,
   message,
   Popconfirm,
@@ -12,13 +12,11 @@ import {
   Switch,
   Table,
 } from 'antd';
-import Search from 'antd/lib/input/Search';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useRef, useState } from 'react';
 import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
-import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -39,22 +37,21 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const api = new API(userInfo.token);
 
   async function onChangeUserState(selectedUser) {
-    const resOnChangeUser = await api.PUT('/AuthUsers/' + selectedUser.key, {
-      username: selectedUser.userName,
-      isActive: !selectedUser.status,
-    });
+    const resOnChangeUser = await api.PUT(
+      '/tools/activate-deactivate-user/' + selectedUser.key
+    );
 
     if (resOnChangeUser.statusCode === 200) {
       message
-        .loading('Changing Status...', 2)
-        .then(() => message.success('User Status Changed Succesfully!', 2));
+        .loading('Changing Status...', 2.5)
+        .then(() => message.success('User Status Changed Succesfully!', 2.5));
       setTimeout(() => {
         reloadInfo();
-      }, 2000);
+      }, 1000);
     } else {
       message
-        .loading('Changing Status...', 2)
-        .then(() => message.error('Unable to Change This User State', 2));
+        .loading('Changing Status...', 2.5)
+        .then(() => message.error('Unable to Change This User State', 2.5));
     }
   }
 
