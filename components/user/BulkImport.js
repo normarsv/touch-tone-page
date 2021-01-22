@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Button, message, Row, Space, Table, Tooltip } from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import Dragger from "antd/lib/upload/Dragger";
-import { InboxOutlined, FileOutlined } from "@ant-design/icons";
-import Search from "antd/lib/input/Search";
-import API from "../../API/API";
-import { useRouter } from "next/dist/client/router";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Button, message, Row, Space, Table, Tooltip } from 'antd';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import Dragger from 'antd/lib/upload/Dragger';
+import { InboxOutlined, FileOutlined } from '@ant-design/icons';
+import Search from 'antd/lib/input/Search';
+import API from '../../API/API';
+import { useRouter } from 'next/dist/client/router';
 
-const key = "updatable";
+const key = 'updatable';
 
-const BulkImport = ({}) => {
+const BulkImport = ({ user }) => {
   const [resBulkList, setResBulkList] = useState();
   const [renderList, setRenderList] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
@@ -23,74 +23,71 @@ const BulkImport = ({}) => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      fixed: "left",
-      width: "10%",
+      title: 'Name',
+      dataIndex: 'name',
+      fixed: 'left',
+      width: '10%',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      width: "25%",
+      title: 'Email',
+      dataIndex: 'email',
+      width: '25%',
     },
     {
-      title: "Organization",
-      dataIndex: "org",
-      width: "25%",
+      title: 'Organization',
+      dataIndex: 'org',
+      width: '25%',
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      width: "10%",
+      title: 'Role',
+      dataIndex: 'role',
+      width: '10%',
     },
   ];
 
-  const api = new API("", {
-    "Content-Type": 'multipart/form-data;boundary="boundary"',
-    "Access-Control-Allow-Origin": "*",
+  const api = new API(user.token, {
+    'Content-Type': 'multipart/form-data;boundary="boundary"',
+    'Access-Control-Allow-Origin': '*',
   });
 
   const props = {
-    name: "file",
+    name: 'file',
     multiple: false,
-    action: "",
+    action: '',
     async onChange(info) {
       console.log(info);
       const { status } = info.file;
       console.log(status);
-
-      if (status !== "uploading") {
+      if (status === 'done') {
         var formDataUpload = new FormData();
-        formDataUpload.append("file", info.file.originFileObj);
+        formDataUpload.append('file', info.file.originFileObj);
 
         const apiResBulkUpload = await api.doVerifyUserBulkImport(
           formDataUpload
         );
-
-        setFileInfo(info.file);
-
         console.log(apiResBulkUpload);
-
-        const finalUserList = [];
-        for (let i = 0; i < apiResBulkUpload.length; i++) {
-          const currentUser = apiResBulkUpload[i];
-
-          finalUserList.push({
-            name: currentUser.firstName + " " + currentUser.lastName,
-            email: currentUser.email,
-            org: currentUser.organizationName,
-            role: "End User",
-          });
+        if (apiResBulkUpload.message !== undefined) {
+          message.error(apiResBulkUpload.message);
+        } else if (apiResBulkUpload.length === 0) {
+          message.error(`Did not found users in ${info.file.name} `);
+        } else {
+          setFileInfo(info.file);
+          setRawCsv(info.file.originFileObj);
+          const finalUserList = [];
+          for (let i = 0; i < apiResBulkUpload.length; i++) {
+            const currentUser = apiResBulkUpload[i];
+            finalUserList.push({
+              name: currentUser.first_name + ' ' + currentUser.last_name,
+              email: currentUser.email,
+              org: currentUser.organizationName,
+              role: 'End User',
+            });
+          }
+          setResBulkList(finalUserList);
+          console.log(apiResBulkUpload);
+          message.success(`${info.file.name} file uploaded successfully.`);
         }
-
-        setResBulkList(finalUserList);
-
-        console.log(apiResBulkUpload);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-        setRawCsv(info.file.originFileObj);
-      } else if (status === "error") {
+      } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
@@ -103,23 +100,26 @@ const BulkImport = ({}) => {
   }
 
   async function uploadCsv() {
-    // rawCsv;
+    message.loading({ content: 'Loading...', key });
     var formDataUpload = new FormData();
-    formDataUpload.append("file", rawCsv);
+    formDataUpload.append('file', rawCsv);
 
     const apiUploadFinalList = await api.doUploadUserBulkImport(formDataUpload);
-
-    message.loading({ content: "Loading...", key });
-    setTimeout(() => {
+    console.log(apiUploadFinalList);
+    if (apiUploadFinalList.message !== undefined) {
+      message.error({
+        content: apiUploadFinalList.message,
+        key,
+        duration: 5,
+      });
+    } else {
       message.success({
-        content: "Csv uploaded correctly, Redirecting to User List...",
+        content: 'Csv uploaded correctly, Redirecting to User List...',
         key,
         duration: 2,
       });
-      router.replace("/list-users");
-    }, 2000);
-
-    console.log(apiUploadFinalList, "response");
+      router.replace('/list-users');
+    }
   }
 
   const onSelectChange = (selectedRowKeys) => {
@@ -141,26 +141,18 @@ const BulkImport = ({}) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader setBackOption />
         <Row>
-          <h1 className="title-style">Bulk Import</h1>
+          <h1 className='title-style'>Bulk Import</h1>
         </Row>
-        <Row type="flex" justify="space-between">
-          {renderList ? (
-            <Search
-              placeholder="Search..."
-              enterButton
-              style={{ width: 300 }}
-            />
-          ) : (
-            <div />
-          )}
+        <Row type='flex' justify='space-between'>
+          <div />
           <Tooltip
-            placement="left"
+            placement='left'
             title={!renderList ? tooltipDraggerText : renderedListTest}
           >
-            <h2 className="title-style">
+            <h2 className='title-style'>
               Help <FontAwesomeIcon icon={faQuestionCircle} />
             </h2>
           </Tooltip>
@@ -169,75 +161,75 @@ const BulkImport = ({}) => {
         {!renderList ? (
           //Render file uploader
           <>
-            <Row type="flex" justify="center">
+            <Row type='flex' justify='center'>
               <Dragger
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 showUploadList={false}
                 {...props}
               >
                 <Space
-                  size="middle"
-                  direction="vertical"
-                  style={{ width: "80%" }}
+                  size='middle'
+                  direction='vertical'
+                  style={{ width: '80%' }}
                 >
-                  <p className="ant-upload-drag-icon">
+                  <p className='ant-upload-drag-icon'>
                     {fileInfo.name ? (
-                      <Space className="flex center">
+                      <Space className='flex center'>
                         <FileOutlined /> <h1>{fileInfo.name}</h1>
                       </Space>
                     ) : (
                       <InboxOutlined />
                     )}
                   </p>
-                  <p className="ant-upload-text">
-                    Click or drag file to this area to{" "}
+                  <p className='ant-upload-text'>
+                    Click or drag file to this area to{' '}
                     {fileInfo.name
-                      ? "replace the actual file"
-                      : "upload a csv file"}
+                      ? 'replace the actual file'
+                      : 'upload a csv file'}
                   </p>
-                  <p className="ant-upload-hint">
+                  <p className='ant-upload-hint'>
                     Support for a single or bulk upload. Strictly prohibit from
                     uploading company data or other band files
                   </p>
                 </Space>
               </Dragger>
             </Row>
-            <Row type="flex" justify="center">
+            <Row type='flex' justify='center'>
               <h3>
-                Download Example CSV{" "}
-                <a href={"/Test-CSV.csv"} className="title-style">
+                Download Example CSV{' '}
+                <a href={'/Test-CSV.csv'} className='title-style'>
                   here
                 </a>
               </h3>
             </Row>
-            <Row type="flex" justify="center">
+            <Row type='flex' justify='center'>
               <Button
                 disabled={!resBulkList}
-                type="primary"
-                className="primary-button-style"
+                type='primary'
+                className='primary-button-style'
                 onClick={() => setRenderList(true)}
               >
-                Continue{" "}
+                Continue{' '}
               </Button>
-            </Row>{" "}
+            </Row>{' '}
           </>
         ) : (
           //Render bulk table
           <>
-            {console.log(rawCsv, "rawcsv")}
-            <Row type="flex" justify="end">
+            {console.log(rawCsv, 'rawcsv')}
+            <Row type='flex' justify='end'>
               <div>
-                <Space direction="horizontal">
+                <Space direction='horizontal'>
                   <Button
-                    className="primary-button-style cancel"
+                    className='primary-button-style cancel'
                     onClick={() => revertImport()}
                   >
                     Revert
                   </Button>
                   <Button
                     onClick={() => uploadCsv()}
-                    type="primary"
-                    className="primary-button-style"
+                    type='primary'
+                    className='primary-button-style'
                   >
                     Confirm
                   </Button>

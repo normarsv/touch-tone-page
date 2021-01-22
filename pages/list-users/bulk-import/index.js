@@ -55,7 +55,7 @@ export default class extends Component {
     const { user } = this.props;
     return (
       <BaseLayout>
-        <BulkImport />
+        <BulkImport user={user} />
       </BaseLayout>
     );
   }
