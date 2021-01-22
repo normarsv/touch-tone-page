@@ -10,7 +10,12 @@ import { IsAValidEmail } from '../../scripts/General';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
-const OrganizationServices = ({ user, userInfo, servicesContent }) => {
+const OrganizationServices = ({
+  user,
+  userInfo,
+  servicesContent,
+  successfullyEdit,
+}) => {
   const router = useRouter();
 
   const [fieldsValues, setFieldsValues] = useState({
@@ -66,6 +71,9 @@ const OrganizationServices = ({ user, userInfo, servicesContent }) => {
         key,
         duration: 3,
       });
+      if (successfullyEdit !== undefined) {
+        successfullyEdit();
+      }
     } else {
       message.error('Error updating, please try again');
     }

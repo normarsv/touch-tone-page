@@ -1,39 +1,39 @@
-import { message } from "antd";
-import moment from "moment/min/moment-with-locales.js";
-import { withRouter } from "next/dist/client/router";
-import { Component } from "react";
+import { message } from 'antd';
+import moment from 'moment/min/moment-with-locales.js';
+import { withRouter } from 'next/dist/client/router';
+import { Component } from 'react';
 
-import API from "../../../API/API";
-import ModifyMeeting from "../../../components/tier3-screens/ModifyMeeting";
-import { BaseLayout } from "../../../layouts/BaseLayout";
-import { IsAValidEmail, systemLog } from "../../../scripts/General";
+import API from '../../../API/API';
+import ModifyMeeting from '../../../components/tier3-screens/ModifyMeeting';
+import { BaseLayout } from '../../../layouts/BaseLayout';
+import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
 class EditMeetings extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
         switch (user.group) {
-          case "BusinessSupport":
-          case "SuperAdmin":
+          case 'BusinessSupport':
+          case 'SuperAdmin':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
             break;
 
-          case "CorporateService":
-          case "OrganizationAdmin":
+          case 'CorporateService':
+          case 'OrganizationAdmin':
             res.writeHead(302, {
-              Location: "/admin-dashboard",
+              Location: '/admin-dashboard',
             });
             res.end();
 
             break;
 
-          case "Distributor":
+          case 'Distributor':
             res.writeHead(302, {
-              Location: "/list-organizations",
+              Location: '/list-organizations',
             });
             res.end();
 
@@ -44,15 +44,15 @@ class EditMeetings extends Component {
         }
       } else {
         res.writeHead(302, {
-          Location: "/",
+          Location: '/',
         });
         res.end();
       }
     }
 
     const api = new API(user.token);
-    const resManageUsers = await api.GET("/Users/orgId/" + user.organizationId);
-    const resMeeting = await api.GET("/Meetings/" + query.id);
+    const resManageUsers = await api.GET('/Users/orgId/' + user.organizationId);
+    const resMeeting = await api.GET('/Meetings/' + query.id);
     const currentMeeting = resMeeting.response;
     return {
       user,
@@ -73,29 +73,29 @@ class EditMeetings extends Component {
       },
       []
     );
-    this.userinfo = "";
-    this.state = { emailsToSend: "" };
+    this.userinfo = '';
+    this.state = { emailsToSend: '' };
 
     this.createMeetingForm = {
       generalOptions: {
-        type: "vertical", //horizontal, vertical, inline
-        formClassName: "test-form",
+        type: 'vertical', //horizontal, vertical, inline
+        formClassName: 'test-form',
         submit: {
-          className: "primary-button-style",
-          text: "Update Meeting",
+          className: 'primary-button-style',
+          text: 'Update Meeting',
         },
         reset: {
-          className: "primary-button-style",
-          text: "Clear",
+          className: 'primary-button-style',
+          text: 'Clear',
         },
       },
       formInitialValues: {
         name: props.currentMeeting.name,
         startTime: moment(props.currentMeeting.validSince).format(
-          "YYYY-MM-DD HH:mm"
+          'YYYY-MM-DD HH:mm'
         ),
         endTime: moment(props.currentMeeting.validUntil).format(
-          "YYYY-MM-DD HH:mm"
+          'YYYY-MM-DD HH:mm'
         ),
         participants: props.currentMeeting.participants.reduce(
           (returnParticipants, participant) => {
@@ -113,13 +113,13 @@ class EditMeetings extends Component {
       formValidations: (values) => {
         const errors = {};
         if (!values.name) {
-          errors.name = "Meeting name required";
+          errors.name = 'Meeting name required';
         }
         if (!values.startTime) {
-          errors.startTime = "Start date required";
+          errors.startTime = 'Start date required';
         }
         if (!values.participants || values.participants.length === 0) {
-          errors.participants = "At least 1 destination required";
+          errors.participants = 'At least 1 destination required';
         } else {
           const validParticipants = [];
           for (const participant of values.participants) {
@@ -128,7 +128,7 @@ class EditMeetings extends Component {
             }
           }
           if (validParticipants.length === 0) {
-            errors.participants = "At least 1 destination required";
+            errors.participants = 'At least 1 destination required';
           }
         }
         return errors;
@@ -155,44 +155,46 @@ class EditMeetings extends Component {
         const bodyMeeting = {
           name: values.name,
           participants: paticipants,
-          language: "es",
+          language: 'es',
           validSince: timeStampStartTime,
           validUntil: timeStampEndTime,
         };
 
         const api = new API(props.user.token);
         try {
-          await api.PUT("/Meetings/" + props.currentMeeting.id, bodyMeeting);
+          await api.PUT('/Meetings/' + props.currentMeeting.id, bodyMeeting);
+          message.success('Meeting updated successfully!');
+          props.router.back();
         } catch (error) {
           console.log(error);
+          setSubmitting(false);
+          message.error('There was an error creating the metting');
         }
-        message.success("Meeting updated successfully!");
-        props.router.back();
       },
       formInputsRows: [
         {
           inputs: [
             {
-              name: "url",
-              label: "Meeting URL",
-              placeholder: "Meeting URL...",
-              type: "text",
+              name: 'url',
+              label: 'Meeting URL',
+              placeholder: 'Meeting URL...',
+              type: 'text',
               required: false,
               disabled: true,
             },
             {
-              name: "ddiEXT",
-              label: "Meeting DDI EXT",
-              placeholder: "Meeting DDI EXT...",
-              type: "text",
+              name: 'ddiEXT',
+              label: 'Meeting DDI EXT',
+              placeholder: 'Meeting DDI EXT...',
+              type: 'text',
               required: false,
               disabled: true,
             },
             {
-              name: "ddiPIN",
-              label: "Meeting DDI PIN",
-              placeholder: "Meeting DDI PIN...",
-              type: "text",
+              name: 'ddiPIN',
+              label: 'Meeting DDI PIN',
+              placeholder: 'Meeting DDI PIN...',
+              type: 'text',
               required: false,
               disabled: true,
             },
@@ -201,24 +203,24 @@ class EditMeetings extends Component {
         {
           inputs: [
             {
-              name: "name",
-              label: "Meeting Name",
-              placeholder: "Meeting name...",
-              type: "text",
+              name: 'name',
+              label: 'Meeting Name',
+              placeholder: 'Meeting name...',
+              type: 'text',
               required: true,
             },
             {
-              name: "startTime",
-              label: "Start Date",
-              type: "datePicker",
+              name: 'startTime',
+              label: 'Start Date',
+              type: 'datePicker',
               disabledDate: (current) => {
                 return moment() >= current;
               },
               showTime: {
-                format: "HH:mm",
-                defaultValue: moment().startOf("day"),
+                format: 'HH:mm',
+                defaultValue: moment().startOf('day'),
               },
-              format: "YYYY-MM-DD HH:mm",
+              format: 'YYYY-MM-DD HH:mm',
               required: true,
               customOnChange: async (
                 newVal,
@@ -228,7 +230,7 @@ class EditMeetings extends Component {
               ) => {
                 let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
                   (input) => {
-                    return input.name === "endTime";
+                    return input.name === 'endTime';
                   }
                 );
                 if (inputEndTimeForm) {
@@ -241,21 +243,21 @@ class EditMeetings extends Component {
                   }
                   inputEndTimeForm.disabledHours = () => hourDisable;
                 }
-                formikData.setFieldValue("endTime", "");
+                formikData.setFieldValue('endTime', '');
               },
             },
             {
-              name: "endTime",
-              label: "End Time",
-              type: "timePicker",
+              name: 'endTime',
+              label: 'End Time',
+              type: 'timePicker',
               disabledDate: (current) => {
                 return moment() >= current;
               },
               showTime: {
-                format: "HH:mm",
-                defaultValue: moment().startOf("day"),
+                format: 'HH:mm',
+                defaultValue: moment().startOf('day'),
               },
-              format: "HH:mm",
+              format: 'HH:mm',
               required: true,
               customOnChange: async (
                 newVal,
@@ -264,11 +266,11 @@ class EditMeetings extends Component {
                 indexArray
               ) => {
                 const time = newVal;
-                const [hours, minutes] = time.split(":");
+                const [hours, minutes] = time.split(':');
                 const momentNewVal = moment(formikData.startTime)
-                  .set("hour", hours)
-                  .set("minutes", minutes)
-                  .format("YYYY-MM-DD HH:mm");
+                  .set('hour', hours)
+                  .set('minutes', minutes)
+                  .format('YYYY-MM-DD HH:mm');
 
                 const startTimeHour = moment(formikData.startTime).hour();
                 const startTimeMinutes = moment(formikData.startTime).minutes();
@@ -284,17 +286,17 @@ class EditMeetings extends Component {
                   }
                   let inputEndTimeForm = formOptions.formInputsRows[0].inputs.find(
                     (input) => {
-                      return input.name === "endTime";
+                      return input.name === 'endTime';
                     }
                   );
                   if (inputEndTimeForm) {
                     inputEndTimeForm.disableMinutes = () => minutesToDisable;
                     if (currentMinutes < startTimeMinutes) {
                       const newMoment = moment(momentNewVal)
-                        .set("minute", startTimeMinutes)
-                        .format("HH:mm");
+                        .set('minute', startTimeMinutes)
+                        .format('HH:mm');
                       setTimeout(() => {
-                        formikData.setFieldValue("endTime", newMoment);
+                        formikData.setFieldValue('endTime', newMoment);
                       }, 500);
                     }
                   }
@@ -306,18 +308,18 @@ class EditMeetings extends Component {
         {
           inputs: [
             {
-              name: "participants",
-              label: "Participants",
-              placeholder: "Select Participant",
-              type: "list",
+              name: 'participants',
+              label: 'Participants',
+              placeholder: 'Select Participant',
+              type: 'list',
               required: true,
               listFields: [
                 {
-                  name: "email",
-                  label: "Destination",
-                  placeholder: "Select Destination",
-                  type: "select",
-                  mode: "tags",
+                  name: 'email',
+                  label: 'Destination',
+                  placeholder: 'Select Destination',
+                  type: 'select',
+                  mode: 'tags',
                   customOnChange: async (
                     newVal,
                     formOptions,
@@ -342,15 +344,15 @@ class EditMeetings extends Component {
                     );
                     curretValues[indexArray].email = reduceGetOnlyNew;
                     formikData.setFieldValue(
-                      "participants",
+                      'participants',
                       curretValues,
                       false
                     );
                   },
                   required: true,
                   options: emailsParticipants,
-                  optionValue: "email",
-                  optionLabel: "email",
+                  optionValue: 'email',
+                  optionLabel: 'email',
                 },
               ],
             },

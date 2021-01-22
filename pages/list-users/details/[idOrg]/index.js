@@ -1,3 +1,4 @@
+import { withRouter } from 'next/dist/client/router';
 import { Component } from 'react';
 
 import API from '../../../../API/API';
@@ -5,7 +6,7 @@ import UserDetails from '../../../../components/details-screens/UserDetails';
 import { BaseLayout } from '../../../../layouts/BaseLayout';
 import { systemLog } from '../../../../scripts/General';
 
-export default class extends Component {
+class DetailUserPage extends Component {
   static async getInitialProps({ res, query, user }) {
     if (res) {
       if (user.group) {
@@ -86,6 +87,7 @@ export default class extends Component {
       telephonyFeatures,
       userInfo,
       user,
+      router,
     } = this.props;
 
     return (
@@ -96,8 +98,13 @@ export default class extends Component {
           servicesContent={servicesContent}
           editServiceContent={editServiceContent}
           telephonyFeatures={telephonyFeatures}
+          successfullyEdit={() => {
+            router.back();
+          }}
         />
       </BaseLayout>
     );
   }
 }
+
+export default withRouter(DetailUserPage);
