@@ -1,144 +1,112 @@
-import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales.js';
-import { Component } from 'react';
+import { Component, useState } from 'react';
 
+import API from '../../API/API';
 import VoiceMail from '../../components/tier3-screens/VoiceMail';
 import { BaseLayout } from '../../layouts/BaseLayout';
-import { systemLog } from '../../scripts/General';
 
-export default class extends Component {
-  static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-        switch (user.group) {
-          case 'BusinessSupport':
-          case 'SuperAdmin':
-            res.writeHead(302, {
-              Location: '/list-organizations',
-            });
-            res.end();
+function VoiceMailPage(props) {
+  const { voiceMailContent, user, voiceMails } = props;
+  const [currentVoiceMailContent, setCurrentVoiceMailContent] = useState(
+    voiceMailContent
+  );
+  console.log(voiceMailContent);
 
-            break;
+  const getVoiceMailContent = async () => {
+    const voiceMailContent = [];
+    const api = new API(user.token);
+    const resVoiceMail = await api.GET('/Services/voicemails');
+    const voiceMails = resVoiceMail.response;
 
-          case 'Distributor':
-            res.writeHead(302, {
-              Location: '/list-organizations',
-            });
-            res.end();
+    console.log(voiceMails);
 
-            break;
+    // for (const voiceMail of voiceMails) {
+    //   const createMeeting = {
+    //     id: voiceMail.id,
+    //     name: voiceMail.name,
+    //     date: moment(voiceMail.validSince).format('L'),
+    //     startTime: moment(voiceMail.validSince).format('LT'),
+    //     endTime: moment(voiceMail.validUntil).format('LT'),
+    //     url: voiceMail.url,
+    //     ddi: voiceMail.ddi,
+    //   };
+    //   voiceMailContent.push(createMeeting);
+    // }
+    setCurrentVoiceMailContent(voiceMailContent);
+  };
 
-          case 'CorporateService':
-          case 'OrganizationAdmin':
-            res.writeHead(302, {
-              Location: '/admin-dashboard',
-            });
-            res.end();
-
-            break;
-
-          default:
-            break;
-        }
-      } else {
-        res.writeHead(302, {
-          Location: '/',
-        });
-        res.end();
-      }
-    }
-
-    const voiceMailTableData = [
-      {
-        key: '1',
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        sender: 'Peter Lock',
-        totalTalkTime: '00:02:10',
-      },
-      {
-        key: '2',
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        sender: 'Anna Frias',
-        totalTalkTime: '00:02:00',
-      },
-      {
-        key: '3',
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        sender: 'Samuel Harlock',
-        totalTalkTime: '00:01:34',
-      },
-      {
-        key: '4',
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        sender: 'Sebastian Bones',
-        totalTalkTime: '00:02:40',
-      },
-    ];
-
-    return {
-      voiceMailTableData,
-      user,
-    };
-  }
-  constructor(props) {
-    super(props);
-    this.userinfo = '';
-  }
-  componentDidMount() {
-    systemLog.log(this.props);
-  }
-
-  render() {
-    const { voiceMailTableData } = this.props;
-
-    return (
-      <BaseLayout>
-        <VoiceMail voiceMailTableData={voiceMailTableData} />
-      </BaseLayout>
-    );
-  }
+  return (
+    <BaseLayout>
+      <VoiceMail
+        voiceMailTableData={currentVoiceMailContent}
+        getVoiceMailContent={getVoiceMailContent}
+      />
+    </BaseLayout>
+  );
 }
+
+VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
+  if (res) {
+    if (user.group) {
+      switch (user.group) {
+        case 'BusinessSupport':
+        case 'SuperAdmin':
+          res.writeHead(302, {
+            Location: '/list-organizations',
+          });
+          res.end();
+
+          break;
+
+        case 'CorporateService':
+        case 'OrganizationAdmin':
+          res.writeHead(302, {
+            Location: '/admin-dashboard',
+          });
+          res.end();
+
+          break;
+
+        case 'Distributor':
+          res.writeHead(302, {
+            Location: '/list-organizations',
+          });
+          res.end();
+
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      res.writeHead(302, {
+        Location: '/',
+      });
+      res.end();
+    }
+  }
+
+  const voiceMailContent = [];
+
+  const api = new API(user.token);
+  const resVoiceMail = await api.GET('/Services/voicemails');
+  const voiceMails = resVoiceMail.response;
+  for (const voiceMail of voiceMails) {
+    const addVoiceMail = {
+      // id: voiceMail.id,
+      date: moment(voiceMail.date).format('LLL'),
+      fileName: voiceMail.filE_NAME,
+      duration: voiceMail.duration,
+    };
+    voiceMailContent.push(addVoiceMail);
+  }
+
+  return {
+    user,
+    voiceMails,
+    voiceMailContent,
+    resVoiceMail,
+  };
+};
+
+export default VoiceMailPage;
