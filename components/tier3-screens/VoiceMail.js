@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Checkbox,
@@ -11,11 +11,12 @@ import {
   Space,
   Table,
   Tooltip,
-} from "antd";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
-import Search from "antd/lib/input/Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from 'antd';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
+import Search from 'antd/lib/input/Search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faCalendarTimes,
   faDownload,
   faEnvelope,
   faEraser,
@@ -23,7 +24,7 @@ import {
   faPlusCircle,
   faSync,
   faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 const { Option } = Select;
 
@@ -46,55 +47,54 @@ const VoiceMail = ({ voiceMailTableData }) => {
 
   const columns = [
     {
-      title: "Date",
-      dataIndex: "date",
+      title: 'Date',
+      dataIndex: 'date',
       render: (date) => {
         return (
           <Space direction="horizontal">
-            {date.map((item, index) => {
-              return (
-                <Space direction="horizontal">
-                  <FontAwesomeIcon className="title-style" icon={item.icon} />{" "}
-                  {item.date}{" "}
-                </Space>
-              );
-            })}
+            <Space direction="horizontal">
+              <FontAwesomeIcon className="title-style" icon={faCalendarTimes} />{' '}
+              {date}{' '}
+            </Space>
           </Space>
         );
       },
-      fixed: "left",
+      fixed: 'left',
       filterMultiple: false,
-      onFilter: (value, record) => record.date.indexOf(value) === 0,
-      sorter: (a, b) => a.date.length - b.date.length,
-      sortDirections: ["descend", "ascend"],
+      width: '10%',
+      // onFilter: (value, record) => record.date.indexOf(value) === 0,
+      // sorter: (a, b) => a.date.length - b.date.length,
+      // sortDirections: ['descend', 'ascend'],
     },
     {
-      title: "Sender",
-      dataIndex: "sender",
+      title: 'Name',
+      dataIndex: 'fileName',
       filterMultiple: false,
-      onFilter: (value, record) => record.sender.indexOf(value) === 0,
-      sorter: (a, b) => a.sender.length - b.sender.length,
-      sortDirections: ["descend", "ascend"],
+      width: '20%',
+      // onFilter: (value, record) => record.fileName.indexOf(value) === 0,
+      // sorter: (a, b) => a.fileName.length - b.fileName.length,
+      // sortDirections: ['descend', 'ascend'],
     },
     {
-      title: "Duration",
-      dataIndex: "totalTalkTime",
+      title: 'Duration',
+      dataIndex: 'duration',
       filterMultiple: false,
-      onFilter: (value, record) => record.totalTalkTime.indexOf(value) === 0,
-      sorter: (a, b) => a.totalTalkTime.length - b.totalTalkTime.length,
-      sortDirections: ["descend", "ascend"],
+      width: '6%',
+      // onFilter: (value, record) => record.duration.indexOf(value) === 0,
+      // sorter: (a, b) => a.duration.length - b.duration.length,
+      // sortDirections: ['descend', 'ascend'],
     },
     {
-      title: "Actions",
-      dataIndex: "actions",
-      width: "10%",
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '12%',
       render: (linkDetails, edit) => (
         <Row type="flex" justify="center" align="middle">
           <Space>
             <Tooltip title="Download file">
               <Button
                 type="primary"
-                style={{ borderRadius: "2rem", width: "1rem" }}
+                style={{ borderRadius: '2rem', width: '1rem' }}
                 className="flex center primary-button-style alternate"
               >
                 <FontAwesomeIcon icon={faDownload} />
@@ -103,7 +103,7 @@ const VoiceMail = ({ voiceMailTableData }) => {
             <Tooltip title="Send File by Email">
               <Button
                 type="primary"
-                style={{ borderRadius: "2rem", width: "1rem" }}
+                style={{ borderRadius: '2rem', width: '1rem' }}
                 className="flex center primary-button-style alternate"
               >
                 <FontAwesomeIcon icon={faEnvelope} />
@@ -114,9 +114,9 @@ const VoiceMail = ({ voiceMailTableData }) => {
       ),
     },
     {
-      title: "Delete Records",
-      dataIndex: "delete",
-      width: "10%",
+      title: 'Delete Records',
+      dataIndex: 'delete',
+      width: '8%',
       render: () => (
         <Row type="flex" justify="center" align="middle">
           <FontAwesomeIcon icon={faTrash} />
@@ -165,17 +165,17 @@ const VoiceMail = ({ voiceMailTableData }) => {
         </Space>
 
         <Table
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={voiceMailTableData}
           footer={(currentData) =>
-            "Showing " +
+            'Showing ' +
             currentData.length +
-            " of " +
+            ' of ' +
             voiceMailTableData.length +
-            " entries"
+            ' entries'
           }
         />
       </Space>
