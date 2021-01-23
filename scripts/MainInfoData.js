@@ -7,22 +7,23 @@ import {
   PlusCircleFilled,
   UnorderedListOutlined,
   UserOutlined,
-} from "@ant-design/icons";
+  MailOutlined,
+} from '@ant-design/icons';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: [
-    "//at.alicdn.com/t/font_2181971_jx7g7qqv36.js", // icon-th, icon-users, icon-list-alt, icon-th-list, icon-FontAwesomeheadphones, icon-map, icon-mic, icon-tty
+    '//at.alicdn.com/t/font_2181971_jx7g7qqv36.js', // icon-th, icon-users, icon-list-alt, icon-th-list, icon-FontAwesomeheadphones, icon-map, icon-mic, icon-tty
   ],
 });
 //The IP of the page
-export const mainIp = "https://touch-tone.guaodev.com"; //process.env.API_MAIN_IP; //REGRESENLO A .env NO LO DEJEN DIRECTO
-export let imageMainIp = process.env.NODE_ENV === "development" ? mainIp : "";
+export const mainIp = 'https://touch-tone.guaodev.com'; //process.env.API_MAIN_IP; //REGRESENLO A .env NO LO DEJEN DIRECTO
+export let imageMainIp = process.env.NODE_ENV === 'development' ? mainIp : '';
 
 //Name of session save
-export const nameSession = "Touch-Tone";
+export const nameSession = 'Touch-Tone';
 
 //Name of the organization where we are going to get the info of the page
-export const adminOrg = "ORG Cliente";
+export const adminOrg = 'ORG Cliente';
 
 //The project is Multiple Language
 export const isMultipleLanguage = false;
@@ -30,10 +31,10 @@ export const isMultipleLanguage = false;
 //Available Languages
 export const availableLanguages = [
   {
-    key: "es",
-    value: "es",
-    data: "",
-    text: "Español",
+    key: 'es',
+    value: 'es',
+    data: '',
+    text: 'Español',
     isBase: true,
   },
 ];
@@ -47,13 +48,13 @@ export const baseLanguage = () => {
 };
 
 //Dir of the logo
-export const logo = "/logo-baz.png";
-export const logoBurger = "/logo_burger.png";
-export const logoSticky = "/logo_sticky.png";
-export const logoSmall = "/logo_small.png";
-export const logoSmallBurger = "/logo_small_burger.png";
-export const logoSmallSticky = "/logo_small_sticky.png";
-export const projectStaticPath = "/project/";
+export const logo = '/logo-baz.png';
+export const logoBurger = '/logo_burger.png';
+export const logoSticky = '/logo_sticky.png';
+export const logoSmall = '/logo_small.png';
+export const logoSmallBurger = '/logo_small_burger.png';
+export const logoSmallSticky = '/logo_small_sticky.png';
+export const projectStaticPath = '/project/';
 export const getProjectImage = (name) => {
   return projectStaticPath + name;
 };
@@ -62,95 +63,95 @@ export const getProjectImage = (name) => {
 export const navigation = [
   {
     id: 1,
-    href: "/preguntas-frecuentes",
-    name: "Preguntas frecuentes",
+    href: '/preguntas-frecuentes',
+    name: 'Preguntas frecuentes',
     isHome: false,
   },
-  { id: 2, href: "/iniciar-sesion", name: "Iniciar sesión", isHome: false },
+  { id: 2, href: '/iniciar-sesion', name: 'Iniciar sesión', isHome: false },
 ];
 
 //Metatags for the admin
 export const baseMetaTags = [
   {
-    name: "title",
-    content: "Base-page",
+    name: 'title',
+    content: 'Base-page',
   },
   {
-    name: "description",
-    content: "base-desc",
+    name: 'description',
+    content: 'base-desc',
   },
 ];
 
 //The project routes for metatags
 export const RoutesMetaTags = [
   {
-    pathname: "/[language]",
-    page: "home",
+    pathname: '/[language]',
+    page: 'home',
   },
 ];
 
 //Base for Open Graph Meta Tags, from can be: "base" and "text"
 export const OGMetaTagBase = [
   {
-    tag: "og:title",
-    from: "base",
-    key: "title",
+    tag: 'og:title',
+    from: 'base',
+    key: 'title',
   },
   {
-    tag: "og:description",
-    from: "base",
-    key: "description",
+    tag: 'og:description',
+    from: 'base',
+    key: 'description',
   },
   {
-    tag: "og:image",
+    tag: 'og:image',
     useImgURL: true,
-    from: "base",
-    key: "image",
+    from: 'base',
+    key: 'image',
   },
   {
-    tag: "og:type",
-    from: "text",
-    data: "website",
+    tag: 'og:type',
+    from: 'text',
+    data: 'website',
   },
 ];
 
 export const siderLinks = (role) => {
   switch (role) {
-    case "BusinessSupport":
-    case "SuperAdmin":
+    case 'BusinessSupport':
+    case 'SuperAdmin':
       return [
         {
-          sectionTitle: "Organizations",
+          sectionTitle: 'Organizations',
           links: [
             {
-              label: "List all Organizations",
-              url: "/list-organizations",
+              label: 'List all Organizations',
+              url: '/list-organizations',
               icon: <UnorderedListOutlined />,
               submenu: [],
             },
           ],
         },
         {
-          sectionTitle: "Users",
+          sectionTitle: 'Users',
           links: [
             {
-              label: "List all Users",
-              url: "/list-users",
+              label: 'List all Users',
+              url: '/list-users',
               icon: <UserOutlined />,
               submenu: [],
             },
             {
-              label: "New User",
-              url: "#",
+              label: 'New User',
+              url: '#',
               icon: <PlusCircleFilled />,
               submenu: [
                 {
-                  label: "Add User",
-                  url: "/list-users/new-user",
+                  label: 'Add User',
+                  url: '/list-users/new-user',
                 },
                 {
-                  label: "Add by Bulk",
-                  url: "/list-users/bulk-import",
+                  label: 'Add by Bulk',
+                  url: '/list-users/bulk-import',
                 },
               ],
             },
@@ -159,26 +160,26 @@ export const siderLinks = (role) => {
       ];
       break;
 
-    case "CorporateService":
-    case "OrganizationAdmin":
+    case 'CorporateService':
+    case 'OrganizationAdmin':
       return [
         {
-          sectionTitle: "",
+          sectionTitle: '',
           links: [
             {
-              label: "Manage Users",
-              url: "/manage-users",
+              label: 'Manage Users',
+              url: '/manage-users',
               icon: <UnorderedListOutlined />,
               submenu: [],
             },
           ],
         },
         {
-          sectionTitle: "Services",
+          sectionTitle: 'Services',
           links: [
             {
-              label: "Audio Conference Room",
-              url: "/audio-conference",
+              label: 'Audio Conference Room',
+              url: '/audio-conference',
               icon: <CustomerServiceFilled />,
               submenu: [],
             },
@@ -191,14 +192,14 @@ export const siderLinks = (role) => {
             },
             */
             {
-              label: "Queue",
-              url: "/queues",
+              label: 'Queue',
+              url: '/queues',
               icon: <OrderedListOutlined />,
               submenu: [],
             },
             {
-              label: "Auto - Attendant",
-              url: "/auto-attendant",
+              label: 'Auto - Attendant',
+              url: '/auto-attendant',
               icon: <UserOutlined />,
               submenu: [
                 // {
@@ -214,17 +215,17 @@ export const siderLinks = (role) => {
           ],
         },
         {
-          sectionTitle: "Telephony Features",
+          sectionTitle: 'Telephony Features',
           links: [
             {
-              label: "Call Forwarding",
-              url: "/telephony-features/call-forwarding",
+              label: 'Call Forwarding',
+              url: '/telephony-features/call-forwarding',
               icon: <PhoneFilled />,
               submenu: [],
             },
             {
-              label: "Ring Groups",
-              url: "/telephony-features/ring-groups",
+              label: 'Ring Groups',
+              url: '/telephony-features/ring-groups',
               icon: <IconFont type="icon-map" />,
               submenu: [],
             },
@@ -237,8 +238,8 @@ export const siderLinks = (role) => {
             },
             */
             {
-              label: "Call Recordings",
-              url: "/telephony-features/call-recordings",
+              label: 'Call Recordings',
+              url: '/telephony-features/call-recordings',
               icon: <IconFont type="icon-mic" />,
               submenu: [],
             },
@@ -247,23 +248,21 @@ export const siderLinks = (role) => {
       ];
       break;
 
-    case "EndUser":
+    case 'EndUser':
       return [
         {
-          sectionTitle: "",
+          sectionTitle: '',
           links: [
-            /*
+            {
+              label: 'Meetings',
+              url: '/meetings',
+              icon: <IconFont type="icon-users" />,
+              submenu: [],
+            },
             {
               label: 'Voice Mail',
               url: '/voice-mail',
               icon: <MailOutlined />,
-              submenu: [],
-            },
-            */
-            {
-              label: "Meetings",
-              url: "/meetings",
-              icon: <IconFont type="icon-users" />,
               submenu: [],
             },
             /*
@@ -297,23 +296,23 @@ export const siderLinks = (role) => {
           ],
         },
         {
-          sectionTitle: "Telephony Features",
+          sectionTitle: 'Telephony Features',
           links: [
             {
-              label: "Call Forwarding",
-              url: "/telephony-features/call-forwarding",
+              label: 'Call Forwarding',
+              url: '/telephony-features/call-forwarding',
               icon: <PhoneFilled />,
               submenu: [],
             },
             {
-              label: "Call Forward Selective",
-              url: "/telephony-features/call-forward-selective",
+              label: 'Call Forward Selective',
+              url: '/telephony-features/call-forward-selective',
               icon: <ForwardFilled />,
               submenu: [],
             },
             {
-              label: "My Find Me",
-              url: "/telephony-features/my-findme",
+              label: 'My Find Me',
+              url: '/telephony-features/my-findme',
               icon: <IconFont type="icon-map" />,
               submenu: [],
             },

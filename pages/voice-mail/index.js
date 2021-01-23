@@ -10,7 +10,7 @@ function VoiceMailPage(props) {
   const [currentVoiceMailContent, setCurrentVoiceMailContent] = useState(
     voiceMailContent
   );
-  console.log(voiceMailContent);
+  console.log(voiceMails);
 
   const getVoiceMailContent = async () => {
     const voiceMailContent = [];
@@ -92,11 +92,13 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const resVoiceMail = await api.GET('/Services/voicemails');
   const voiceMails = resVoiceMail.response;
   for (const voiceMail of voiceMails) {
+    console.log(voiceMail);
     const addVoiceMail = {
-      // id: voiceMail.id,
+      // id: voiceMail,
       date: moment(voiceMail.date).format('LLL'),
       fileName: voiceMail.filE_NAME,
       duration: voiceMail.duration,
+      actions: voiceMail.filE_NAME,
     };
     voiceMailContent.push(addVoiceMail);
   }

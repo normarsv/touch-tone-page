@@ -16,6 +16,7 @@ import ContentInnerHeader from '../misc/ContentInnerHeader';
 import Search from 'antd/lib/input/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faCalendarAlt,
   faCalendarTimes,
   faDownload,
   faEnvelope,
@@ -25,12 +26,14 @@ import {
   faSync,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
+import { AudioPlayerProvider, useAudioPlayer } from 'react-use-audio-player';
 
 const { Option } = Select;
 
 const VoiceMail = ({ voiceMailTableData }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [audioProgress, setAudioProgress] = useState();
+  const [getVoiceMail, setGetVoiceMail] = useState(false);
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -45,6 +48,24 @@ const VoiceMail = ({ voiceMailTableData }) => {
     onChange: onSelectChange,
   };
 
+  const AudioPlayer = ({ file }) => {
+    const { togglePlayPause, ready, loading, playing } = useAudioPlayer({
+      src: file,
+      format: 'mp3',
+      autoplay: false,
+      onend: () => console.log('sound has ended!'),
+    });
+
+    if (!ready && !loading) return <div>No audio to play</div>;
+    if (loading) return <div>Loading audio</div>;
+
+    return (
+      <div>
+        <Button onClick={togglePlayPause}>{playing ? 'Pause' : 'Play'}</Button>
+      </div>
+    );
+  };
+
   const columns = [
     {
       title: 'Date',
@@ -53,7 +74,7 @@ const VoiceMail = ({ voiceMailTableData }) => {
         return (
           <Space direction="horizontal">
             <Space direction="horizontal">
-              <FontAwesomeIcon className="title-style" icon={faCalendarTimes} />{' '}
+              <FontAwesomeIcon className="title-style" icon={faCalendarAlt} />{' '}
               {date}{' '}
             </Space>
           </Space>
@@ -88,30 +109,22 @@ const VoiceMail = ({ voiceMailTableData }) => {
       title: 'Actions',
       dataIndex: 'actions',
       width: '12%',
-      render: (linkDetails, edit) => (
-        <Row type="flex" justify="center" align="middle">
-          <Space>
-            <Tooltip title="Download file">
-              <Button
-                type="primary"
-                style={{ borderRadius: '2rem', width: '1rem' }}
-                className="flex center primary-button-style alternate"
-              >
-                <FontAwesomeIcon icon={faDownload} />
+      render: (actions, record) => {
+        console.log(record);
+        return (
+          <Row type="flex" justify="center" align="middle">
+            {getVoiceMail ? (
+              <AudioPlayerProvider>
+                <AudioPlayer file="meow.mp3" />
+              </AudioPlayerProvider>
+            ) : (
+              <Button onClick={() => setGetVoiceMail(!getVoiceMail)}>
+                play
               </Button>
-            </Tooltip>
-            <Tooltip title="Send File by Email">
-              <Button
-                type="primary"
-                style={{ borderRadius: '2rem', width: '1rem' }}
-                className="flex center primary-button-style alternate"
-              >
-                <FontAwesomeIcon icon={faEnvelope} />
-              </Button>
-            </Tooltip>
-          </Space>
-        </Row>
-      ),
+            )}
+          </Row>
+        );
+      },
     },
     {
       title: 'Delete Records',

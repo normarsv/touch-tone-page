@@ -51,6 +51,7 @@
     "react-open-weather": "^0.6.2",
     "react-papaparse": "^3.6.0",
     "react-toastify": "^6.0.8",
+    "react-use-audio-player": "^1.2.4",
     "tinymce": "^5.4.1",
     "use-force-update": "^1.0.7",
     "webp-loader": "^0.6.0"
