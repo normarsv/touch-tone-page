@@ -99,7 +99,7 @@ class DetailUserPage extends Component {
           editServiceContent={editServiceContent}
           telephonyFeatures={telephonyFeatures}
           successfullyEdit={() => {
-            router.back();
+            router.push('/list-users');
           }}
         />
       </BaseLayout>
