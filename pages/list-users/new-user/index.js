@@ -82,7 +82,7 @@ class NewUserPage extends Component {
             className: 'primary-button-style cancel',
             text: 'Cancel User',
             action: () => {
-              props.router.back();
+              props.router.push('/list-users');
             },
           },
         },
@@ -161,7 +161,7 @@ class NewUserPage extends Component {
                 key: 'signup',
                 duration: 2,
               });
-              props.router.back();
+              props.router.push('/list-users');
             }
           } catch (error) {
             console.log(error);
@@ -313,7 +313,7 @@ class NewUserPage extends Component {
             className: 'primary-button-style cancel',
             text: 'Cancel User',
             action: () => {
-              props.router.back();
+              props.router.push('/list-users');
             },
           },
         },
@@ -390,7 +390,7 @@ class NewUserPage extends Component {
                 key: 'signup',
                 duration: 2,
               });
-              props.router.back();
+              props.router.push('/list-users');
             }
           } catch (error) {
             console.log(error);
@@ -518,7 +518,7 @@ class NewUserPage extends Component {
             className: 'primary-button-style cancel',
             text: 'Cancel User',
             action: () => {
-              props.router.back();
+              props.router.push('/list-users');
             },
           },
         },
@@ -589,7 +589,7 @@ class NewUserPage extends Component {
                 key: 'signup',
                 duration: 2,
               });
-              props.router.back();
+              props.router.push('/list-users');
             }
           } catch (error) {
             console.log(error);

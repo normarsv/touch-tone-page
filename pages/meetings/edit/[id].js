@@ -164,7 +164,7 @@ class EditMeetings extends Component {
         try {
           await api.PUT('/Meetings/' + props.currentMeeting.id, bodyMeeting);
           message.success('Meeting updated successfully!');
-          props.router.back();
+          props.router.push('/meetings');
         } catch (error) {
           console.log(error);
           setSubmitting(false);

@@ -149,7 +149,7 @@ class CreateMeetings extends Component {
         try {
           await api.POST('/Meetings', bodyMeeting);
           message.success('Meeting created successfully!');
-          props.router.back();
+          props.router.push('/meetings');
         } catch (error) {
           console.log(error);
           setSubmitting(false);
