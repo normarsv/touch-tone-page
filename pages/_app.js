@@ -20,7 +20,7 @@ class MyApp extends App {
       const userParse = JSON.parse(userCookie);
       user = userParse;
       user.role = user.group;
-      const api = new API();
+      const api = new API(user.token);
       const resValidateToken = await api.GETPASSVALUE(
         '/ValidateToken/' + user.userId,
         { token: user.token }
