@@ -45,10 +45,7 @@ const BulkImport = ({ user }) => {
     },
   ];
 
-  const api = new API(user.token, {
-    'Content-Type': 'multipart/form-data;boundary="boundary"',
-    'Access-Control-Allow-Origin': '*',
-  });
+  const api = new API(user.token, user.userId);
 
   const props = {
     name: 'file',

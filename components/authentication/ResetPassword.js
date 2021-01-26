@@ -18,7 +18,7 @@ export const ResetPassword = ({ user }) => {
     setLoading(true);
     console.log(values);
     console.log(user);
-    const api = new API(user.token);
+    const api = new API(user.token, user.userId);
     const changePass = await api.POST('/AuthUsers/ResetPassword', {
       password: values.password,
     });

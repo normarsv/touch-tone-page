@@ -1,20 +1,12 @@
-import { DatePicker, message, Row, Space } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import { message, Row, Space } from 'antd';
+import React from 'react';
 
 import API from '../../API/API';
 import FormGenerator from '../../components-base/FormGenerator';
 import { IsAValidPhoneNumber } from '../../scripts/General';
-import { UserContext } from '../authentication/UserContext';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
-const { RangePicker } = DatePicker;
-
-const CallForward = ({ callForwardData, token }) => {
-  const { userInfo } = useContext(UserContext);
-  // const [mockData, setMockData] = useState();
-  // const [targetKeys, setTargetKeys] = useState();
-  const [infoByRole, setInfoByRole] = useState({});
-
+const CallForward = ({ callForwardData, userInfo }) => {
   const callForwardAllType =
     callForwardData.callForwardAll.currentType || 'Extentions';
   const callForwardAllOptions = callForwardData.callForwardAll.options.find(
@@ -96,7 +88,7 @@ const CallForward = ({ callForwardData, token }) => {
     },
     formSubmit: async (values, { setSubmitting, setFieldError }) => {
       setSubmitting(true);
-      const api = new API(token);
+      const api = new API(userInfo.token, userInfo.userId);
       values.callForwardAll.currentValue =
         Array.isArray(values.callForwardAll.currentValue) === true
           ? values.callForwardAll.currentValue[0]

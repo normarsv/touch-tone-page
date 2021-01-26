@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import Router from 'next/router';
 import { Component, useEffect, useState } from 'react';
 
 import API from '../../API/API';
@@ -51,7 +52,7 @@ function FrequentNumberPage(props) {
         number: values.number,
         authUserId: props.user.userId,
       };
-      const api = new API(props.user.token);
+      const api = new API(props.user.token, props.user.userId);
       let resFrequentNumber = {};
       if (dataToEdit !== undefined) {
         resFrequentNumber = await api.PUT(
@@ -112,7 +113,7 @@ function FrequentNumberPage(props) {
   };
 
   const getFrequentNumberContent = async () => {
-    const api = new API(user.token);
+    const api = new API(user.token, user.userId);
     const resFrequentNumbers = await api.GET(
       '/UserFrequentContacts/user/' + user.userId
     );
@@ -135,47 +136,61 @@ function FrequentNumberPage(props) {
 }
 
 FrequentNumberPage.getInitialProps = async ({ res, query, user }) => {
-  if (res) {
-    if (user.group) {
-      switch (user.group) {
-        case 'BusinessSupport':
-        case 'SuperAdmin':
+  if (user.group) {
+    switch (user.group) {
+      case 'BusinessSupport':
+      case 'SuperAdmin':
+        if (res) {
           res.writeHead(302, {
             Location: '/list-organizations',
           });
           res.end();
-
-          break;
-
-        case 'Distributor':
+          return {};
+        } else {
+          Router.push('/list-organizations');
+          return {};
+        }
+      case 'Distributor':
+        if (res) {
           res.writeHead(302, {
             Location: '/list-organizations',
           });
           res.end();
-
-          break;
-
-        case 'CorporateService':
-        case 'OrganizationAdmin':
+          return {};
+        } else {
+          Router.push('/list-organizations');
+          return {};
+        }
+      case 'CorporateService':
+      case 'OrganizationAdmin':
+        if (res) {
           res.writeHead(302, {
             Location: '/admin-dashboard',
           });
           res.end();
-
-          break;
-
-        default:
-          break;
-      }
-    } else {
+          return {};
+        } else {
+          Router.push('/admin-dashboard');
+          return {};
+        }
+        break;
+      default:
+        break;
+    }
+  } else {
+    if (res) {
       res.writeHead(302, {
-        Location: '/',
+        Location: '/not-valid-token',
       });
       res.end();
+      return {};
+    } else {
+      Router.push('/not-valid-token');
+      return {};
     }
   }
 
-  const api = new API(user.token);
+  const api = new API(user.token, user.userId);
   const resFrequentNumbers = await api.GET(
     '/UserFrequentContacts/user/' + user.userId
   );

@@ -43,7 +43,7 @@ const FrequentNumbers = ({
 
   const deleteFrequentNumber = async (frequentNumberId) => {
     setLoadingTable(true);
-    const api = new API(userInfo.token);
+    const api = new API(userInfo.token, userInfo.userId);
     const resDeleteFrequentNumber = await api.DELETE(
       '/UserFrequentContacts/' + frequentNumberId
     );

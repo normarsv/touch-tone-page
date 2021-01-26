@@ -15,7 +15,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
   const [loadingTable, setLoadingTable] = useState(false);
   const deleteMeetings = async (meetingID) => {
     setLoadingTable(true);
-    const api = new API(user.token);
+    const api = new API(user.token, user.userId);
     const resMeetings = await api.DELETE('/Meetings/' + meetingID);
     message.success('Meeting deleted successfully!');
     getMeetingsContent();

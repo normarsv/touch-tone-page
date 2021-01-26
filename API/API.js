@@ -1,17 +1,18 @@
-import { mainIp } from "../scripts/MainInfoData";
-import RestClient from "./RestClient";
+import { mainIp } from '../scripts/MainInfoData';
+import RestClient from './RestClient';
 
 export default class API extends RestClient {
-  constructor(authToken, extraHeader) {
-    super(mainIp + "/api", {
+  constructor(authToken, userId) {
+    super(mainIp + '/api', {
+      authToken: authToken,
+      userId: userId,
       headers: {
         // Include as many custom headers as you need
-        Authorization: "Bearer " + authToken,
-        ...extraHeader,
+        Authorization: 'Bearer ' + authToken,
       },
     });
     this.authToken = authToken;
-    this.extraHeader = extraHeader;
+    this.userId = userId;
   }
 
   getToken() {
@@ -19,13 +20,12 @@ export default class API extends RestClient {
   }
 
   async doVerifyUserBulkImport(formDataUpload) {
-    const url = mainIp + "/api/Tools/verify-csv";
+    const url = mainIp + '/api/Tools/verify-csv';
     const res = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: formDataUpload,
       headers: {
-        Authorization: "Bearer " + this.authToken,
-        // ...this.extraHeader,
+        Authorization: 'Bearer ' + this.authToken,
       },
     });
     const body = await res.json();
@@ -34,13 +34,12 @@ export default class API extends RestClient {
   }
 
   async doUploadUserBulkImport(formDataUpload) {
-    const url = mainIp + "/api/Tools/bulk-users";
+    const url = mainIp + '/api/Tools/bulk-users';
     const res = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: formDataUpload,
       headers: {
-        Authorization: "Bearer " + this.authToken,
-        // ...this.extraHeader,
+        Authorization: 'Bearer ' + this.authToken,
       },
     });
     const body = await res.json();
@@ -48,12 +47,11 @@ export default class API extends RestClient {
   }
 
   async getCurrentUserMyFindMe() {
-    const url = mainIp + "/api/Services/find-me";
+    const url = mainIp + '/api/Services/find-me';
     const res = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Bearer " + this.authToken,
-        // ...this.extraHeader,
+        Authorization: 'Bearer ' + this.authToken,
       },
     });
     const body = await res.json();
