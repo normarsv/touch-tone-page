@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { Component } from 'react';
 
 import API from '../../../API/API';
@@ -7,47 +8,61 @@ import { systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-        switch (user.group) {
-          case 'BusinessSupport':
-          case 'SuperAdmin':
+    if (user.group) {
+      switch (user.group) {
+        case 'BusinessSupport':
+        case 'SuperAdmin':
+          if (res) {
             res.writeHead(302, {
               Location: '/list-organizations',
             });
             res.end();
-
-            break;
-
-          case 'Distributor':
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'Distributor':
+          if (res) {
             res.writeHead(302, {
               Location: '/list-organizations',
             });
             res.end();
-
-            break;
-          case 'EndUser':
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'EndUser':
+          if (res) {
             res.writeHead(302, {
               Location: '/user-dashboard',
             });
             res.end();
-
-            break;
-
-          default:
-            break;
-        }
-      } else {
+            return {};
+          } else {
+            Router.push('/user-dashboard');
+            return {};
+          }
+        default:
+          break;
+      }
+    } else {
+      if (res) {
         res.writeHead(302, {
-          Location: '/',
+          Location: '/not-valid-token',
         });
         res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
       }
     }
 
     const actualUser = user;
 
-    const api = new API(actualUser.token);
+    const api = new API(actualUser.token, actualUser.userId);
 
     const resUserMyFindme = await api.GET('/Services/find-me');
 

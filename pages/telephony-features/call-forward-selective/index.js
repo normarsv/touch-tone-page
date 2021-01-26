@@ -9,7 +9,7 @@ import { systemLog } from '../../../scripts/General';
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const userInfo = user;
-    const api = new API(userInfo.token);
+    const api = new API(userInfo.token, userInfo.userId);
     const callForwardSelectiveDataResponse = await api.GET(
       '/Services/call-forward-selective'
     );
