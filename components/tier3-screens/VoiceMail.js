@@ -27,15 +27,18 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { AudioPlayerProvider, useAudioPlayer } from 'react-use-audio-player';
+import AudioPlayerComponent from '../misc/AudioPlayerComponent';
 
 const { Option } = Select;
 
 const VoiceMail = ({ voiceMailTableData }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [audioProgress, setAudioProgress] = useState();
+  const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [getVoiceMail, setGetVoiceMail] = useState(false);
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+
+  const onChangeTablePageSize = (value) => {
+    setTablePageSize({ pageSize: value });
   };
 
   const onSelectChange = (selectedRowKeys) => {
@@ -46,24 +49,6 @@ const VoiceMail = ({ voiceMailTableData }) => {
   const rowSelection = {
     selectedRow,
     onChange: onSelectChange,
-  };
-
-  const AudioPlayer = ({ file }) => {
-    const { togglePlayPause, ready, loading, playing } = useAudioPlayer({
-      src: file,
-      format: 'mp3',
-      autoplay: false,
-      onend: () => console.log('sound has ended!'),
-    });
-
-    if (!ready && !loading) return <div>No audio to play</div>;
-    if (loading) return <div>Loading audio</div>;
-
-    return (
-      <div>
-        <Button onClick={togglePlayPause}>{playing ? 'Pause' : 'Play'}</Button>
-      </div>
-    );
   };
 
   const columns = [
@@ -113,29 +98,21 @@ const VoiceMail = ({ voiceMailTableData }) => {
         console.log(record);
         return (
           <Row type="flex" justify="center" align="middle">
-            {getVoiceMail ? (
-              <AudioPlayerProvider>
-                <AudioPlayer file="meow.mp3" />
-              </AudioPlayerProvider>
-            ) : (
-              <Button onClick={() => setGetVoiceMail(!getVoiceMail)}>
-                play
-              </Button>
-            )}
+            <AudioPlayerComponent fileName={record.fileName} />
           </Row>
         );
       },
     },
-    {
-      title: 'Delete Records',
-      dataIndex: 'delete',
-      width: '8%',
-      render: () => (
-        <Row type="flex" justify="center" align="middle">
-          <FontAwesomeIcon icon={faTrash} />
-        </Row>
-      ),
-    },
+    // {
+    //   title: 'Delete Records',
+    //   dataIndex: 'delete',
+    //   width: '8%',
+    //   render: () => (
+    //     <Row type="flex" justify="center" align="middle">
+    //       <FontAwesomeIcon icon={faTrash} />
+    //     </Row>
+    //   ),
+    // },
   ];
 
   return (
@@ -156,11 +133,7 @@ const VoiceMail = ({ voiceMailTableData }) => {
         <Space size="large" className="spaced-between">
           <Space size="small">
             <label>Show</label>
-            <Select
-              defaultValue="10"
-              style={{ width: 120 }}
-              onChange={handleChange}
-            >
+            <Select defaultValue="10" onChange={onChangeTablePageSize}>
               <Option value="10">10</Option>
               <Option value="20">20</Option>
             </Select>
@@ -169,12 +142,13 @@ const VoiceMail = ({ voiceMailTableData }) => {
               <FontAwesomeIcon icon={faSync} />
             </Button>
           </Space>
-          <Button
+
+          {/* <Button
             disabled={selectedRow.length === 0}
             className="primary-button-style cancel"
           >
             Delete Selected Records
-          </Button>
+          </Button> */}
         </Space>
 
         <Table
@@ -183,6 +157,7 @@ const VoiceMail = ({ voiceMailTableData }) => {
           scroll={{ x: 1300 }}
           columns={columns}
           dataSource={voiceMailTableData}
+          pagination={tablePageSize}
           footer={(currentData) =>
             'Showing ' +
             currentData.length +

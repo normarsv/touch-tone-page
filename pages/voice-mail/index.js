@@ -4,21 +4,19 @@ import { Component, useState } from 'react';
 import API from '../../API/API';
 import VoiceMail from '../../components/tier3-screens/VoiceMail';
 import { BaseLayout } from '../../layouts/BaseLayout';
+import 'react-h5-audio-player/lib/styles.css';
 
 function VoiceMailPage(props) {
   const { voiceMailContent, user, voiceMails } = props;
   const [currentVoiceMailContent, setCurrentVoiceMailContent] = useState(
     voiceMailContent
   );
-  console.log(voiceMails);
 
   const getVoiceMailContent = async () => {
     const voiceMailContent = [];
     const api = new API(user.token);
     const resVoiceMail = await api.GET('/Services/voicemails');
     const voiceMails = resVoiceMail.response;
-
-    console.log(voiceMails);
 
     // for (const voiceMail of voiceMails) {
     //   const createMeeting = {
@@ -92,7 +90,6 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const resVoiceMail = await api.GET('/Services/voicemails');
   const voiceMails = resVoiceMail.response;
   for (const voiceMail of voiceMails) {
-    console.log(voiceMail);
     const addVoiceMail = {
       // id: voiceMail,
       date: moment(voiceMail.date).format('LLL'),

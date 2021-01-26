@@ -46,6 +46,7 @@
     "react": "^16.13.1",
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
+    "react-h5-audio-player": "^3.5.0",
     "react-json-view": "^1.19.1",
     "react-modal": "^3.11.2",
     "react-open-weather": "^0.6.2",
