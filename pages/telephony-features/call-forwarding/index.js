@@ -1,11 +1,9 @@
-import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
+
+import API from '../../../API/API';
+import CallForward from '../../../components/tier2-screens/CallForward';
 import { BaseLayout } from '../../../layouts/BaseLayout';
 import { systemLog } from '../../../scripts/General';
-import { baseLanguage } from '../../../scripts/MainInfoData';
-import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
-import CallForward from '../../../components/tier2-screens/CallForward';
-import API from '../../../API/API';
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {

@@ -1,5 +1,5 @@
-import { Component } from 'react';
 import Router from 'next/router';
+import { Component } from 'react';
 
 import MainDashboard from '../../components/base/MainDashboard';
 import { BaseLayout } from '../../layouts/BaseLayout';
@@ -58,53 +58,56 @@ export default class extends Component {
         return {};
       }
     }
-    const adminDashboardContent = [
-      {
-        id: 1,
-        title: 'Manage Users',
-        count: '9 Users',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View all Users',
-        route: '/manage-users',
-      },
-      {
-        id: 2,
-        title: 'Queues',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Queues',
-        route: '/queues',
-      },
-      {
-        id: 3,
-        title: 'Auto attendant',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Auto attendant',
-        route: '/auto-attendant',
-      },
-      {
-        id: 4,
-        title: 'Call Records',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Call Records',
-        route: '/telephony-features/call-recordings',
-      },
-      // {
-      //   id: 5,
-      //   title: "Call Reporting",
-      //   count: "",
-      //   desc:
-      //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-      //   buttonTitle: "View Calls Reporting",
-      //   route: "/telephony-features/call-reporting",
-      // },
-      /*
+    let returnDash = [];
+
+    if (user.group === 'CorporateService') {
+      returnDash = [
+        {
+          id: 1,
+          title: 'Manage Users',
+          count: '9 Users',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View all Users',
+          route: '/manage-users',
+        },
+        {
+          id: 2,
+          title: 'Queues',
+          count: '',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View Queues',
+          route: '/queues',
+        },
+        {
+          id: 3,
+          title: 'Auto attendant',
+          count: '',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View Auto attendant',
+          route: '/auto-attendant',
+        },
+        {
+          id: 4,
+          title: 'Call Records',
+          count: '',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View Call Records',
+          route: '/telephony-features/call-recordings',
+        },
+        // {
+        //   id: 5,
+        //   title: "Call Reporting",
+        //   count: "",
+        //   desc:
+        //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        //   buttonTitle: "View Calls Reporting",
+        //   route: "/telephony-features/call-reporting",
+        // },
+        /*
       {
         id: 6,
         title: "Meeting",
@@ -115,29 +118,42 @@ export default class extends Component {
         route: "/meetings",
       },
       */
-      {
-        id: 7,
-        title: 'Ring Groups',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Ring Groups',
-        route: '/auto-attendant/ring-group',
-      },
-      {
-        id: 8,
-        title: 'Audio Conference Room',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View More',
-        route: '/audio-conference',
-      },
-    ];
+        {
+          id: 7,
+          title: 'Ring Groups',
+          count: '',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View Ring Groups',
+          route: '/auto-attendant/ring-group',
+        },
+        {
+          id: 8,
+          title: 'Audio Conference Room',
+          count: '',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View More',
+          route: '/audio-conference',
+        },
+      ];
+    } else {
+      returnDash = [
+        {
+          id: 1,
+          title: 'Manage Users',
+          count: '9 Users',
+          desc:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+          buttonTitle: 'View all Users',
+          route: '/manage-users',
+        },
+      ];
+    }
 
     return {
       user,
-      adminDashboardContent,
+      returnDash,
     };
   }
   constructor(props) {
@@ -148,11 +164,11 @@ export default class extends Component {
     systemLog.log(this.props);
   }
   render() {
-    const { adminDashboardContent } = this.props;
+    const { returnDash } = this.props;
 
     return (
       <BaseLayout>
-        <MainDashboard mainDashboardContent={adminDashboardContent} />
+        <MainDashboard mainDashboardContent={returnDash} />
       </BaseLayout>
     );
   }
