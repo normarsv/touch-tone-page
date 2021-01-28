@@ -69,7 +69,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   };
 
   const handleReset = (clearFilters) => {
-    clearFilters(clearFilters);
+    clearFilters();
     setSearchText('');
   };
 
