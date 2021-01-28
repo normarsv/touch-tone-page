@@ -1,5 +1,6 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
+import Router from 'next/router';
 
 import NewConferenceRoom from '../../../components/tier2-screens/conference-room/NewConferenceRoom';
 import { BaseLayout } from '../../../layouts/BaseLayout';
@@ -7,7 +8,47 @@ import { systemLog } from '../../../scripts/General';
 import { baseLanguage } from '../../../scripts/MainInfoData';
 
 export default class extends Component {
-  static async getInitialProps({ query, user }) {
+  static async getInitialProps({ query, user, res }) {
+    if (user.group) {
+      switch (user.group) {
+        case 'BusinessSupport':
+        case 'SuperAdmin':
+          if (res) {
+            res.writeHead(302, {
+              Location: '/list-organizations',
+            });
+            res.end();
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'Distributor':
+          if (res) {
+            res.writeHead(302, {
+              Location: '/list-organizations',
+            });
+            res.end();
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        default:
+          break;
+      }
+    } else {
+      if (res) {
+        res.writeHead(302, {
+          Location: '/not-valid-token',
+        });
+        res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
+      }
+    }
     const currentLanguage =
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);

@@ -1,40 +1,38 @@
-import moment from "moment/min/moment-with-locales.js";
-import { Component } from "react";
-import { BaseLayout } from "../../../layouts/BaseLayout";
-import { systemLog } from "../../../scripts/General";
-import { baseLanguage } from "../../../scripts/MainInfoData";
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
-import CallForward from "../../../components/tier2-screens/CallForward";
-import API from "../../../API/API";
+import { Component } from 'react';
+
+import API from '../../../API/API';
+import CallForward from '../../../components/tier2-screens/CallForward';
+import { BaseLayout } from '../../../layouts/BaseLayout';
+import { systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ query, user }) {
     const userInfo = user;
-    const api = new API(userInfo.token);
-    const callForwardDataResponse = await api.GET("/Services/call-forward");
+    const api = new API(userInfo.token, userInfo.userId);
+    const callForwardDataResponse = await api.GET('/Services/call-forward');
     let callForwardData = {
       enabled: false,
-      number: "",
-      terminationId: "",
+      number: '',
+      terminationId: '',
       voiceMailBoxActive: false,
       callForwardAllActive: false,
       callForwardBusyActive: false,
       callForwardFailureActive: false,
       callForwardNoAnswerActive: false,
       callForwardAll: {
-        currentValue: "",
+        currentValue: '',
         options: [],
       },
       callForwardBusy: {
-        currentValue: "",
+        currentValue: '',
         options: [],
       },
       callForwardFailure: {
-        currentValue: "",
+        currentValue: '',
         options: [],
       },
       callForwardNoAnswer: {
-        currentValue: "",
+        currentValue: '',
         options: [],
       },
     };
@@ -65,7 +63,7 @@ export default class extends Component {
 
     return (
       <BaseLayout>
-        <CallForward callForwardData={callForwardData} token={userInfo.token} />
+        <CallForward callForwardData={callForwardData} userInfo={userInfo} />
       </BaseLayout>
     );
   }

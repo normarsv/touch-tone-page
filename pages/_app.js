@@ -2,12 +2,13 @@ import '../styles/app.less';
 import 'react-h5-audio-player/lib/styles.less';
 
 import App from 'next/app';
-import nookies from 'nookies';
 import Router from 'next/router';
+import nookies from 'nookies';
 
+import API from '../API/API';
 import { UserContext } from '../components/authentication/UserContext';
-import { nameSession } from '../scripts/MainInfoData';
 import LoadingPage from '../components/base/Loading';
+import { nameSession } from '../scripts/MainInfoData';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -20,6 +21,15 @@ class MyApp extends App {
       const userParse = JSON.parse(userCookie);
       user = userParse;
       user.role = user.group;
+      const api = new API(user.token);
+      const resValidateToken = await api.GETPASSVALUE(
+        '/ValidateToken/' + user.userId,
+        { token: user.token }
+      );
+      console.log('resValidateToken: ' + resValidateToken);
+      if (resValidateToken.response === false) {
+        user = {};
+      }
     }
 
     if (Component.getInitialProps) {

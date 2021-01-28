@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import moment from 'moment/min/moment-with-locales.js';
 import { withRouter } from 'next/dist/client/router';
+import Router from 'next/router';
 import { Component } from 'react';
 
 import API from '../../../API/API';
@@ -10,43 +11,57 @@ import { IsAValidEmail, systemLog } from '../../../scripts/General';
 
 class CreateMeetings extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-        switch (user.group) {
-          case 'BusinessSupport':
-          case 'SuperAdmin':
+    if (user.group) {
+      switch (user.group) {
+        case 'BusinessSupport':
+        case 'SuperAdmin':
+          if (res) {
             res.writeHead(302, {
               Location: '/list-organizations',
             });
             res.end();
-
-            break;
-
-          case 'CorporateService':
-          case 'OrganizationAdmin':
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'Distributor':
+          if (res) {
+            res.writeHead(302, {
+              Location: '/list-organizations',
+            });
+            res.end();
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'CorporateService':
+        case 'OrganizationAdmin':
+          if (res) {
             res.writeHead(302, {
               Location: '/admin-dashboard',
             });
             res.end();
-
-            break;
-
-          case 'Distributor':
-            res.writeHead(302, {
-              Location: '/list-organizations',
-            });
-            res.end();
-
-            break;
-
-          default:
-            break;
-        }
-      } else {
+            return {};
+          } else {
+            Router.push('/admin-dashboard');
+            return {};
+          }
+          break;
+        default:
+          break;
+      }
+    } else {
+      if (res) {
         res.writeHead(302, {
-          Location: '/',
+          Location: '/not-valid-token',
         });
         res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
       }
     }
 
@@ -145,11 +160,11 @@ class CreateMeetings extends Component {
           validUntil: timeStampEndTime,
         };
 
-        const api = new API(props.user.token);
+        const api = new API(props.user.token, props.user.userId);
         try {
           await api.POST('/Meetings', bodyMeeting);
           message.success('Meeting created successfully!');
-          props.router.back();
+          props.router.push('/meetings');
         } catch (error) {
           console.log(error);
           setSubmitting(false);

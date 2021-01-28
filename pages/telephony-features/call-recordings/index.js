@@ -1,5 +1,6 @@
 import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales.js';
+import Router from 'next/router';
 import { Component } from 'react';
 
 import CallRecordingsOA from '../../../components/telephony-features/CallRecordings';
@@ -8,33 +9,44 @@ import { systemLog } from '../../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-        switch (user.group) {
-          case 'BusinessSupport':
-          case 'SuperAdmin':
+    if (user.group) {
+      switch (user.group) {
+        case 'BusinessSupport':
+        case 'SuperAdmin':
+          if (res) {
             res.writeHead(302, {
               Location: '/list-organizations',
             });
             res.end();
-
-            break;
-          case 'Distributor':
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        case 'Distributor':
+          if (res) {
             res.writeHead(302, {
               Location: '/list-organizations',
             });
             res.end();
-
-            break;
-
-          default:
-            break;
-        }
-      } else {
+            return {};
+          } else {
+            Router.push('/list-organizations');
+            return {};
+          }
+        default:
+          break;
+      }
+    } else {
+      if (res) {
         res.writeHead(302, {
-          Location: '/',
+          Location: '/not-valid-token',
         });
         res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
       }
     }
 

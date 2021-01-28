@@ -6,13 +6,16 @@ import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    if (res) {
-      if (user.group) {
-      } else {
+    if (user.group === undefined) {
+      if (res) {
         res.writeHead(302, {
-          Location: '/',
+          Location: '/not-valid-token',
         });
         res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
       }
     }
 

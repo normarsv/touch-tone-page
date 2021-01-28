@@ -1,9 +1,9 @@
-import { Button, Col, Input, message, Modal, Row, Select, Space } from "antd";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import { Button, Col, Input, message, Modal, Row, Select, Space } from 'antd';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-import API from "../../API/API";
-import { IsAValidEmail, IsValidPassword } from "../../scripts/General";
+import API from '../../API/API';
+import { IsAValidEmail, IsValidPassword } from '../../scripts/General';
 
 const { Option } = Select;
 
@@ -17,28 +17,28 @@ const ProvisioningOrganization = ({
   const [currentDIDS, setCurrentDIDS] = useState([]);
   const [provideOrganizations, setProvideOrganizations] = useState([]);
   const [selectedOrganization, setSelectedOrganization] = useState({});
-  const [errorToDisplay, setErrorToDisplay] = useState("");
+  const [errorToDisplay, setErrorToDisplay] = useState('');
   console.log(userInfo);
-  const api = new API(userInfo.token);
+  const api = new API(userInfo.token, userInfo.userId);
 
   async function handleClickProvision() {
-    let errorToSend = "";
-    setErrorToDisplay("");
+    let errorToSend = '';
+    setErrorToDisplay('');
     console.log(selectedOrganization);
     if (IsAValidEmail(selectedOrganization.email) === false) {
-      errorToSend = "Enter a valid Email";
+      errorToSend = 'Enter a valid Email';
     }
 
     if (
       IsValidPassword(
         selectedOrganization.password,
-        "(?=.*[a-z])(?=.*[A-Z])(?=.{9,})"
+        '(?=.*[a-z])(?=.*[A-Z])(?=.{9,})'
       ) === false
     ) {
-      if (errorToSend !== "") {
-        errorToSend = errorToSend + ", ";
+      if (errorToSend !== '') {
+        errorToSend = errorToSend + ', ';
       }
-      errorToSend = errorToSend + "Enter a valid Password";
+      errorToSend = errorToSend + 'Enter a valid Password';
     }
     /*
     if (IsAValidPhoneNumber(selectedOrganization.did) === false) {
@@ -49,14 +49,14 @@ const ProvisioningOrganization = ({
     }
     */
 
-    if (errorToSend !== "") {
+    if (errorToSend !== '') {
       setErrorToDisplay(errorToSend);
       return;
     }
     setLoading(true);
 
     const resProvisionOrganization = await api.POST(
-      "/Organizations/provide/" + selectedOrganization.orgId,
+      '/Organizations/provide/' + selectedOrganization.orgId,
       {
         email: selectedOrganization.email,
         password: selectedOrganization.password,
@@ -65,10 +65,10 @@ const ProvisioningOrganization = ({
     );
 
     if (resProvisionOrganization.statusCode === 201) {
-      message.success("Succesfully Provisioned Organization");
+      message.success('Succesfully Provisioned Organization');
       setSelectedOrganization({});
     } else {
-      message.error("Organization Already Provisioned");
+      message.error('Organization Already Provisioned');
     }
     refreshOrg();
     setTimeout(() => {
@@ -78,11 +78,11 @@ const ProvisioningOrganization = ({
 
   async function organizationsToProvision() {
     const resOrganizationsProvide = await api.GET(
-      "/Organizations/organizations-to-provide"
+      '/Organizations/organizations-to-provide'
     );
 
     if (resOrganizationsProvide.response.length === 0) {
-      setErrorToDisplay("No Organizations to Provision");
+      setErrorToDisplay('No Organizations to Provision');
     }
 
     setProvideOrganizations(resOrganizationsProvide.response);
@@ -97,10 +97,10 @@ const ProvisioningOrganization = ({
   }
 
   async function handleSelectedValueOrg(value) {
-    const api = new API(userInfo.token);
+    const api = new API(userInfo.token, userInfo.userId);
 
     let testOptions = await api.GET(
-      "/tools/organization-available-number/" + value
+      '/tools/organization-available-number/' + value
     );
     if (testOptions.response) {
       setCurrentDIDS(testOptions.response);
@@ -125,7 +125,7 @@ const ProvisioningOrganization = ({
   useEffect(() => {
     if (provideOrganizations.length === 0) {
       organizationsToProvision();
-      setErrorToDisplay("");
+      setErrorToDisplay('');
     }
   }, [selectedOrganization]);
 
@@ -135,11 +135,11 @@ const ProvisioningOrganization = ({
       centered
       onCancel={() => handleCancel()}
       footer={null}
-      width={"80%"}
+      width={'80%'}
     >
-      <Space direction="vertical" className="organization-detail-modal">
-        <h2 className="title-style">Provision Organization</h2>
-        <Row type="flex" justify="center" gutter={[4, 0]} className="header">
+      <Space direction='vertical' className='organization-detail-modal'>
+        <h2 className='title-style'>Provision Organization</h2>
+        <Row type='flex' justify='center' gutter={[4, 0]} className='header'>
           <Col span={5}>
             <h3>Name</h3>
           </Col>
@@ -156,12 +156,12 @@ const ProvisioningOrganization = ({
             <h3>DID</h3>
           </Col>
         </Row>
-        <Row type="flex" justify="center" gutter={[4, 0]} className="content">
+        <Row type='flex' justify='center' gutter={[4, 0]} className='content'>
           <Col span={5}>
             <Select
               disabled={loading}
-              className="select-arrow-boxes modals"
-              placeholder="Select Organization..."
+              className='select-arrow-boxes modals'
+              placeholder='Select Organization...'
               value={selectedOrganization.organization}
               onChange={(value) => handleSelectedValueOrg(value)}
             >
@@ -202,8 +202,8 @@ const ProvisioningOrganization = ({
           <Col span={4}>
             <Select
               disabled={loading}
-              className="select-arrow-boxes modals"
-              placeholder="Select DID..."
+              className='select-arrow-boxes modals'
+              placeholder='Select DID...'
               value={selectedOrganization.didID}
               onChange={(value) => handleSelectedValueDID(value)}
             >
@@ -217,31 +217,31 @@ const ProvisioningOrganization = ({
         </Row>
 
         {errorToDisplay && (
-          <label className="title-style">{errorToDisplay}</label>
+          <label className='title-style'>{errorToDisplay}</label>
         )}
-        <label style={{ fontWeight: "bold" }}>
+        <label style={{ fontWeight: 'bold' }}>
           {
-            "Password must include: At least one lower case, one upper case and be nine characters long"
+            'Password must include: At least one lower case, one upper case and be nine characters long'
           }
         </label>
 
-        <Row type="flex" justify="end">
+        <Row type='flex' justify='end'>
           <Button
-            type="primary"
-            className="primary-button-style provisioning"
+            type='primary'
+            className='primary-button-style provisioning'
             disabled={
               !selectedOrganization.organization ||
               !selectedOrganization.password ||
-              selectedOrganization.password === "" ||
+              selectedOrganization.password === '' ||
               !selectedOrganization.email ||
-              selectedOrganization.email === "" ||
+              selectedOrganization.email === '' ||
               !selectedOrganization.didID ||
-              selectedOrganization.didID === ""
+              selectedOrganization.didID === ''
             }
             loading={loading}
             onClick={() => handleClickProvision()}
           >
-            {loading ? "Provisioning" : "Provision"}
+            {loading ? 'Provisioning' : 'Provision'}
           </Button>
         </Row>
       </Space>

@@ -34,7 +34,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     setTablePageSize({ pageSize: value });
   };
 
-  const api = new API(userInfo.token);
+  const api = new API(userInfo.token, userInfo.userId);
 
   async function onChangeUserState(selectedUser) {
     const resOnChangeUser = await api.PUT(
@@ -80,7 +80,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       confirm,
       clearFilters,
     }) => (
-      <div className="seach-box">
+      <div className='seach-box'>
         <Input
           ref={(node) => {
             searchInput = node;
@@ -91,22 +91,22 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          className="search-input"
+          className='search-input'
         />
         <Space>
           <Button
-            type="primary"
+            type='primary'
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             icon={<SearchOutlined />}
-            size="small"
-            className="search-buttons"
+            size='small'
+            className='search-buttons'
           >
             Search
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
-            size="small"
-            className="search-buttons"
+            size='small'
+            className='search-buttons'
           >
             Reset
           </Button>
@@ -148,7 +148,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       dataIndex: 'actions',
       width: '10%',
       render: (actions) => (
-        <Space className="flex center">
+        <Space className='flex center'>
           <motion.div
             onClick={() => router.push('/list-users/details/' + actions)}
             whileHover={hoverAnimation}
@@ -163,18 +163,18 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       dataIndex: 'status',
       width: '10%',
       render: (status, record) => (
-        <div className="flex center">
+        <div className='flex center'>
           <Popconfirm
-            placement="left"
-            title="Are you sure you want to change the status of this user?"
-            okText="Yes"
-            cancelText="No"
+            placement='left'
+            title='Are you sure you want to change the status of this user?'
+            okText='Yes'
+            cancelText='No'
             onConfirm={() => onChangeUserState(record)}
           >
             <Switch
               checked={status}
-              checkedChildren="ON"
-              unCheckedChildren="OFF"
+              checkedChildren='ON'
+              unCheckedChildren='OFF'
             />
           </Popconfirm>
         </div>
@@ -195,21 +195,21 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: '100%' }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader />
 
-        <h1 className="title-style">
+        <h1 className='title-style'>
           List All Users {titleToDisplay ? 'of ' + titleToDisplay : ''}
         </h1>
         {/* <Search placeholder="Search..." enterButton style={{ width: 300 }} /> */}
 
-        <Row type="flex" justify="space-between">
-          <Space size="large" className="spaced-between">
-            <Space size="small" className="spaced">
+        <Row type='flex' justify='space-between'>
+          <Space size='large' className='spaced-between'>
+            <Space size='small' className='spaced'>
               <label>Show</label>
-              <Select defaultValue="10" onChange={onChangeTablePageSize}>
-                <Option value="10">10</Option>
-                <Option value="20">20</Option>
+              <Select defaultValue='10' onChange={onChangeTablePageSize}>
+                <Option value='10'>10</Option>
+                <Option value='20'>20</Option>
               </Select>
               <label>entries</label>
             </Space>
@@ -219,21 +219,21 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
             <Space>
               <Space>
                 <Button
-                  type="primary"
-                  className="primary-button-style alternate "
+                  type='primary'
+                  className='primary-button-style alternate '
                   onClick={() => router.push('/list-users/bulk-import')}
                 >
-                  <Space className="flex center">
+                  <Space className='flex center'>
                     Bulk Import
                     <FontAwesomeIcon icon={faPlusCircle} />
                   </Space>
                 </Button>
                 <Button
-                  type="primary"
-                  className="primary-button-style alternate"
+                  type='primary'
+                  className='primary-button-style alternate'
                   onClick={() => router.push('/list-users/new-user')}
                 >
-                  <Space className="flex center">
+                  <Space className='flex center'>
                     New User
                     <FontAwesomeIcon icon={faPlusCircle} />
                   </Space>

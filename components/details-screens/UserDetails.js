@@ -57,7 +57,7 @@ const OrganizationServices = ({
   const saveUser = async (values) => {
     console.log('Received values of form: ', values);
     setSaving(true);
-    const api = new API(user.token);
+    const api = new API(user.token, user.userId);
     const authUserInfo = await api.GET('/AuthUsers/' + userInfo.id);
     console.log(authUserInfo.response);
     const changeUserInfo = await api.PUT('/AuthUsers/' + userInfo.id, {

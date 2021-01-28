@@ -3,15 +3,23 @@ import qs from 'qs';
 
 export default class RestClient {
   constructor(
-    baseUrl = "",
-    { headers = {}, devMode = false, simulatedDelay = 0 } = {}
+    baseUrl = '',
+    {
+      headers = {},
+      authToken = '',
+      devMode = false,
+      simulatedDelay = 0,
+      userId = '',
+    } = {}
   ) {
-    if (!baseUrl) throw new Error("missing baseUrl");
+    if (!baseUrl) throw new Error('missing baseUrl');
     this.headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     };
     Object.assign(this.headers, headers);
+    this.authToken = authToken;
+    this.userId = userId;
     this.baseUrl = baseUrl;
     this.simulatedDelay = simulatedDelay;
     this.devMode = devMode;
@@ -30,7 +38,7 @@ export default class RestClient {
   }
 
   _fetch(route, method, body, isQuery = false, passNormal = false) {
-    if (!route) throw new Error("Route is undefined");
+    if (!route) throw new Error('Route is undefined');
     var fullRoute = this._fullRoute(route);
     if (isQuery && body) {
       let query;
@@ -58,30 +66,62 @@ export default class RestClient {
         .then(() => fetchPromise())
         .then((response) => response.json());
     } else {
-      return fetchPromise().then((response) => {
-        return response.json().then((data) => {
-          return { response: data, statusCode: response.status };
+      if (
+        this.authToken !== undefined &&
+        this.authToken !== '' &&
+        this.userId !== undefined &&
+        this.userId !== ''
+      ) {
+        var fullRouteToken = this._fullRoute('/ValidateToken/' + this.userId);
+        fullRouteToken = fullRouteToken + '?token=' + this.authToken;
+        const fetchPromiseToken = () =>
+          fetch(fullRouteToken, {
+            method: 'GET',
+            headers: this.headers,
+          });
+        return fetchPromiseToken().then((responseToken) => {
+          return responseToken.json().then((dataToken) => {
+            if (dataToken === true) {
+              return fetchPromise().then((response) => {
+                return response.json().then((data) => {
+                  return { response: data, statusCode: response.status };
+                });
+              });
+            } else {
+              if (typeof window !== 'undefined') {
+                window.location.replace('/not-valid-token');
+                window.location.reload();
+              }
+              return { response: {}, statusCode: 666 };
+            }
+          });
         });
-      });
+      } else {
+        return fetchPromise().then((response) => {
+          return response.json().then((data) => {
+            return { response: data, statusCode: response.status };
+          });
+        });
+      }
     }
   }
 
   GET(route, query) {
-    return this._fetch(route, "GET", query, true);
+    return this._fetch(route, 'GET', query, true);
   }
   GETPASSVALUE(route, query) {
-    return this._fetch(route, "GET", query, true, true);
+    return this._fetch(route, 'GET', query, true, true);
   }
   POST(route, body) {
-    return this._fetch(route, "POST", body);
+    return this._fetch(route, 'POST', body);
   }
   PATCH(route, body) {
-    return this._fetch(route, "PATCH", body);
+    return this._fetch(route, 'PATCH', body);
   }
   PUT(route, body) {
-    return this._fetch(route, "PUT", body);
+    return this._fetch(route, 'PUT', body);
   }
   DELETE(route, query) {
-    return this._fetch(route, "DELETE", query, true);
+    return this._fetch(route, 'DELETE', query, true);
   }
 }

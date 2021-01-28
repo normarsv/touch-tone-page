@@ -159,11 +159,27 @@ export const siderLinks = (role) => {
         },
       ];
       break;
-
-    case 'CorporateService':
     case 'OrganizationAdmin':
       return [
         {
+          sectionTitle: '',
+          links: [
+            {
+              label: 'Manage Users',
+              url: '/manage-users',
+              icon: <UnorderedListOutlined />,
+              submenu: [],
+            },
+          ],
+        },
+      ];
+      break;
+    case 'CorporateService':
+      return [
+        {
+          sectionTitle: 'Services',
+          links: [
+            {
           sectionTitle: '',
           links: [
             {
@@ -217,12 +233,14 @@ export const siderLinks = (role) => {
         {
           sectionTitle: 'Telephony Features',
           links: [
+            /*
             {
               label: 'Call Forwarding',
               url: '/telephony-features/call-forwarding',
               icon: <PhoneFilled />,
               submenu: [],
             },
+            */
             {
               label: 'Ring Groups',
               url: '/telephony-features/ring-groups',

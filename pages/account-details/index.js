@@ -7,6 +7,18 @@ import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
+    if (user.group === undefined) {
+      if (res) {
+        res.writeHead(302, {
+          Location: '/not-valid-token',
+        });
+        res.end();
+        return {};
+      } else {
+        Router.push('/not-valid-token');
+        return {};
+      }
+    }
     const api = new API();
 
     const resUser = await api.GET('/Users/' + user.userId);
