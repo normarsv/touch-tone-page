@@ -1,4 +1,5 @@
 import '../styles/app.less';
+import 'react-h5-audio-player/lib/styles.less';
 
 import App from 'next/app';
 import nookies from 'nookies';

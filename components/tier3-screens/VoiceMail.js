@@ -1,48 +1,33 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Progress,
-  Row,
-  Select,
-  Slider,
-  Space,
-  Table,
-  Tooltip,
-} from 'antd';
-import ContentInnerHeader from '../misc/ContentInnerHeader';
-import Search from 'antd/lib/input/Search';
+import { SearchOutlined } from '@ant-design/icons';
+import { faCalendarAlt, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCalendarAlt,
-  faCalendarTimes,
-  faDownload,
-  faEnvelope,
-  faEraser,
-  faPlay,
-  faPlusCircle,
-  faSync,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import { AudioPlayerProvider, useAudioPlayer } from 'react-use-audio-player';
+import { Button, Input, Row, Select, Space, Table } from 'antd';
+import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 import AudioPlayerComponent from '../misc/AudioPlayerComponent';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
 
-const VoiceMail = ({ voiceMailTableData }) => {
+const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [audioProgress, setAudioProgress] = useState();
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [getVoiceMail, setGetVoiceMail] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(false);
+  const [currentVoiceMailInfo, setCurrentVoiceMailInfo] = useState(
+    voiceMailTableData
+  );
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  let searchInput = useRef();
 
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
   };
 
   const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRow(selectedRowKeys);
   };
 
@@ -50,6 +35,81 @@ const VoiceMail = ({ voiceMailTableData }) => {
     selectedRow,
     onChange: onSelectChange,
   };
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+    setSearchedColumn('');
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div className="seach-box">
+        <Input
+          ref={(node) => {
+            searchInput = node;
+          }}
+          placeholder={'Search by ' + dataIndex}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          className="search-input"
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            className="search-buttons"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            className="search-buttons"
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => <SearchOutlined />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : '',
+  });
+
+  const reloadInformation = () => {
+    setLoadingTable(true);
+    getVoiceMailContent();
+  };
+
+  useEffect(() => {
+    if (voiceMailTableData !== currentVoiceMailInfo) {
+      setCurrentVoiceMailInfo(voiceMailTableData);
+      setLoadingTable(false);
+    }
+  }, [voiceMailTableData]);
 
   const columns = [
     {
@@ -68,37 +128,32 @@ const VoiceMail = ({ voiceMailTableData }) => {
       fixed: 'left',
       filterMultiple: false,
       width: '10%',
-      // onFilter: (value, record) => record.date.indexOf(value) === 0,
-      // sorter: (a, b) => a.date.length - b.date.length,
-      // sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('date'),
     },
     {
       title: 'Name',
       dataIndex: 'fileName',
       filterMultiple: false,
       width: '20%',
-      // onFilter: (value, record) => record.fileName.indexOf(value) === 0,
-      // sorter: (a, b) => a.fileName.length - b.fileName.length,
-      // sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('fileName'),
     },
     {
       title: 'Duration',
       dataIndex: 'duration',
       filterMultiple: false,
       width: '6%',
-      // onFilter: (value, record) => record.duration.indexOf(value) === 0,
-      // sorter: (a, b) => a.duration.length - b.duration.length,
-      // sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
       width: '12%',
       render: (actions, record) => {
-        console.log(record);
         return (
           <Row type="flex" justify="center" align="middle">
-            <AudioPlayerComponent fileName={record.fileName} />
+            <AudioPlayerComponent
+              reloadComponent={loadingTable}
+              fileName={record.fileName}
+            />
           </Row>
         );
       },
@@ -115,6 +170,16 @@ const VoiceMail = ({ voiceMailTableData }) => {
     // },
   ];
 
+  const variants = {
+    active: {
+      transform: 'rotate(360deg)',
+      transition: { duration: 0.5 },
+    },
+    inactive: {
+      transform: 'rotate(0)',
+    },
+  };
+
   return (
     <div>
       <Space size="large" direction="vertical">
@@ -124,11 +189,11 @@ const VoiceMail = ({ voiceMailTableData }) => {
           <h1 className="title-style">Voice Mail</h1>
         </Row>
 
-        <Search
+        {/* <Search
           placeholder="Search user..."
           enterButton
           style={{ width: 300 }}
-        />
+        /> */}
 
         <Space size="large" className="spaced-between">
           <Space size="small">
@@ -138,8 +203,10 @@ const VoiceMail = ({ voiceMailTableData }) => {
               <Option value="20">20</Option>
             </Select>
             <label>entries</label>
-            <Button type="primary">
-              <FontAwesomeIcon icon={faSync} />
+            <Button type="primary" onClick={reloadInformation}>
+              <motion.div variants={variants} animate={loadingTable}>
+                <FontAwesomeIcon icon={faSync} />
+              </motion.div>
             </Button>
           </Space>
 
@@ -153,6 +220,7 @@ const VoiceMail = ({ voiceMailTableData }) => {
 
         <Table
           // rowSelection={rowSelection}
+          loading={loadingTable}
           bordered
           scroll={{ x: 1300 }}
           columns={columns}
