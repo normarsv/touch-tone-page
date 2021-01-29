@@ -177,9 +177,6 @@ export const siderLinks = (role) => {
     case 'CorporateService':
       return [
         {
-          sectionTitle: 'Services',
-          links: [
-            {
           sectionTitle: '',
           links: [
             {
