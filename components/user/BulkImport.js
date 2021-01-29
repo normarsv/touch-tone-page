@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, message, Row, Space, Table, Tooltip } from 'antd';
-import ContentInnerHeader from '../misc/ContentInnerHeader';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FileOutlined, InboxOutlined } from '@ant-design/icons';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, message, Row, Space, Table, Tooltip } from 'antd';
 import Dragger from 'antd/lib/upload/Dragger';
-import { InboxOutlined, FileOutlined } from '@ant-design/icons';
-import Search from 'antd/lib/input/Search';
-import API from '../../API/API';
 import { useRouter } from 'next/dist/client/router';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+
+import API from '../../API/API';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const key = 'updatable';
 
@@ -50,7 +50,6 @@ const BulkImport = ({ user }) => {
   const props = {
     name: 'file',
     multiple: false,
-    action: '',
     async onChange(info) {
       console.log(info);
       const { status } = info.file;
@@ -163,6 +162,11 @@ const BulkImport = ({ user }) => {
                 style={{ width: '100%' }}
                 showUploadList={false}
                 {...props}
+                customRequest={({ file, onSuccess }) => {
+                  setTimeout(() => {
+                    onSuccess('ok');
+                  }, 0);
+                }}
               >
                 <Space
                   size='middle'

@@ -65,7 +65,10 @@ const CallForwardSelective = ({
       setSubmitting(true);
       const api = new API(userInfo.token, userInfo.userId);
       const sendValues = JSON.parse(JSON.stringify(values));
-      sendValues.destination = values.destination.currentValue;
+      sendValues.destination =
+        Array.isArray(values.destination.currentValue) === true
+          ? values.destination.currentValue[0]
+          : values.destination.currentValue;
       delete sendValues.monday;
       delete sendValues.tuesday;
       delete sendValues.wednesday;
