@@ -118,16 +118,6 @@ export default class extends Component {
         // },
       },
       formInitialValues: {
-        // findeMeDescription: "",
-        // findeMeScheduleDescription: "",
-        // startTime: "",
-        // endTime: "",
-        // dayrange: ,
-        // enabled: false,
-
-        findeMeDescription: this.props.actualUserMyFindme.findeMeDescription,
-        findeMeScheduleDescription: this.props.actualUserMyFindme
-          .findeMeScheduleDescription,
         startDate: this.props.actualUserMyFindme.startDate,
         endDate: this.props.actualUserMyFindme.endDate,
         enabled: this.props.actualUserMyFindme.enabled,
@@ -145,12 +135,6 @@ export default class extends Component {
       formValidations: (values) => {
         const errors = {};
         // console.log(values);
-        if (!values.findeMeDescription) {
-          errors.findeMeDescription = 'Description required';
-        }
-        if (!values.findeMeScheduleDescription) {
-          errors.findeMeScheduleDescription = 'Schedule description required';
-        }
         if (!values.startDate) {
           errors.startDate = 'Start date required';
         }
@@ -169,29 +153,9 @@ export default class extends Component {
         setSubmitting(false);
       },
       formInputsRows: [
-        /*
-        {
-          inputs: [
-            {
-              name: "findeMeDescription",
-              label: "Find Me Description",
-              placeholder: "Find Me Description...",
-              type: "text",
-              required: true,
-            },
-          ],
-        },
-        */
         { separatorTitle: 'Schedule', inputs: [] },
         {
           inputs: [
-            {
-              name: 'findeMeScheduleDescription',
-              label: 'Schedule Description',
-              placeholder: 'Schedule Description...',
-              type: 'text',
-              required: true,
-            },
             {
               name: 'startDate',
               label: 'Start Date',
@@ -513,8 +477,6 @@ export default class extends Component {
     const api = new API(actualUser.token, actualUser.userId);
 
     const finalSubmit = {
-      findeMeDescription: valuesToSubmit.findeMeDescription,
-      findeMeScheduleDescription: valuesToSubmit.findeMeDescription,
       startDate: valuesToSubmit.startDate,
       endDate: valuesToSubmit.endDate,
       startTime: '',
