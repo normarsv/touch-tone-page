@@ -27,12 +27,12 @@ const MainDashboard = ({ mainDashboardContent }) => {
 
   return (
     <div>
-      <Space size='large' direction='vertical'>
+      <Space size="large" direction="vertical">
         <ContentInnerHeader />
 
-        <h1 className='title-style'>{titleToDisplay}</h1>
+        <h1 className="title-style">{titleToDisplay}</h1>
 
-        <Row gutter={[10, 24]} type='flex'>
+        <Row gutter={[10, 24]} type="flex">
           {mainDashboardContent.map((item, index) => {
             return (
               <Col
@@ -43,21 +43,21 @@ const MainDashboard = ({ mainDashboardContent }) => {
                 md={12}
                 sm={24}
                 xs={24}
-                className='flex center'
+                className="flex center"
               >
                 <motion.div
                   whileHover={{ scale: 1.002 }}
-                  className='admin-option-main-div'
+                  className="admin-option-main-div"
                 >
-                  <Space direction='vertical'>
-                    <h2 className='title-style'>{item.title}</h2>
+                  <Space direction="vertical">
+                    <h2 className="title-style">{item.title}</h2>
                     <h4>{item.count}</h4>
                   </Space>
                   <p>{item.desc}</p>
                   <motion.div whileHover={{ scale: 1.01 }}>
                     <Button
-                      type='primary'
-                      className='primary-button-style'
+                      type="primary"
+                      className="primary-button-style"
                       onClick={() => router.push(item.route)}
                     >
                       {item.buttonTitle}

@@ -62,9 +62,17 @@ export default class extends Component {
     }
 
     const endUserDashboardContent = [
-      /*
       {
         id: 1,
+        title: 'Meeting',
+        count: '',
+        desc:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+        buttonTitle: 'View All Meetings',
+        route: '/meetings',
+      },
+      {
+        id: 2,
         title: 'Voice Mail',
         count: '9 New Voice Mails',
         desc:
@@ -72,9 +80,8 @@ export default class extends Component {
         buttonTitle: 'View all Voice Mails',
         route: '/voice-mail',
       },
-      */
       {
-        id: 2,
+        id: 3,
         title: 'My Find Me',
         count: '',
         desc:
@@ -83,13 +90,13 @@ export default class extends Component {
         route: '/telephony-features/my-findme',
       },
       {
-        id: 3,
-        title: 'Meeting',
+        id: 4,
+        title: 'Account Details',
         count: '',
         desc:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View All Meetings',
-        route: '/meetings',
+        buttonTitle: 'View Account Details',
+        route: '/account-details',
       },
       /*
       {
@@ -113,16 +120,11 @@ export default class extends Component {
         route: '/audio-conference',
       },
       */
-      {
-        id: 6,
-        title: 'Account Details',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Account Details',
-        route: '/account-details',
-      },
     ];
+
+    if (user.userType === 1 && user.role === 'EndUser') {
+      endUserDashboardContent.splice(0, 1);
+    }
 
     return {
       user,
