@@ -281,16 +281,19 @@ class EditMeetings extends Component {
               ) => {
                 const time = newVal;
                 const [hours, minutes] = time.split(':');
-                const momentNewVal = moment(formikData.startTime)
+                const momentNewVal = moment(formikData.values.startTime)
                   .set('hour', hours)
                   .set('minutes', minutes)
                   .format('YYYY-MM-DD HH:mm');
 
-                const startTimeHour = moment(formikData.startTime).hour();
-                const startTimeMinutes = moment(formikData.startTime).minutes();
+                const startTimeHour = moment(
+                  formikData.values.startTime
+                ).hour();
+                const startTimeMinutes = moment(
+                  formikData.values.startTime
+                ).minutes();
                 const currentHour = moment(momentNewVal).hour();
                 const currentMinutes = moment(momentNewVal).minutes();
-
                 if (startTimeHour === currentHour) {
                   const minutesToDisable = [];
                   for (let index = 0; index < 60; index++) {
@@ -308,7 +311,7 @@ class EditMeetings extends Component {
                     if (currentMinutes < startTimeMinutes) {
                       const newMoment = moment(momentNewVal)
                         .set('minute', startTimeMinutes)
-                        .format('HH:mm');
+                        .format('YYYY-MM-DD HH:mm');
                       setTimeout(() => {
                         formikData.setFieldValue('endTime', newMoment);
                       }, 500);
