@@ -1,15 +1,9 @@
-import {
-  AppstoreFilled,
-  LogoutOutlined,
-  PhoneOutlined,
-  SettingFilled,
-  StarFilled,
-} from '@ant-design/icons';
+import { AppstoreFilled, LogoutOutlined, PhoneOutlined, SettingFilled, StarFilled } from '@ant-design/icons';
 import { Menu, Space } from 'antd';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { removeAppUser } from '../../scripts/General';
 import { siderLinks } from '../../scripts/MainInfoData';
@@ -63,15 +57,16 @@ const SiderOptions = ({ openSideMenu, role }) => {
 
   const renderMenuOptions = (menuToDisplay) => {
     let finalOptions = menuToDisplay;
-
     return finalOptions.map((section, index) => {
-      if (userInfo.userType === 1 && userInfo.role === 'EndUser') {
-        section.links.splice(0, 1);
-      }
       return (
         <Menu.ItemGroup key={index} title={section.sectionTitle}>
           {section.links &&
             section.links.map((menuItem, index) => {
+              if (menuItem.url === '/meetings') {
+                if (userInfo.role === 'EndUser' && userInfo.userType === 1) {
+                  return <div />;
+                }
+              }
               // console.log(menuItem);
               if (menuItem.submenu && menuItem.submenu.length > 0) {
                 // Is submenu
@@ -122,11 +117,11 @@ const SiderOptions = ({ openSideMenu, role }) => {
     <>
       <UserInfo openSideMenu={openSideMenu} />
       <Menu
-        mode="inline"
+        mode='inline'
         selectedKeys={[selectedMenuItem]}
         openKeys={selectedSubmenuItem}
         onOpenChange={onOpenChange}
-        className="side-menu-options-parent-div"
+        className='side-menu-options-parent-div'
         forceSubMenuRender={true}
       >
         <Menu.ItemGroup
@@ -148,7 +143,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
               router.push('/frequent-numbers');
             }}
             icon={<StarFilled />}
-            key="frequentnumbers"
+            key='frequentnumbers'
           >
             Frequent Numbers
           </Menu.Item>
@@ -161,13 +156,13 @@ const SiderOptions = ({ openSideMenu, role }) => {
             router.push('/account-details');
           }}
           icon={<SettingFilled />}
-          key="accountdetails"
+          key='accountdetails'
         >
           Account Details
         </Menu.Item>
 
         <Menu.Divider
-          className="logout-menu-item"
+          className='logout-menu-item'
           style={{ margin: '0.1rem 0' }}
         />
 
@@ -177,15 +172,15 @@ const SiderOptions = ({ openSideMenu, role }) => {
               console.log('use phone');
             }}
             icon={<PhoneOutlined />}
-            key="use-phone"
-            className="logout-menu-item"
+            key='use-phone'
+            className='logout-menu-item'
           >
             Use Phone
           </Menu.Item>
         )}
         {role === 'EndUser' && (
           <Menu.Divider
-            className="logout-menu-item"
+            className='logout-menu-item'
             style={{ margin: '0.1rem 0' }}
           />
         )}
@@ -196,24 +191,24 @@ const SiderOptions = ({ openSideMenu, role }) => {
             router.replace('/');
           }}
           icon={<LogoutOutlined />}
-          key="logout"
-          className="logout-menu-item"
+          key='logout'
+          className='logout-menu-item'
         >
           Log out
         </Menu.Item>
         <Menu.Divider
-          className="logout-menu-item"
+          className='logout-menu-item'
           style={{ margin: '0.1rem 0' }}
         />
       </Menu>
       {!openSideMenu && (
         <>
-          <Space direction="vertical" id="Need help?" className="info-wrapper">
-            <h5 className="title-style"> Need help? </h5>
-            <a href="tel:">Call 800 900 5474</a>
+          <Space direction='vertical' id='Need help?' className='info-wrapper'>
+            <h5 className='title-style'> Need help? </h5>
+            <a href='tel:'>Call 800 900 5474</a>
           </Space>
-          <div className="slogan">
-            <p className="inner-p">TouchTone Communications Control Center</p>
+          <div className='slogan'>
+            <p className='inner-p'>TouchTone Communications Control Center</p>
           </div>
         </>
       )}

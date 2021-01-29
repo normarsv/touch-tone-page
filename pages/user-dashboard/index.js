@@ -61,16 +61,18 @@ export default class extends Component {
       }
     }
 
-    const endUserDashboardContent = [
-      {
-        id: 1,
-        title: 'Meeting',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View All Meetings',
-        route: '/meetings',
-      },
+    let endUserDashboardContent = [
+      user.role === 'EndUser' && user.userType !== 1
+        ? {
+            id: 1,
+            title: 'Meeting',
+            count: '',
+            desc:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+            buttonTitle: 'View All Meetings',
+            route: '/meetings',
+          }
+        : undefined,
       {
         id: 2,
         title: 'Voice Mail',
@@ -121,10 +123,9 @@ export default class extends Component {
       },
       */
     ];
-
-    if (user.userType === 1 && user.role === 'EndUser') {
-      endUserDashboardContent.splice(0, 1);
-    }
+    endUserDashboardContent = endUserDashboardContent.filter(function (x) {
+      return x !== undefined;
+    });
 
     return {
       user,
