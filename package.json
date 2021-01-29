@@ -46,11 +46,13 @@
     "react": "^16.13.1",
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
+    "react-h5-audio-player": "^3.5.0",
     "react-json-view": "^1.19.1",
     "react-modal": "^3.11.2",
     "react-open-weather": "^0.6.2",
     "react-papaparse": "^3.6.0",
     "react-toastify": "^6.0.8",
+    "react-use-audio-player": "^1.2.4",
     "tinymce": "^5.4.1",
     "use-force-update": "^1.0.7",
     "webp-loader": "^0.6.0"

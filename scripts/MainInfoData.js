@@ -7,6 +7,7 @@ import {
   PlusCircleFilled,
   UnorderedListOutlined,
   UserOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 
 const IconFont = createFromIconfontCN({
@@ -176,6 +177,9 @@ export const siderLinks = (role) => {
     case 'CorporateService':
       return [
         {
+          sectionTitle: 'Services',
+          links: [
+            {
           sectionTitle: '',
           links: [
             {
@@ -240,7 +244,7 @@ export const siderLinks = (role) => {
             {
               label: 'Ring Groups',
               url: '/telephony-features/ring-groups',
-              icon: <IconFont type='icon-map' />,
+              icon: <IconFont type="icon-map" />,
               submenu: [],
             },
             /*
@@ -254,7 +258,7 @@ export const siderLinks = (role) => {
             {
               label: 'Call Recordings',
               url: '/telephony-features/call-recordings',
-              icon: <IconFont type='icon-mic' />,
+              icon: <IconFont type="icon-mic" />,
               submenu: [],
             },
           ],
@@ -267,18 +271,16 @@ export const siderLinks = (role) => {
         {
           sectionTitle: '',
           links: [
-            /*
+            {
+              label: 'Meetings',
+              url: '/meetings',
+              icon: <IconFont type="icon-users" />,
+              submenu: [],
+            },
             {
               label: 'Voice Mail',
               url: '/voice-mail',
               icon: <MailOutlined />,
-              submenu: [],
-            },
-            */
-            {
-              label: 'Meetings',
-              url: '/meetings',
-              icon: <IconFont type='icon-users' />,
               submenu: [],
             },
             /*
@@ -329,7 +331,7 @@ export const siderLinks = (role) => {
             {
               label: 'My Find Me',
               url: '/telephony-features/my-findme',
-              icon: <IconFont type='icon-map' />,
+              icon: <IconFont type="icon-map" />,
               submenu: [],
             },
             /*
