@@ -25,8 +25,6 @@ const MainDashboard = ({ mainDashboardContent }) => {
       break;
   }
 
-  console.log(userInfo.userType);
-
   return (
     <div>
       <Space size="large" direction="vertical">
@@ -36,8 +34,6 @@ const MainDashboard = ({ mainDashboardContent }) => {
 
         <Row gutter={[10, 24]} type="flex">
           {mainDashboardContent.map((item, index) => {
-            // console.log(item);
-
             return (
               <Col
                 span={8}
