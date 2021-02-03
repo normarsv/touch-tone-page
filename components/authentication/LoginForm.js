@@ -22,7 +22,7 @@ export const LoginForm = ({ showForgotPassword }) => {
     // console.log("Success:", values);
     const api = new API();
     const resLogin = await api.POST('/token/', {
-      username: values.email,
+      username: values.email.trim(),
       password: values.password,
     });
 

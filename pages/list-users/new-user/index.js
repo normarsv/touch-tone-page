@@ -674,10 +674,10 @@ class NewUserPage extends Component {
     const api = new API(user.token, user.userId);
 
     const finalSubmit = {
-      userName: valuesToSubmit.userName,
-      email: valuesToSubmit.email,
-      firstName: valuesToSubmit.firstName,
-      lastName: valuesToSubmit.lastName,
+      userName: valuesToSubmit.userName.trim(),
+      email: valuesToSubmit.email.trim(),
+      firstName: valuesToSubmit.firstName.trim(),
+      lastName: valuesToSubmit.lastName.trim(),
       password: valuesToSubmit.password,
       isAgent: valuesToSubmit.isAgent,
       organizationId:

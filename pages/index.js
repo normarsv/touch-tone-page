@@ -1,5 +1,5 @@
-import { Component } from 'react';
 import Router from 'next/router';
+import { Component } from 'react';
 
 import { ForgotPassword } from '../components/authentication/ForgotPassword';
 import { LoginForm } from '../components/authentication/LoginForm';
