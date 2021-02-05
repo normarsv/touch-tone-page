@@ -57,4 +57,16 @@ export default class API extends RestClient {
     const body = await res.json();
     return body;
   }
+
+  async getVoiceMailToDownload(fileName) {
+    const url = mainIp + '/api/Services/audio-converter/' + fileName + '.MU';
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + this.authToken,
+      },
+    });
+    const body = await res;
+    return body;
+  }
 }

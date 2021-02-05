@@ -1,27 +1,46 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { faCalendarAlt, faSync } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCalendarAlt,
+  faDownload,
+  faEnvelope,
+  faSync,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Input, Row, Select, Space, Table } from 'antd';
+import {
+  Button,
+  Input,
+  message,
+  Row,
+  Select,
+  Space,
+  Table,
+  Tooltip,
+} from 'antd';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import AudioPlayerComponent from '../misc/AudioPlayerComponent';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
+import { UserContext } from '../authentication/UserContext';
+import API from '../../API/API';
+import { mainIp } from '../../scripts/MainInfoData';
 
 const { Option } = Select;
 
 const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
   const [selectedRow, setSelectedRow] = useState([]);
-  const [audioProgress, setAudioProgress] = useState();
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
-  const [getVoiceMail, setGetVoiceMail] = useState(false);
   const [loadingTable, setLoadingTable] = useState(false);
   const [currentVoiceMailInfo, setCurrentVoiceMailInfo] = useState(
     voiceMailTableData
   );
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const { userInfo } = useContext(UserContext);
+
   let searchInput = useRef();
+
+  const api = new API(userInfo.token);
 
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
@@ -34,6 +53,28 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
   const rowSelection = {
     selectedRow,
     onChange: onSelectChange,
+  };
+
+  const sendByEmail = async (fileName) => {
+    message.loading('Sending by email...');
+
+    const sendByEmailRes = await api.GET(
+      '/Email/sendVoicemail/' + fileName + '.MU'
+    );
+
+    if (sendByEmailRes.statusCode == 200) {
+      message.success(sendByEmailRes.response.message);
+    } else {
+      message.error('Unexpected error ocurred');
+    }
+  };
+
+  const voiceMailToDownload = async (fileName) => {
+    // console.log('Test');
+    // console.log(mainIp + '/api/VoiceMail/audio-converter/' + fileName + '.MU');
+    message.loading('The download will start soon...');
+
+    // window.open(mainIp + '/api/VoiceMail/audio-converter/' + fileName + '.MU');
   };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -144,7 +185,7 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
       width: '6%',
     },
     {
-      title: 'Actions',
+      title: 'Play Voice Mail',
       dataIndex: 'actions',
       width: '12%',
       render: (actions, record) => {
@@ -154,6 +195,47 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
               reloadComponent={loadingTable}
               fileName={record.fileName}
             />
+          </Row>
+        );
+      },
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: '5%',
+      render: (actions, record) => {
+        return (
+          <Row type="flex" justify="center" align="middle">
+            <Space>
+              <Tooltip title="Download file">
+                <Button
+                  type="primary"
+                  style={{ borderRadius: '2rem', width: '1rem' }}
+                  className="flex center primary-button-style alternate"
+                  href={
+                    mainIp +
+                    '/api/VoiceMail/audio-converter/' +
+                    record.fileName +
+                    '.MU'
+                  }
+                  download
+                  onClick={() => voiceMailToDownload(record.fileName)}
+                >
+                  <FontAwesomeIcon icon={faDownload} />
+                </Button>
+              </Tooltip>
+
+              <Tooltip title="Send File by Email">
+                <Button
+                  type="primary"
+                  style={{ borderRadius: '2rem', width: '1rem' }}
+                  className="flex center primary-button-style alternate"
+                  onClick={() => sendByEmail(record.fileName)}
+                >
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </Button>
+              </Tooltip>
+            </Space>
           </Row>
         );
       },
