@@ -8,10 +8,11 @@ import { BaseLayout } from '../../layouts/BaseLayout';
 // import 'react-h5-audio-player/lib/styles.css';
 
 function VoiceMailPage(props) {
-  const { voiceMailContent, user, voiceMails } = props;
+  const { voiceMailContent, user, voiceMails, resVoiceMail } = props;
   const [currentVoiceMailContent, setCurrentVoiceMailContent] = useState(
     voiceMailContent
   );
+  // console.log(resVoiceMail);
 
   const getVoiceMailContent = async () => {
     const voiceMailContent = [];
