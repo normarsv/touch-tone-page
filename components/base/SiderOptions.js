@@ -169,7 +169,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
         {role === 'EndUser' && (
           <Menu.Item
             onClick={() => {
-              console.log('use phone');
+              window.open('uc.touchtone.net', '_blank');
             }}
             icon={<PhoneOutlined />}
             key='use-phone'

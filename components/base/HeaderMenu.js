@@ -119,7 +119,13 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
       <Col flex='50%'>
         <Row type='flex' align='middle' justify='end'>
           {userInfo.role === 'EndUser' ? (
-            <Button type='primary' className='account-avatar'>
+            <Button
+              type='primary'
+              className='account-avatar'
+              onClick={() => {
+                window.open('uc.touchtone.net', '_blank');
+              }}
+            >
               <FontAwesomeIcon
                 icon={faPhone}
                 style={{ marginRight: '0.5rem' }}
