@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import API from '../../API/API';
 import { IsAValidEmail } from '../../scripts/General';
+import EditServices from "../edit-screens/EditServices";
 
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
@@ -15,6 +16,7 @@ const OrganizationServices = ({
   userInfo,
   servicesContent,
   successfullyEdit,
+  enabledServices
 }) => {
   const router = useRouter();
 
@@ -243,16 +245,16 @@ const OrganizationServices = ({
             </Select>
           </Space>
         </Space>
-        {/*
+        
         <Space direction='vertical' size='large'>
           <Space direction='vertical' size='small'>
             <h4>List of enabled Services</h4>
             <EditServices
               editable={editable}
-              serviceContent={editServiceContent}
+              serviceContent={enabledServices}
             />
           </Space>
-          {telephonyFeatures && (
+          {/* {telephonyFeatures && (
             <Space direction='vertical' size='small'>
               <h4>Telephony Features</h4>
               <EditServices
@@ -260,9 +262,9 @@ const OrganizationServices = ({
                 serviceContent={telephonyFeatures}
               />
             </Space>
-          )}
+          )} */}
         </Space>
-        */}
+       
       </Space>
     </div>
   );

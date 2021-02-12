@@ -29,30 +29,27 @@ export default class extends Component {
     userInfo.did = resUser.response.did;
     userInfo.userTypeId = resUser.response.userTypeId;
 
+
     const servicesContent = {
       editable: false,
       title: 'User Details',
     };
 
-    const editServiceContent = new Array(24).fill({
-      id: 1,
-      title: 'Access to the User list view',
-      status: true,
-    });
+    const enabledServices = resUser.response.products;
 
-    const telephonyFeatures = new Array(24).fill({
-      id: 1,
-      title: 'Access to the User list view',
-      status: true,
-    });
+    // const telephonyFeatures = new Array(24).fill({
+    //   id: 1,
+    //   title: 'Access to the User list view',
+    //   status: true, 
+    // });
 
     const resUserTypes = await api.GET('/UserTypes');
 
     return {
       user,
-      editServiceContent,
+      enabledServices,
       servicesContent,
-      telephonyFeatures,
+      //telephonyFeatures,
       finalQuery,
       userInfo,
       resUser,
@@ -68,7 +65,7 @@ export default class extends Component {
   render() {
     const {
       servicesContent,
-      editServiceContent,
+      enabledServices,
       userInfo,
       finalQuery,
       user,
@@ -81,7 +78,7 @@ export default class extends Component {
           user={user}
           userInfo={userInfo}
           servicesContent={servicesContent}
-          editServiceContent={editServiceContent}
+          enabledServices={enabledServices}
         />
       </BaseLayout>
     );
