@@ -44,6 +44,7 @@ const MainDashboard = ({ mainDashboardContent }) => {
                 sm={24}
                 xs={24}
                 className="flex center"
+                key={index}
               >
                 <motion.div
                   whileHover={{ scale: 1.002 }}

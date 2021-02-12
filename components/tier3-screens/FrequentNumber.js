@@ -47,9 +47,17 @@ const FrequentNumbers = ({
     const resDeleteFrequentNumber = await api.DELETE(
       '/UserFrequentContacts/' + frequentNumberId
     );
-    message.success('Frequent Number Deleted Successfully!');
-    getFrequentNumberContent();
-    setDataToEdit(undefined);
+    if (resDeleteFrequentNumber.statusCode === 201 ||
+        resDeleteFrequentNumber.statusCode === 200) {
+      message.success('Frequent Number Deleted Successfully!');
+      getFrequentNumberContent();
+      setDataToEdit(undefined);
+    }
+    else
+    {
+      message.error(resDeleteFrequentNumber.response.message);
+      setLoadingTable(false);
+    }
   };
 
   useEffect(() => {
