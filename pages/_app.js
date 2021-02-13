@@ -1,6 +1,3 @@
-import '../styles/app.less';
-import 'react-h5-audio-player/lib/styles.less';
-
 import App from 'next/app';
 import Router from 'next/router';
 import nookies from 'nookies';
@@ -10,6 +7,8 @@ import { UserContext } from '../components/authentication/UserContext';
 import LoadingPage from '../components/base/Loading';
 import { nameSession } from '../scripts/MainInfoData';
 
+require('react-h5-audio-player/lib/styles.less');
+require('../styles/app.less');
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
