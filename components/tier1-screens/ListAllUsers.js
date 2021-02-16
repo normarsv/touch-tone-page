@@ -17,6 +17,7 @@ import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useRef, useState } from 'react';
 import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const { Option } = Select;
 
@@ -28,6 +29,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const windowDimensions = useWindowDimensions();
   let searchInput = useRef();
 
   const onChangeTablePageSize = (value) => {
@@ -127,7 +129,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: 'left',
+      fixed: windowDimensions.width < 900 ? 'none': 'left',
       width: '6rem',
       ...getColumnSearchProps('name'),
     },

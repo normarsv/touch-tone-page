@@ -29,7 +29,7 @@ export const LoginForm = ({ showForgotPassword }) => {
     console.log(resLogin);
 
     if (resLogin.statusCode === 400) {
-      message.error(resLogin.response);
+      message.error('Invalid username or password');
       setLoading(false);
       return;
     }
@@ -106,11 +106,11 @@ export const LoginForm = ({ showForgotPassword }) => {
               >
                 <Input.Password disabled={loading} />
               </Form.Item>
-              <div className='spaced-between'>
+              <div className='spaced-between flex-wrap'>
                 <Form.Item name='remember' valuePropName='checked'>
                   <Checkbox disabled={loading}>Remember me</Checkbox>
                 </Form.Item>
-                <motion.div
+                <motion.div className ='forgot-password'
                   whileHover={hoverAnimation}
                   onClick={() => {
                     if (loading === false) {

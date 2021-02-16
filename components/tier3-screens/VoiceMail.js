@@ -24,7 +24,7 @@ import ContentInnerHeader from '../misc/ContentInnerHeader';
 import { UserContext } from '../authentication/UserContext';
 import API from '../../API/API';
 import { mainIp } from '../../scripts/MainInfoData';
-
+import useWindowDimensions from '../../hooks/useWindowDimensions'
 const { Option } = Select;
 
 const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
@@ -37,7 +37,8 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const { userInfo } = useContext(UserContext);
-
+  const windowDimensions= useWindowDimensions();
+ 
   let searchInput = useRef();
 
   const api = new API(userInfo.token);
@@ -166,23 +167,25 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
           </Space>
         );
       },
-      fixed: 'left',
+      fixed: windowDimensions.width < 900 ? 'none' : 'left',
       filterMultiple: false,
       width: '10%',
       ...getColumnSearchProps('date'),
     },
     {
       title: 'Name',
-      dataIndex: 'fileName',
+      dataIndex: 'fileName', 
       filterMultiple: false,
-      width: '20%',
+      width:'20%',
       ...getColumnSearchProps('fileName'),
+      responsive: ['md']
     },
     {
       title: 'Duration',
       dataIndex: 'duration',
       filterMultiple: false,
       width: '6%',
+      responsive: ['md']
     },
     {
       title: 'Play Voice Mail',
@@ -302,6 +305,7 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
         </Space>
 
         <Table
+        
           // rowSelection={rowSelection}
           loading={loadingTable}
           bordered

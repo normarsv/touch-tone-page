@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
@@ -13,6 +13,7 @@ const { Option } = Select;
 
 const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
   const [loadingTable, setLoadingTable] = useState(false);
+  const windowDimensions = useWindowDimensions();
   const deleteMeetings = async (meetingID) => {
     setLoadingTable(true);
     const api = new API(user.token, user.userId);
@@ -37,7 +38,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: 'left',
+      fixed: windowDimensions.width < 900 ? 'none': 'left',
       width: '',
     },
     {

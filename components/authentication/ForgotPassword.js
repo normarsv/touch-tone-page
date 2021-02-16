@@ -94,7 +94,7 @@ export const ForgotPassword = ({ showForgotPassword }) => {
                   <Input />
                 </Form.Item>
 
-                <div className="spaced-between">
+                <div className="spaced-between flex-wrap">
                   <motion.div whileHover={hoverAnimation}>
                     <Space
                       onClick={() => showForgotPassword()}
@@ -104,7 +104,9 @@ export const ForgotPassword = ({ showForgotPassword }) => {
                       Back to login
                     </Space>
                   </motion.div>
-                  <Form.Item>
+                </div>
+                <div className='login-form-button'>
+                <Form.Item>
                     <Button
                       // onClick={onCheck}
                       htmlType="submit"
@@ -114,7 +116,7 @@ export const ForgotPassword = ({ showForgotPassword }) => {
                       Send Email Link
                     </Button>
                   </Form.Item>
-                </div>
+                  </div>
               </Space>
             </Form>
           </Space>

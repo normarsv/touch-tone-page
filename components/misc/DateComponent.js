@@ -64,8 +64,7 @@ export const DateComponent = ({}) => {
         <Divider type="vertical" />
         <Space>
           <FontAwesomeIcon className="title-style" icon={faCloud} />{" "}
-          <label>{weather}</label>
-          °F
+          <label>{weather + ' °F'}</label>
         </Space>
       </Space>
     </div>
