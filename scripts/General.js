@@ -79,7 +79,7 @@ export const IsAValidPhoneNumber = (number) => {
     return false;
   }
   var onlyNumbers = number.replace(/\D/g, "");
-  var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  var re = /^[\+]?[(]?[1-9]{3}|0[1]{2}[)]?[-\s\.]?[0-9]{1,}[-\s\.]?[0-9]{0,}$/im;
   return re.test(onlyNumbers);
 };
 

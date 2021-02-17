@@ -29,7 +29,7 @@ export const LoginForm = ({ showForgotPassword }) => {
     console.log(resLogin);
 
     if (resLogin.statusCode === 400) {
-      message.error('Invalid username or password');
+      message.error(resLogin.response.message);
       setLoading(false);
       return;
     }
