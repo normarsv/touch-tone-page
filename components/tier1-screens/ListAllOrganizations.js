@@ -8,6 +8,7 @@ import React, { useRef, useState } from 'react';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 import OrganizationDetailsModal from './OrganizationDetailsModal';
 import ProvisioningOrganization from './ProvisioningOrganization';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const { Option } = Select;
 
@@ -27,6 +28,8 @@ const ListAllOrganizations = ({
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const windowDimensions = useWindowDimensions();
+
   let searchInput = useRef();
 
   const hoverAnimation = {
@@ -110,7 +113,7 @@ const ListAllOrganizations = ({
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: 'left',
+      fixed: windowDimensions.width < 900 ? 'none': 'left',
       width: '5rem',
       ...getColumnSearchProps('name'),
     },

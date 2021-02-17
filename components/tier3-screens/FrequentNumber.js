@@ -9,6 +9,7 @@ import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 import AddNewFrequentNumber from '../user/AddNewFrequentNumber';
 import EditFrequentNumber from './EditFrequentNumber';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const { Option } = Select;
 
@@ -25,6 +26,7 @@ const FrequentNumbers = ({
     false
   );
   const [loadingTable, setLoadingTable] = useState(false);
+  const windowDimensions = useWindowDimensions();
 
   const hoverAnimation = {
     scale: 1.02,
@@ -68,7 +70,7 @@ const FrequentNumbers = ({
     {
       title: 'Alias',
       dataIndex: 'alias',
-      fixed: 'left',
+      fixed: windowDimensions.width < 900 ? 'none': 'left',
       onFilter: (value, record) => record.alias.indexOf(value) === 0,
       sorter: (a, b) => a.alias.length - b.alias.length,
       sortDirections: ['descend', 'ascend'],
@@ -144,7 +146,7 @@ const FrequentNumbers = ({
         />
         */}
 
-        <Space size='large' className='flex space-between'>
+        <div className='flex spaced-between'>
           <Space size='small'>
             <label>Show</label>
             <Select defaultValue='10' onChange={onChangeTablePageSize}>
@@ -153,6 +155,8 @@ const FrequentNumbers = ({
             </Select>
             <label>entries</label>
           </Space>
+
+        <div>
           <Button
             type='primary'
             className='primary-button-style alternate'
@@ -165,7 +169,8 @@ const FrequentNumbers = ({
               New Number <FontAwesomeIcon icon={faPlusCircle} />
             </Space>
           </Button>
-        </Space>
+          </div>
+        </div>
 
         {frequentNumbersTableData && (
           <Table
