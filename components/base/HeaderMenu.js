@@ -123,7 +123,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
               type='primary'
               className='account-avatar'
               onClick={() => {
-                window.open('uc.touchtone.net', '_blank');
+                window.open('https://uc.touchtone.net', '_blank');
               }}
             >
               <FontAwesomeIcon
