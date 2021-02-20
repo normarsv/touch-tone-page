@@ -59,7 +59,7 @@ const ListAllOrganizations = ({
     setSearchText('');
   };
 
-  const getColumnSearchProps = (dataIndex) => ({
+  const getColumnSearchProps = (dataIndex, placeholder) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -71,7 +71,7 @@ const ListAllOrganizations = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={'Search by ' + dataIndex}
+          placeholder={placeholder}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -115,19 +115,19 @@ const ListAllOrganizations = ({
       dataIndex: 'name',
       fixed: windowDimensions.width < 900 ? 'none': 'left',
       width: '5rem',
-      ...getColumnSearchProps('name'),
+      ...getColumnSearchProps('name', 'Search by Name'),
     },
     {
-      title: 'Billing ID in Rev.io',
+      title: 'Account Number in Rev.io',
       dataIndex: 'billingId',
       width: '10%',
-      ...getColumnSearchProps('billingId'),
+      ...getColumnSearchProps('billingId', 'Search by Account Number'),
     },
     {
       title: 'Organization Distributor',
       dataIndex: 'orgDist',
       width: '10%',
-      ...getColumnSearchProps('orgDist'),
+      ...getColumnSearchProps('orgDist', 'Search by Organization Distributor'),
     },
     {
       title: 'Count of DIDs',
@@ -145,7 +145,7 @@ const ListAllOrganizations = ({
       width: '7%',
       render: (_, record) => {
         return (
-          <Space>
+          <Space className="action">
             <motion.div
               onClick={() => handleVisible(record)}
               whileHover={hoverAnimation}

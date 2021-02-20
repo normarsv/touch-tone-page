@@ -144,7 +144,7 @@ const ProvisioningOrganization = ({
             <h3>Name</h3>
           </Col>
           <Col span={5}>
-            <h3>Billing ID in Rev.io</h3>
+            <h3>Account Number in Rev.io</h3>
           </Col>
           <Col span={5}>
             <h3>Email</h3>

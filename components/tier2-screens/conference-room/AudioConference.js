@@ -52,7 +52,7 @@ const AudioConference = ({ audioConferenceContent }) => {
       title: "Actions",
       dataIndex: "actions",
       render: (conferenceId) => (
-        <Space className="flex center">
+        <Space className="flex center action">
           <motion.div
             onClick={() =>
               router.push("/audio-conference/details/" + conferenceId)

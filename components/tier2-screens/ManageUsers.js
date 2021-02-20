@@ -45,7 +45,7 @@ const ManageUsers = ({ manageUsersContent }) => {
       dataIndex: "actions",
       width: "5%",
       render: (actions) => (
-        <Space>
+        <Space className="action">
           <motion.div
             onClick={() => router.push("/manage-users/details/" + actions)}
             whileHover={hoverAnimation}

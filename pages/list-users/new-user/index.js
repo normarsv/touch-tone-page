@@ -190,7 +190,7 @@ class NewUserPage extends Component {
               {
                 name: 'firstName',
                 label: 'First Name',
-                placeholder: 'Put your first name',
+                placeholder: 'First name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -198,7 +198,7 @@ class NewUserPage extends Component {
               {
                 name: 'lastName',
                 label: 'Last Name',
-                placeholder: 'Put your last name',
+                placeholder: 'Last name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -242,7 +242,7 @@ class NewUserPage extends Component {
               {
                 name: 'userName',
                 label: 'Login Name',
-                placeholder: 'Put your login name',
+                placeholder: 'Login name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -250,7 +250,7 @@ class NewUserPage extends Component {
               {
                 name: 'password',
                 label: 'Password',
-                placeholder: 'Put your password',
+                placeholder: 'Password',
                 type: 'password',
                 tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,
@@ -274,7 +274,7 @@ class NewUserPage extends Component {
               {
                 name: 'email',
                 label: 'Email',
-                placeholder: 'Put the user email',
+                placeholder: 'User email',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -419,7 +419,7 @@ class NewUserPage extends Component {
               {
                 name: 'firstName',
                 label: 'First Name',
-                placeholder: 'Put your first name',
+                placeholder: 'First name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -427,7 +427,7 @@ class NewUserPage extends Component {
               {
                 name: 'lastName',
                 label: 'Last Name',
-                placeholder: 'Put your last name',
+                placeholder: 'Last name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -472,7 +472,7 @@ class NewUserPage extends Component {
               {
                 name: 'userName',
                 label: 'Login Name',
-                placeholder: 'Put your login name',
+                placeholder: 'Login name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -495,7 +495,7 @@ class NewUserPage extends Component {
               {
                 name: 'email',
                 label: 'Email',
-                placeholder: 'Put the user email',
+                placeholder: 'User email',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -503,7 +503,7 @@ class NewUserPage extends Component {
               {
                 name: 'password',
                 label: 'Password',
-                placeholder: 'Put your password',
+                placeholder: 'Password',
                 type: 'password',
                 tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,
@@ -618,7 +618,7 @@ class NewUserPage extends Component {
               {
                 name: 'firstName',
                 label: 'First Name',
-                placeholder: 'Put your first name',
+                placeholder: 'First name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -626,7 +626,7 @@ class NewUserPage extends Component {
               {
                 name: 'lastName',
                 label: 'Last Name',
-                placeholder: 'Put your last name',
+                placeholder: 'Last name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -634,7 +634,7 @@ class NewUserPage extends Component {
               {
                 name: 'userName',
                 label: 'Login Name',
-                placeholder: 'Put your login name',
+                placeholder: 'Login name',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -642,7 +642,7 @@ class NewUserPage extends Component {
               {
                 name: 'email',
                 label: 'Email',
-                placeholder: 'Put the user email',
+                placeholder: 'User email',
                 type: 'text',
                 required: true,
                 breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
@@ -650,7 +650,7 @@ class NewUserPage extends Component {
               {
                 name: 'password',
                 label: 'Password',
-                placeholder: 'Put your password',
+                placeholder: 'Password',
                 type: 'password',
                 tooltip: 'At least 9 characters, one uppercase and one number',
                 required: true,

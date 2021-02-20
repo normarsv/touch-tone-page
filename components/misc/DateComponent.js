@@ -61,11 +61,15 @@ export const DateComponent = ({}) => {
         <Space>
           <FontAwesomeIcon className="title-style" icon={faClock} /> {time}{" "}
         </Space>
+        { weather &&
+        <>
         <Divider type="vertical" />
         <Space>
           <FontAwesomeIcon className="title-style" icon={faCloud} />{" "}
           <label>{weather + ' °F'}</label>
         </Space>
+        </>
+        }
       </Space>
     </div>
   );

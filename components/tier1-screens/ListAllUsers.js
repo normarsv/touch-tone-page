@@ -150,7 +150,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
       dataIndex: 'actions',
       width: '10%',
       render: (actions) => (
-        <Space className='flex center'>
+        <Space className='flex center action'>
           <motion.div
             onClick={() => router.push('/list-users/details/' + actions)}
             whileHover={hoverAnimation}

@@ -42,6 +42,23 @@ const UserInfo = ({ openSideMenu }) => {
       splittedName.push(subCadena);
     }
 
+    const roleDescription=(role)=>{
+      switch(role){
+        case 'BussinessSupport':
+          return 'Bussiness Support';
+        case 'SuperAdmin':
+          return 'Super Admin';
+        case 'CorporateService':
+          return 'Corporate Service';
+        case 'OrganizationAdmin':
+          return 'Organization Admin';
+        case 'EndUser':
+          return 'End User';
+        default:
+          return role
+      }
+    }
+
     return (
       <Space size="small" className="user-menu-info-main-div">
         <div className="user-menu-name-identifier">
@@ -52,7 +69,7 @@ const UserInfo = ({ openSideMenu }) => {
           variants={showItems}
         >
           <h4>{userInfo.name}</h4>
-          <h5 className="title-style">{userInfo.role}</h5>
+          <h5 className="title-style">{roleDescription(userInfo.role)}</h5>
         </motion.div>
       </Space>
     );
