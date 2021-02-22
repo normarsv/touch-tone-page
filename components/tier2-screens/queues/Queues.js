@@ -38,7 +38,7 @@ const Queues = ({ queueTableContent }) => {
       dataIndex: 'actions',
       width: 100,
       render: (actions) => (
-        <Space>
+        <Space className="action">
           <motion.div
             onClick={() => router.push('/queues/details/' + actions)}
             whileHover={hoverAnimation}

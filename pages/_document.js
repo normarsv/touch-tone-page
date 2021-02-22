@@ -15,6 +15,9 @@ class MyDocument extends Document {
     return (
       <Html lang="es-MX">
         <Head>
+          <title>
+            TouchTone Communications
+          </title>
           <MetaTagsComp
             metaTags={this.props.metaTags}
             replaceMetaTags={this.props.replaceMetaTags}
@@ -55,7 +58,8 @@ class MyDocument extends Document {
           />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <link rel="icon" type="image/x-icon" href="favicon.ico?v=5" />
+          <link rel="icon" type="image/png" href="/faviconTT.png"/>
+
         </Head>
         <body>
           <Main />
@@ -66,4 +70,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument;
+export default MyDocument; 

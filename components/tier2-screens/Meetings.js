@@ -58,7 +58,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
       dataIndex: 'actions',
       render: (action, row) => {
         return (
-          <Space className='flex center'>
+          <Space className='flex center action'>
             <Popconfirm
               title={
                 <div>

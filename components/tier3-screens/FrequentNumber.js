@@ -86,7 +86,7 @@ const FrequentNumbers = ({
       dataIndex: 'actions',
       width: '6%',
       render: (actions, record) => (
-        <>
+        <Space className="flex center action">
           <motion.div
             onClick={() => handleVisible(record)}
             whileHover={hoverAnimation}
@@ -95,7 +95,7 @@ const FrequentNumbers = ({
             Edit
           </motion.div>
           {renderEditModal(record)}
-        </>
+        </Space>
       ),
     },
     {

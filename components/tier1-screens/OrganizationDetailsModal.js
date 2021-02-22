@@ -29,7 +29,7 @@ const OrganizationDetailsModal = ({
             <h3>Name</h3>
           </Col>
           <Col span={12}>
-            <h3>Billing ID in Rev.io</h3>
+            <h3>Account Number in Rev.io</h3>
           </Col>
         </Row>
         <Row type="flex" justify="center" gutter={[4, 0]} className="content">

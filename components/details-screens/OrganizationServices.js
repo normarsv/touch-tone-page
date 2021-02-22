@@ -65,7 +65,7 @@ const OrganizationServices = ({
             </Button>
           )} */}
           <Space direction="vertical">
-            <h4>Billing ID in Rev.io</h4>
+            <h4>Account Number in Rev.io</h4>
             <Input
               style={{ width: 300 }}
               value={fieldsValues.billingId}

@@ -42,7 +42,7 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
       dataIndex: "actions",
       width: 100,
       render: (actions) => (
-        <Space>
+        <Space className="action">
           <motion.div
             onClick={() => router.push("/auto-attendant/details/" + actions)}
             whileHover={hoverAnimation}
