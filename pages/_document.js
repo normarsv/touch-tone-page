@@ -11,7 +11,7 @@ class MyDocument extends Document {
     return { ...initialProps, metaTags, replaceMetaTags };
   }
 
-  render() {
+  render(){
     return (
       <Html lang="es-MX">
         <Head>
@@ -55,7 +55,7 @@ class MyDocument extends Document {
           />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <link rel="icon" type="image/x-icon" href="favicon.ico?v=5" />
+          <link rel="icon" type="image/png" href="/favicon-tt.png"/>
         </Head>
         <body>
           <Main />
