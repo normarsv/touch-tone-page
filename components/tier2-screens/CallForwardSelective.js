@@ -160,7 +160,7 @@ const CallForwardSelective = ({
             required: true,
             options: [
               ...callForwardSelectiveData.destination.options,
-              { optionName: 'External' },
+              { optionName: 'External Number' },
             ],
             optionValue: 'optionName',
             optionLabel: 'optionName',
@@ -171,7 +171,7 @@ const CallForwardSelective = ({
               formikData,
               indexArray
             ) => {
-              if (newVal === 'External') {
+              if (newVal === 'External Number') {
                 formOptions.formInputsRows[0].inputs[3].mode = 'tags';
                 formOptions.formInputsRows[0].inputs[3].options = [];
                 formikData.setFieldValue('destination.currentValue', '', false);
@@ -205,7 +205,7 @@ const CallForwardSelective = ({
               indexArray
             ) => {
               const currentOption = formikData.values.destination.currentType;
-              if (currentOption === 'External') {
+              if (currentOption === 'External Number') {
                 const reduceGetOnlyNew = newVal.reduce(
                   (returnData, currentNumber) => {
                     if (IsAValidPhoneNumber(currentNumber) === true) {
