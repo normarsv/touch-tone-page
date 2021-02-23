@@ -74,11 +74,11 @@ export const navigation = [
 export const baseMetaTags = [
   {
     name: 'title',
-    content: 'Base-page',
+    content: 'TouchTone Communications',
   },
   {
     name: 'description',
-    content: 'base-desc',
+    content: 'TouchTone Communications',
   },
 ];
 
