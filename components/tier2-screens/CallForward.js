@@ -13,7 +13,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardAllType;
     }
-  );
+  ) || {optionName:callForwardAllType, numbers:[]}
 
   const callForwardBusyType =
     callForwardData.callForwardBusy.currentType || 'Extentions';
@@ -21,7 +21,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardBusyType;
     }
-  );
+  ) || {optionName:callForwardBusyType, numbers:[]}
 
   const callForwardFailureType =
     callForwardData.callForwardFailure.currentType || 'Extentions';
@@ -29,7 +29,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardFailureType;
     }
-  );
+  ) || {optionName:callForwardFailureType, numbers:[]}
 
   const callForwardNoAnswerType =
     callForwardData.callForwardNoAnswer.currentType || 'Extentions';
@@ -37,7 +37,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardNoAnswerType;
     }
-  );
+  ) || {optionName:callForwardNoAnswerType, numbers:[]}
   const formToDisplay = {
     generalOptions: {
       type: 'vertical', //horizontal, vertical, inline
@@ -141,7 +141,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
             required: true,
             options: [
               ...callForwardData.callForwardAll.options,
-              { optionName: 'External' },
+              { optionName: 'External Number' },
             ],
             optionValue: 'optionName',
             optionLabel: 'optionName',
@@ -152,7 +152,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               formikData,
               indexArray
             ) => {
-              if (newVal === 'External') {
+              if (newVal === 'External Number') {
                 formOptions.formInputsRows[2].inputs[1].mode = 'tags';
                 formOptions.formInputsRows[2].inputs[1].options = [];
                 formikData.setFieldValue(
@@ -194,7 +194,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               indexArray
             ) => {
               const currentOption = formikData.values.callForwardAllType;
-              if (currentOption === 'External') {
+              if (currentOption === 'External Number') {
                 const reduceGetOnlyNew = newVal.reduce(
                   (returnData, currentNumber) => {
                     if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -233,7 +233,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
             required: true,
             options: [
               ...callForwardData.callForwardBusy.options,
-              { optionName: 'External' },
+              { optionName: 'External Number' },
             ],
             optionValue: 'optionName',
             optionLabel: 'optionName',
@@ -244,7 +244,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               formikData,
               indexArray
             ) => {
-              if (newVal === 'External') {
+              if (newVal === 'External Number') {
                 formOptions.formInputsRows[3].inputs[1].mode = 'tags';
                 formOptions.formInputsRows[3].inputs[1].options = [];
                 formikData.setFieldValue(
@@ -286,7 +286,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               indexArray
             ) => {
               const currentOption = formikData.values.callForwardBusyType;
-              if (currentOption === 'External') {
+              if (currentOption === 'External Number') {
                 const reduceGetOnlyNew = newVal.reduce(
                   (returnData, currentNumber) => {
                     if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -325,7 +325,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
             required: true,
             options: [
               ...callForwardData.callForwardFailure.options,
-              { optionName: 'External' },
+              { optionName: 'External Number' },
             ],
             optionValue: 'optionName',
             optionLabel: 'optionName',
@@ -336,7 +336,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               formikData,
               indexArray
             ) => {
-              if (newVal === 'External') {
+              if (newVal === 'External Number') {
                 formOptions.formInputsRows[4].inputs[1].mode = 'tags';
                 formOptions.formInputsRows[4].inputs[1].options = [];
                 formikData.setFieldValue(
@@ -378,7 +378,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               indexArray
             ) => {
               const currentOption = formikData.values.callForwardFailureType;
-              if (currentOption === 'External') {
+              if (currentOption === 'External Number') {
                 const reduceGetOnlyNew = newVal.reduce(
                   (returnData, currentNumber) => {
                     if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -417,7 +417,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
             required: true,
             options: [
               ...callForwardData.callForwardNoAnswer.options,
-              { optionName: 'External' },
+              { optionName: 'External Number' },
             ],
             optionValue: 'optionName',
             optionLabel: 'optionName',
@@ -428,7 +428,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               formikData,
               indexArray
             ) => {
-              if (newVal === 'External') {
+              if (newVal === 'External Number') {
                 formOptions.formInputsRows[5].inputs[1].mode = 'tags';
                 formOptions.formInputsRows[5].inputs[1].options = [];
                 formikData.setFieldValue(
@@ -470,7 +470,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
               indexArray
             ) => {
               const currentOption = formikData.values.callForwardNoAnswerType;
-              if (currentOption === 'External') {
+              if (currentOption === 'External Number') {
                 const reduceGetOnlyNew = newVal.reduce(
                   (returnData, currentNumber) => {
                     if (IsAValidPhoneNumber(currentNumber) === true) {

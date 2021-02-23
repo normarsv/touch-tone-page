@@ -58,7 +58,7 @@ class MyDocument extends Document {
           />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <link rel="icon" type="image/png" href="/faviconTT.png"/>
+          <link rel="icon" type="image/png" href="/favicon-tt.png"/>
 
         </Head>
         <body>

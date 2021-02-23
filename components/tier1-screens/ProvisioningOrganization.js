@@ -24,7 +24,7 @@ const ProvisioningOrganization = ({
   async function handleClickProvision() {
     let errorToSend = '';
     setErrorToDisplay('');
-    console.log(selectedOrganization);
+
     if (IsAValidEmail(selectedOrganization.email) === false) {
       errorToSend = 'Enter a valid Email';
     }
@@ -61,6 +61,9 @@ const ProvisioningOrganization = ({
         email: selectedOrganization.email,
         password: selectedOrganization.password,
         didID: selectedOrganization.didID,
+        userName: selectedOrganization.userName,
+        firstName: selectedOrganization.firstName,
+        lastName: selectedOrganization.lastName
       }
     );
 
@@ -86,6 +89,7 @@ const ProvisioningOrganization = ({
     }
 
     setProvideOrganizations(resOrganizationsProvide.response);
+
   }
 
   function handleCancel() {
@@ -127,6 +131,7 @@ const ProvisioningOrganization = ({
       organizationsToProvision();
       setErrorToDisplay('');
     }
+
   }, [selectedOrganization]);
 
   return (
@@ -215,6 +220,65 @@ const ProvisioningOrganization = ({
             </Select>
           </Col>
         </Row>
+        <Row type='flex' gutter={[4, 0]} className='header'>
+          <Col span={5}>
+            <h3>User Name</h3>
+          </Col>
+          <Col span={5}>
+            <h3>First Name</h3>
+          </Col>
+          <Col span={5}>
+            <h3>Last Name</h3>
+          </Col>
+        </Row>
+
+        <Row type='flex' gutter={[4, 0]} className='content'>
+        <Col span={5}>
+            <Input
+              disabled={loading}
+              value={selectedOrganization.userName}
+              onChange={(e) => {
+                setSelectedOrganization({
+                  ...selectedOrganization,
+                  userName: e.target.value,
+                });
+              }}
+            ></Input>
+          </Col>
+          <Col span={5}>
+            <Input
+              disabled={loading}
+              value={selectedOrganization.firstName}
+              onChange={(e) => {
+                setSelectedOrganization({
+                  ...selectedOrganization,
+                  firstName: e.target.value,
+                });
+              }}
+            ></Input>
+          </Col>
+          <Col span={5}>
+            <Input
+              disabled={loading}
+              value={selectedOrganization.lastName}
+              onChange={(e) => {
+                setSelectedOrganization({
+                  ...selectedOrganization,
+                  lastName: e.target.value,
+                });
+              }}
+            ></Input>
+          </Col>
+        </Row>
+
+
+
+
+
+
+
+
+
 
         {errorToDisplay && (
           <label className='title-style'>{errorToDisplay}</label>
@@ -236,7 +300,13 @@ const ProvisioningOrganization = ({
               !selectedOrganization.email ||
               selectedOrganization.email === '' ||
               !selectedOrganization.didID ||
-              selectedOrganization.didID === ''
+              selectedOrganization.didID === '' ||
+              !selectedOrganization.userName ||
+              selectedOrganization.userName === '' ||
+               !selectedOrganization.firstName ||
+              selectedOrganization.firstName === '' ||
+              !selectedOrganization.lastName ||
+              selectedOrganization.lastName === ''
             }
             loading={loading}
             onClick={() => handleClickProvision()}

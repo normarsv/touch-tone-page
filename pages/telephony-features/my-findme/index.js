@@ -75,7 +75,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination1Type;
       }
-    );
+    ) || {optionName:destination1Type, numbers:[]}
 
     const destination2Type =
       this.props.actualUserMyFindme.findeMeItems[1].destination.currentType ||
@@ -84,7 +84,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination2Type;
       }
-    );
+    )  || {optionName:destination2Type, numbers:[]}
 
     const destination3Type =
       this.props.actualUserMyFindme.findeMeItems[2].destination.currentType ||
@@ -93,7 +93,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination3Type;
       }
-    );
+    )  || {optionName:destination3Type, numbers:[]}
 
     this.userinfo = '';
     this.endUserForm = {
@@ -245,7 +245,7 @@ export default class extends Component {
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[0].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: 'External Number' },
               ],
               optionValue: 'optionName',
               optionLabel: 'optionName',
@@ -256,7 +256,7 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
+                if (newVal === 'External Number') {
                   formOptions.formInputsRows[6].inputs[1].mode = 'tags';
                   formOptions.formInputsRows[6].inputs[1].options = [];
                   formikData.setFieldValue('destination1', '', false);
@@ -290,7 +290,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination1Options;
-                if (currentOption === 'External') {
+                if (currentOption === 'External Number') {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -321,7 +321,7 @@ export default class extends Component {
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[1].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: 'External Number' },
               ],
               optionValue: 'optionName',
               optionLabel: 'optionName',
@@ -332,7 +332,7 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
+                if (newVal === 'External Number') {
                   formOptions.formInputsRows[7].inputs[1].mode = 'tags';
                   formOptions.formInputsRows[7].inputs[1].options = [];
                   formikData.setFieldValue('destination2', '', false);
@@ -366,7 +366,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination2Options;
-                if (currentOption === 'External') {
+                if (currentOption === 'External Number') {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -397,7 +397,7 @@ export default class extends Component {
               options: [
                 ...this.props.actualUserMyFindme.findeMeItems[2].destination
                   .options,
-                { optionName: 'External' },
+                { optionName: 'External Number' },
               ],
               optionValue: 'optionName',
               optionLabel: 'optionName',
@@ -408,7 +408,7 @@ export default class extends Component {
                 formikData,
                 indexArray
               ) => {
-                if (newVal === 'External') {
+                if (newVal === 'External Number') {
                   formOptions.formInputsRows[8].inputs[1].mode = 'tags';
                   formOptions.formInputsRows[8].inputs[1].options = [];
                   formikData.setFieldValue('destination3', '', false);
@@ -442,7 +442,7 @@ export default class extends Component {
                 indexArray
               ) => {
                 const currentOption = formikData.values.destination3Options;
-                if (currentOption === 'External') {
+                if (currentOption === 'External Number') {
                   const reduceGetOnlyNew = newVal.reduce(
                     (returnData, currentNumber) => {
                       if (IsAValidPhoneNumber(currentNumber) === true) {
