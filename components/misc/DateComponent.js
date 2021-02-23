@@ -26,7 +26,7 @@ export const DateComponent = ({}) => {
       if (weather === undefined) {
         const getWeather = async () => {
           const API_URL =
-            `http://api.openweathermap.org/data/2.5/weather?lat=` +
+            `https://api.openweathermap.org/data/2.5/weather?lat=` +
             locationState.latitude +
             `&lon=` +
             locationState.longitude +
