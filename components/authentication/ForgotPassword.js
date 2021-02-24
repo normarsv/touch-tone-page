@@ -5,8 +5,7 @@ import { useRouter } from "next/dist/client/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-// import { useRouter } from "next/router";
-// import API from "../../API/API";
+import API from "../../API/API";
 
 export const ForgotPassword = ({ showForgotPassword }) => {
   const form = useRef(null);
@@ -35,8 +34,12 @@ export const ForgotPassword = ({ showForgotPassword }) => {
   //   let api = new API();
   // };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     // router.push("/main");
+    const api = new API();
+    var response = await api.POST('/email/forgotpassword',
+     {userName:'', toEmail:values.email}
+     ); 
     message.warning("Check your email for a link to restore your password");
     showForgotPassword();
   };
