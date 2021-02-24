@@ -410,7 +410,6 @@ export default class extends Component {
         {
           inputs: [
             {
-              mode: destination3Type === 'External Number' ? 'tags' : undefined,
               name: 'destination3Options',
               label: 'Destination 3 Type',
               placeholder: 'Select Destination Options',
@@ -448,6 +447,7 @@ export default class extends Component {
               },
             },
             {
+              mode: destination3Type === 'External Number' ? 'tags' : undefined,
               name: 'destination3',
               label: 'Destination 3',
               placeholder: 'Select Destination',
