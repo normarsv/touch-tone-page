@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, message, Space } from 'antd';
+import { Button, Form, Input, message, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useRef, useState } from 'react';
@@ -75,7 +75,6 @@ export const LoginForm = ({ showForgotPassword }) => {
             <Form
               name='basic'
               ref={form}
-              initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
@@ -107,10 +106,9 @@ export const LoginForm = ({ showForgotPassword }) => {
                 <Input.Password disabled={loading} />
               </Form.Item>
               <div className='spaced-between flex-wrap'>
-                <Form.Item name='remember' valuePropName='checked'>
-                  <Checkbox disabled={loading}>Remember me</Checkbox>
-                </Form.Item>
-                <motion.div className ='forgot-password'
+                <div />
+                <motion.div
+                  className='forgot-password'
                   whileHover={hoverAnimation}
                   onClick={() => {
                     if (loading === false) {
