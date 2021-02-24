@@ -63,7 +63,7 @@ const ProvisioningOrganization = ({
         didID: selectedOrganization.didID,
         userName: selectedOrganization.userName,
         firstName: selectedOrganization.firstName,
-        lastName: selectedOrganization.lastName
+        lastName: selectedOrganization.lastName,
       }
     );
 
@@ -89,7 +89,6 @@ const ProvisioningOrganization = ({
     }
 
     setProvideOrganizations(resOrganizationsProvide.response);
-
   }
 
   function handleCancel() {
@@ -131,7 +130,6 @@ const ProvisioningOrganization = ({
       organizationsToProvision();
       setErrorToDisplay('');
     }
-
   }, [selectedOrganization]);
 
   return (
@@ -149,7 +147,7 @@ const ProvisioningOrganization = ({
             <h3>Name</h3>
           </Col>
           <Col span={5}>
-            <h3>Account Number in Rev.io</h3>
+            <h3>Account Number</h3>
           </Col>
           <Col span={5}>
             <h3>Email</h3>
@@ -233,7 +231,7 @@ const ProvisioningOrganization = ({
         </Row>
 
         <Row type='flex' gutter={[4, 0]} className='content'>
-        <Col span={5}>
+          <Col span={5}>
             <Input
               disabled={loading}
               value={selectedOrganization.userName}
@@ -271,15 +269,6 @@ const ProvisioningOrganization = ({
           </Col>
         </Row>
 
-
-
-
-
-
-
-
-
-
         {errorToDisplay && (
           <label className='title-style'>{errorToDisplay}</label>
         )}
@@ -303,7 +292,7 @@ const ProvisioningOrganization = ({
               selectedOrganization.didID === '' ||
               !selectedOrganization.userName ||
               selectedOrganization.userName === '' ||
-               !selectedOrganization.firstName ||
+              !selectedOrganization.firstName ||
               selectedOrganization.firstName === '' ||
               !selectedOrganization.lastName ||
               selectedOrganization.lastName === ''

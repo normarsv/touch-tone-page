@@ -5,6 +5,7 @@ import { Component, useState } from 'react';
 import API from '../../API/API';
 import VoiceMail from '../../components/tier3-screens/VoiceMail';
 import { BaseLayout } from '../../layouts/BaseLayout';
+
 // import 'react-h5-audio-player/lib/styles.css';
 
 function VoiceMailPage(props) {
@@ -21,9 +22,9 @@ function VoiceMailPage(props) {
     const voiceMails = resVoiceMail.response;
 
     for (const voiceMail of voiceMails) {
+      const stringDate = voiceMail.date.toString();
       const addVoiceMail = {
-        // id: voiceMail,
-        date: moment(voiceMail.date).format('LLL'),
+        date: moment(stringDate).format('LLL'),
         fileName: voiceMail.filE_NAME,
         duration: voiceMail.duration,
         actions: voiceMail.filE_NAME,
@@ -104,9 +105,9 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const resVoiceMail = await api.GET('/Services/voicemails');
   const voiceMails = resVoiceMail.response;
   for (const voiceMail of voiceMails) {
+    const stringDate = voiceMail.date.toString();
     const addVoiceMail = {
-      // id: voiceMail,
-      date: moment(voiceMail.date).format('LLL'),
+      date: moment(stringDate).format('LLL'),
       fileName: voiceMail.filE_NAME,
       duration: voiceMail.duration,
       actions: voiceMail.filE_NAME,

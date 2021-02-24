@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Modal from "antd/lib/modal/Modal";
-import { Button, Col, Input, Row, Space } from "antd";
-import { useRouter } from "next/router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList, faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import { CloseOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Col, Input, Row, Space } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 const OrganizationDetailsModal = ({
   organizationDetailsInfo,
@@ -22,17 +19,17 @@ const OrganizationDetailsModal = ({
       onCancel={() => setVisibleDetailsModal()}
       footer={null}
     >
-      <Space direction="vertical" className="organization-detail-modal">
-        <h2 className="title-style">Details</h2>
-        <Row type="flex" justify="center" gutter={[4, 0]} className="header">
+      <Space direction='vertical' className='organization-detail-modal'>
+        <h2 className='title-style'>Details</h2>
+        <Row type='flex' justify='center' gutter={[4, 0]} className='header'>
           <Col span={12}>
             <h3>Name</h3>
           </Col>
           <Col span={12}>
-            <h3>Account Number in Rev.io</h3>
+            <h3>Account Number</h3>
           </Col>
         </Row>
-        <Row type="flex" justify="center" gutter={[4, 0]} className="content">
+        <Row type='flex' justify='center' gutter={[4, 0]} className='content'>
           <Col span={12}>
             <Input disabled value={organizationDetailsInfo.name}></Input>
           </Col>
@@ -41,15 +38,15 @@ const OrganizationDetailsModal = ({
           </Col>
         </Row>
 
-        <div className="flex space-between">
+        <div className='flex space-between'>
           <Button
-            type="primary"
-            className="primary-button-style alternate modal-style"
+            type='primary'
+            className='primary-button-style alternate modal-style'
             onClick={() =>
               router.push(
-                "/list-organizations/" +
+                '/list-organizations/' +
                   organizationDetailsInfo.key +
-                  "/list-dids"
+                  '/list-dids'
               )
             }
           >
@@ -57,11 +54,11 @@ const OrganizationDetailsModal = ({
           </Button>
 
           <Button
-            type="primary"
-            className="primary-button-style alternate modal-style"
+            type='primary'
+            className='primary-button-style alternate modal-style'
             onClick={() =>
               router.push({
-                pathname: "/list-users",
+                pathname: '/list-users',
                 query: { orgId: organizationDetailsInfo.key },
               })
             }
@@ -70,14 +67,14 @@ const OrganizationDetailsModal = ({
           </Button>
 
           <Button
-            type="primary"
-            className="primary-button-style modal-style"
+            type='primary'
+            className='primary-button-style modal-style'
             onClick={() =>
               router.push({
                 pathname:
-                  "/list-organizations/" +
+                  '/list-organizations/' +
                   organizationDetailsInfo.key +
-                  "/history-log",
+                  '/history-log',
               })
             }
           >

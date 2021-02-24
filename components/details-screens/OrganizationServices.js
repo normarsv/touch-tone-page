@@ -1,11 +1,12 @@
-import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, message, Row, Space } from "antd";
-import Search from "antd/lib/input/Search";
-import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
-import EditServices from "../edit-screens/EditServices";
-import ContentInnerHeader from "../misc/ContentInnerHeader";
+import { faList } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Input, message, Row, Space } from 'antd';
+import Search from 'antd/lib/input/Search';
+import { useRouter } from 'next/dist/client/router';
+import React, { useState } from 'react';
+
+import EditServices from '../edit-screens/EditServices';
+import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const OrganizationServices = ({
   organizationInfo,
@@ -19,12 +20,12 @@ const OrganizationServices = ({
     billingId: organizationInfo.billingId,
   });
 
-  const key = "updatable";
+  const key = 'updatable';
   const openMessage = () => {
-    message.loading({ content: "Saving changes...", key });
+    message.loading({ content: 'Saving changes...', key });
     setTimeout(() => {
       message.success({
-        content: "Changes Saved Successfully!",
+        content: 'Changes Saved Successfully!',
         key,
         duration: 3,
       });
@@ -32,21 +33,21 @@ const OrganizationServices = ({
   };
 
   const pushRoute = () => {
-    router.push("/list-organizations/details/organizationName/history-log");
+    router.push('/list-organizations/details/organizationName/history-log');
   };
 
   return (
     <div>
-      <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Space size='large' direction='vertical' style={{ width: '100%' }}>
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className="title-style">{servicesContent.title}</h1>
+          <h1 className='title-style'>{servicesContent.title}</h1>
         </Row>
-        <Search placeholder="Search..." enterButton style={{ width: 300 }} />
+        <Search placeholder='Search...' enterButton style={{ width: 300 }} />
 
-        <Space direction="horizontal" size="middle" className="flex-end">
-          <Space direction="vertical">
+        <Space direction='horizontal' size='middle' className='flex-end'>
+          <Space direction='vertical'>
             <h4>Name</h4>
             <Input
               style={{ width: 300 }}
@@ -64,8 +65,8 @@ const OrganizationServices = ({
               <FontAwesomeIcon icon={faEdit} />
             </Button>
           )} */}
-          <Space direction="vertical">
-            <h4>Account Number in Rev.io</h4>
+          <Space direction='vertical'>
+            <h4>Account Number</h4>
             <Input
               style={{ width: 300 }}
               value={fieldsValues.billingId}
@@ -76,11 +77,11 @@ const OrganizationServices = ({
           {!editable && (
             <Space>
               <Button
-                type="primary"
-                className="primary-button-style alternate"
+                type='primary'
+                className='primary-button-style alternate'
                 onClick={() =>
                   router.push(
-                    "/list-organizations/details/organizationName/list-dids"
+                    '/list-organizations/details/organizationName/list-dids'
                   )
                 }
               >
@@ -90,11 +91,11 @@ const OrganizationServices = ({
                 </Space>
               </Button>
               <Button
-                type="primary"
-                className="primary-button-style alternate"
+                type='primary'
+                className='primary-button-style alternate'
                 onClick={() =>
                   router.push({
-                    pathname: "/list-users",
+                    pathname: '/list-users',
                     query: { orgId: organizationInfo.id },
                   })
                 }
@@ -108,20 +109,20 @@ const OrganizationServices = ({
           )}
         </Space>
 
-        <Space direction="vertical">
+        <Space direction='vertical'>
           <h4>List of enabled Services</h4>
           <EditServices
             editable={editable}
             serviceContent={editServiceContent}
           />
         </Space>
-        <Row type="flex" justify="end">
+        <Row type='flex' justify='end'>
           <Button
             onClick={() => (!editable ? pushRoute() : openMessage())}
-            className="primary-button-style"
-            type="primary"
+            className='primary-button-style'
+            type='primary'
           >
-            {!editable ? "History Log" : "Save Changes"}
+            {!editable ? 'History Log' : 'Save Changes'}
           </Button>
         </Row>
       </Space>

@@ -5,10 +5,10 @@ import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 import OrganizationDetailsModal from './OrganizationDetailsModal';
 import ProvisioningOrganization from './ProvisioningOrganization';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const { Option } = Select;
 
@@ -113,12 +113,12 @@ const ListAllOrganizations = ({
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: windowDimensions.width < 900 ? 'none': 'left',
+      fixed: windowDimensions.width < 900 ? 'none' : 'left',
       width: '5rem',
       ...getColumnSearchProps('name', 'Search by Name'),
     },
     {
-      title: 'Account Number in Rev.io',
+      title: 'Account Number',
       dataIndex: 'billingId',
       width: '10%',
       ...getColumnSearchProps('billingId', 'Search by Account Number'),
@@ -145,7 +145,7 @@ const ListAllOrganizations = ({
       width: '7%',
       render: (_, record) => {
         return (
-          <Space className="action">
+          <Space className='action'>
             <motion.div
               onClick={() => handleVisible(record)}
               whileHover={hoverAnimation}
