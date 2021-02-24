@@ -189,6 +189,11 @@ const CallForwardSelective = ({
             },
           },
           {
+            mode:
+              callForwardSelectiveData.destination.currentType ===
+              'External Number'
+                ? 'tags'
+                : undefined,
             name: 'destination.currentValue',
             label: 'Destination Number',
             placeholder: 'Select Number',

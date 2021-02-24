@@ -13,7 +13,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardAllType;
     }
-  ) || {optionName:callForwardAllType, numbers:[]}
+  ) || { optionName: callForwardAllType, numbers: [] };
 
   const callForwardBusyType =
     callForwardData.callForwardBusy.currentType || 'Extentions';
@@ -21,7 +21,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardBusyType;
     }
-  ) || {optionName:callForwardBusyType, numbers:[]}
+  ) || { optionName: callForwardBusyType, numbers: [] };
 
   const callForwardFailureType =
     callForwardData.callForwardFailure.currentType || 'Extentions';
@@ -29,7 +29,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardFailureType;
     }
-  ) || {optionName:callForwardFailureType, numbers:[]}
+  ) || { optionName: callForwardFailureType, numbers: [] };
 
   const callForwardNoAnswerType =
     callForwardData.callForwardNoAnswer.currentType || 'Extentions';
@@ -37,7 +37,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
     (option) => {
       return option.optionName === callForwardNoAnswerType;
     }
-  ) || {optionName:callForwardNoAnswerType, numbers:[]}
+  ) || { optionName: callForwardNoAnswerType, numbers: [] };
   const formToDisplay = {
     generalOptions: {
       type: 'vertical', //horizontal, vertical, inline
@@ -178,6 +178,7 @@ const CallForward = ({ callForwardData, userInfo }) => {
             },
           },
           {
+            mode: callForwardAllType === 'External Number' ? 'tags' : undefined,
             name: 'callForwardAll.currentValue',
             label: 'Call Forward All Number',
             placeholder: 'Select Number',
@@ -270,6 +271,8 @@ const CallForward = ({ callForwardData, userInfo }) => {
             },
           },
           {
+            mode:
+              callForwardBusyType === 'External Number' ? 'tags' : undefined,
             name: 'callForwardBusy.currentValue',
             label: 'Call Forward Busy Number',
             placeholder: 'Select Number',
@@ -362,6 +365,8 @@ const CallForward = ({ callForwardData, userInfo }) => {
             },
           },
           {
+            mode:
+              callForwardFailureType === 'External Number' ? 'tags' : undefined,
             name: 'callForwardFailure.currentValue',
             label: 'Call Forward Failure Number',
             placeholder: 'Select Number',
@@ -454,6 +459,10 @@ const CallForward = ({ callForwardData, userInfo }) => {
             },
           },
           {
+            mode:
+              callForwardNoAnswerType === 'External Number'
+                ? 'tags'
+                : undefined,
             name: 'callForwardNoAnswer.currentValue',
             label: 'Call Forward No Answer Number',
             placeholder: 'Select Number',
