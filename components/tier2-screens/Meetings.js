@@ -5,8 +5,9 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+
 import API from '../../API/API';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
 
 const { Option } = Select;
@@ -38,7 +39,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: windowDimensions.width < 900 ? 'none': 'left',
+      fixed: windowDimensions.width < 900 ? 'none' : 'left',
       width: '',
     },
     {
@@ -91,7 +92,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
             <Popconfirm
               title={
                 <div>
-                  <h4>DDI</h4>
+                  <h4>DID</h4>
                   <div
                     style={{
                       display: 'flex',
@@ -119,7 +120,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
                 style: { width: 0, padding: 0, margin: 0, border: '0' },
               }}
             >
-              <motion.div whileHover={hoverAnimation}>DDI</motion.div>
+              <motion.div whileHover={hoverAnimation}>DID</motion.div>
             </Popconfirm>
             |
             <motion.div

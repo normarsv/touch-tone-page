@@ -75,7 +75,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination1Type;
       }
-    ) || {optionName:destination1Type, numbers:[]}
+    ) || { optionName: destination1Type, numbers: [] };
 
     const destination2Type =
       this.props.actualUserMyFindme.findeMeItems[1].destination.currentType ||
@@ -84,7 +84,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination2Type;
       }
-    )  || {optionName:destination2Type, numbers:[]}
+    ) || { optionName: destination2Type, numbers: [] };
 
     const destination3Type =
       this.props.actualUserMyFindme.findeMeItems[2].destination.currentType ||
@@ -93,7 +93,7 @@ export default class extends Component {
       (option) => {
         return option.optionName === destination3Type;
       }
-    )  || {optionName:destination3Type, numbers:[]}
+    ) || { optionName: destination3Type, numbers: [] };
 
     this.userinfo = '';
     this.endUserForm = {
@@ -121,6 +121,10 @@ export default class extends Component {
         startDate: this.props.actualUserMyFindme.startDate,
         endDate: this.props.actualUserMyFindme.endDate,
         enabled: this.props.actualUserMyFindme.enabled,
+        ringAtSameTime:
+          this.props.actualUserMyFindme.findeMeItems[0].priority === 1 &&
+          this.props.actualUserMyFindme.findeMeItems[1].priority === 1 &&
+          this.props.actualUserMyFindme.findeMeItems[2].priority === 1,
         dayrange: this.props.actualUserMyFindme.dayrange,
         destination1: this.props.actualUserMyFindme.findeMeItems[0].destination
           .currentValue,
@@ -153,6 +157,20 @@ export default class extends Component {
         setSubmitting(false);
       },
       formInputsRows: [
+        { separatorTitle: 'Enable Find Me', inputs: [] },
+        {
+          inputs: [
+            {
+              name: 'enabled',
+              label: '',
+              placeholder: '',
+              type: 'switch',
+              checkedChildren: 'Yes',
+              unCheckedChildren: 'No',
+              defaultChecked: false,
+            },
+          ],
+        },
         { separatorTitle: 'Schedule', inputs: [] },
         {
           inputs: [
@@ -224,7 +242,7 @@ export default class extends Component {
         {
           inputs: [
             {
-              name: 'enabled',
+              name: 'ringAtSameTime',
               label: 'Ring at the same time',
               placeholder: '',
               type: 'switch',
@@ -487,7 +505,7 @@ export default class extends Component {
         {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[0].findMeScheduleItemId,
-          priority: valuesToSubmit.enabled ? 1 : 1,
+          priority: valuesToSubmit.ringAtSameTime ? 1 : 1,
           destination: {
             currentValue:
               Array.isArray(valuesToSubmit.destination1) === true
@@ -498,7 +516,7 @@ export default class extends Component {
         {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[1].findMeScheduleItemId,
-          priority: valuesToSubmit.enabled ? 1 : 2,
+          priority: valuesToSubmit.ringAtSameTime ? 1 : 2,
           destination: {
             currentValue:
               Array.isArray(valuesToSubmit.destination2) === true
@@ -509,7 +527,7 @@ export default class extends Component {
         {
           findMeScheduleItemId:
             actualUserMyFindme.findeMeItems[2].findMeScheduleItemId,
-          priority: valuesToSubmit.enabled ? 1 : 3,
+          priority: valuesToSubmit.ringAtSameTime ? 1 : 3,
           destination: {
             currentValue:
               Array.isArray(valuesToSubmit.destination3) === true
