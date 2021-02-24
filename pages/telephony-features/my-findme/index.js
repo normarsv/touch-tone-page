@@ -67,7 +67,7 @@ export default class extends Component {
   }
   constructor(props) {
     super(props);
-    console.log(props);
+
     const destination1Type =
       this.props.actualUserMyFindme.findeMeItems[0].destination.currentType ||
       'Extentions';
@@ -113,7 +113,7 @@ export default class extends Component {
         //   text: "Cancel My Find me",
         //   action: () => {
         //     // useRouter().back();
-        //     console.log("cancel clicked");
+        //
         //   },
         // },
       },
@@ -138,7 +138,7 @@ export default class extends Component {
       },
       formValidations: (values) => {
         const errors = {};
-        // console.log(values);
+        //
         if (!values.startDate) {
           errors.startDate = 'Start date required';
         }
@@ -275,8 +275,8 @@ export default class extends Component {
                 indexArray
               ) => {
                 if (newVal === 'External Number') {
-                  formOptions.formInputsRows[6].inputs[1].mode = 'tags';
-                  formOptions.formInputsRows[6].inputs[1].options = [];
+                  formOptions.formInputsRows[8].inputs[1].mode = 'tags';
+                  formOptions.formInputsRows[8].inputs[1].options = [];
                   formikData.setFieldValue('destination1', '', false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[0].destination.options.find(
@@ -284,14 +284,16 @@ export default class extends Component {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[6].inputs[1].mode = '';
-                  formOptions.formInputsRows[6].inputs[1].options =
+
+                  formOptions.formInputsRows[8].inputs[1].mode = '';
+                  formOptions.formInputsRows[8].inputs[1].options =
                     destinationOptions.numbers;
                   formikData.setFieldValue('destination1', '', false);
                 }
               },
             },
             {
+              mode: destination1Type === 'External Number' ? 'tags' : undefined,
               name: 'destination1',
               label: 'Destination 1',
               placeholder: 'Select Destination',
@@ -351,8 +353,8 @@ export default class extends Component {
                 indexArray
               ) => {
                 if (newVal === 'External Number') {
-                  formOptions.formInputsRows[7].inputs[1].mode = 'tags';
-                  formOptions.formInputsRows[7].inputs[1].options = [];
+                  formOptions.formInputsRows[9].inputs[1].mode = 'tags';
+                  formOptions.formInputsRows[9].inputs[1].options = [];
                   formikData.setFieldValue('destination2', '', false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
@@ -360,14 +362,15 @@ export default class extends Component {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[7].inputs[1].mode = '';
-                  formOptions.formInputsRows[7].inputs[1].options =
+                  formOptions.formInputsRows[9].inputs[1].mode = '';
+                  formOptions.formInputsRows[9].inputs[1].options =
                     destinationOptions.numbers;
                   formikData.setFieldValue('destination2', '', false);
                 }
               },
             },
             {
+              mode: destination2Type === 'External Number' ? 'tags' : undefined,
               name: 'destination2',
               label: 'Destination 2',
               placeholder: 'Select Destination',
@@ -407,6 +410,7 @@ export default class extends Component {
         {
           inputs: [
             {
+              mode: destination3Type === 'External Number' ? 'tags' : undefined,
               name: 'destination3Options',
               label: 'Destination 3 Type',
               placeholder: 'Select Destination Options',
@@ -427,8 +431,8 @@ export default class extends Component {
                 indexArray
               ) => {
                 if (newVal === 'External Number') {
-                  formOptions.formInputsRows[8].inputs[1].mode = 'tags';
-                  formOptions.formInputsRows[8].inputs[1].options = [];
+                  formOptions.formInputsRows[10].inputs[1].mode = 'tags';
+                  formOptions.formInputsRows[10].inputs[1].options = [];
                   formikData.setFieldValue('destination3', '', false);
                 } else {
                   const destinationOptions = this.props.actualUserMyFindme.findeMeItems[1].destination.options.find(
@@ -436,8 +440,8 @@ export default class extends Component {
                       return option.optionName === newVal;
                     }
                   );
-                  formOptions.formInputsRows[8].inputs[1].mode = '';
-                  formOptions.formInputsRows[8].inputs[1].options =
+                  formOptions.formInputsRows[10].inputs[1].mode = '';
+                  formOptions.formInputsRows[10].inputs[1].options =
                     destinationOptions.numbers;
                   formikData.setFieldValue('destination3', '', false);
                 }
@@ -489,7 +493,7 @@ export default class extends Component {
   }
 
   async finalSubmit(valuesToSubmit) {
-    // console.log(valuesToSubmit);
+    //
     const { actualUser, actualUserMyFindme } = this.props;
 
     const api = new API(actualUser.token, actualUser.userId);
@@ -537,10 +541,8 @@ export default class extends Component {
         },
       ],
     };
-    console.log(finalSubmit, 'true final form');
 
     const responsePut = await api.PUT('/Services/find-me', finalSubmit);
-    console.log(responsePut);
 
     message.success('My Find Me Updated Succesfully!');
   }
