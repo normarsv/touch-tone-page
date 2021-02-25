@@ -38,9 +38,14 @@ export const ForgotPassword = ({ showForgotPassword }) => {
     // router.push("/main");
     const api = new API();
     var response = await api.POST('/email/forgotpassword',
-     {userName:'', toEmail:values.email}
+     {userName:values.username, toEmail:''}
      ); 
-    message.warning("Check your email for a link to restore your password");
+    
+     if(response.statusCode == 200)
+        message.warning("Check your email for a link to restore your password");
+    else
+        message.error(response.response.message);
+        
     showForgotPassword();
   };
 
@@ -64,7 +69,7 @@ export const ForgotPassword = ({ showForgotPassword }) => {
               <Space size="middle" direction="vertical">
                 <h2 className="title-style">Forgot your password?</h2>
                 <p>
-                  Enter your Email and we will send you a link to change your
+                  Enter your Username and we will send you a link to change your
                   password
                 </p>
               </Space>
@@ -80,17 +85,13 @@ export const ForgotPassword = ({ showForgotPassword }) => {
                 direction="vertical"
                 style={{ width: "100%" }}
               >
-                <label>Email Address</label>
+                <label>Username</label>
                 <Form.Item
-                  name="email"
+                  name="username"
                   rules={[
                     {
-                      type: "email",
-                      message: "Ingresa un Correo Valido",
-                    },
-                    {
                       required: true,
-                      message: "Ingresa un Correo Valido",
+                      message: "The username field is required",
                     },
                   ]}
                 >
