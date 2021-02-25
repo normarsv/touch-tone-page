@@ -22,14 +22,17 @@ export const ResetPassword = ({ user }) => {
     const changePass = await api.POST('/AuthUsers/ResetPassword', {
       password: values.password,
     });
-    console.log(changePass);
-    message.success('Updated Password Successfully!');
+
+    if(changePass.statusCode == 200)
+      message.success('Updated Password Successfully!');
+    else
+      message.error(changePass.response.message);
+    
     if (form.current !== undefined && form.current !== null) {
       form.current.resetFields();
     }
+
     setLoading(false);
-    // console.log("Success:", values);
-    //router.push('/main');
   };
 
   const onFinishFailed = (errorInfo) => {
