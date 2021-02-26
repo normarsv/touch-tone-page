@@ -6,6 +6,7 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import API from '../../API/API';
 import ContentInnerHeader from '../misc/ContentInnerHeader';
@@ -18,14 +19,14 @@ const BulkImport = ({ user }) => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [rawCsv, setRawCsv] = useState();
   const [fileInfo, setFileInfo] = useState({});
-
+  const windowDimension = useWindowDimensions();
   const router = useRouter();
 
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: 'left',
+      fixed: windowDimension.width < 900 ? "none" :"left",
       width: '10%',
     },
     {

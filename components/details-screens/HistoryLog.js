@@ -4,11 +4,11 @@ import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
-
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 const HistoryLog = ({ historyLogDataTable }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState({});
-
+  const windowDimension = useWindowDimensions();
   const hoverAnimation = {
     scale: 1.01,
     cursor: "pointer",
@@ -34,7 +34,7 @@ const HistoryLog = ({ historyLogDataTable }) => {
           </Space>
         );
       },
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
     },
     {
       title: "User",

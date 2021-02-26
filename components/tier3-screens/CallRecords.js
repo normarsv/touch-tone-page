@@ -9,12 +9,12 @@ import Search from "antd/lib/input/Search";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
-
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 const { Option } = Select;
 
 const CallRecords = ({ callRecordsTableData }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
-
+  const windowDimension = useWindowDimensions();
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
   };
@@ -37,7 +37,7 @@ const CallRecords = ({ callRecordsTableData }) => {
           </Space>
         );
       },
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
       filterMultiple: false,
       onFilter: (value, record) => record.date.indexOf(value) === 0,
       sorter: (a, b) => a.date.length - b.date.length,

@@ -24,7 +24,8 @@ import ContentInnerHeader from '../misc/ContentInnerHeader';
 import { UserContext } from '../authentication/UserContext';
 import API from '../../API/API';
 import { mainIp } from '../../scripts/MainInfoData';
-import useWindowDimensions from '../../hooks/useWindowDimensions'
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import moment from 'moment/min/moment-with-locales.js';
 const { Option } = Select;
 
 const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
@@ -158,27 +159,35 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
       title: 'Date',
       dataIndex: 'date',
       render: (date) => {
-        return (
-          <Space direction="horizontal">
+        return {props:{
+          style:{
+          }
+        },
+          children: (<Space direction="horizontal">
             <Space direction="horizontal">
               <FontAwesomeIcon className="title-style" icon={faCalendarAlt} />{' '}
               {date}{' '}
             </Space>
-          </Space>
-        );
+          </Space>)
+        }
+        
       },
       fixed: windowDimensions.width < 900 ? 'none' : 'left',
       filterMultiple: false,
       width: '10%',
-      ...getColumnSearchProps('date'),
+      //...getColumnSearchProps('date'),
+
+      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
+      sortDirections: ['descend', 'ascend'],
+
     },
     {
-      title: 'Name',
-      dataIndex: 'fileName', 
+      title: 'Caller',
+      dataIndex: 'caller', 
       filterMultiple: false,
-      width:'20%',
-      ...getColumnSearchProps('fileName'),
-      responsive: ['md']
+      width:'5%',
+      ...getColumnSearchProps('caller'),
+     // responsive: ['md']
     },
     {
       title: 'Duration',

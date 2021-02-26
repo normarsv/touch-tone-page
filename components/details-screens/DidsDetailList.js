@@ -4,11 +4,12 @@ import { Space, Table } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
 import { useRouter } from "next/dist/client/router";
 import { motion } from "framer-motion";
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const DidsDetailList = ({ didTableList }) => {
   const router = useRouter();
   const [selectedRow, setSelectedRow] = useState([]);
-
+  const windowDimension = useWindowDimensions();
   const hoverAnimation = {
     scale: 1.01,
     cursor: "pointer",
@@ -20,7 +21,7 @@ const DidsDetailList = ({ didTableList }) => {
     {
       title: "Organization Name",
       dataIndex: "nameOrg",
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
     },
     {
       title: "Phone Number",

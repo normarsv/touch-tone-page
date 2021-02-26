@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Row, Space, Table } from "antd";
 import ContentInnerHeader from "../misc/ContentInnerHeader";
-
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 const BulkImportList = ({ bulkUserList }) => {
   const [selectedRow, setSelectedRow] = useState([]);
+  const windowDimension = useWindowDimensions();
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
       width: "10%",
     },
     {
