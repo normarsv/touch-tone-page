@@ -108,7 +108,7 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
     const stringDate = voiceMail.date.toString();
     const addVoiceMail = {
       date: moment(stringDate).format('LLL'),
-      fileName: voiceMail.filE_NAME,
+      caller: voiceMail.ani,
       duration: voiceMail.duration,
       actions: voiceMail.filE_NAME,
     };
