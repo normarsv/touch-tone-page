@@ -7,12 +7,12 @@ import { motion } from "framer-motion";
 import Search from "antd/lib/input/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 const { Option } = Select;
 
 const AutoAttendant = ({ autoAttendantTableContent }) => {
   const router = useRouter();
-
+  const windowDimension = useWindowDimensions();
   const hoverAnimation = {
     scale: 1.02,
     cursor: "pointer",
@@ -24,7 +24,7 @@ const AutoAttendant = ({ autoAttendantTableContent }) => {
     {
       title: "Name",
       dataIndex: "name",
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
       width: 300,
     },
     {

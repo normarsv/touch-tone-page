@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/dist/client/router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 import ContentInnerHeader from '../../misc/ContentInnerHeader';
 
@@ -13,7 +14,7 @@ const { Option } = Select;
 
 const Queues = ({ queueTableContent }) => {
   const router = useRouter();
-
+  const windowDimension = useWindowDimensions();
   const hoverAnimation = {
     scale: 1.02,
     cursor: 'pointer',
@@ -25,7 +26,7 @@ const Queues = ({ queueTableContent }) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      fixed: 'left',
+      fixed: windowDimension.width < 900 ? "none" :"left",
       width: 150,
     },
     {

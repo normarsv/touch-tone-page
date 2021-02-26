@@ -5,12 +5,13 @@ import ContentInnerHeader from "../misc/ContentInnerHeader";
 import Search from "antd/lib/input/Search";
 import { motion } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
-
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 const { Option } = Select;
 
 const ManageUsers = ({ manageUsersContent }) => {
   const [tablePageSize, setTablePageSize] = useState({ pageSize: 10 });
   const router = useRouter();
+  const windowDimension = useWindowDimensions();
 
   const onChangeTablePageSize = (value) => {
     setTablePageSize({ pageSize: value });
@@ -27,7 +28,7 @@ const ManageUsers = ({ manageUsersContent }) => {
     {
       title: "Name",
       dataIndex: "name",
-      fixed: "left",
+      fixed: windowDimension.width < 900 ? "none" :"left",
       width: "5%",
     },
     {

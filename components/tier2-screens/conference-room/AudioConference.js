@@ -11,12 +11,12 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ContentInnerHeader from "../../misc/ContentInnerHeader";
-
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 const { Option } = Select;
 
 const AudioConference = ({ audioConferenceContent }) => {
   const router = useRouter();
-
+  const windowDimension = useWindowDimensions();
   const hoverAnimation = {
     scale: 1.02,
     cursor: "pointer",
@@ -37,7 +37,7 @@ const AudioConference = ({ audioConferenceContent }) => {
             </Space>
           );
         }),
-      fixed: "left",
+        fixed: windowDimension.width < 900 ? "none" :"left",
     },
     {
       title: "Description",
