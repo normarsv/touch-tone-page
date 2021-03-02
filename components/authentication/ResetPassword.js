@@ -43,7 +43,7 @@ export const ResetPassword = ({ user }) => {
     <>
       <Space direction='vertical'>
         <ContentInnerHeader setBackOption />
-        <Space direction='vertical' className='flex center'>
+        <div className='flex center'>
           <div className='login-form-div'>
             <div className='login-form-content-div'>
               <Space
@@ -129,7 +129,7 @@ export const ResetPassword = ({ user }) => {
                         <Button
                           // onClick={onCheck}
                           htmlType='submit'
-                          style={{ width: '15rem' }}
+                          style={{ width: '10rem' }}
                           type='primary'
                           loading={loading}
                         >
@@ -142,7 +142,7 @@ export const ResetPassword = ({ user }) => {
               </Space>
             </div>
           </div>
-        </Space>
+        </div>
       </Space>
     </>
   );

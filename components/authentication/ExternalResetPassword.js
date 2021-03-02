@@ -44,8 +44,7 @@ export const ExternalResetPassword = ({ query }) => {
 
   return (
     <>
-      <Space direction='vertical'>
-        <Space direction='vertical' className='flex center'>
+        <div className='flex center'>
           <div className='login-form-div'>
             <div className='login-form-content-div'>
               <Space
@@ -131,7 +130,7 @@ export const ExternalResetPassword = ({ query }) => {
                         <Button
                           // onClick={onCheck}
                           htmlType='submit'
-                          style={{ width: '15rem' }}
+                          style={{ width: '10rem' }}
                           type='primary'
                           loading={loading}
                         >
@@ -144,8 +143,7 @@ export const ExternalResetPassword = ({ query }) => {
               </Space>
             </div>
           </div>
-        </Space>
-      </Space>
+        </div>
     </>
   );
 };
