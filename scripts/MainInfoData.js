@@ -331,14 +331,14 @@ export const siderLinks = (role) => {
               icon: <IconFont type="icon-map" />,
               submenu: [],
             },
-            /*
+            
             {
               label: 'Speed Dials',
               url: '/telephony-features/speed-dials',
               icon: <IconFont type='icon-tty' />,
               submenu: [],
             },
-            */
+            
             /*
             {
               label: 'Call Recordings',

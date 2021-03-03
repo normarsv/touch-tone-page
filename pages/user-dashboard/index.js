@@ -93,12 +93,21 @@ export default class extends Component {
       },
       {
         id: 4,
-        title: 'Account Details',
+        title: 'My Find Me',
         count: '',
         desc:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View Account Details',
-        route: '/account-details',
+        buttonTitle: 'View My Find Me',
+        route: '/telephony-features/my-findme',
+      },
+      {
+        id: 5,
+        title: 'Speed Dials',
+        count: '',
+        desc:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+        buttonTitle: 'View Speed Dials',
+        route: '/telephony-features/speed-dials',
       },
       /*
       {

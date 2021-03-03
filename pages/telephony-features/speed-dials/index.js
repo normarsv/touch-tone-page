@@ -1,12 +1,22 @@
 import Router from 'next/router';
-import { Component } from 'react';
-
+import { Component, useState } from 'react';
 import SpeedDials from '../../../components/telephony-features/SpeedDials';
 import { BaseLayout } from '../../../layouts/BaseLayout';
 import { IsAValidPhoneNumber, systemLog } from '../../../scripts/General';
+import API from '../../../API/API';
+import { message } from 'antd';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
+    const api = new API(user.token, user.userId);
+    const speedDialsResponse = await api.GET('/services/speeddials');
+    let speedDials = [];
+    if (speedDialsResponse && 
+      speedDialsResponse.statusCode == 200) {
+        speedDials = speedDialsResponse.response;
+      
+    }
+
     if (user.group) {
       switch (user.group) {
         case 'BusinessSupport':
@@ -63,11 +73,17 @@ export default class extends Component {
 
     return {
       user,
+      speedDials
     };
   }
   constructor(props) {
     super(props);
-    this.userinfo = '';
+    const {speedDials:{options,speeddials},user} = this.props;
+    let speeds = {}
+
+    speeddials.map((item, index) => {
+      speeds[`destinations${index}`]=[item]
+    });
 
     this.speedDialsForm = {
       generalOptions: {
@@ -75,7 +91,7 @@ export default class extends Component {
         formClassName: 'test-form',
         submit: {
           className: 'primary-button-style',
-          text: 'Create User',
+          text: 'Save Speed Dials',
         },
         reset: {
           className: 'primary-button-style',
@@ -83,52 +99,73 @@ export default class extends Component {
         },
         cancel: {
           className: 'primary-button-style cancel',
-          text: 'Cancel User',
+          text: 'Cancel',
           action: () => {
             // useRouter().back();
           },
         },
       },
-      formInitialValues: {
-        destinations: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-      },
+      formInitialValues: speeds,
       formValidations: (values) => {
-        console.log(values);
         const errors = {};
         return errors;
       },
-      formSubmit: (values, { setSubmitting, setFieldError }) => {
+      formSubmit: async (values, { setSubmitting, setFieldError }) => {
+   
         setSubmitting(true);
+        const api = new API(user.token, user.userId);
+        const postValues = speeddials.map((item, index) => {
+          return  !Array.isArray(values[`destinations${index}`][0].number.currentValue) ? 
+          values[`destinations${index}`][0] :
+          {...values[`destinations${index}`][0], number: {...values[`destinations${index}`][0].number, currentValue: values[`destinations${index}`][0].number.currentValue[0]}}
+        });
+
+        const resp = await api.PUT('/services/speeddials',postValues)
+        if(resp.statusCode == 200)
+          message.success('Speed Dials Updated Succesfully!');
+        else
+          message.error(resp.response.message);
+
         setSubmitting(false);
       },
       formInputsRows: [
-        {
+        { 
           inputs: [
-            {
-              name: 'destinations',
-              label: 'Destination',
-              placeholder: 'Select Destination',
+          ...speeddials.map((item, index)=>{
+            return {
+              name: `destinations${index}`,
+              //label: 'Destination',
+              //placeholder: 'Select Destination',
               type: 'list',
               fixedList: true,
-              addMax: 10,
+              //addMax: 9,
+              breakpoints: { xxl: 24, xl: 24, md: 24, sm: 24, xs: 24 },
               required: true,
               listFields: [
                 {
-                  name: 'dialId',
-                  label: 'Destination',
-                  placeholder: 'Select Destination',
+                  name: 'entry',
+                  label: 'Entry',
+                  placeholder: '',
                   type: 'text',
                   required: true,
                   disabled: true,
                   breakpoints: { xxl: 6, xl: 6, md: 6, sm: 6, xs: 24 },
                 },
                 {
-                  name: 'currentType',
+                  name: 'description',
+                  label: 'Description',
+                  placeholder: '',
+                  type: 'text',
+                  required: false,
+                  breakpoints: { xxl: 6, xl: 6, md: 6, sm: 6, xs: 24 },
+                },
+                {
+                  name: 'number.currentType',
                   label: 'Destination Type',
                   placeholder: 'Destination Type',
                   type: 'select',
                   required: true,
-                  options: [{ optionName: 'test' }, { optionName: 'External' }],
+                  options:  [...options,  { optionName: 'External Number'}],
                   optionValue: 'optionName',
                   optionLabel: 'optionName',
                   breakpoints: { xxl: 6, xl: 6, md: 6, sm: 6, xs: 24 },
@@ -137,53 +174,36 @@ export default class extends Component {
                     formOptions,
                     formikData,
                     indexArray
-                  ) => {
-                    if (newVal === 'External') {
-                      formOptions.formInputsRows[0].inputs[0].listFields[2].mode =
-                        'tags';
-                      formOptions.formInputsRows[0].inputs[0].listFields[2].options = [];
-                      formikData.setFieldValue(
-                        'destinations' +
-                          '[' +
-                          indexArray +
-                          ']' +
-                          '.currentValue',
-                        '',
-                        false
-                      );
+                  ) =>{
+                    if (newVal === 'External Number') {
+                   console.log('formOptions', formOptions)
+                      formOptions.formInputsRows[0].inputs[index].listFields[3].mode = 'tags';
+                      formOptions.formInputsRows[0].inputs[index].listFields[3].options = [];
+                      formikData.setFieldValue(`destinations${index}[0].number.currentValue`,'', false);
                     } else {
-                      formOptions.formInputsRows[0].inputs[0].listFields[2].mode =
-                        '';
-                      formOptions.formInputsRows[0].inputs[0].listFields[2].options = [
-                        { queueName: 'Ring Group', queueId: 0 },
-                        { queueName: 'User', queueId: 1 },
-                        { queueName: 'Queue', queueId: 2 },
-                        { queueName: 'External Number', queueId: 3 },
-                      ];
-                      formikData.setFieldValue(
-                        'destinations' +
-                          '[' +
-                          indexArray +
-                          ']' +
-                          '.currentValue',
-                        '',
-                        false
+                      const destinationOptions = options.find(
+                        (option) => {
+                          return option.optionName === newVal;
+                        }
                       );
+                      formOptions.formInputsRows[0].inputs[index].listFields[3].mode = '';
+                      formOptions.formInputsRows[0].inputs[index].listFields[3].options = destinationOptions.numbers;
+                      formikData.setFieldValue(`destinations${index}[0].number.currentValue`,'', false);
                     }
-                  },
+                  }
                 },
                 {
-                  name: 'currentValue',
+                  name: 'number.currentValue',
                   label: 'Destination Number',
                   placeholder: 'Select Number',
                   type: 'select',
+                  mode: item.number.currentType == 'External Number' ? 'tags' : '',
                   required: true,
-                  options: [
-                    { name: 'Ring Group', value: 0 },
-                    { name: 'User', value: 1 },
-                    { name: 'Queue', value: 2 },
-                    { name: 'External Number', value: 3 },
-                  ],
+                  options: options.find(
+                    (option) => {
+                      return option.optionName === item.number.currentType;
+                    }
+                  )?.numbers || options[0].numbers,
                   optionValue: 'value',
                   optionLabel: 'name',
                   breakpoints: { xxl: 6, xl: 6, md: 6, sm: 6, xs: 24 },
@@ -193,9 +213,9 @@ export default class extends Component {
                     formikData,
                     indexArray
                   ) => {
-                    const currentOption =
-                      formikData.values.destination.currentType;
-                    if (currentOption === 'External') {
+                    const currentOption = formikData.values[`destinations${index}`].currentType;
+                    console.log('formik values', formikData.values[`destinations${index}`])
+                    if (currentOption === 'External Number') {
                       const reduceGetOnlyNew = newVal.reduce(
                         (returnData, currentNumber) => {
                           if (IsAValidPhoneNumber(currentNumber) === true) {
@@ -205,17 +225,9 @@ export default class extends Component {
                         },
                         []
                       );
-                      formikData.setFieldValue(
-                        'destinations' +
-                          '[' +
-                          indexArray +
-                          ']' +
-                          '.currentValue',
-                        '',
-                        reduceGetOnlyNew,
-                        false
-                      );
+                      formikData.setFieldValue(`destinations${index}[0].number.currentValue`,reduceGetOnlyNew, false);
                     }
+
                   },
                 },
               ],
@@ -227,7 +239,8 @@ export default class extends Component {
                   },
                 },
               ],
-            },
+            }   
+          })//end Map
           ],
         },
       ],
@@ -241,7 +254,10 @@ export default class extends Component {
 
     return (
       <BaseLayout>
-        <SpeedDials speedDialsForm={this.speedDialsForm} />
+        <SpeedDials 
+          speedDialsForm={this.speedDialsForm}
+         
+        />
       </BaseLayout>
     );
   }
