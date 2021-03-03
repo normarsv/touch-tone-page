@@ -193,10 +193,10 @@ const RenderInputType = ({
           name={input.name}
           render={(arrayHelpers) => (
             <Col span={24}>
-              <h2 className='separator-title'>
+              {input.label && <h2 className='separator-title'>
                 {input.label}{' '}
                 {input.addMax ? '(max. Inputs: ' + input.addMax + ')' : ''}
-              </h2>
+              </h2>}
               {values[input.name] && values[input.name].length > 0
                 ? values[input.name].map((listItem, index) => {
                     return (
