@@ -113,7 +113,7 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
           }}
           id='menu-header-logo'
         >
-          <img className='page-side-menu-logo' alt="TouchTone Communications" src={'/logo-portal.png'} />
+          <img className='page-side-menu-logo' alt="TouchTone Communications" src={'/Logo-Portal.png'} />
         </a>
       </Col>
       <Col flex='50%'>
