@@ -162,9 +162,18 @@ class CreateMeetings extends Component {
 
         const api = new API(props.user.token, props.user.userId);
         try {
-          await api.POST('/Meetings', bodyMeeting);
-          message.success('Meeting created successfully!');
-          props.router.push('/meetings');
+          const meetingResponse = await api.POST('/Meetings', bodyMeeting);
+          if(meetingResponse.statusCode == 200 || meetingResponse.statusCode == 201)
+          {
+            message.success('Meeting created successfully!');
+            props.router.push('/meetings');
+          }
+          else
+          {
+            setSubmitting(false);
+            message.error(meetingResponse.response.message);
+          }
+
         } catch (error) {
           console.log(error);
           setSubmitting(false);

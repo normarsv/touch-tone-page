@@ -176,9 +176,18 @@ class EditMeetings extends Component {
 
         const api = new API(props.user.token, props.user.userId);
         try {
-          await api.PUT('/Meetings/' + props.currentMeeting.id, bodyMeeting);
+          const putResponse = await api.PUT('/Meetings/' + props.currentMeeting.id, bodyMeeting);
+          if(putResponse.statusCode == 200 || putResponse.statusCode == 201)
+          {
           message.success('Meeting updated successfully!');
           props.router.push('/meetings');
+          }
+          else
+          {
+            message.error(putResponse.response.message);
+            setSubmitting(false);
+          }
+         
         } catch (error) {
           console.log(error);
           setSubmitting(false);

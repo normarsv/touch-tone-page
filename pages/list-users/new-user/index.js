@@ -156,12 +156,8 @@ class NewUserPage extends Component {
             );
             console.log(resSubmitForm);
             if (resSubmitForm.statusCode !== 200) {
-              let messageData = 'There was an error creating the User';
-              if (resSubmitForm.response.message !== undefined) {
-                messageData = resSubmitForm.response.message;
-              }
               message.error({
-                content: messageData,
+                content: resSubmitForm.response.message ||  'There was an error creating the User',
                 key: 'signup',
                 duration: 5,
               });
@@ -385,12 +381,8 @@ class NewUserPage extends Component {
             );
             console.log(resSubmitForm);
             if (resSubmitForm.statusCode !== 200) {
-              let messageData = 'There was an error creating the User';
-              if (resSubmitForm.response.message !== undefined) {
-                messageData = resSubmitForm.response.message;
-              }
               message.error({
-                content: messageData,
+                content: resSubmitForm.response.message || 'There was an error creating the User',
                 key: 'signup',
                 duration: 5,
               });
@@ -582,25 +574,22 @@ class NewUserPage extends Component {
               values,
               this.state.authGroupValue
             );
-            console.log(resSubmitForm);
-            if (resSubmitForm.statusCode !== 200) {
-              let messageData = 'There was an error creating the User';
-              if (resSubmitForm.response.message !== undefined) {
-                messageData = resSubmitForm.response.message;
-              }
-              message.error({
-                content: messageData,
-                key: 'signup',
-                duration: 5,
-              });
-              setSubmitting(false);
-            } else {
+            
+            if (resSubmitForm.statusCode == 200) {
               message.success({
                 content: 'User Created Successfully!.',
                 key: 'signup',
                 duration: 2,
               });
               props.router.push('/list-users');
+            }
+            else{
+              message.error({
+                content: resSubmitForm.response.message || 'There was an error creating the User',
+                key: 'signup',
+                duration: 5,
+              });
+              setSubmitting(false);
             }
           } catch (error) {
             console.log(error);

@@ -128,7 +128,7 @@ const CallForwardSelective = ({
       ) {
         message.success('Call Forward Selective ' + 'Edited' + ' Succesfully!');
       } else {
-        message.error('Failed to ' + 'Edit' + ' Call Forward Selective');
+        message.error(putCallForwardSelective.response.message || 'Failed to ' + 'Edit' + ' Call Forward Selective');
       }
       setSubmitting(false);
     },

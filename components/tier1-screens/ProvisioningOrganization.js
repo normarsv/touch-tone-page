@@ -71,7 +71,7 @@ const ProvisioningOrganization = ({
       message.success('Succesfully Provisioned Organization');
       setSelectedOrganization({});
     } else {
-      message.error('Organization Already Provisioned');
+      message.error(resProvisionOrganization.response.message || 'Organization Already Provisioned');
     }
     refreshOrg();
     setTimeout(() => {
