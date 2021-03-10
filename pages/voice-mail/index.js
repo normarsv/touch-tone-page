@@ -104,6 +104,7 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const api = new API(user.token, user.userId);
   const resVoiceMail = await api.GET('/Services/voicemails');
   const voiceMails = resVoiceMail.response;
+
   for (const voiceMail of voiceMails) {
     const stringDate = voiceMail.date.toString();
     const addVoiceMail = {
