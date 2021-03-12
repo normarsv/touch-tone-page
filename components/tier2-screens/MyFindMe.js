@@ -16,14 +16,14 @@ const MyFindMe = ({ formToDisplay }) => {
   function TitleByRole(userInfo) {
     switch (userInfo.group) {
       case 'CorporateService':
-        setInfoByRole({ title: 'Ring Groups', role: 'CorporateService' });
+        setInfoByRole({ title: 'Ring to Groups', role: 'CorporateService' });
         break;
       case 'OrganizationAdmin':
-        setInfoByRole({ title: 'Ring Groups', role: 'OrganizationAdmin' });
+        setInfoByRole({ title: 'Ring to Groups', role: 'OrganizationAdmin' });
         break;
 
       case 'EndUser':
-        setInfoByRole({ title: 'My Find Me', role: 'EndUser' });
+        setInfoByRole({ title: 'Find Me Follow Me', role: 'EndUser' });
         break;
 
       default:
@@ -62,7 +62,7 @@ const MyFindMe = ({ formToDisplay }) => {
     const mockData = [
       { key: 1, title: 'Juan Perez ', description: '' },
       { key: 2, title: 'User Queue ', description: '' },
-      { key: 3, title: 'Ring Group ', description: '' },
+      { key: 3, title: 'Ring to Group ', description: '' },
       { key: 4, title: 'Auto attendant ', description: '' },
       { key: 5, title: 'External Number 2 ', description: '' },
       { key: 6, title: 'External Number 3 ', description: '' },

@@ -104,7 +104,7 @@ const OrganizationServices = ({
         </Space>
 
         <Space direction="vertical">
-          <h4>List of enabled Services</h4>
+          <h4>List of Enabled Services</h4>
           <EditServices
             editable={editable}
             serviceContent={editServiceContent}

@@ -161,7 +161,7 @@ const Meetings = ({ meetingsContent, user, getMeetingsContent }) => {
         <ContentInnerHeader />
 
         <Row>
-          <h1 className='title-style'>Meetings</h1>
+          <h1 className='title-style'>Personal Meeting Room</h1>
         </Row>
 
         <Row type='flex' justify='end'>

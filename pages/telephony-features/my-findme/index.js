@@ -102,7 +102,7 @@ export default class extends Component {
         formClassName: 'test-form',
         submit: {
           className: 'primary-button-style',
-          text: 'Save My Find me',
+          text: 'Save',
         },
         reset: {
           className: 'primary-button-style',
@@ -110,7 +110,7 @@ export default class extends Component {
         },
         // cancel: {
         //   className: "primary-button-style cancel",
-        //   text: "Cancel My Find me",
+        //   text: "Cancel",
         //   action: () => {
         //     // useRouter().back();
         //
@@ -168,7 +168,7 @@ export default class extends Component {
         setSubmitting(false);
       },
       formInputsRows: [
-        { separatorTitle: 'Enable Find Me', inputs: [] },
+        { separatorTitle: 'Enable', inputs: [] },
         {
           inputs: [
             {
@@ -271,7 +271,7 @@ export default class extends Component {
             },
           ],
         },
-        { separatorTitle: 'Ringing Group', inputs: [] },
+        { separatorTitle: 'Ring to Group', inputs: [] },
         {
           inputs: [
             {
@@ -577,9 +577,9 @@ export default class extends Component {
 
     const responsePut = await api.PUT('/Services/find-me', finalSubmit);
     if(responsePut.statusCode == 200)
-      message.success('My Find Me Updated Succesfully!');
+      message.success('Find Me Follow Me Updated Succesfully!');
     else
-      message.error(responsePut.response.message || 'Error updating Find Me');
+      message.error(responsePut.response.message || 'Error updating Find Me Follow Me');
   }
 
   render() {

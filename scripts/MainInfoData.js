@@ -228,7 +228,7 @@ export const siderLinks = (role) => {
           ],
         },
         {
-          sectionTitle: 'Telephony Features',
+          sectionTitle: 'Features',
           links: [
             /*
             {
@@ -239,7 +239,7 @@ export const siderLinks = (role) => {
             },
             */
             {
-              label: 'Ring Groups',
+              label: 'Ring to Groups',
               url: '/telephony-features/ring-groups',
               icon: <IconFont type="icon-map" />,
               submenu: [],
@@ -269,13 +269,13 @@ export const siderLinks = (role) => {
           sectionTitle: '',
           links: [
             {
-              label: 'Meetings',
+              label: 'Personal Meeting Room',
               url: '/meetings',
               icon: <IconFont type="icon-users" />,
               submenu: [],
             },
             {
-              label: 'Voice Mail',
+              label: 'Voicemail',
               url: '/voice-mail',
               icon: <MailOutlined />,
               submenu: [],
@@ -311,7 +311,7 @@ export const siderLinks = (role) => {
           ],
         },
         {
-          sectionTitle: 'Telephony Features',
+          sectionTitle: 'Features',
           links: [
             {
               label: 'Call Forwarding',
@@ -326,7 +326,7 @@ export const siderLinks = (role) => {
               submenu: [],
             },
             {
-              label: 'My Find Me',
+              label: 'Find Me Follow Me',
               url: '/telephony-features/my-findme',
               icon: <IconFont type="icon-map" />,
               submenu: [],

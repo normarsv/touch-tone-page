@@ -130,12 +130,12 @@ const HeaderMenu = ({ mainBodyRef, openSideMenu }) => {
                 icon={faPhone}
                 style={{ marginRight: '0.5rem' }}
               />{' '}
-              Use Phone
+              Make a Call
             </Button>
           ) : userInfo.name === undefined ? (
             <Col className='header-menu-need-help'>
               <span>
-                Need help? <a href='#'>Call 800 900 5464</a>
+                Need help? <a href='#'>Call 800 900 5474</a>
               </span>
             </Col>
           ) : (

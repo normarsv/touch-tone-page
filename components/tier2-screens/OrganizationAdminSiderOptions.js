@@ -117,7 +117,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
       {
         id: 2,
         key: 'ringGroups',
-        title: 'Ring Groups',
+        title: 'Ring to Groups',
         icon: faMapMarker,
         route: '/telephony-features/ring-groups',
       },
@@ -221,7 +221,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
         <Divider style={{ margin: '0.1rem 0' }} />
         {!openSideMenu && (
           <div className='side-menu-title-div left secondary'>
-            <h4>Telephony Features</h4>
+            <h4>Features</h4>
           </div>
         )}
 
@@ -264,7 +264,7 @@ const OrganizationAdminSiderOptions = ({ openSideMenu }) => {
             id='Need help?'
           >
             <h5 className='title-style'> Need help? </h5>
-            <a href='tel:'>Call 800 900 5464</a>
+            <a href='tel:'>Call 800 900 5474</a>
           </Space>
           {/* <Space className="side-menu-bottom-text " id="Need help?">
               <p>TouchTone Communications Control Center</p>

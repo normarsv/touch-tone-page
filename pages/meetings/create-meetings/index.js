@@ -193,7 +193,7 @@ class CreateMeetings extends Component {
             },
             {
               name: 'startTime',
-              label: 'Start Date',
+              label: 'Start Date and Time',
               type: 'datePicker',
               disabledDate: (current) => {
                 return moment() >= current;
@@ -202,7 +202,7 @@ class CreateMeetings extends Component {
                 format: 'HH:mm',
                 defaultValue: moment().startOf('day'),
               },
-              format: 'YYYY-MM-DD HH:mm',
+              format: 'MM-DD-YYYY HH:mm',
               required: true,
               customOnChange: async (
                 newVal,
@@ -254,7 +254,7 @@ class CreateMeetings extends Component {
                 const momentNewVal = moment(formikData.values.startTime)
                   .set('hour', hours)
                   .set('minutes', minutes)
-                  .format('YYYY-MM-DD HH:mm');
+                  .format('MM-DD-YYYY HH:mm');
 
                 const startTimeHour = moment(
                   formikData.values.startTime
@@ -281,7 +281,7 @@ class CreateMeetings extends Component {
                   if (currentMinutes < startTimeMinutes) {
                     const newMoment = moment(momentNewVal)
                       .set('minute', startTimeMinutes)
-                      .format('YYYY-MM-DD HH:mm');
+                      .format('MM-DD-YYYY HH:mm');
                     setTimeout(() => {
                       formikData.setFieldValue('endTime', newMoment);
                     }, 500);

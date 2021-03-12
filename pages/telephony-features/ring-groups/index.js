@@ -83,7 +83,7 @@ export default class extends Component {
         formClassName: 'test-form',
         submit: {
           className: 'primary-button-style',
-          text: 'Save My Find me',
+          text: 'Save',
         },
         reset: {
           className: 'primary-button-style',

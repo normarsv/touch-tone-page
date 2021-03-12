@@ -120,11 +120,11 @@ export default class extends Component {
       */
         {
           id: 7,
-          title: 'Ring Groups',
+          title: 'Ring to Groups',
           count: '',
           desc:
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-          buttonTitle: 'View Ring Groups',
+          buttonTitle: 'View Ring to Groups',
           route: '/auto-attendant/ring-group',
         },
         {

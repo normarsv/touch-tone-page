@@ -248,7 +248,7 @@ const OrganizationServices = ({
         
         <Space direction='vertical' size='large'>
           <Space direction='vertical' size='small'>
-            <h4>List of enabled Services</h4>
+            <h4>List of Enabled Services</h4>
             <EditServices
               editable={editable}
               serviceContent={enabledServices}
@@ -256,7 +256,7 @@ const OrganizationServices = ({
           </Space>
           {/* {telephonyFeatures && (
             <Space direction='vertical' size='small'>
-              <h4>Telephony Features</h4>
+              <h4>Features</h4>
               <EditServices
                 editable={editable}
                 serviceContent={telephonyFeatures}
