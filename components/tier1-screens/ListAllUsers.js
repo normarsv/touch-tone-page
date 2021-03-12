@@ -53,7 +53,7 @@ const ListAllUsers = ({ query, userTableList, userInfo, reloadInfo }) => {
     } else {
       message
         .loading('Changing Status...', 2.5)
-        .then(() => message.error('Unable to Change This User State', 2.5));
+        .then(() =>  message.error(resOnChangeUser.response.message || 'Unable to Change This User State', 2.5));
     }
   }
 
