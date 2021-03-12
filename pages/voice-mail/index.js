@@ -26,6 +26,7 @@ function VoiceMailPage(props) {
       const addVoiceMail = {
         date: moment(stringDate).format('LLL'),
         fileName: voiceMail.filE_NAME,
+        caller: voiceMail.ani,
         duration: voiceMail.duration,
         actions: voiceMail.filE_NAME,
       };
@@ -104,6 +105,7 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const api = new API(user.token, user.userId);
   const resVoiceMail = await api.GET('/Services/voicemails');
   const voiceMails = resVoiceMail.response;
+
   for (const voiceMail of voiceMails) {
     const stringDate = voiceMail.date.toString();
     const addVoiceMail = {
@@ -111,6 +113,7 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
       caller: voiceMail.ani,
       duration: voiceMail.duration,
       actions: voiceMail.filE_NAME,
+      fileName:voiceMail.filE_NAME
     };
     voiceMailContent.push(addVoiceMail);
   }
