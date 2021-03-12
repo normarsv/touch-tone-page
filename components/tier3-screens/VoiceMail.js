@@ -64,11 +64,10 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
       '/Email/sendVoicemail/' + fileName + '.MU'
     );
 
-    if (sendByEmailRes.statusCode == 200) {
+    if (sendByEmailRes.statusCode == 200) 
       message.success(sendByEmailRes.response.message);
-    } else {
-      message.error('Unexpected error ocurred');
-    }
+    else 
+      message.error(sendByEmailRes.response.message);
   };
 
   const voiceMailToDownload = async (fileName) => {
