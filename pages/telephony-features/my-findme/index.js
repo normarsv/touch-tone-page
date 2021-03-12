@@ -120,6 +120,8 @@ export default class extends Component {
       formInitialValues: {
         startDate: this.props.actualUserMyFindme.startDate,
         endDate: this.props.actualUserMyFindme.endDate,
+        startTime: this.props.actualUserMyFindme.startTime ? `2021-01-01 ${this.props.actualUserMyFindme.startTime}` : '',
+        endTime:this.props.actualUserMyFindme.endTime ? `2021-01-01 ${this.props.actualUserMyFindme.endTime}` : '',
         enabled: this.props.actualUserMyFindme.enabled,
         ringAtSameTime:
           this.props.actualUserMyFindme.findeMeItems[0].priority === 1 &&
@@ -139,14 +141,23 @@ export default class extends Component {
       formValidations: (values) => {
         const errors = {};
         //
-        if (!values.startDate) {
+        if (!values.startDate && values.endDate) {
           errors.startDate = 'Start date required';
         }
-        if (!values.endDate) {
+        if (values.startDate && !values.endDate) {
           errors.endDate = 'End date required';
         }
-        if (values.endDate < values.startDate) {
+        if (values.endDate && values.endDate < values.startDate) {
           errors.endDate = 'Set a valid end date';
+        }
+        if (!values.startTime && values.endTime) {
+          errors.startTime = 'Start time required';
+        }
+        if (!values.endTime && values.startTime) {
+          errors.endTime = 'End time required';
+        }
+        if (values.endTime && values.endTime < values.startTime) {
+          errors.endTime = 'Set a valid end time';
         }
 
         return errors;
@@ -183,7 +194,7 @@ export default class extends Component {
                 defaultValue: moment().startOf('day'),
               },
               format: 'YYYY-MM-DD',
-              required: true,
+              required: false,
               customOnChange: async (
                 newVal,
                 formOptions,
@@ -213,7 +224,29 @@ export default class extends Component {
                 defaultValue: moment().add(1, 'day').startOf('day'),
               },
               format: 'YYYY-MM-DD',
-              required: true,
+              required: false,
+            },
+            {
+              name: 'startTime',
+              label: 'Start Time',
+              type: 'timePicker',
+              showTime: {
+                format: 'HH:mm',
+                defaultValue: moment().startOf('day'),
+              },
+              format: 'HH:mm',
+              required: false
+            },
+            {
+              name: 'endTime',
+              label: 'End Time',
+              type: 'timePicker',
+              showTime: {
+                format: 'HH:mm',
+                defaultValue: moment().startOf('day'),
+              },
+              format: 'HH:mm',
+              required: false
             },
           ],
         },
@@ -501,8 +534,8 @@ export default class extends Component {
     const finalSubmit = {
       startDate: valuesToSubmit.startDate,
       endDate: valuesToSubmit.endDate,
-      startTime: '',
-      endTime: '',
+      startTime: valuesToSubmit.startTime ? moment(valuesToSubmit.startTime).format('HH:mm') : '',
+      endTime: valuesToSubmit.endTime ? moment(valuesToSubmit.endTime).format('HH:mm') : '',
       dayrange: valuesToSubmit.dayrange,
       enabled: valuesToSubmit.enabled,
       findeMeItems: [
@@ -543,8 +576,10 @@ export default class extends Component {
     };
 
     const responsePut = await api.PUT('/Services/find-me', finalSubmit);
-
-    message.success('My Find Me Updated Succesfully!');
+    if(responsePut.statusCode == 200)
+      message.success('My Find Me Updated Succesfully!');
+    else
+      message.error(responsePut.response.message || 'Error updating Find Me');
   }
 
   render() {

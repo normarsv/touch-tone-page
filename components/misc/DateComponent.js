@@ -66,7 +66,7 @@ export const DateComponent = ({}) => {
         <Divider type="vertical" />
         <Space>
           <FontAwesomeIcon className="title-style" icon={faCloud} />{" "}
-          <label>{weather + ' °F'}</label>
+          <label>{Math.round(weather,1) + ' °F'}</label>
         </Space>
         </>
         }
