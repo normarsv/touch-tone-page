@@ -145,7 +145,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
             icon={<StarFilled />}
             key='frequentnumbers'
           >
-            Frequent Numbers
+            Forward To Numbers
           </Menu.Item>
         )}
         {role === 'EndUser' && <Menu.Divider style={{ margin: '0.1rem 0' }} />}
@@ -175,7 +175,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
             key='use-phone'
             className='logout-menu-item'
           >
-            Use Phone
+            Make a Call
           </Menu.Item>
         )}
         {role === 'EndUser' && (
@@ -208,7 +208,7 @@ const SiderOptions = ({ openSideMenu, role }) => {
             <a href='tel:'>Call 800 900 5474</a>
           </Space>
           <div className='slogan'>
-            <p className='inner-p'>TouchTone Communications Control Center</p>
+            <p className='inner-p'>TouchTone Communications</p>
           </div>
         </>
       )}

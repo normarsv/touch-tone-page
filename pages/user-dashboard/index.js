@@ -65,41 +65,44 @@ export default class extends Component {
       user.role === 'EndUser' && user.userType !== 1
         ? {
             id: 1,
-            title: 'Meeting',
+            title: 'Personal Meeting Room',
             count: '',
             desc:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+              'Mange your meetings. This virtual meeting room is reserved for your personal use. Start an instant meeting, or schedule one for a later date.',
             buttonTitle: 'View All Meetings',
             route: '/meetings',
           }
         : undefined,
       {
         id: 2,
-        title: 'Voice Mail',
-        count: '9 New Voice Mails',
+        title: 'Voicemail',
+        count: '9 New Voicemails',
         desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View all Voice Mails',
+          'Manage your voicemail messages. Play, delete and save voicemail messages. Voicemails are synced between your desktop client and mobile app.',
+        buttonTitle: 'View All Voicemails',
         route: '/voice-mail',
       },
       {
         id: 3,
-        title: 'My Find Me',
+        title: 'Find Me Follow Me',
         count: '',
         desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View My Find Me',
+          `Manage how and where you receive your calls. Direct calls made to your extension to
+          another extension, another number (like a cell phone), a call queue, or a
+          voicemail box. Calls can be configured to ring multiple phones simultaneously
+          or in a specific order.`,
+        buttonTitle: 'View Find Me Follow Me',
         route: '/telephony-features/my-findme',
       },
-      {
-        id: 4,
-        title: 'My Find Me',
-        count: '',
-        desc:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        buttonTitle: 'View My Find Me',
-        route: '/telephony-features/my-findme',
-      },
+      // {
+      //   id: 4,
+      //   title: 'Find Me Follow Me',
+      //   count: '',
+      //   desc:
+      //     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+      //   buttonTitle: 'View My Find Me',
+      //   route: '/telephony-features/my-findme',
+      // },
       {
         id: 5,
         title: 'Speed Dials',

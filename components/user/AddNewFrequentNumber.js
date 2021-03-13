@@ -20,7 +20,7 @@ const AddNewFrequentNumber = ({
       footer={null}
     >
       <Space direction="vertical" size="large">
-        <h2 className="title-style">Add Frequent Number</h2>
+        <h2 className="title-style">Add Forward To Number</h2>
         <FormGenerator FormOptions={frequentNumberForm} />
       </Space>
     </Modal>

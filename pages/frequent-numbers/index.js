@@ -21,7 +21,7 @@ function FrequentNumberPage(props) {
       formClassName: 'test-form',
       submit: {
         className: 'primary-button-style',
-        text: (dataToEdit ? 'Edit' : 'Create') + ' Frequent number',
+        text: (dataToEdit ? 'Edit' : 'Create') + ' Forward To Number',
       },
       reset: {
         className: 'primary-button-style',
@@ -35,7 +35,7 @@ function FrequentNumberPage(props) {
     formValidations: (values) => {
       const errors = {};
       if (!values.alias) {
-        errors.alias = 'Alias required';
+        errors.alias = 'Nickname required';
       }
       if (!values.number) {
         errors.number = 'Number required';
@@ -70,7 +70,7 @@ function FrequentNumberPage(props) {
         resFrequentNumber.statusCode === 200
       ) {
         message.success(
-          'Frequent Number ' +
+          'Number ' +
             (dataToEdit ? 'Edited' : 'Created') +
             ' Succesfully!'
         );
@@ -82,7 +82,7 @@ function FrequentNumberPage(props) {
         }
       } else {
         message.error(
-          'Failed to ' + (dataToEdit ? 'Edit' : 'Create') + ' Frequent Number'
+          'Failed to ' + (dataToEdit ? 'Edit' : 'Create') + ' Number'
         );
       }
 
@@ -95,15 +95,15 @@ function FrequentNumberPage(props) {
         inputs: [
           {
             name: 'alias',
-            label: 'Frequent Number Alias',
-            placeholder: 'Frequent number alias...',
+            label: 'Nickname',
+            placeholder: 'Nickname...',
             type: 'text',
             required: true,
           },
           {
             name: 'number',
             label: 'Number',
-            placeholder: 'Frequent number...',
+            placeholder: 'Number...',
             type: 'text',
             required: true,
           },

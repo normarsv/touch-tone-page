@@ -48,7 +48,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
       {
         id: 1,
         key: 'voiceMail',
-        title: 'Voice Mail',
+        title: 'Voicemail',
         icon: faEnvelope,
         route: 'voice-mail',
         subOptions: [],
@@ -56,7 +56,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
       {
         id: 1,
         key: 'meeting',
-        title: 'Meetings',
+        title: 'Personal Meeting Room',
         icon: faUsers,
         route: 'meetings',
         subOptions: [],
@@ -110,7 +110,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
       {
         id: 3,
         key: 'myFindMe',
-        title: 'My Find Me',
+        title: 'Find Me Follow Me',
         icon: faMapMarker,
         route: '/telephony-features/ring-groups',
       },
@@ -176,7 +176,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
         {!openSideMenu && (
           <div className='side-menu-title-div leftsecondary '>
             <Space className='padding-title'>
-              <h4>Telephony Features</h4>
+              <h4>Features</h4>
             </Space>
           </div>
         )}
@@ -220,7 +220,7 @@ const EndUserSiderOptions = ({ openSideMenu }) => {
             id='Need help?'
           >
             <h5 className='title-style'> Need help? </h5>
-            <a href='tel:'>Call 800 900 5464</a>
+            <a href='tel:'>Call 800 900 5474</a>
           </Space>
           {/* <Space className="side-menu-bottom-text " id="Need help?">
               <p>TouchTone Communications Control Center</p>

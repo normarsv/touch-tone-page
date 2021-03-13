@@ -51,7 +51,7 @@ const FrequentNumbers = ({
     );
     if (resDeleteFrequentNumber.statusCode === 201 ||
         resDeleteFrequentNumber.statusCode === 200) {
-      message.success('Frequent Number Deleted Successfully!');
+      message.success('Forward To Numbers Deleted Successfully!');
       getFrequentNumberContent();
       setDataToEdit(undefined);
     }
@@ -68,7 +68,7 @@ const FrequentNumbers = ({
 
   const columns = [
     {
-      title: 'Alias',
+      title: 'Nickname',
       dataIndex: 'alias',
       fixed: windowDimensions.width < 900 ? 'none': 'left',
       onFilter: (value, record) => record.alias.indexOf(value) === 0,
@@ -136,7 +136,7 @@ const FrequentNumbers = ({
         <ContentInnerHeader setBackOption />
 
         <Row>
-          <h1 className='title-style'>Frequent Number</h1>
+          <h1 className='title-style'>Forward To Numbers</h1>
         </Row>
         {/*
         <Search

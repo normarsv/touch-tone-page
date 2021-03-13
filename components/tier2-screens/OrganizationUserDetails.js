@@ -56,7 +56,7 @@ const OrganizationUserDetails = ({ telephonyFeatures, userInfo }) => {
 
         <Space direction="vertical" size="large">
           <Space direction="vertical" size="small">
-            <h4>Telephony Features</h4>
+            <h4>Features</h4>
             <EditServices editable={false} serviceContent={telephonyFeatures} />
           </Space>
         </Space>
