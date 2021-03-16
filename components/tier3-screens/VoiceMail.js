@@ -165,7 +165,7 @@ const VoiceMail = ({ voiceMailTableData, getVoiceMailContent }) => {
           children: (<Space direction="horizontal">
             <Space direction="horizontal">
               <FontAwesomeIcon className="title-style" icon={faCalendarAlt} />{' '}
-              {date}{' '}
+              {date.toString()}{' '}
             </Space>
           </Space>)
         }

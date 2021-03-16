@@ -24,7 +24,7 @@ function VoiceMailPage(props) {
     for (const voiceMail of voiceMails) {
       const stringDate = voiceMail.date.toString();
       const addVoiceMail = {
-        date: moment(stringDate).format('LLL'),
+        date: moment(stringDate).format('L Z') + ' GMT',
         fileName: voiceMail.filE_NAME,
         caller: voiceMail.ani,
         duration: voiceMail.duration,
@@ -109,7 +109,7 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   for (const voiceMail of voiceMails) {
     const stringDate = voiceMail.date.toString();
     const addVoiceMail = {
-      date: moment(stringDate).format('LLL'),
+      date: moment(stringDate).format('L Z') + ' GMT',
       caller: voiceMail.ani,
       duration: voiceMail.duration,
       actions: voiceMail.filE_NAME,

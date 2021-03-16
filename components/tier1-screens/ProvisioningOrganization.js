@@ -70,6 +70,7 @@ const ProvisioningOrganization = ({
     if (resProvisionOrganization.statusCode === 201) {
       message.success('Succesfully Provisioned Organization');
       setSelectedOrganization({});
+      setVisibleProvisioningOrganization();
     } else {
       message.error(resProvisionOrganization.response.message || 'Organization Already Provisioned');
     }
