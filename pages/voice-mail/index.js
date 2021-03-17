@@ -22,9 +22,9 @@ function VoiceMailPage(props) {
     const voiceMails = resVoiceMail.response;
 
     for (const voiceMail of voiceMails) {
-      const stringDate = voiceMail.date.toString();
+      const stringDate = moment(voiceMail.date, 'YYYY-MM-DD hh:mm:ss').format('L LT Z') + ' GMT';
       const addVoiceMail = {
-        date: moment(stringDate).format('L Z') + ' GMT',
+        date: stringDate,
         fileName: voiceMail.filE_NAME,
         caller: voiceMail.ani,
         duration: voiceMail.duration,
@@ -32,6 +32,7 @@ function VoiceMailPage(props) {
       };
       voiceMailContent.push(addVoiceMail);
     }
+    console.log('voiceMailContent',voiceMailContent)
     setCurrentVoiceMailContent(voiceMailContent);
   };
 
@@ -107,9 +108,9 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
   const voiceMails = resVoiceMail.response;
 
   for (const voiceMail of voiceMails) {
-    const stringDate = voiceMail.date.toString();
+    const stringDate =  moment(voiceMail.date, 'YYYY-MM-DD hh:mm:ss').format('L LT Z').toString() + ' GMT';
     const addVoiceMail = {
-      date: moment(stringDate).format('L Z') + ' GMT',
+      date: stringDate,
       caller: voiceMail.ani,
       duration: voiceMail.duration,
       actions: voiceMail.filE_NAME,
@@ -117,6 +118,8 @@ VoiceMailPage.getInitialProps = async ({ res, query, user }) => {
     };
     voiceMailContent.push(addVoiceMail);
   }
+
+  console.log('voiceMailContent initial values: ',voiceMailContent)
 
   return {
     user,
