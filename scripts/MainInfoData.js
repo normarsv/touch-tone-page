@@ -288,14 +288,14 @@ export const siderLinks = (role) => {
               submenu: [],
             },
             */
-            /*
+            
             {
               label: 'Conference Room',
               url: '/audio-conference',
               icon: <IconFont type='icon-FontAwesomeheadphones' />,
               submenu: [],
             },
-            */
+            
             // {
             //   label: "Termination Entries",
             //   url: "/web-rtc-meeting",
