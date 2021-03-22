@@ -310,7 +310,7 @@ class NewUserPage extends Component {
           formClassName: 'test-form',
           submit: {
             className: 'primary-button-style',
-            text: 'Create User',
+            text: 'Create',
           },
           reset: {
             className: 'primary-button-style',
@@ -318,7 +318,7 @@ class NewUserPage extends Component {
           },
           cancel: {
             className: 'primary-button-style cancel',
-            text: 'Cancel User',
+            text: 'Cancel',
             action: () => {
               props.router.push('/list-users');
             },
