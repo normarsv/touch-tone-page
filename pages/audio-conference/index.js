@@ -20,12 +20,15 @@ import { BaseLayout } from '../../layouts/BaseLayout';
   const getConferences= async (user)=>{ 
     const api = new API(user.token, user.userId);
     const response = await api.GET('/conferences/account');
+
+    console.log('response', response)
     if(response.statusCode == 200)
     {
       return response.response.map((item, index)=>{
         return {
           ConferenceReservedId: item.CONFERENCE_RESERVED_ID,
           Description: item.DESCRIPTION,
+          Account: item.ACCOUNT,
           AccessCode:item.ACCESS_CODE,
           Password: item.PASSWORD,
           Enabled: item.ENABLED,

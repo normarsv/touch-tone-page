@@ -67,30 +67,19 @@ const AudioConference = ({ audioConferenceContent, getConferences }) => {
     setSearchText('');
     setSearchedColumn('');
     setSearchText('');
-  };
+  }; 
 
   const enableDisableConference = async (checked, conferenceId) =>
   {
-   let conference = conferences.find(conf=> conf.ConferenceReservedId == conferenceId)
-    var body = {...conference,Enabled: checked, Account:"CL-9217432342",StartDateTime:"", Emails:"jsantos@guaodev.com"};
-    console.log('body: ', body)
-    try{
-      const response = await api.PUT('/conferences', body);
-      console.log('PUT: ', response)
-      if(response.statusCode == 200)
-      {
-       
-      }
-    } 
-    catch{
-    
-    }
-   let conf = await getConferences();
-   console.log(' current conferences', conferences)
-   console.log(' Get conferences', conf)
-   setConferences(conf);
+    let conference = conferences.find(conf=> conf.ConferenceReservedId == conferenceId)
 
-  
+    var body = {...conference,Enabled: checked, StartDateTime: moment(conference.StartDateTime).format('YYYY-MM-DD HH:mm:ss')};
+    console.log('body: ', body)
+
+    const response = await api.PUT('/conferences', body);
+    console.log(response);
+    let conf = await getConferences();
+    setConferences(conf);
   }
 
   const getEnabledConference = (conferenceId) =>{
@@ -185,7 +174,7 @@ const AudioConference = ({ audioConferenceContent, getConferences }) => {
       title: "Actions",
       dataIndex: "ConferenceReservedId",
       render: (conferenceId) => (
-        <Space className="flex center">
+        <Space className="flex center action">
           <motion.div
             onClick={() =>
               router.push("/audio-conference/details/" + conferenceId)

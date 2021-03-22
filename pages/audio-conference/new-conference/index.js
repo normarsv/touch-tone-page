@@ -1,11 +1,12 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { Component } from 'react';
 import Router from 'next/router';
-
+import {message} from 'antd';
 import NewConferenceRoom from '../../../components/tier2-screens/conference-room/NewConferenceRoom';
 import { BaseLayout } from '../../../layouts/BaseLayout';
 import { systemLog } from '../../../scripts/General';
 import { baseLanguage } from '../../../scripts/MainInfoData';
+import API from '../../../API/API';
 
 export default class extends Component {
   static async getInitialProps({ query, user, res }) {
@@ -53,51 +54,6 @@ export default class extends Component {
       query.language !== undefined ? query.language : baseLanguage.key;
     moment.locale(currentLanguage);
 
-    // const autoAttendantTableContent = [
-    //   {
-    //     id: 1,
-    //     name: 'Welcome GS',
-    //     description: 'Organization Welcome Message',
-    //     did: '33278779099',
-    //     actions: 'welcomeGS',
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Tech Support',
-    //     description: 'Tech Support',
-    //     did: '33278779099',
-    //     actions: 'tech-support',
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Auto attendant',
-    //     description: 'Auto attendant',
-    //     did: '33278779099',
-    //     actions: 'auto-attendant',
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Welcome GS',
-    //     description: 'Organization Welcome Message',
-    //     did: '33278779099',
-    //     actions: 'welcomeGS',
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Tech Support',
-    //     description: 'Tech Support',
-    //     did: '33278779099',
-    //     actions: 'tech-support',
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Auto attendant',
-    //     description: 'Auto attendant',
-    //     did: '33278779099',
-    //     actions: 'auto-attendant',
-    //   },
-    // ];
-
     const ConferenceForm = {
       generalOptions: {
         type: 'vertical', //horizontal, vertical, inline
@@ -129,55 +85,38 @@ export default class extends Component {
       },
       formValidations: (values) => {
         const errors = {};
-        // if (!values.name) {
-        //   errors.name = 'Meeting name required';
-        // }
-        // if (!values.startTime) {
-        //   errors.startTime = 'Start date required';
-        // }
-        // if (!values.participants || values.participants.length === 0) {
-        //   errors.participants = 'At least 1 destination required';
-        // } else {
-        //   const validParticipants = [];
-        //   for (const participant of values.participants) {
-        //     if (IsAValidEmail(participant.email[0])) {
-        //       validParticipants.push(participant);
-        //     }
-        //   }
-        //   if (validParticipants.length === 0) {
-        //     errors.participants = 'At least 1 destination required';
-        //   }
-        // }
+        if (!values.Description) {
+          errors.Description = 'Conference description required';
+        }
+        if (!values.MaxParticipants || values.MaxParticipants.length === 0 || values.MaxParticipants <= 0) {
+          errors.MaxParticipants = 'At least 1 participant required';
+        } 
+        
         return errors;
       },
       formSubmit: async (
         values,
         { setSubmitting, setFieldError, resetForm }
       ) => {
-        //setSubmitting(true);
+        setSubmitting(true);
   
         console.log(values)
-        message.success('Conference created successfully!');
-      //   values.Emails = '';
-      //   try{
-      //     const api = new API(user.token, user.userId);
-      //   const putResponse = await api.POST('/Conferences', values);
-      //   console.log(putResponse)
+        values.Emails = '';
+ 
+          const api = new API(user.token, user.userId);
+          const putResponse = await api.POST('/Conferences', {...values, StartDateTime:moment(values.StartDateTime).format('YYYY-MM-DD HH:mm:ss') });
+          console.log(putResponse)
       
-      //   if(putResponse.statusCode == 200 || putResponse.statusCode == 201)
-      //   {
-      //     message.success('Conference created successfully!');
-      //     //props.router.push('/audio-conference');
-      //   }
-      //   else
-      //   {
-      //     message.error(putResponse.response.message);
-      //   }
-      // }
-      // catch(error){
-      //   message.error(error);
-      // }
-        //setSubmitting(false);
+        if(putResponse.statusCode == 200 || putResponse.statusCode == 201)
+        {
+          message.success('Conference created successfully!');
+          Router.push('/audio-conference');
+        }
+        else
+        {
+          message.error(putResponse.response.message);
+        }
+        setSubmitting(false);
       },
       formInputsRows: [
         {
@@ -235,7 +174,8 @@ export default class extends Component {
               placeholder: '',
               type: 'text',
               required: false,
-              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 }
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              tooltip:'Enter 0 if there is no fixed'
             },
             {
               name: 'ModeratorRequired',

@@ -75,25 +75,12 @@ export default class extends Component {
       formInitialValues: currentConference,
       formValidations: (values) => {
         const errors = {};
-        // if (!values.name) {
-        //   errors.name = 'Meeting name required';
-        // }
-        // if (!values.startTime) {
-        //   errors.startTime = 'Start date required';
-        // }
-        // if (!values.participants || values.participants.length === 0) {
-        //   errors.participants = 'At least 1 destination required';
-        // } else {
-        //   const validParticipants = [];
-        //   for (const participant of values.participants) {
-        //     if (IsAValidEmail(participant.email[0])) {
-        //       validParticipants.push(participant);
-        //     }
-        //   }
-        //   if (validParticipants.length === 0) {
-        //     errors.participants = 'At least 1 destination required';
-        //   }
-        // }
+        if (!values.Description) {
+          errors.Description = 'Conference description required';
+        }
+        if (!values.MaxParticipants || values.MaxParticipants.length === 0 || values.MaxParticipants <= 0) {
+          errors.MaxParticipants = 'At least 1 participant required';
+        } 
         return errors;
       },
       formSubmit: async (
@@ -117,7 +104,7 @@ export default class extends Component {
           values.Emails = '';
           try{
             const api = new API(user.token, user.userId);
-          const putResponse = await api.PUT('/Conferences', values);
+          const putResponse = await api.PUT('/Conferences', {...values, StartDateTime:moment(values.StartDateTime).format('YYYY-MM-DD HH:mm:ss') });
           console.log(putResponse)
         
           if(putResponse.statusCode == 200 || putResponse.statusCode == 201)
@@ -161,6 +148,17 @@ export default class extends Component {
               type: 'text',
               required: false,
               disabled: false,
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                if (isNaN(newVal.nativeEvent.data)) {
+                    formikData.setFieldValue('MaxParticipants',0);
+                }
+              }, 
+              
             },
           ],
         },
@@ -191,7 +189,17 @@ export default class extends Component {
               placeholder: '',
               type: 'text',
               required: false,
-              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 }
+              breakpoints: { xxl: 8, xl: 8, md: 8, sm: 8, xs: 24 },
+              customOnChange: async (
+                newVal,
+                formOptions,
+                formikData,
+                indexArray
+              ) => {
+                if (isNaN(newVal.nativeEvent.data)) {
+                    formikData.setFieldValue('Duration',0);
+                }
+              }, 
             },
             {
               name: 'ModeratorRequired',
@@ -199,7 +207,7 @@ export default class extends Component {
               placeholder: '',
               type: 'switch',
               required: false,
-            },
+            }, 
           ],
         },
         {
@@ -254,7 +262,6 @@ export default class extends Component {
     return (
       <BaseLayout>
         <NewConferenceRoom 
-        currentConference = {currentConference}
         ConferenceForm={ConferenceForm} />
       </BaseLayout>
     );

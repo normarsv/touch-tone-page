@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import FormGenerator from "../../../components-base/FormGenerator";
 
-const NewConferenceRoom = ({currentConference, ConferenceForm}) => {
+const NewConferenceRoom = ({ConferenceForm}) => {
   // const props = {
   //   name: "file",
   //   action: "",
