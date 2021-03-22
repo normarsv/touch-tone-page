@@ -288,14 +288,14 @@ export const siderLinks = (role) => {
               submenu: [],
             },
             */
-            /*
+            
             {
               label: 'Conference Room',
               url: '/audio-conference',
               icon: <IconFont type='icon-FontAwesomeheadphones' />,
               submenu: [],
             },
-            */
+            
             // {
             //   label: "Termination Entries",
             //   url: "/web-rtc-meeting",
@@ -314,24 +314,27 @@ export const siderLinks = (role) => {
           sectionTitle: 'Features',
           links: [
             {
-              label: 'Call Forwarding',
-              url: '/telephony-features/call-forwarding',
+              label: 'Services',
               icon: <PhoneFilled />,
-              submenu: [],
-            },
-            {
-              label: 'Call Forward Selective',
-              url: '/telephony-features/call-forward-selective',
-              icon: <ForwardFilled />,
-              submenu: [],
-            },
-            {
-              label: 'Find Me Follow Me',
-              url: '/telephony-features/my-findme',
-              icon: <IconFont type="icon-map" />,
-              submenu: [],
-            },
-            
+              url: '#',
+              submenu: [
+                {
+                  label: 'Call Forwarding',
+                  url: '/telephony-features/call-forwarding',
+                  icon: <PhoneFilled />,
+                },
+                {
+                  label: 'Call Forward Selective',
+                  url: '/telephony-features/call-forward-selective',
+                  icon: <ForwardFilled />,
+                },
+                {
+                  label: 'Find Me Follow Me',
+                  url: '/telephony-features/my-findme',
+                  icon: <IconFont type="icon-map" />,
+                }
+              ],
+            },           
             {
               label: 'Speed Dials',
               url: '/telephony-features/speed-dials',

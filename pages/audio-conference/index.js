@@ -1,14 +1,53 @@
 import { faCalendarAlt, faClock } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales.js';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Router from 'next/router';
-
+import API from '../../API/API';
 import AudioConference from '../../components/tier2-screens/conference-room/AudioConference';
 import { BaseLayout } from '../../layouts/BaseLayout';
-import { systemLog } from '../../scripts/General';
+//import { systemLog } from '../../scripts/General';
 
-export default class extends Component {
-  static async getInitialProps({ res, query, user }) {
+ const AudioConferencePage = ({user, conferences}) => {
+    return (
+       <BaseLayout>
+          <AudioConference audioConferenceContent={conferences}
+            getConferences = {()=>getConferences(user)}
+          />
+        </BaseLayout>
+    );
+  };
+
+  const getConferences= async (user)=>{ 
+    const api = new API(user.token, user.userId);
+    const response = await api.GET('/conferences/account');
+
+    console.log('response', response)
+    if(response.statusCode == 200)
+    {
+      return response.response.map((item, index)=>{
+        return {
+          ConferenceReservedId: item.CONFERENCE_RESERVED_ID,
+          Description: item.DESCRIPTION,
+          Account: item.ACCOUNT,
+          AccessCode:item.ACCESS_CODE,
+          Password: item.PASSWORD,
+          Enabled: item.ENABLED,
+          MaxParticipants: item.MAX_PARTICIPANTS,
+          StartDateTime: item.START_DATE_TIME ? moment(item.START_DATE_TIME, 'YYYY-MM-DD hh:mm:ss').toString() : '',
+          Duration: item.DURATION,
+          OnHoldPrompt: item.ON_HOLD_PROMPT,
+          FullDuplix: item.FULL_DUPLEX,
+          ModeratorRequired: item.MODERATOR_REQUIRED,
+          PasswordModerator: item.PASSWORD_MODERATOR
+        }
+    })
+    }
+    else
+      return [];
+  }
+
+
+  AudioConferencePage.getInitialProps = async ({ res, query, user }) => {
     if (user.group) {
       switch (user.group) {
         case 'BusinessSupport':
@@ -49,180 +88,14 @@ export default class extends Component {
         return {};
       }
     }
-    const audioConferenceContent = [
-      {
-        id: 1,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message',
-        accessCode: '123123456456',
-        actions: ['01'],
-        enable: true,
-      },
-      {
-        id: 2,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Charge in tech support',
-        accessCode: '123123456456',
-        actions: ['02'],
-        enable: true,
-      },
-      {
-        id: 3,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 2',
-        accessCode: '123123456456',
-        actions: ['03'],
-        enable: false,
-      },
-      {
-        id: 4,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 3',
-        accessCode: '123123456456',
-        actions: ['04'],
-        enable: true,
-      },
-      {
-        id: 5,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 4',
-        accessCode: '123123456456',
-        actions: ['05'],
-        enable: false,
-      },
-      {
-        id: 6,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 5',
-        accessCode: '123123456456',
-        actions: ['06'],
-        enable: false,
-      },
-      {
-        id: 7,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 6',
-        accessCode: '123123456456',
-        actions: ['07'],
-        enable: false,
-      },
-      {
-        id: 8,
-        date: [
-          {
-            id: 1,
-            date: moment().format('L'),
-            icon: faCalendarAlt,
-          },
-          {
-            id: 2,
-            date: moment().format('LT'),
-            icon: faClock,
-          },
-        ],
-        desc: 'Organization Welcome Message 7',
-        accessCode: '123123456456',
-        actions: ['08'],
-        enable: true,
-      },
-    ];
+    let conferences = await getConferences(user);
 
-    return {
+  
+    return{
       user,
-      audioConferenceContent,
+      conferences
     };
   }
-  constructor(props) {
-    super(props);
-    this.userinfo = '';
-  }
-  componentDidMount() {
-    systemLog.log(this.props);
-  }
-  render() {
-    const { audioConferenceContent } = this.props;
 
-    return (
-      <BaseLayout>
-        <AudioConference audioConferenceContent={audioConferenceContent} />
-      </BaseLayout>
-    );
-  }
-}
+
+  export default AudioConferencePage;

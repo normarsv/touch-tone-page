@@ -52,6 +52,18 @@ const RenderInputType = ({
           placeholder={input.placeholder}
           disabled={input.disabled ? input.disabled : formikData.isSubmitting}
           prefix={input.prefix ? input.prefix : undefined}
+          onChange={
+            input.customOnChange
+              ? (newVal) => {
+                  input.customOnChange(
+                    newVal,
+                    formOptions,
+                    formikData,
+                    indexArray
+                  );
+                }
+              : null
+          }
         />
       );
       break;
