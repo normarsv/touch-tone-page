@@ -16,11 +16,11 @@ export const ExternalResetPassword = ({ query }) => {
     }
     setLoading(true);
     
-      const api = new API(query.token);
+      const api = new API();
       const changePass = await api.POST('/resetpassword', {
         password: values.password,
         token:query.token,
-        id:query.Id
+        id:query.id
       });
       console.log(changePass);
       if(changePass.statusCode == 200)
