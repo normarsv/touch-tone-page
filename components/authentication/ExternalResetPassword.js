@@ -8,7 +8,6 @@ export const ExternalResetPassword = ({ query }) => {
   const form = useRef(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  console.log('Token prop', query.token);
   const onFinish = async (values) => {
     if(!query.token) 
     {
@@ -16,19 +15,23 @@ export const ExternalResetPassword = ({ query }) => {
       router.push('/');
     }
     setLoading(true);
-    const api = new API(query.token);
-    const changePass = await api.POST('/AuthUsers/ResetPassword', {
-      password: values.password,
-    });
-    console.log(changePass);
-    if(changePass.statusCode == 200)
-    {
-      message.success('Updated Password Successfully!');
-      router.push('/');
-    }
-    else{
-      message.error(changePass.response.message);
-    }
+    
+      const api = new API(query.token);
+      const changePass = await api.POST('/resetpassword', {
+        password: values.password,
+        token:query.token,
+        id:query.Id
+      });
+      console.log(changePass);
+      if(changePass.statusCode == 200)
+      {
+        message.success('Updated Password Successfully!');
+        router.push('/');
+      }
+      else{
+        message.error(changePass.response.message);
+      }
+
 
     if (form.current !== undefined && form.current !== null) {
       form.current.resetFields();
@@ -39,8 +42,6 @@ export const ExternalResetPassword = ({ query }) => {
   const onFinishFailed = (errorInfo) => {
      //console.log("onFinishFailed:", errorInfo);
   };
-
-
 
   return (
     <>

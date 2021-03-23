@@ -5,10 +5,8 @@ import { systemLog } from '../../scripts/General';
 
 export default class extends Component {
   static async getInitialProps({ res, query, user }) {
-    
     return {
-      query,
-      
+      query
     };
     
   }
@@ -21,11 +19,11 @@ export default class extends Component {
   }
   render() {
    
-    const { query } = this.props;
+    const { query} = this.props;
 
     return (
       <BaseLayout>
-        <ExternalResetPassword query={query} />
+        <ExternalResetPassword query={query}/>
       </BaseLayout>
     );
   }
